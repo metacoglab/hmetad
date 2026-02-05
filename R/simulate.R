@@ -31,9 +31,10 @@ corr_matrix <- function(r, nrow = 2) {
 #' @rdname matrix_helpers
 #' @export
 rmatrixnorm <- function(mu, L_sigma_1, L_sigma_2) {
+  D <- nrow(L_sigma_1) * nrow(L_sigma_2)
   mu +
     L_sigma_1 %*%
-    matrix(mvtnorm::rmvnorm(1, mean = rep(0, nrow(L_sigma_1) * nrow(L_sigma_2))),
+    matrix(brms::rmulti_normal(1, mu = rep(0, D), Sigma = diag(D)),
       nrow = nrow(L_sigma_1)
     ) %*%
     L_sigma_2
@@ -281,16 +282,16 @@ sim_metad_participant <- function(N_participants = 100, N_trials = 100,
       log_M = rnorm(n(), mu_log_M, sd_log_M),
       c2_0_diff = purrr::map(
         .data$participant,
-        ~ exp(rmvnorm(1,
-          mean = mu_z_c2_0,
-          sigma = cov_matrix(sd_z_c2_0, r_z_c2_0)
+        ~ exp(brms::rmulti_normal(1,
+          mu = mu_z_c2_0,
+          Sigma = cov_matrix(sd_z_c2_0, r_z_c2_0)
         ))
       ),
       c2_1_diff = purrr::map(
         .data$participant,
-        ~ exp(rmvnorm(1,
-          mean = mu_z_c2_1,
-          sigma = cov_matrix(sd_z_c2_1, r_z_c2_1)
+        ~ exp(brms::rmulti_normal(1,
+          mu = mu_z_c2_1,
+          Sigma = cov_matrix(sd_z_c2_1, r_z_c2_1)
         ))
       ),
       data = purrr::pmap(
@@ -402,15 +403,15 @@ sim_metad_participant_condition <-
       mutate(
         d_prime = purrr::map_dbl(
           .data$condition, function(condition, d) d[, condition],
-          mvtnorm::rmvnorm(1, mu_d_prime, sigma_d_prime)
+          brms::rmulti_normal(1, mu_d_prime, sigma_d_prime)
         ),
         c = purrr::map_dbl(
           .data$condition, function(condition, c) c[, condition],
-          mvtnorm::rmvnorm(1, mu_c, sigma_c)
+          brms::rmulti_normal(1, mu_c, sigma_c)
         ),
         log_M = purrr::map_dbl(
           .data$condition, function(condition, log_m) log_m[, condition],
-          mvtnorm::rmvnorm(1, mu_log_M, sigma_log_M)
+          brms::rmulti_normal(1, mu_log_M, sigma_log_M)
         ),
         c2_0_diff = purrr::map(
           .data$condition, function(condition, c2) c2[, condition],

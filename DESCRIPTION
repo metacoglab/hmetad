@@ -10,11 +10,9 @@ Depends:
     R (>= 4.2.0)
 Imports: 
     abind (>= 1.4.8),
-    BH,
     brms (>= 2.23.0),
     dplyr (>= 1.2.0),
     glue (>= 1.8.0),
-    mvtnorm (>= 1.3.3),
     rlang (>= 1.1.7),
     stats,
     stringr (>= 1.6.0),

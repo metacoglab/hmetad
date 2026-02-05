@@ -5,7 +5,6 @@
 #' @import dplyr
 #' @import rlang
 #' @importFrom glue glue
-#' @importFrom mvtnorm rmvnorm
 #' @importFrom stats dmultinom
 #' @importFrom stats pnorm
 #' @importFrom stats rmultinom
