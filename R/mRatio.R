@@ -145,6 +145,11 @@ fit_metad <- function(formula, data, ..., aggregate = TRUE, K = NULL,
                       distribution = "normal", metac_absolute = TRUE, stanvars = NULL) {
   data.aggregated <- NULL
 
+  # ensure formula is a brmsformula
+  if (!("brmsformula" %in% attr(f, class))) {
+    formula <- bf(formula)
+  }
+
   # determine response variable
   .response <- all.vars(formula$formula)[attr(terms(formula$formula), "response")]
 

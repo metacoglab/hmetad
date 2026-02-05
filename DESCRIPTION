@@ -10,6 +10,7 @@ Depends:
     R (>= 4.2.0)
 Imports: 
     abind (>= 1.4.8),
+    BH,
     brms (>= 2.23.0),
     dplyr (>= 1.2.0),
     glue (>= 1.8.0),
