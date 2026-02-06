@@ -3,7 +3,7 @@
 \name{mean_confidence_draws}
 \alias{mean_confidence_draws}
 \alias{add_mean_confidence_draws}
-\title{Obtain posterior draws of mean confidence separately for each possible stimulus}
+\title{Obtain posterior draws of mean confidence}
 \usage{
 mean_confidence_draws(
   object,
@@ -18,32 +18,50 @@ add_mean_confidence_draws(newdata, object, ...)
 \arguments{
 \item{object}{The \code{brms} model with the \code{metad} family}
 
-\item{newdata}{Data frame from which to generate posterior predictions}
+\item{newdata}{A data frame from which to generate posterior predictions}
 
-\item{...}{Additional parameters passed to \code{tidybayes::epred_draws}}
+\item{...}{Additional arguments to \link[tidybayes:add_predicted_draws]{tidybayes::epred_draws}}
 
-\item{by_stimulus}{If TRUE, predict mean confidence separately by stimulus}
+\item{by_stimulus}{If TRUE, predict mean confidence separately by stimulus.
+Otherwise, predict mean confidence averaging over stimuli.}
 
 \item{by_response}{If TRUE, predict mean confidence separately by response
-Otherwise, predict mean confidence averaging across stimuli.}
+Otherwise, predict mean confidence averaging over responses.}
 }
 \value{
 a tibble containing posterior draws of mean confidence with the following
 columns:
-.row: the row of \code{newdata}
-.chain, .iteration, .draw: identifiers for the posterior sample
-stimulus: indicator for stimulus presence
-.epred: the predicted mean confidence
-
-a tibble containing posterior draws of mean confidence with the following
-columns:
-.row: the row of \code{newdata}
-.chain, .iteration, .draw: identifiers for the posterior sample
-stimulus: indicator for stimulus presence
-.epred: the predicted mean confidence
+\itemize{
+\item \code{.row}: the row of \code{newdata}
+\item \code{.chain}, \code{.iteration}, \code{.draw}: identifiers for the posterior sample
+\item \code{stimulus}: indicator for stimulus presence (if \code{by_stimulus==TRUE})
+\item \code{response}: indicator for type 1 response (if \code{by_response==TRUE})
+\item \code{.epred}: the predicted mean confidence
+}
 }
 \description{
-Obtain posterior draws of mean confidence separately for each possible stimulus
+Computes posterior mean confidence conditional on stimulus and response,
+stimulus (averaging over responses), response (averaging over stimuli),
+neither (averaging over stimuli and responses).
 
-Obtain posterior draws of mean confidence separately for each possible stimulus
+\code{add_mean_confidence_draws} is an alias of \code{mean_confidence_draws} with
+argument order swapped
+}
+\examples{
+# running few iterations so example runs quickly, use more in practice
+m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
+newdata <- tidyr::tibble(.row = 1)
+
+# compute mean confidence by stimulus and response
+mean_confidence_draws(m, newdata)
+add_mean_confidence_draws(newdata, m)
+
+# compute mean confidence by stimulus
+mean_confidence_draws(m, newdata, by_response = FALSE)
+
+# compute mean confidence by response
+mean_confidence_draws(m, newdata, by_stimulus = FALSE)
+
+# compute mean confidence averaging over stimuli and responses
+mean_confidence_draws(m, newdata, by_stimulus = FALSE, by_response = FALSE)
 }

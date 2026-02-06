@@ -13,8 +13,10 @@ get_dist(model, fun = "lcdf")
 }
 \value{
 An R function with the name \verb{distribution_\{fun\}}.
-Will throw an error if this function does not exist
 }
 \description{
 Get the R function for the model's underlying distribution functions
+}
+\details{
+Will throw an error if this function does not exist
 }

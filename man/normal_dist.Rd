@@ -3,26 +3,26 @@
 \name{normal_lcdf}
 \alias{normal_lcdf}
 \alias{normal_lccdf}
-\title{The normal cumulative distribution function}
+\title{Normal cumulative distribution functions}
 \usage{
 normal_lcdf(x, mu)
 
 normal_lccdf(x, mu)
 }
 \arguments{
-\item{x}{The value to evaluate the lccdf at}
+\item{x}{The quantile to evaluate the l(c)cdf at}
 
 \item{mu}{The mean of the normal distribution}
 }
 \value{
-\code{log(P(X < x))} where X is sampled from a normal distribution
-with mean \code{mu} and standard deviation of \code{1}
-
-\code{log(P(X > x))} where X is sampled from a normal distribution
-with mean \code{mu} and standard deviation of \code{1}
+\eqn{log(P(X < x))} (for \code{normal_lcdf}) or \eqn{log(P(X > x))} (for \code{normal_lccdf}) where \eqn{X} is sampled from a normal distribution
+with mean \code{mu} and standard deviation of \eqn{1}
 }
 \description{
-The normal cumulative distribution function
+Normal cumulative distribution functions
+}
+\examples{
+normal_lcdf(0, mu = 1)
+normal_lccdf(0, mu = 1)
 
-The complement of the normal cumulative distribution function
 }

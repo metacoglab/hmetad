@@ -3,22 +3,44 @@
 \name{to_signed}
 \alias{to_signed}
 \alias{to_unsigned}
-\title{Convert binary variable \code{x} from \verb{\{0, 1\}} to \verb{\{-1, 1\}}}
+\title{Convert binary variable \code{x} between \verb{\{0, 1\}} and \verb{\{-1, 1\}}}
 \usage{
 to_signed(x)
 
 to_unsigned(x)
 }
 \arguments{
-\item{x}{a binary variable interpretable as \code{-1} or \code{1}}
+\item{x}{A binary variable}
 }
 \value{
-\code{1} if \code{x==1}, else \code{-1}
-
-\code{1} if \code{x==1}, else \code{0}
+A signed (for \code{to_signed}) or unsigned (for \code{to_unsigned}) version
+of \code{x}
 }
 \description{
-Convert binary variable \code{x} from \verb{\{0, 1\}} to \verb{\{-1, 1\}}
+\itemize{
+\item \code{to_signed()} converts a variable from \verb{\{0, 1\}} to \verb{\{-1, 1\}}
+\item \code{to_unsigned()} converts a variable from \verb{\{-1, 1\}} to \verb{\{0, 1\}}
+}
+}
+\examples{
+# should return `1`
+to_signed(0)
 
-Convert binary variable \code{x} from \verb{\{-1, 1\}} to \verb{\{0, 1\}}
+# should return `1`
+to_signed(1)
+
+# should return `0`
+to_unsigned(-1)
+
+# should return `1`
+to_unsigned(1)
+
+# `to_signed` also works with objects `R` interprets as `0` or `1`
+to_signed(10)
+
+# `to_unsigned` also works with any signed integer
+to_unsigned(-10)
+
+# neither function works with factors
+to_unsigned(factor(1))
 }

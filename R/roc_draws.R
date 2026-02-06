@@ -1,20 +1,38 @@
 #' Obtain posterior draws of the pseudo type 1 receiver operating characteristic (ROC) curve.
-#' @param object the `brms` model with the `metad` family
-#' @param newdata Data frame from which to generate posterior predictions
-#' @param ... Additional parameters passed to `tidybayes::epred_draws`
+#'
+#' @param object The `brms` model with the `metad` family
+#' @param newdata A data frame from which to generate posterior predictions
+#' @param ... Additional parameters passed to [tidybayes::epred_draws]
 #' @param bounds If `TRUE`, include the endpoints of the ROC at `(0, 0)` and `(1, 1)`.
+#' Otherwise, the endpoints are excluded.
 #' @returns a tibble containing posterior draws of the pseudo type 1 ROC with the following
 #' columns:
-#'   .row: the row of `newdata`
-#'   .chain, .iteration, .draw: identifiers for the posterior sample
-#'   joint_response: the combined type 1 / type 2 response (in 1:2*K for K confidence levels)
-#'   response: the type 1 response for perceived stimulus presence
-#'   confidence: the type 2 confidence response
-#'   p_fa: the cumulative probability of a 'present'/'old' response for stimulus==0
-#'   p_hit: the cumulative probability of a 'present'/'old' response for stimulus==1
-#' @rdname roc_draws
+#'  * `.row`: the row of `newdata`
+#'  * `.chain`, `.iteration`, `.draw`: identifiers for the posterior sample
+#'  * `joint_response`: the combined type 1 / type 2 response (in `1:(2*K)` for `K` confidence levels)
+#'  * `response`: the type 1 response for perceived stimulus presence
+#'  * `confidence`: the type 2 confidence response
+#'  * `p_fa`: the cumulative probability of a 'present'/'old' response for `stimulus==0`
+#'  * `p_hit`: the cumulative probability of a 'present'/'old' response for `stimulus==1`
+#' @rdname roc1_draws
+#' @examples
+#' # running few iterations so example runs quickly, use more in practice
+#' m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
+#' newdata <- tidyr::tibble(.row = 1)
+#'
+#' # compute pseudo-type 1 ROC curve
+#' roc1_draws(m, newdata)
+#' add_roc1_draws(newdata, m)
+#'
+#' # include the ROC bounds
+#' roc1_draws(m, newdata, bounds = TRUE)
 #' @export
 roc1_draws <- function(object, newdata, ..., bounds = FALSE) {
+  if (object$family$family != "custom" ||
+    !stringr::str_starts(object$family$name, "metad")) {
+    stop("Model must use the `metad` family.")
+  }
+
   draws <- tidybayes::epred_draws(object = object, newdata = newdata, ...)
 
   ## number of confidence levels
@@ -32,11 +50,8 @@ roc1_draws <- function(object, newdata, ..., bounds = FALSE) {
         .data$.category - 2 * K,
         .data$.category
       ),
-      response = as.integer(.data$joint_response > K),
-      confidence = ifelse(.data$joint_response > K,
-        .data$joint_response - K,
-        K + 1 - .data$joint_response
-      )
+      response = type1_response(.data$joint_response, K),
+      confidence = type2_response(.data$joint_response, K)
     ) |>
     filter(.data$joint_response < 2 * K) |>
     group_by(.data$.row, .data$stimulus, .data$.draw) |>
@@ -46,7 +61,7 @@ roc1_draws <- function(object, newdata, ..., bounds = FALSE) {
       names_from = "stimulus", values_from = ".epred",
       names_prefix = "p_"
     ) |>
-    rename(p_hit = .data$p_1, p_fa = .data$p_0) |>
+    rename(p_hit = "p_1", p_fa = "p_0") |>
     group_by(
       .data$.row, !!!syms(.cols), .data$joint_response,
       .data$response, .data$confidence
@@ -74,42 +89,46 @@ roc1_draws <- function(object, newdata, ..., bounds = FALSE) {
   draws
 }
 
-#' Obtain posterior draws of the pseudo type 1 receiver operating characteristic (ROC) curve.
-#' @param newdata Data frame from which to generate posterior predictions
-#' @param object the `brms` model with the `metad` family
-#' @param ... Additional parameters passed to `tidybayes::epred_draws`
-#' @param bounds If `TRUE`, include the endpoints of the ROC at `(0, 0)` and `(1, 1)`.
-#' @returns a tibble containing posterior draws of the pseudo type 1 ROC with the following
-#' columns:
-#'   .row: the row of `newdata`
-#'   .chain, .iteration, .draw: identifiers for the posterior sample
-#'   joint_response: the combined type 1 / type 2 response (in 1:2*K for K confidence levels)
-#'   response: the type 1 response for perceived stimulus presence
-#'   confidence: the type 2 confidence response
-#'   p_fa: the cumulative probability of a 'present'/'old' response for stimulus==0
-#'   p_hit: the cumulative probability of a 'present'/'old' response for stimulus==1
-#' @rdname roc_draws
+#' @rdname roc1_draws
 #' @export
-add_roc1_draws <- function(newdata, object, ..., bounds = FALSE) {
-  roc1_draws(object, newdata, ..., bounds = bounds)
+add_roc1_draws <- function(newdata, object, ...) {
+  roc1_draws(object, newdata, ...)
 }
 
 #' Obtain posterior draws of the response-specific type 2 receiver operating characteristic (ROC) curves.
-#' @param object the `brms` model with the `metad` family
-#' @param newdata Data frame from which to generate posterior predictions
-#' @param ... Additional parameters passed to `tidybayes::epred_draws`
+#' @param object The `brms` model with the `metad` family
+#' @param newdata A data frame from which to generate posterior predictions
+#' @param ... Additional parameters passed to [tidybayes::epred_draws]
 #' @param bounds If `TRUE`, include the endpoints of the ROC at `(0, 0)` and `(1, 1)`.
-#' @returns a tibble containing posterior draws of the response-specific type 2 ROCs with the following
+#' Otherwise, the endpoints are excluded.
+#' @returns a tibble containing posterior draws of the pseudo type 1 ROC with the following
 #' columns:
-#'   .row: the row of `newdata`
-#'   .chain, .iteration, .draw: identifiers for the posterior sample
-#'   response: the type 1 response for perceived stimulus presence
-#'   confidence: the type 2 confidence response
-#'   p_fa2: the cumulative probability of an incorrect but confident response
-#'   p_hit2: the cumulative probability of a correct and confident response
-#' @rdname roc_draws
+#'  * `.row`: the row of `newdata`
+#'  * `.chain`, `.iteration`, `.draw`: identifiers for the posterior sample
+#'  * `joint_response`: the combined type 1 / type 2 response (in `1:(2*K)` for `K` confidence levels)
+#'  * `response`: the type 1 response for perceived stimulus presence
+#'  * `confidence`: the type 2 confidence response
+#'  * `p_fa2`: the cumulative probability of an incorrect response
+#'  * `p_hit2`: the cumulative probability of a correct response
+#' @rdname roc2_draws
+#' @examples
+#' # running few iterations so example runs quickly, use more in practice
+#' m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
+#' newdata <- tidyr::tibble(.row = 1)
+#'
+#' # compute type 2 ROC curve
+#' roc2_draws(m, newdata)
+#' add_roc2_draws(newdata, m)
+#'
+#' # include the ROC bounds
+#' roc2_draws(m, newdata, bounds = TRUE)
 #' @export
 roc2_draws <- function(object, newdata, ..., bounds = FALSE) {
+  if (object$family$family != "custom" ||
+    !stringr::str_starts(object$family$name, "metad")) {
+    stop("Model must use the `metad` family.")
+  }
+
   draws <- tidybayes::epred_draws(object = object, newdata = newdata, ...)
 
   ## number of confidence levels
@@ -127,12 +146,9 @@ roc2_draws <- function(object, newdata, ..., bounds = FALSE) {
         .data$.category - 2 * K,
         .data$.category
       ),
-      response = as.integer(.data$joint_response > K),
-      accuracy = as.integer(.data$stimulus == .data$response),
-      confidence = ifelse(.data$joint_response > K,
-        .data$joint_response - K,
-        K + 1 - .data$joint_response
-      )
+      response = type1_response(.data$joint_response, K),
+      confidence = type2_response(.data$joint_response, K),
+      accuracy = as.integer(.data$stimulus == .data$response)
     ) |>
     group_by(.data$.row, .data$.draw, .data$accuracy, .data$response) |>
     mutate(
@@ -149,7 +165,7 @@ roc2_draws <- function(object, newdata, ..., bounds = FALSE) {
       names_from = "accuracy",
       values_from = ".epred", names_prefix = "p_"
     ) |>
-    rename(p_hit2 = .data$p_1, p_fa2 = .data$p_0) |>
+    rename(p_hit2 = "p_1", p_fa2 = "p_0") |>
     group_by(.data$.row, .data$response, .data$confidence, !!!syms(.cols))
 
   if (bounds) {
@@ -172,21 +188,8 @@ roc2_draws <- function(object, newdata, ..., bounds = FALSE) {
   draws
 }
 
-#' Obtain posterior draws of the response-specific type 2 receiver operating characteristic (ROC) curves.
-#' @param newdata Data frame from which to generate posterior predictions
-#' @param object the `brms` model with the `metad` family
-#' @param ... Additional parameters passed to `tidybayes::epred_draws`
-#' @param bounds If `TRUE`, include the endpoints of the ROC at `(0, 0)` and `(1, 1)`.
-#' @returns a tibble containing posterior draws of the response-specific type 2 ROCs with the following
-#' columns:
-#'   .row: the row of `newdata`
-#'   .chain, .iteration, .draw: identifiers for the posterior sample
-#'   response: the type 1 response for perceived stimulus presence
-#'   confidence: the type 2 confidence response
-#'   p_fa2: the cumulative probability of an incorrect but confident response
-#'   p_hit2: the cumulative probability of a correct and confident response
-#' @rdname roc_draws
+#' @rdname roc2_draws
 #' @export
-add_roc2_draws <- function(newdata, object, ..., bounds = FALSE) {
-  roc2_draws(object, newdata, ..., bounds = bounds)
+add_roc2_draws <- function(newdata, object, ...) {
+  roc2_draws(object, newdata, ...)
 }

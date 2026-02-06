@@ -2,7 +2,7 @@
 % Please edit documentation in R/mRatio.R
 \name{fit_metad}
 \alias{fit_metad}
-\title{Fit the metad' model using the \code{brms} package}
+\title{Fit the meta-d' model using \code{brms} package}
 \usage{
 fit_metad(
   formula,
@@ -19,26 +19,39 @@ fit_metad(
 \item{formula}{A model formula for some or all parameters of the \code{metad} brms family.
 To display all parameter names for a model with \code{K} confidence levels, use \code{metad(K)}.}
 
-\item{data}{A tibble containing the data to fit the model. If \code{aggregate}==TRUE,
-\code{data} should have one row per observation. If \code{aggregate}==FALSE, it should be aggregated
-to have one row per cell of the design matrix, with joint
-type 1/type 2 response counts in a matrix column.}
+\item{data}{A tibble containing the data to fit the model.
+\itemize{
+\item If \code{aggregate}==TRUE, \code{data} should have one row per observation with
+columns \code{stimulus}, \code{response}, \code{confidence}, and any other variables in \code{formula}
+\item If \code{aggregate}==FALSE, it should be aggregated to have one row per cell of
+the design matrix, with joint type 1/type 2 response counts in a matrix column
+(see \code{\link[=aggregate_metad]{aggregate_metad()}}).
+}}
 
 \item{...}{Additional parameters passed to the \code{brm} function.}
 
-\item{aggregate}{If \code{TRUE}, automatically aggregate \code{data} by the variables included in \code{formula}.
+\item{aggregate}{If \code{TRUE}, automatically aggregate \code{data} by the variables
+included in \code{formula} using \code{\link[=aggregate_metad]{aggregate_metad()}}.
 Otherwise, \code{data} should already be aggregated.}
 
 \item{K}{The number of confidence levels. By default, this is estimated from the data.}
 
-\item{distribution}{The noise distribution to use for the signal detection model}
+\item{distribution}{The noise distribution to use for the signal detection model.
+By default, uses a normal distribution with a mean parameterized by \code{dprime}.}
 
 \item{metac_absolute}{If \code{TRUE}, fix the type 2 criterion to be equal to the type 1 criterion.
 Otherwise, equate the criteria relatively such that metac/metadprime = c/dprime.}
 
 \item{stanvars}{Additional \code{stanvars} to pass to the model code, for example to define an alternative
-distribution or a custom model prior.}
+distribution or a custom model prior (see \code{\link[brms:stanvar]{brms::stanvar()}}).}
 }
 \description{
-Fit the metad' model using the \code{brms} package
+This function is a wrapper around \code{\link[brms:brm]{brms::brm()}} using a custom family for the
+meta-d' model.
+}
+\examples{
+# fit a basic model on simulated data
+# running few iterations so example runs quickly, use more in practice
+fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
+
 }

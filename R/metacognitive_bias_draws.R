@@ -6,14 +6,44 @@ metacognitive_bias <- function(...) {
   sum(c(...) * (k:1) / k)
 }
 
-#' Get draws of `meta-delta`, an index of metacognitive bias.
-#' @param object the `brms` model with the `metad` family
-#' @param newdata Data frame from which to generate estimates
-#' @param ... additional parameters to pass to `tidybayes::linpred_draws`
-#' @param by_response If `TRUE`, generate separate estimates for each response.
+#' Obtain posterior draws of an index of metacognitive bias
+#'
+#' @description
+#' Computes \eqn{\textrm{meta-}\Delta}, an index of metacognitive bias.
+#' \eqn{\textrm{meta-}\Delta} is the distance between `meta_c` and the
+#' average of the the confidence criteria `meta_c2_0` and `meta_c2_1`.
+#'
+#' @param object The `brms` model with the `metad` family
+#' @param newdata A data frame from which to generate posterior predictions
+#' @param ... Additional parameters passed to [tidybayes::epred_draws]
+#' @param by_response If `TRUE`, compute metacognitive bias separately for the
+#' two type 1 responses. If `FALSE`, compute an un-weighted average of the two measures.
+#' @returns a tibble containing posterior draws of  with the following
+#' columns:
+#'  * `.row`: the row of `newdata`
+#'  * `.chain`, `.iteration`, `.draw`: identifiers for the posterior sample
+#'  * `response`: the type 1 response for perceived stimulus presence
+#'  * `metacognitive_bias`: the distance between `meta_c` and the average of
+#'  the confidence criteria `meta_c2_{response}`.
 #' @rdname bias_draws
+#' @examples
+#' # running few iterations so example runs quickly, use more in practice
+#' m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
+#' newdata <- tidyr::tibble(.row = 1)
+#'
+#' # compute pseudo-type 1 ROC curve
+#' metacognitive_bias_draws(m, newdata)
+#' add_metacognitive_bias_draws(newdata, m)
+#'
+#' # average over the two type 1 responses
+#' metacognitive_bias_draws(m, newdata, by_response = FALSE)
 #' @export
 metacognitive_bias_draws <- function(object, newdata, ..., by_response = TRUE) {
+  if (object$family$family != "custom" ||
+    !stringr::str_starts(object$family$name, "metad")) {
+    stop("Model must use the `metad` family.")
+  }
+
   dpar <- object$family$dpar[stringr::str_starts(object$family$dpar, "metac2")]
   draws <- tidybayes::linpred_draws(object, newdata, ..., dpar = dpar, transform = TRUE)
 
@@ -41,13 +71,8 @@ metacognitive_bias_draws <- function(object, newdata, ..., by_response = TRUE) {
   draws
 }
 
-#' Get draws of `meta-delta`, an index of metacognitive bias.
-#' @param newdata Data frame from which to generate estimates
-#' @param object the `brms` model with the `metad` family
-#' @param ... additional parameters to pass to `tidybayes::linpred_draws`
-#' @param by_response If `TRUE`, generate separate estimates for each response.
 #' @rdname bias_draws
 #' @export
-add_metacognitive_bias_draws <- function(newdata, object, ..., by_response = TRUE) {
-  metacognitive_bias_draws(object, newdata, ..., by_response = by_response)
+add_metacognitive_bias_draws <- function(newdata, object, ...) {
+  metacognitive_bias_draws(object, newdata, ...)
 }

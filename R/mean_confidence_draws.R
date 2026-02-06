@@ -1,20 +1,53 @@
-#' Obtain posterior draws of mean confidence separately for each possible stimulus
-#' @param object the `brms` model with the `metad` family
-#' @param newdata Data frame from which to generate posterior predictions
-#' @param ... Additional arguments to tidybayes::epred_draws
-#' @param by_stimulus If TRUE, predict mean confidence separately by stimulus
+#' Obtain posterior draws of mean confidence
+#'
+#' @description
+#' Computes posterior mean confidence conditional on stimulus and response,
+#' stimulus (averaging over responses), response (averaging over stimuli),
+#' neither (averaging over stimuli and responses).
+#'
+#' `add_mean_confidence_draws` is an alias of `mean_confidence_draws` with
+#' argument order swapped
+#'
+#' @param object The `brms` model with the `metad` family
+#' @param newdata A data frame from which to generate posterior predictions
+#' @param ... Additional arguments to [tidybayes::epred_draws]
+#' @param by_stimulus If TRUE, predict mean confidence separately by stimulus.
+#' Otherwise, predict mean confidence averaging over stimuli.
 #' @param by_response If TRUE, predict mean confidence separately by response
-#' Otherwise, predict mean confidence averaging across stimuli.
+#' Otherwise, predict mean confidence averaging over responses.
 #' @returns a tibble containing posterior draws of mean confidence with the following
 #' columns:
-#'   .row: the row of `newdata`
-#'   .chain, .iteration, .draw: identifiers for the posterior sample
-#'   stimulus: indicator for stimulus presence
-#'   .epred: the predicted mean confidence
+#'   * `.row`: the row of `newdata`
+#'   * `.chain`, `.iteration`, `.draw`: identifiers for the posterior sample
+#'   * `stimulus`: indicator for stimulus presence (if `by_stimulus==TRUE`)
+#'   * `response`: indicator for type 1 response (if `by_response==TRUE`)
+#'   * `.epred`: the predicted mean confidence
 #' @rdname mean_conf_draws
+#' @examples
+#' # running few iterations so example runs quickly, use more in practice
+#' m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
+#' newdata <- tidyr::tibble(.row = 1)
+#'
+#' # compute mean confidence by stimulus and response
+#' mean_confidence_draws(m, newdata)
+#' add_mean_confidence_draws(newdata, m)
+#'
+#' # compute mean confidence by stimulus
+#' mean_confidence_draws(m, newdata, by_response = FALSE)
+#'
+#' # compute mean confidence by response
+#' mean_confidence_draws(m, newdata, by_stimulus = FALSE)
+#'
+#' # compute mean confidence averaging over stimuli and responses
+#' mean_confidence_draws(m, newdata, by_stimulus = FALSE, by_response = FALSE)
 #' @export
 mean_confidence_draws <- function(object, newdata, ...,
                                   by_stimulus = TRUE, by_response = TRUE) {
+  if (object$family$family != "custom" ||
+    !stringr::str_starts(object$family$name, "metad")) {
+    stop("Model must use the `metad` family.")
+  }
+
   draws <- tidybayes::epred_draws(object, newdata, ...)
 
   ## number of confidence levels
@@ -32,11 +65,8 @@ mean_confidence_draws <- function(object, newdata, ...,
         .data$.category - 2 * K,
         .data$.category
       ),
-      response = as.integer(.data$joint_response > K),
-      confidence = ifelse(.data$joint_response > K,
-        .data$joint_response - K,
-        K + 1 - .data$joint_response
-      )
+      response = type1_response(.data$joint_response, K),
+      confidence = type2_response(.data$joint_response, K)
     )
 
   if (by_stimulus) {
@@ -89,16 +119,6 @@ mean_confidence_draws <- function(object, newdata, ...,
   }
 }
 
-#' Obtain posterior draws of mean confidence separately for each possible stimulus
-#' @param newdata Data frame from which to generate posterior predictions
-#' @param object The `brms` model with the `metad` family
-#' @param ... Additional parameters passed to `tidybayes::epred_draws`
-#' @returns a tibble containing posterior draws of mean confidence with the following
-#' columns:
-#'   .row: the row of `newdata`
-#'   .chain, .iteration, .draw: identifiers for the posterior sample
-#'   stimulus: indicator for stimulus presence
-#'   .epred: the predicted mean confidence
 #' @rdname mean_conf_draws
 #' @export
 add_mean_confidence_draws <- function(newdata, object, ...) {

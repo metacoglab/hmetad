@@ -8,11 +8,14 @@
 #' @param metac_absolute Should the type 2 criterion (metac) be fixed to the absolute type 1 criterion (c)?
 #' If `TRUE`, the model will set `metac = c`. Otherwise, it will set `metac = M * c`, such that
 #' the type 2 criterion is _relatively_ equal to the type 1 criterion
-#' (i.e., `meta_c/meta_d_prime = c/d_prime`)
+#' (i.e., `meta_c/meta_dprime = c/dprime`)
 #' @returns A single string containing Stan code defining the likelihood for the metad' model
 #' with `K` confidence levels, signal distributed according to the distribution `distribution`,
-#' and where metac = c if metac_absolute is true, and metac = M*c otherwise.
-metad_stancode <- function(K, distribution = "normal", metac_absolute = TRUE) {
+#' and where `metac = c` if `metac_absolute==TRUE`, and `metac = M*c` otherwise.
+stancode_metad <- function(K, distribution = "normal", metac_absolute = TRUE) {
+  if (!is.numeric(K) || K <= 1) {
+    stop("Number of confidence levels must be an integer greater than 1")
+  }
   k <- K - 1
 
   dist_fun <- function(x, mean, fun = "lcdf") {
@@ -31,16 +34,16 @@ metad_stancode <- function(K, distribution = "normal", metac_absolute = TRUE) {
 
 	// P(response, confidence | stimulus) given as simplex
 	// [P(resp=0, conf=K), .... P(resp=0, conf=1), P(resp=1, conf=1), ... P(resp=1, conf=K)]
-	vector metad_", distribution, "_pmf(int stimulus, real d_prime, real c, real meta_d_prime, real meta_c, vector meta_c2_0, vector meta_c2_1) {
+	vector metad_", distribution, "_pmf(int stimulus, real dprime, real c, real meta_dprime, real meta_c, vector meta_c2_0, vector meta_c2_1) {
 		// number of confidence levels
 		int K = size(meta_c2_0)+1;
 
   	// type-1 response probabilities
-	  real lp_1 = ", dist_fun("c", "to_signed(stimulus)*d_prime/2", "lccdf"), ";
-  	real lp_0 = ", dist_fun("c", "to_signed(stimulus)*d_prime/2", "lcdf"), ";
+	  real lp_1 = ", dist_fun("c", "to_signed(stimulus)*dprime/2", "lccdf"), ";
+  	real lp_0 = ", dist_fun("c", "to_signed(stimulus)*dprime/2", "lcdf"), ";
 
   	// means of type-2 distributions
-  	real meta_mu = to_signed(stimulus) * meta_d_prime/2;
+  	real meta_mu = to_signed(stimulus) * meta_dprime/2;
 
 	  vector[K] lp2_1;         // CDFs (response == 1)
   	vector[K] lp2_0;         // CDFs (response == 0)
@@ -66,13 +69,13 @@ metad_stancode <- function(K, distribution = "normal", metac_absolute = TRUE) {
 	}
 
 	real metad__", K, "__", distribution, "__", ifelse(metac_absolute, "absolute", "relative"),
-    "_lpmf(array[] int Y, real M, real d_prime, real c, ",
+    "_lpmf(array[] int Y, real M, real dprime, real c, ",
     paste0("real z_meta_c2_0_", 1:k, collapse = ", "), ", ",
     paste0("real z_meta_c2_1_", 1:k, collapse = ", "),
     ") {
 		int K = size(Y) %/% 4; // number of confidence levels
 
-		real meta_d_prime = M * d_prime;
+		real meta_dprime = M * dprime;
 		real meta_c = ", ifelse(metac_absolute, "c", "M * c"), ";
 		vector[K-1] meta_c2_0 = meta_c - cumulative_sum([",
     paste0("z_meta_c2_0_", 1:k, collapse = ", "),
@@ -82,10 +85,10 @@ metad_stancode <- function(K, distribution = "normal", metac_absolute = TRUE) {
     "]');
 
 		// use multinomial likelihood
-		return multinomial_lpmf(Y[1:(2*K)] | metad_", distribution, "_pmf(0, d_prime, c,
-														meta_d_prime, meta_c, meta_c2_0, meta_c2_1)) +
-  		multinomial_lpmf(Y[(2*K+1):(4*K)] |  metad_", distribution, "_pmf(1, d_prime, c,
-											 meta_d_prime, meta_c, meta_c2_0, meta_c2_1));
+		return multinomial_lpmf(Y[1:(2*K)] | metad_", distribution, "_pmf(0, dprime, c,
+														meta_dprime, meta_c, meta_c2_0, meta_c2_1)) +
+  		multinomial_lpmf(Y[(2*K+1):(4*K)] |  metad_", distribution, "_pmf(1, dprime, c,
+											 meta_dprime, meta_c, meta_c2_0, meta_c2_1));
 	}"
   )
 }
@@ -94,68 +97,110 @@ metad_stancode <- function(K, distribution = "normal", metac_absolute = TRUE) {
 #' @param model The `brms` model to get distribution functions for
 #' @param fun The distribution function to return.
 #' @returns An R function with the name `distribution_{fun}`.
-#' Will throw an error if this function does not exist
+#' @details Will throw an error if this function does not exist
 get_dist <- function(model, fun = "lcdf") {
-  dist <- stringr::str_match(model$family$name, "metad__[[:digit:]]*__(.*)__[[:alpha:]]*")[, 2]
+  if (model$family$family != "custom" ||
+    !stringr::str_starts(model$family$name, "metad")) {
+    stop("Model must use the `metad` family.")
+  }
+  dist <- stringr::str_match(
+    model$family$name,
+    "metad__[[:digit:]]*__(.*)__[[:alpha:]]*"
+  )[, 2]
   paste0(dist, "_", fun) |>
     sym() |>
     eval()
 }
 
 #' Get the parameterization of `meta_c` in `model`
-#' @param model the `brms` model
+#' @param model The `brms` model to get the parameterization for
 #' @returns A character vector, either `"absolute"` or `"relative"`.
 get_metac <- function(model) {
-  stringr::str_match(model$family$name, "metad__[[:digit:]]*__.*__([[:alpha:]]*)")[, 2]
+  if (model$family$family != "custom" ||
+    !stringr::str_starts(model$family$name, "metad")) {
+    stop("Model must use the `metad` family.")
+  }
+  stringr::str_match(
+    model$family$name,
+    "metad__[[:digit:]]*__.*__([[:alpha:]]*)"
+  )[, 2]
 }
 
-#' The normal cumulative distribution function
-#' @param x The value to evaluate the lcdf at
+#' Normal cumulative distribution functions
+#' @param x The quantile to evaluate the l(c)cdf at
 #' @param mu The mean of the normal distribution
-#' @returns `log(P(X < x))` where X is sampled from a normal distribution
-#' with mean `mu` and standard deviation of `1`
+#' @returns \eqn{log(P(X < x))} (for `normal_lcdf`) or \eqn{log(P(X > x))} (for `normal_lccdf`) where \eqn{X} is sampled from a normal distribution
+#' with mean `mu` and standard deviation of \eqn{1}
+#' @examples
+#' normal_lcdf(0, mu = 1)
+#' normal_lccdf(0, mu = 1)
+#'
 #' @rdname normal_dist
 #' @export
 normal_lcdf <- function(x, mu) pnorm(x, mean = mu, log.p = TRUE)
 
-#' The complement of the normal cumulative distribution function
-#' @param x The value to evaluate the lccdf at
-#' @param mu The mean of the normal distribution
-#' @returns `log(P(X > x))` where X is sampled from a normal distribution
-#' with mean `mu` and standard deviation of `1`
 #' @rdname normal_dist
 #' @export
 normal_lccdf <- function(x, mu) pnorm(x, mean = mu, log.p = TRUE, lower.tail = FALSE)
 
 #' Generate (log) probability simplex over the joint type 1/type 2 responses
 #' @param stimulus the stimulus (0 or 1)
-#' @param d_prime the type 1 sensitivity
+#' @param dprime the type 1 sensitivity
 #' @param c the type 1 response criterion
-#' @param meta_d_prime the type 2 sensitivity
+#' @param meta_dprime the type 2 sensitivity
 #' @param meta_c the type 1 criteriom for generating confidence ratings
-#' @param meta_c2_0 the type 2 response criteria for `"0"` responses
-#' @param meta_c2_1 the type 2 response criteria for `"1"` responses
+#' @param meta_c2_0 the type 2 response criteria for `"0"` responses, indexed by
+#' increasing confidence levels
+#' @param meta_c2_1 the type 2 response criteria for `"1"` responses, indexed by
+#' increasing confidence levels
 #' @param lcdf The log cumulative distribution function for the underlying distribution in the metad' model.
 #' By default, uses the normal distribution with a standard deviation of `1`.
 #' @param lccdf The log complement cumulative distribution function for the underlying distribution in the metad' model.
 #' By default, uses the normal distribution with a standard deviation of `1`.
 #' @param log if TRUE, return log probabilities instead of probabilities
+#' @returns A probability simplex
+#' \deqn{\begin{bmatrix} P(R=0, C=K \vert S=0), \ldots, P(R=0, C=1 \vert S=0),
+#' P(R=0, C=1 \vert S=1), \ldots, P(R=1, C=1 \vert S=1)\end{bmatrix}}
+#' for response \eqn{R} and confidence \eqn{C} given stimulus \eqn{S},
+#' as defined by the meta-d' model.
+#' @examples
+#' metad_pmf(
+#'   stimulus = 0, dprime = 2, c = .5, meta_dprime = 1, meta_c = .5,
+#'   meta_c2_0 = c(0, -.5), meta_c2_1 = c(1, 1.5)
+#' )
 #' @export
-metad_pmf <- function(stimulus, d_prime, c,
-                      meta_d_prime, meta_c,
+metad_pmf <- function(stimulus, dprime, c,
+                      meta_dprime, meta_c,
                       meta_c2_0, meta_c2_1,
                       lcdf = normal_lcdf, lccdf = normal_lccdf,
                       log = FALSE) {
+  if (!is.numeric(stimulus) || stimulus < 0 || stimulus > 1 ||
+    (stimulus > 0 && stimulus < 1)) {
+    stop(paste0("Stimulus should be `0` or `1`, but is ", stimulus))
+  }
+  if (!all(
+    length(dprime) == 1, length(c) == 1, length(meta_dprime) == 1,
+    is.numeric(dprime), is.numeric(c), is.numeric(meta_dprime)
+  )) {
+    stop("Error: `dprime`, `c`, and `meta_dprime` must be single numbers.")
+  }
+  if (!is.numeric(meta_c2_0) || !is.numeric(meta_c2_1) ||
+    length(meta_c2_0) != length(meta_c2_1) ||
+    !all(diff(c(meta_c, meta_c2_0)) < 0) ||
+    !all(diff(c(meta_c, meta_c2_1)) > 0)) {
+    stop("Error: `meta_c2_0` and meta_c2_1` must be ordered vectors of the same length constrained by `meta_c`.")
+  }
+
   # number of confidence levels
   K <- length(meta_c2_0) + 1
 
   # type-1 response probabilities
-  lp_1 <- lccdf(c, to_signed(stimulus) * d_prime / 2)
-  lp_0 <- lcdf(c, to_signed(stimulus) * d_prime / 2)
+  lp_1 <- lccdf(c, to_signed(stimulus) * dprime / 2)
+  lp_0 <- lcdf(c, to_signed(stimulus) * dprime / 2)
 
   # calculate normal cdfs (log scale)
-  lp2_1 <- lccdf(c(meta_c, meta_c2_1), to_signed(stimulus) * meta_d_prime / 2)
-  lp2_0 <- lcdf(c(meta_c, meta_c2_0), to_signed(stimulus) * meta_d_prime / 2)
+  lp2_1 <- lccdf(c(meta_c, meta_c2_1), to_signed(stimulus) * meta_dprime / 2)
+  lp2_0 <- lcdf(c(meta_c, meta_c2_0), to_signed(stimulus) * meta_dprime / 2)
 
   # response probabilities
   log_theta <- rep(0, 2 * K)
@@ -186,18 +231,18 @@ metad_pmf <- function(stimulus, d_prime, c,
 #' `K` is the number of confidence levels.
 posterior_epred_metad <- function(prep) {
   M <- brms::get_dpar(prep, "mu")
-  d_prime <- brms::get_dpar(prep, "dprime")
+  dprime <- brms::get_dpar(prep, "dprime")
   c1 <- brms::get_dpar(prep, "c")
 
   # align dimensions
   n_obs <- dim(M)[2]
-  if (is.vector(d_prime)) {
-    d_prime <- replicate(n_obs, d_prime)
+  if (is.vector(dprime)) {
+    dprime <- replicate(n_obs, dprime)
   }
   if (is.vector(c1)) {
     c1 <- replicate(n_obs, c1)
   }
-  meta_d_prime <- M * d_prime
+  meta_dprime <- M * dprime
   meta_c <- NULL
   if (get_metac(prep) == "absolute") {
     meta_c <- c1
@@ -262,16 +307,16 @@ posterior_epred_metad <- function(prep) {
   # calculate joint response & confidence probabilities
   lcdf <- get_dist(prep, fun = "lcdf")
   lccdf <- get_dist(prep, fun = "lccdf")
-  p <- array(dim = c(dim(d_prime), 4 * K))
-  for (s in 1:first(dim(d_prime))) {
-    for (i in 1:last(dim(d_prime))) {
+  p <- array(dim = c(dim(dprime), 4 * K))
+  for (s in 1:first(dim(dprime))) {
+    for (i in 1:last(dim(dprime))) {
       p[s, i, 1:(2 * K)] <-
-        metad_pmf(0, d_prime[s, i], c1[s, i], meta_d_prime[s, i],
+        metad_pmf(0, dprime[s, i], c1[s, i], meta_dprime[s, i],
           meta_c[s, i], meta_c2_0[s, i, ], meta_c2_1[s, i, ],
           lcdf = lcdf, lccdf = lccdf
         )
       p[s, i, (2 * K + 1):(4 * K)] <-
-        metad_pmf(1, d_prime[s, i], c1[s, i], meta_d_prime[s, i],
+        metad_pmf(1, dprime[s, i], c1[s, i], meta_dprime[s, i],
           meta_c[s, i], meta_c2_0[s, i, ], meta_c2_1[s, i, ],
           lcdf = lcdf, lccdf = lccdf
         )
@@ -288,9 +333,9 @@ posterior_epred_metad <- function(prep) {
 #' for observation `i` in `prep`
 lp_metad <- function(i, prep) {
   M <- brms::get_dpar(prep, "mu", i = i)
-  d_prime <- brms::get_dpar(prep, "dprime", i = i)
+  dprime <- brms::get_dpar(prep, "dprime", i = i)
   c1 <- brms::get_dpar(prep, "c", i = i)
-  meta_d_prime <- M * d_prime
+  meta_dprime <- M * dprime
   meta_c <- NULL
   if (get_metac(prep) == "absolute") {
     meta_c <- c1
@@ -326,14 +371,14 @@ lp_metad <- function(i, prep) {
   lccdf <- get_dist(prep, fun = "lccdf")
   PMF <- Vectorize(metad_pmf,
     vectorize.args = c(
-      "stimulus", "d_prime", "c", "meta_d_prime",
+      "stimulus", "dprime", "c", "meta_dprime",
       "meta_c", "meta_c2_0", "meta_c2_1"
     )
   )
-  lp_0 <- PMF(0, d_prime, c1, meta_d_prime, meta_c, meta_c2_0, meta_c2_1,
+  lp_0 <- PMF(0, dprime, c1, meta_dprime, meta_c, meta_c2_0, meta_c2_1,
     log = TRUE, lcdf = lcdf, lccdf = lccdf
   )
-  lp_1 <- PMF(1, d_prime, c1, meta_d_prime, meta_c, meta_c2_0, meta_c2_1,
+  lp_1 <- PMF(1, dprime, c1, meta_dprime, meta_c, meta_c2_0, meta_c2_1,
     log = TRUE, lcdf = lcdf, lccdf = lccdf
   )
 
@@ -406,12 +451,23 @@ posterior_predict_metad <- function(i, prep, ...) {
     t()
 }
 
-#' Generate a brms family for the metad' model with K confidence levels
+#' `brms` family for the metad' model
 #' @param K The number of confidence levels
 #' @param distribution The noise distribution to use for the signal detection model
 #' @param metac_absolute If `TRUE`, fix the type 2 criterion to be equal to the type 1 criterion.
-#' Otherwise, equate the criteria relatively such that `metac/metadprime = c/dprime`.
+#' Otherwise, equate the criteria relatively such that `meta_c/meta_dprime = c/dprime`.
 #' @returns A `brms` family for the metad' model with K confidence levels
+#' @examples
+#' # create a family using the normal distribution and 3 levels of confidence
+#' metad(3)
+#'
+#' # create a family with meta_c = M * c
+#' metad(3, metac_absolute = FALSE)
+#'
+#' # create a family with an alternative distribution
+#' # note: cumulative distribution functions must be defined
+#' # in R and in Stan using [brms::stanvar()]
+#' metad(4, distribution = "gumbel_min")
 #' @export
 metad <- function(K, distribution = "normal", metac_absolute = TRUE) {
   k <- K - 1

@@ -7,7 +7,7 @@
 get_metac(model)
 }
 \arguments{
-\item{model}{the \code{brms} model}
+\item{model}{The \code{brms} model to get the parameterization for}
 }
 \value{
 A character vector, either \code{"absolute"} or \code{"relative"}.

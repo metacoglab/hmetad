@@ -3,23 +3,47 @@
 \name{metacognitive_bias_draws}
 \alias{metacognitive_bias_draws}
 \alias{add_metacognitive_bias_draws}
-\title{Get draws of \code{meta-delta}, an index of metacognitive bias.}
+\title{Obtain posterior draws of an index of metacognitive bias}
 \usage{
 metacognitive_bias_draws(object, newdata, ..., by_response = TRUE)
 
-add_metacognitive_bias_draws(newdata, object, ..., by_response = TRUE)
+add_metacognitive_bias_draws(newdata, object, ...)
 }
 \arguments{
-\item{object}{the \code{brms} model with the \code{metad} family}
+\item{object}{The \code{brms} model with the \code{metad} family}
 
-\item{newdata}{Data frame from which to generate estimates}
+\item{newdata}{A data frame from which to generate posterior predictions}
 
-\item{...}{additional parameters to pass to \code{tidybayes::linpred_draws}}
+\item{...}{Additional parameters passed to \link[tidybayes:add_predicted_draws]{tidybayes::epred_draws}}
 
-\item{by_response}{If \code{TRUE}, generate separate estimates for each response.}
+\item{by_response}{If \code{TRUE}, compute metacognitive bias separately for the
+two type 1 responses. If \code{FALSE}, compute an un-weighted average of the two measures.}
+}
+\value{
+a tibble containing posterior draws of  with the following
+columns:
+\itemize{
+\item \code{.row}: the row of \code{newdata}
+\item \code{.chain}, \code{.iteration}, \code{.draw}: identifiers for the posterior sample
+\item \code{response}: the type 1 response for perceived stimulus presence
+\item \code{metacognitive_bias}: the distance between \code{meta_c} and the average of
+the confidence criteria \verb{meta_c2_\{response\}}.
+}
 }
 \description{
-Get draws of \code{meta-delta}, an index of metacognitive bias.
+Computes \eqn{\textrm{meta-}\Delta}, an index of metacognitive bias.
+\eqn{\textrm{meta-}\Delta} is the distance between \code{meta_c} and the
+average of the the confidence criteria \code{meta_c2_0} and \code{meta_c2_1}.
+}
+\examples{
+# running few iterations so example runs quickly, use more in practice
+m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
+newdata <- tidyr::tibble(.row = 1)
 
-Get draws of \code{meta-delta}, an index of metacognitive bias.
+# compute pseudo-type 1 ROC curve
+metacognitive_bias_draws(m, newdata)
+add_metacognitive_bias_draws(newdata, m)
+
+# average over the two type 1 responses
+metacognitive_bias_draws(m, newdata, by_response = FALSE)
 }

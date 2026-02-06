@@ -50,7 +50,7 @@ jobs:
             RcppEigen
             RcppParallel
             StanHeaders
-            stan-dev/cmdstanr
+#            stan-dev/cmdstanr
           needs: check
 
       # set up cmdstanr

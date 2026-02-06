@@ -6,9 +6,9 @@
 \usage{
 metad_pmf(
   stimulus,
-  d_prime,
+  dprime,
   c,
-  meta_d_prime,
+  meta_dprime,
   meta_c,
   meta_c2_0,
   meta_c2_1,
@@ -20,17 +20,19 @@ metad_pmf(
 \arguments{
 \item{stimulus}{the stimulus (0 or 1)}
 
-\item{d_prime}{the type 1 sensitivity}
+\item{dprime}{the type 1 sensitivity}
 
 \item{c}{the type 1 response criterion}
 
-\item{meta_d_prime}{the type 2 sensitivity}
+\item{meta_dprime}{the type 2 sensitivity}
 
 \item{meta_c}{the type 1 criteriom for generating confidence ratings}
 
-\item{meta_c2_0}{the type 2 response criteria for \code{"0"} responses}
+\item{meta_c2_0}{the type 2 response criteria for \code{"0"} responses, indexed by
+increasing confidence levels}
 
-\item{meta_c2_1}{the type 2 response criteria for \code{"1"} responses}
+\item{meta_c2_1}{the type 2 response criteria for \code{"1"} responses, indexed by
+increasing confidence levels}
 
 \item{lcdf}{The log cumulative distribution function for the underlying distribution in the metad' model.
 By default, uses the normal distribution with a standard deviation of \code{1}.}
@@ -40,6 +42,19 @@ By default, uses the normal distribution with a standard deviation of \code{1}.}
 
 \item{log}{if TRUE, return log probabilities instead of probabilities}
 }
+\value{
+A probability simplex
+\deqn{\begin{bmatrix} P(R=0, C=K \vert S=0), \ldots, P(R=0, C=1 \vert S=0),
+P(R=0, C=1 \vert S=1), \ldots, P(R=1, C=1 \vert S=1)\end{bmatrix}}
+for response \eqn{R} and confidence \eqn{C} given stimulus \eqn{S},
+as defined by the meta-d' model.
+}
 \description{
 Generate (log) probability simplex over the joint type 1/type 2 responses
+}
+\examples{
+metad_pmf(
+  stimulus = 0, dprime = 2, c = .5, meta_dprime = 1, meta_c = .5,
+  meta_c2_0 = c(0, -.5), meta_c2_1 = c(1, 1.5)
+)
 }

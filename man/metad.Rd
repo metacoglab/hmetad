@@ -2,7 +2,7 @@
 % Please edit documentation in R/metad_family.R
 \name{metad}
 \alias{metad}
-\title{Generate a brms family for the metad' model with K confidence levels}
+\title{\code{brms} family for the metad' model}
 \usage{
 metad(K, distribution = "normal", metac_absolute = TRUE)
 }
@@ -12,11 +12,23 @@ metad(K, distribution = "normal", metac_absolute = TRUE)
 \item{distribution}{The noise distribution to use for the signal detection model}
 
 \item{metac_absolute}{If \code{TRUE}, fix the type 2 criterion to be equal to the type 1 criterion.
-Otherwise, equate the criteria relatively such that \code{metac/metadprime = c/dprime}.}
+Otherwise, equate the criteria relatively such that \code{meta_c/meta_dprime = c/dprime}.}
 }
 \value{
 A \code{brms} family for the metad' model with K confidence levels
 }
 \description{
-Generate a brms family for the metad' model with K confidence levels
+\code{brms} family for the metad' model
+}
+\examples{
+# create a family using the normal distribution and 3 levels of confidence
+metad(3)
+
+# create a family with meta_c = M * c
+metad(3, metac_absolute = FALSE)
+
+# create a family with an alternative distribution
+# note: cumulative distribution functions must be defined
+# in R and in Stan using [brms::stanvar()]
+metad(4, distribution = "gumbel_min")
 }
