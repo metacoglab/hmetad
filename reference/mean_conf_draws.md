@@ -1,8 +1,10 @@
 # Obtain posterior draws of mean confidence
 
-Computes posterior mean confidence conditional on stimulus and response,
-stimulus (averaging over responses), response (averaging over stimuli),
-neither (averaging over stimuli and responses).
+Computes posterior mean confidence conditional on stimulus and response
+(\\\mathbb{E}\[C \\\vert\\ S=s,R=r\]\\), stimulus (averaging over
+responses, \\\mathbb{E}\[C \\\vert\\ S=s\]\\), response (averaging over
+stimuli, \\\mathbb{E}\[C \\\vert\\ R=r\]\\), or neither (averaging over
+stimuli and responses, \\\mathbb{E}\[C\]\\).
 
 `add_mean_confidence_draws` is an alias of `mean_confidence_draws` with
 argument order swapped
@@ -71,8 +73,8 @@ m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
 #> Chain 1: 
-#> Chain 1: Gradient evaluation took 1.8e-05 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.18 seconds.
+#> Chain 1: Gradient evaluation took 1.9e-05 seconds
+#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.19 seconds.
 #> Chain 1: Adjust your expectations accordingly!
 #> Chain 1: 
 #> Chain 1: 
@@ -89,9 +91,9 @@ m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
 #> Chain 1: Iteration: 450 / 500 [ 90%]  (Sampling)
 #> Chain 1: Iteration: 500 / 500 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.036 seconds (Warm-up)
-#> Chain 1:                0.033 seconds (Sampling)
-#> Chain 1:                0.069 seconds (Total)
+#> Chain 1:  Elapsed Time: 0.032 seconds (Warm-up)
+#> Chain 1:                0.029 seconds (Sampling)
+#> Chain 1:                0.061 seconds (Total)
 #> Chain 1: 
 #> Warning: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.
 #> Running the chains for more iterations may help. See

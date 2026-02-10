@@ -103,9 +103,9 @@ fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
 #> Chain 1: Iteration: 450 / 500 [ 90%]  (Sampling)
 #> Chain 1: Iteration: 500 / 500 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.046 seconds (Warm-up)
-#> Chain 1:                0.033 seconds (Sampling)
-#> Chain 1:                0.079 seconds (Total)
+#> Chain 1:  Elapsed Time: 0.042 seconds (Warm-up)
+#> Chain 1:                0.03 seconds (Sampling)
+#> Chain 1:                0.072 seconds (Total)
 #> Chain 1: 
 #>  Family: metad__4__normal__absolute 
 #>   Links: mu = log 

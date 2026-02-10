@@ -28,8 +28,8 @@ add_roc2_draws(newdata, object, ...)
 
 - bounds:
 
-  If `TRUE`, include the endpoints of the ROC at `(0, 0)` and `(1, 1)`.
-  Otherwise, the endpoints are excluded.
+  If `TRUE`, include the endpoints of the ROC at \\(0, 0)\\ and \\(1,
+  1)\\. Otherwise, the endpoints are excluded.
 
 ## Value
 
@@ -40,16 +40,19 @@ following columns:
 
 - `.chain`, `.iteration`, `.draw`: identifiers for the posterior sample
 
-- `joint_response`: the combined type 1 / type 2 response (in `1:(2*K)`
-  for `K` confidence levels)
+- `joint_response`: the combined type 1 / type 2 response (\\J \in \[1,
+  2K\]\\) for \\K\\ confidence levels)
 
-- `response`: the type 1 response for perceived stimulus presence
+- `response`: the type 1 response for perceived stimulus presence (\\R
+  \in \\0, 1\\\\)
 
-- `confidence`: the type 2 confidence response
+- `confidence`: the type 2 confidence response (\\C \in \[1, K\]\\)
 
-- `p_fa2`: the cumulative probability of an incorrect response
+- `p_fa2`: the cumulative probability of an incorrect response (\\P(C\ge
+  c \\\vert\\ R\ne S)\\)
 
-- `p_hit2`: the cumulative probability of a correct response
+- `p_hit2`: the cumulative probability of a correct response (\\P(C\ge c
+  \\\vert\\ R = S)\\)
 
 ## Examples
 
@@ -61,8 +64,8 @@ m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
 #> Chain 1: 
-#> Chain 1: Gradient evaluation took 2e-05 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.2 seconds.
+#> Chain 1: Gradient evaluation took 1.8e-05 seconds
+#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.18 seconds.
 #> Chain 1: Adjust your expectations accordingly!
 #> Chain 1: 
 #> Chain 1: 
@@ -79,9 +82,9 @@ m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
 #> Chain 1: Iteration: 450 / 500 [ 90%]  (Sampling)
 #> Chain 1: Iteration: 500 / 500 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.028 seconds (Warm-up)
-#> Chain 1:                0.025 seconds (Sampling)
-#> Chain 1:                0.053 seconds (Total)
+#> Chain 1:  Elapsed Time: 0.026 seconds (Warm-up)
+#> Chain 1:                0.024 seconds (Sampling)
+#> Chain 1:                0.05 seconds (Total)
 #> Chain 1: 
 #> Warning: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.
 #> Running the chains for more iterations may help. See

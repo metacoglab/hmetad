@@ -28,8 +28,8 @@ add_roc1_draws(newdata, object, ...)
 
 - bounds:
 
-  If `TRUE`, include the endpoints of the ROC at `(0, 0)` and `(1, 1)`.
-  Otherwise, the endpoints are excluded.
+  If `TRUE`, include the endpoints of the ROC at \\(0, 0)\\ and \\(1,
+  1)\\. Otherwise, the endpoints are excluded.
 
 ## Value
 
@@ -40,18 +40,19 @@ following columns:
 
 - `.chain`, `.iteration`, `.draw`: identifiers for the posterior sample
 
-- `joint_response`: the combined type 1 / type 2 response (in `1:(2*K)`
-  for `K` confidence levels)
+- `joint_response`: the combined type 1 / type 2 response (\\J \in \[1,
+  2K\]\\) for \\K\\ confidence levels)
 
-- `response`: the type 1 response for perceived stimulus presence
+- `response`: the type 1 response for perceived stimulus presence (\\R
+  \in \\0, 1\\\\)
 
-- `confidence`: the type 2 confidence response
+- `confidence`: the type 2 confidence response (\\C \in \[1, K\]\\)
 
 - `p_fa`: the cumulative probability of a 'present'/'old' response for
-  `stimulus==0`
+  `stimulus==0` (\\P(J \ge j \\\vert\\ S=0)\\)
 
 - `p_hit`: the cumulative probability of a 'present'/'old' response for
-  `stimulus==1`
+  `stimulus==1` (\\P(J \ge j \\\vert\\ S=1)\\)
 
 ## Examples
 
@@ -63,8 +64,8 @@ m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
 #> Chain 1: 
-#> Chain 1: Gradient evaluation took 1.8e-05 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.18 seconds.
+#> Chain 1: Gradient evaluation took 1.9e-05 seconds
+#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.19 seconds.
 #> Chain 1: Adjust your expectations accordingly!
 #> Chain 1: 
 #> Chain 1: 
@@ -81,9 +82,9 @@ m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
 #> Chain 1: Iteration: 450 / 500 [ 90%]  (Sampling)
 #> Chain 1: Iteration: 500 / 500 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.036 seconds (Warm-up)
-#> Chain 1:                0.03 seconds (Sampling)
-#> Chain 1:                0.066 seconds (Total)
+#> Chain 1:  Elapsed Time: 0.032 seconds (Warm-up)
+#> Chain 1:                0.027 seconds (Sampling)
+#> Chain 1:                0.059 seconds (Total)
 #> Chain 1: 
 #> Warning: There were 1 divergent transitions after warmup. See
 #> https://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup

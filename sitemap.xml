@@ -1,13 +1,15 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://metacoglab.github.io/mRatio/404.html</loc></url>
 <url><loc>https://metacoglab.github.io/mRatio/LICENSE-text.html</loc></url>
+<url><loc>https://metacoglab.github.io/mRatio/articles/alternative_distributions.html</loc></url>
 <url><loc>https://metacoglab.github.io/mRatio/articles/index.html</loc></url>
-<url><loc>https://metacoglab.github.io/mRatio/articles/intro_to_metad.html</loc></url>
+<url><loc>https://metacoglab.github.io/mRatio/articles/mRatio.html</loc></url>
+<url><loc>https://metacoglab.github.io/mRatio/articles/parameterization.html</loc></url>
 <url><loc>https://metacoglab.github.io/mRatio/authors.html</loc></url>
 <url><loc>https://metacoglab.github.io/mRatio/index.html</loc></url>
 <url><loc>https://metacoglab.github.io/mRatio/reference/aggregate_metad.html</loc></url>
 <url><loc>https://metacoglab.github.io/mRatio/reference/bias_draws.html</loc></url>
-<url><loc>https://metacoglab.github.io/mRatio/reference/corr_matrix.html</loc></url>
+<url><loc>https://metacoglab.github.io/mRatio/reference/cor_matrix.html</loc></url>
 <url><loc>https://metacoglab.github.io/mRatio/reference/cov_matrix.html</loc></url>
 <url><loc>https://metacoglab.github.io/mRatio/reference/fit_metad.html</loc></url>
 <url><loc>https://metacoglab.github.io/mRatio/reference/get_dist.html</loc></url>

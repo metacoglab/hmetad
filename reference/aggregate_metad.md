@@ -33,13 +33,12 @@ aggregate_metad(data, ..., .response = "N", K = NULL)
 
 A tibble with one row per combination of the variables in `...`, and
 another column named by the value of `.response` containing trial
-counts. For `K` confidence levels, this will be an `N x K*4` matrix,
-such that the columns represent:
-
-    [N(stimulus=0, response=0, confidence=K), ..., N(stimulus=0, response=0, confidence=1),
-     N(stimulus=0, response=1, confidence=1), ..., N(stimulus=0, response=1, confidence=K),
-     N(stimulus=1, response=0, confidence=K), ..., N(stimulus=1, response=0, confidence=1),
-     N(stimulus=1, response=1, confidence=1), ..., N(stimulus=1, response=1, confidence=K)]
+counts. For \\K\\ confidence levels, this will be an \\N \times K\*4\\
+matrix, such that the columns represent (for stimulus \\S\\, type 1
+response \\R\\, and type 2 response \\C\\): \$\$ \[N\_{S=0, R=0, C=K},
+\ldots, N\_{S=0, R=0, C=1}, \\ N\_{S=0, R=1, C=1}, \ldots, N\_{S=0, R=1,
+C=K}, \\ N\_{S=1, R=0, C=K}, \ldots, N\_{S=1, R=0, C=1}, \\ N\_{S=1,
+R=1, C=1}, \ldots, N\_{S=1, R=1, C=K}\] \\ \$\$
 
 ## Examples
 

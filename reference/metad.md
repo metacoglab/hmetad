@@ -22,11 +22,11 @@ metad(K, distribution = "normal", metac_absolute = TRUE)
 
   If `TRUE`, fix the type 2 criterion to be equal to the type 1
   criterion. Otherwise, equate the criteria relatively such that
-  `meta_c/meta_dprime = c/dprime`.
+  \$\$\frac{\textrm{meta-}c}{\textrm{meta-}d'} = \frac{c}{d'}\$\$
 
 ## Value
 
-A `brms` family for the metad' model with K confidence levels
+A `brms` family for the metad' model with \\K\\ confidence levels
 
 ## Examples
 

@@ -18,25 +18,22 @@ response_probabilities(counts)
 
 ## Value
 
-A vector (or matrix) of response probabilities `P(R, C | S)`
+A vector (or matrix) of response probabilities \\P(R, C \\\vert\\ S)\\
 
 ## Details
 
-For response `R`, confidence `C`, stimulus `S`, and
-`K=length(counts)/4`, `counts` should be a vector (or matrix with rows)
-of the form:
+For response \\R\\, confidence \\C\\, stimulus \\S\\, and number of
+confidence levels \\K\\, `counts` should be a vector (or matrix with
+rows) of the form: \$\$ \[N\_{S=0, R=0, C=K}, \ldots, N\_{S=0, R=0,
+C=1}, \\ N\_{S=0, R=1, C=1}, \ldots, N\_{S=0, R=1, C=K}, \\ N\_{S=1,
+R=0, C=K}, \ldots, N\_{S=1, R=0, C=1}, \\ N\_{S=1, R=1, C=1}, \ldots,
+N\_{S=1, R=1, C=K}\] \\ \$\$
 
-    [N(R=0, C=K, S=0), ..., N(R=0, C=1, S=0),
-     N(R=1, C=1, S=0), ..., N(R=1, C=K, S=0),
-     N(R=0, C=K, S=1), ..., N(R=0, C=1, S=1),
-     N(R=1, C=1, S=1), ..., N(R=1, C=K, S=1)]
-
-Returns a vector (or matrix with rows) of the form:
-
-    [P(R=0, C=K | S=0), ..., P(R=0, C=1 | S=0),
-     P(R=1, C=1 | S=0), ..., P(R=1, C=K | S=0),
-     P(R=0, C=K | S=1), ..., P(R=0, C=1 | S=1),
-     P(R=1, C=1 | S=1), ..., P(R=1, C=K | S=1)]
+Returns a vector (or matrix with rows) of the form: \$\$ \[P(R=0, C=K
+\\\vert\\ S=0), ..., P(R=0, C=1 \\\vert\\ S=0), \\ P(R=1, C=1 \\\vert\\
+S=0), ..., P(R=1, C=K \\\vert\\ S=0), \\ P(R=0, C=K \\\vert\\ S=1), ...,
+P(R=0, C=1 \\\vert\\ S=1), \\ P(R=1, C=1 \\\vert\\ S=1), ..., P(R=1, C=K
+\\\vert\\ S=1)\] \$\$
 
 ## Examples
 

@@ -1,8 +1,8 @@
-# Convert binary variable `x` between `{0, 1}` and `{-1, 1}`
+# Convert binary variable \\x\\ between \\\\0, 1\\\\ and \\\\-1, 1\\\\
 
-- `to_signed()` converts a variable from `{0, 1}` to `{-1, 1}`
+- `to_signed(x)` converts \\x \in \\0, 1\\\\ to \\x' \in \\-1, 1\\\\
 
-- `to_unsigned()` converts a variable from `{-1, 1}` to `{0, 1}`
+- `to_unsigned(x)` converts \\x \in \\-1, 1\\\\ to \\x' \in \\0, 1\\\\
 
 ## Usage
 

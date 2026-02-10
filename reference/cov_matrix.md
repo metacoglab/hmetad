@@ -20,7 +20,7 @@ cov_matrix(S, OMEGA)
 
 ## Value
 
-a `[N x N]` covariance matrix, where `N = length(S)`.
+an \\N \times N\\ covariance matrix, where `N = length(S)`.
 
 ## Examples
 

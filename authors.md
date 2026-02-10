@@ -6,6 +6,9 @@
 
 ## Citation
 
+Source:
+[`DESCRIPTION`](https://github.com/metacoglab/mRatio/blob/main/DESCRIPTION)
+
 O'Neill K (2026). *mRatio: Fit the meta-d' model of confidence ratings
 using 'brms'*. R package version 0.0.1,
 <https://metacoglab.github.io/mRatio/>.

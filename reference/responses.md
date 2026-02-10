@@ -2,13 +2,13 @@
 
 Confidence ratings and decisions are collected in one of two ways.
 
-- For separate ratings, there will be a type 1 response (`0` or `1`) and
-  a type 2 response (confidence in `1:K`).
+- For separate ratings, there will be a type 1 response (\\R \in \\0,
+  1\\\\) and a type 2 response (\\C \in \[1, K\]\\).
 
 - For joint ratings, there is instead a combined type 1/type 2 response
-  (in `1:(2*K)`), with values in `1:K` indicating a type 1 response of
-  `0` and values in `(K+1):(2*K)` indicating a type 1 response of `1`,
-  with confident responses at the ends of the scale.
+  (\\J \in \[1, 2K\]\\), with values in \\\[1, K\]\\ indicating a type 1
+  response of \\0\\ and values in \\\[K+1, 2K\]\\ indicating a type 1
+  response of \\1\\, with confident responses at the ends of the scale.
 
 `joint_response` converts separate type 1 and type 2 responses into the
 joint format
