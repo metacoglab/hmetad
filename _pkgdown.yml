@@ -1,4 +1,5 @@
 url: https://metacoglab.github.io/mRatio/
 template:
   bootstrap: 5
+  light-switch: true
 

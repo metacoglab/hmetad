@@ -9,4 +9,6 @@ inst/doc
 /doc/
 /Meta/
 vignettes/models
+vignettes/*.R
 docs
+**/*.*~

@@ -12,6 +12,7 @@
 #' @returns A single string containing Stan code defining the likelihood for the metad' model
 #' with `K` confidence levels, signal distributed according to the distribution `distribution`,
 #' and where `metac = c` if `metac_absolute==TRUE`, and `metac = M*c` otherwise.
+#' @keywords internal
 stancode_metad <- function(K, distribution = "normal", metac_absolute = TRUE) {
   if (!is.numeric(K) || K <= 1) {
     stop("Number of confidence levels must be an integer greater than 1")
@@ -98,6 +99,7 @@ stancode_metad <- function(K, distribution = "normal", metac_absolute = TRUE) {
 #' @param fun The distribution function to return.
 #' @returns An R function with the name `distribution_{fun}`.
 #' @details Will throw an error if this function does not exist
+#' @keywords internal
 get_dist <- function(model, fun = "lcdf") {
   if (model$family$family != "custom" ||
     !stringr::str_starts(model$family$name, "metad")) {
@@ -115,6 +117,7 @@ get_dist <- function(model, fun = "lcdf") {
 #' Get the parameterization of `meta_c` in `model`
 #' @param model The `brms` model to get the parameterization for
 #' @returns A character vector, either `"absolute"` or `"relative"`.
+#' @keywords internal
 get_metac <- function(model) {
   if (model$family$family != "custom" ||
     !stringr::str_starts(model$family$name, "metad")) {
@@ -229,6 +232,7 @@ metad_pmf <- function(stimulus, dprime, c,
 #' where `D` is the number of posterior draws,
 #' `N` is the number of rows in the data, and
 #' `K` is the number of confidence levels.
+#' @keywords internal
 posterior_epred_metad <- function(prep) {
   M <- brms::get_dpar(prep, "mu")
   dprime <- brms::get_dpar(prep, "dprime")
@@ -331,6 +335,7 @@ posterior_epred_metad <- function(prep) {
 #' @param prep an object containing the data and model draws
 #' @returns A vector of joint type 1/type 2 response probabilties
 #' for observation `i` in `prep`
+#' @keywords internal
 lp_metad <- function(i, prep) {
   M <- brms::get_dpar(prep, "mu", i = i)
   dprime <- brms::get_dpar(prep, "dprime", i = i)
@@ -393,6 +398,7 @@ lp_metad <- function(i, prep) {
 #' where `D` is the number of posterior draws,
 #' `N` is the number of rows in the data, and
 #' `K` is the number of confidence levels.
+#' @keywords internal
 log_lik_metad <- function(i, prep) {
   p <- exp(lp_metad(i, prep))
 
@@ -432,6 +438,7 @@ log_lik_metad <- function(i, prep) {
 #' where `D` is the number of posterior draws,
 #' `N` is the number of rows in the data, and
 #' `K` is the number of confidence levels.
+#' @keywords internal
 posterior_predict_metad <- function(i, prep, ...) {
   p <- exp(lp_metad(i, prep))
 
