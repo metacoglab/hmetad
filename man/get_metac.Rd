@@ -15,3 +15,4 @@ A character vector, either \code{"absolute"} or \code{"relative"}.
 \description{
 Get the parameterization of \code{meta_c} in \code{model}
 }
+\keyword{internal}

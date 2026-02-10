@@ -2,7 +2,7 @@
 #'
 #' @param S A vector of standard deviations
 #' @param OMEGA A correlation matrix
-#' @returns a `[N x N]` covariance matrix, where `N = length(S)`.
+#' @returns an \eqn{N \times N} covariance matrix, where `N = length(S)`.
 #' @examples
 #' sds <- c(1, 2)
 #' corrs <- matrix(c(1, .5, .5, 1), nrow = 2)
@@ -30,11 +30,11 @@ cov_matrix <- function(S, OMEGA) {
 #' @returns An `[nrow x nrow]` matrix with values along the diagonal equal
 #' to `1` and values off of the diagonal equal to `r`
 #' @examples
-#' corr_matrix(0, nrow = 3)
+#' cor_matrix(0, nrow = 3)
 #'
-#' corr_matrix(-.5, nrow = 4)
+#' cor_matrix(-.5, nrow = 4)
 #' @export
-corr_matrix <- function(r, nrow = 2) {
+cor_matrix <- function(r, nrow = 2) {
   if (!is.numeric(r) || length(r) != 1 || !between(r, -1, 1)) {
     stop("`r` must be a single correlation between -1 and 1.")
   }
@@ -56,8 +56,8 @@ corr_matrix <- function(r, nrow = 2) {
 #' mu <- matrix(rep(0, 8), nrow = 4)
 #' sd_rows <- rep(1, 4)
 #' sd_cols <- rep(1, 2)
-#' r_rows <- corr_matrix(.25, 4)
-#' r_cols <- corr_matrix(.75, 2)
+#' r_rows <- cor_matrix(.25, 4)
+#' r_cols <- cor_matrix(.75, 2)
 #' L_sigma_rows <- chol(cov_matrix(sd_rows, r_rows))
 #' L_sigma_cols <- chol(cov_matrix(sd_cols, r_cols))
 #' rmatrixnorm(mu, L_sigma_rows, L_sigma_cols)

@@ -12,10 +12,11 @@ metad(K, distribution = "normal", metac_absolute = TRUE)
 \item{distribution}{The noise distribution to use for the signal detection model}
 
 \item{metac_absolute}{If \code{TRUE}, fix the type 2 criterion to be equal to the type 1 criterion.
-Otherwise, equate the criteria relatively such that \code{meta_c/meta_dprime = c/dprime}.}
+Otherwise, equate the criteria relatively such that
+\deqn{\frac{\textrm{meta-}c}{\textrm{meta-}d'} = \frac{c}{d'}}}
 }
 \value{
-A \code{brms} family for the metad' model with K confidence levels
+A \code{brms} family for the metad' model with \eqn{K} confidence levels
 }
 \description{
 \code{brms} family for the metad' model

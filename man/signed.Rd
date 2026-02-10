@@ -3,7 +3,7 @@
 \name{to_signed}
 \alias{to_signed}
 \alias{to_unsigned}
-\title{Convert binary variable \code{x} between \verb{\{0, 1\}} and \verb{\{-1, 1\}}}
+\title{Convert binary variable \eqn{x} between \eqn{\{0, 1\}} and \eqn{\{-1, 1\}}}
 \usage{
 to_signed(x)
 
@@ -18,8 +18,8 @@ of \code{x}
 }
 \description{
 \itemize{
-\item \code{to_signed()} converts a variable from \verb{\{0, 1\}} to \verb{\{-1, 1\}}
-\item \code{to_unsigned()} converts a variable from \verb{\{-1, 1\}} to \verb{\{0, 1\}}
+\item \code{to_signed(x)} converts \eqn{x \in \{0, 1\}} to \eqn{x' \in \{-1, 1\}}
+\item \code{to_unsigned(x)} converts \eqn{x \in \{-1, 1\}} to \eqn{x' \in \{0, 1\}}
 }
 }
 \examples{

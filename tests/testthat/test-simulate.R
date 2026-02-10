@@ -15,24 +15,24 @@ test_that("cov_matrix works", {
   expect_error(cov_matrix(rep(1, 2), matrix(c(1, 1.5, 1.5, 1), nrow = 2)))
 })
 
-test_that("corr_matrix works", {
-  expect_equal(corr_matrix(1), matrix(rep(1, 4), nrow = 2))
-  expect_equal(corr_matrix(0, nrow = 100), diag(100))
+test_that("cor_matrix works", {
+  expect_equal(cor_matrix(1), matrix(rep(1, 4), nrow = 2))
+  expect_equal(cor_matrix(0, nrow = 100), diag(100))
 
   # invalid correlations
-  expect_error(corr_matrix(2))
-  expect_error(corr_matrix(-2))
+  expect_error(cor_matrix(2))
+  expect_error(cor_matrix(-2))
 
   # invalid nrow
-  expect_error(corr_matrix(.5, nrow = 1))
+  expect_error(cor_matrix(.5, nrow = 1))
 })
 
 test_that("rmatrixnorm works", {
   mu <- matrix(rep(0, 8), nrow = 4)
   sd_rows <- rep(1, 4)
   sd_cols <- rep(1, 2)
-  r_rows <- corr_matrix(.25, 4)
-  r_cols <- corr_matrix(.75, 2)
+  r_rows <- cor_matrix(.25, 4)
+  r_cols <- cor_matrix(.75, 2)
   L_sigma_rows <- chol(cov_matrix(sd_rows, r_rows))
   L_sigma_cols <- chol(cov_matrix(sd_cols, r_cols))
   rmatrixnorm(mu, L_sigma_rows, L_sigma_cols) |>

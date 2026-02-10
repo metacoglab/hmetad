@@ -30,4 +30,5 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 Config/testthat/edition: 3
-URL: https://metacoglab.github.io/mRatio/
+URL: https://metacoglab.github.io/mRatio/, https://github.com/metacoglab/mRatio
+BugReports: https://github.com/metacoglab/mRatio/issues

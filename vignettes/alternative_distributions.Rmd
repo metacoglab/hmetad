@@ -1,8 +1,8 @@
 ---
-title: "Using alternative distributions for the meta-d' model"
+title: "Using alternative signal distributions with the meta-d' model"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{alternative_distributions}
+  %\VignetteIndexEntry{Using alternative signal distributions with the meta-d' model}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -21,12 +21,12 @@ dir.create("models", showWarnings = FALSE)
 ```
 
 ## Introduction
-The standard meta-d' model assumes that the evidence for making type 1 decisions follows an equal-variance normal distribution and that the evidence for making type 2 decisions follows a truncated equal-variance normal distribution. However, there has been recent interest in using other distributions in signal detection theory. While not all distributions will be identifiable with the meta-d' model (e.g., one cannot simultaneously estimate unequal variances and \eqn{\textrm{meta-}d'}), the `mRatio` package allows one to specify any distribution that takes a single parameter defining the location (i.e., mean, median, or mode) of the distribution.
+The standard meta-d' model assumes that the evidence for making type 1 decisions follows an equal-variance normal distribution and that the evidence for making type 2 decisions follows a truncated equal-variance normal distribution. However, there has been recent interest in using other distributions in signal detection theory. While not all distributions will be identifiable with the meta-d' model (e.g., one cannot simultaneously estimate unequal variances and $\textrm{meta-}d'$), the `mRatio` package allows one to specify any distribution that takes a single parameter defining the location (i.e., mean, median, or mode) of the distribution.
 
 To demonstrate this functionality, here we implement the meta-d' model with the Gumbel-min distribution, which has been shown to provide a parsimonious explanation of recognition memory data (Meyer-Grant et al, 2025).
 
 We begin by loading necessary packages in `R`:
-```{r setup}
+```{r setup, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(brms)
 library(tidybayes)
@@ -36,8 +36,8 @@ library(mRatio)
 ## Implementing a distribution function for use with `mRatio`
 In order for a distribution to be used with the `mRatio` package, one needs to implement its cumulative distribution functions in both `R` and `Stan`. Specifically, since the `mRatio` package computes the model likelihood on the logarithmic scale, one must define:
 
-* `<distribution>_lcdf(x, mu)`: the log cumulative distribution function defining \eqn{\textrm{log} P(X \le x \;\vert\; mu)} for a random variable \eqn{X}.
-* `<distribution>_lccdf(x, mu)`: the log complementary cumulative distribution function defining \eqn{\textrm{log} P(X \ge x \;\vert\; mu)} for a random variable \eqn{X}.
+* `<distribution>_lcdf(x, mu)`: the log cumulative distribution function defining $\textrm{log } P(X \le x)$ for a random variable $X \sim \textrm{distribution}(\mu)$.
+* `<distribution>_lccdf(x, mu)`: the log complementary cumulative distribution function defining $\textrm{log } P(X \ge x)$ for a random variable $X \sim \textrm{distribution}(\mu)$.
 
 Please note that for use with the `mRatio` package, these two functions **must** use the above naming scheme (i.e., must be named `<distribution>_l(c)cdf`). 
 
@@ -84,9 +84,8 @@ d <- sim_metad(
 ## Model fitting
 Once you have some data, fitting the model is exactly the same as with the equal-variance normal distribution, only now we also need to specify two additional arguments to `fit_metad`. 
 
-First, the `distribution` argument should be the name of the distribution as a string. This should be the part of the function names preceding `"_lcdf"` and `"_lccdf"` in both `R` and in `Stan`.
-
-Second, the `stanvars` argument should be the `stanvar` object you have created above containing the `Stan` code for your cumulative distribution functions.
+  1. The `distribution` argument should be the name of the distribution as a string. This should be the part of the function names preceding `"_lcdf"` and `"_lccdf"` in both `R` and in `Stan`.
+  2. The `stanvars` argument should be the `stanvar` object you have created above containing the `Stan` code for your cumulative distribution functions.
 
 Otherwise, one can call `fit_metad` just as with the equal-variance normal distribution! Please note, however, that the scale of all parameters will vary from distribution to distribution, so set priors accordingly. The code below shows how to fit the meta-d' model with our new `gumbel_min` distribution:
 ```{r model, results=FALSE, message=FALSE, warning=FALSE}
@@ -109,7 +108,7 @@ m <- fit_metad(N ~ 1,
 summary(m)
 ```
 
-The model summary can be interpreted just as with any other model, however here you can see that the model family is `metad__4__gumbel_min__absolute`, indicating that this model indeed uses the `gumbel_min` distribution with four confidence levels and \eqn{\textrm{meta-}c = c}. 
+The model summary can be interpreted just as with any other model, however here you can see that the model family is `metad__4__gumbel_min__absolute`, indicating that this model indeed uses the `gumbel_min` distribution with four confidence levels and $\textrm{meta-}c = c$. 
 
 
 ## Model estimates
@@ -133,7 +132,7 @@ tibble(.row = 1) |>
   coord_fixed(xlim = 0:1, ylim = 0:1, expand = FALSE) +
   xlab("P(False Alarm)") +
   ylab("P(Hit)") +
-  theme_bw()
+  theme_bw(18)
 ```
 
 Likewise, the `gumbel_min` distribution also has asymmetric type 2 ROCs:
@@ -155,5 +154,5 @@ roc2_draws(m, tibble(.row = 1), bounds = TRUE) |>
   coord_fixed(xlim = 0:1, ylim = 0:1, expand = FALSE) +
   xlab("P(Type 2 False Alarm)") +
   ylab("P(Type 2 Hit)") +
-  theme_bw()
+  theme_bw(18)
 ```

@@ -1,9 +1,11 @@
 #' Obtain posterior draws of mean confidence
 #'
 #' @description
-#' Computes posterior mean confidence conditional on stimulus and response,
-#' stimulus (averaging over responses), response (averaging over stimuli),
-#' neither (averaging over stimuli and responses).
+#' Computes posterior mean confidence conditional on stimulus and response
+#' (\eqn{\mathbb{E}[C \;\vert\; S=s,R=r]}),
+#' stimulus (averaging over responses, \eqn{\mathbb{E}[C \;\vert\; S=s]}),
+#' response (averaging over stimuli, \eqn{\mathbb{E}[C \;\vert\; R=r]}),
+#' or neither (averaging over stimuli and responses, \eqn{\mathbb{E}[C]}).
 #'
 #' `add_mean_confidence_draws` is an alias of `mean_confidence_draws` with
 #' argument order swapped

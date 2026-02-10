@@ -2,7 +2,7 @@
 title: "Fitting the meta-d' model"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{intro_to_metad}
+  %\VignetteIndexEntry{Fitting the meta-d' model}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -137,7 +137,7 @@ summary(m)
 
 Note that here we have arbitrarily chosen to use standard normal priors for all parameters. To get a better idea of how to set informed priors, please refer to `help('set_prior', package='brms')`.
 
-In this model, `Intercept` is our estimate of $\textrm{log}(M) = \textrm{log}\frac{\textrm{meta-}d'}{d'}$, `dprime` is our estimate of $d'$, `c` is our estimate of `c`, `metac2zero1diff` and `metac2zero2diff` are the distances between successive confidence thresholds for `"0"` responses, and `metac2one1diff` and `metac2one2diff` are the distances between successive confidence thresholds for `"1"` responses. For each parameter, `brms` shows you the posterior means (`Estimate`), posterior standard deviations (`Est. Error`), upper- and lower-95% posterior quantiles (`l-95% CI` and `u-95% CI`), as well as some convergence metrics (`Rhat`, `Bulk_ESS`, and `Tail_ESS`).
+In this model, `Intercept` is our estimate of $\textrm{log}(M) = \textrm{log}\frac{\textrm{meta-}d'}{d'}$, `dprime` is our estimate of $d'$, `c` is our estimate of $c$, `metac2zero1diff` and `metac2zero2diff` are the distances between successive confidence thresholds for `"0"` responses, and `metac2one1diff` and `metac2one2diff` are the distances between successive confidence thresholds for `"1"` responses. For each parameter, `brms` shows you the posterior means (`Estimate`), posterior standard deviations (`Est. Error`), upper- and lower-95% posterior quantiles (`l-95% CI` and `u-95% CI`), as well as some convergence metrics (`Rhat`, `Bulk_ESS`, and `Tail_ESS`).
 
 ## Extract model estimates
 Once we have our fitted model, there are many estimates that we can extract from it. Although `brms` provides its own functions for extracting posterior estimates, the `mRatio` package is designed to interface well with the `tidybayes` package to make it easier to work with model posterior samples.
@@ -285,11 +285,11 @@ tibble(.row = 1) |>
 ```
 
 ### Metacognitive bias
-While mean confidence is often empirically informative, it is not recommended as a measure of metacognitive bias because it is known to be confounded by type 1 response characteristics (i.e., \eqn{d'} and \eqn{c}) and by metacognitive sensitivity (i.e., \eqn{\textrm{meta-}d'}{meta-d'}). Instead, we recommend a new measure of metacognitive bias, \eqn{\textrm{meta-}\Delta}{meta-delta}, which is the distance between the average of the confidence criteria and \eqn{\textrm{meta-}c}{meta-c}. 
+While mean confidence is often empirically informative, it is not recommended as a measure of metacognitive bias because it is known to be confounded by type 1 response characteristics (i.e., $d'$ and $c$) and by metacognitive sensitivity (i.e., $\textrm{meta-}d'$). Instead, we recommend a new measure of metacognitive bias, $\textrm{meta-}\Delta$, which is the distance between the average of the confidence criteria and $\textrm{meta-}c$. 
 
-\eqn{\textrm{meta-}\Delta}{meta-delta} can be interpreted as lying between two extremes: when \eqn{\textrm{meta-}\Delta = 0}{meta-delta}, the observer only uses the highest confidence rating, and when \eqn{\textrm{meta-}\Delta = \infty}{meta-delta}, the observer only uses the lowest confidence rating. 
+$\textrm{meta-}\Delta$ can be interpreted as lying between two extremes: when $\textrm{meta-}\Delta = 0$, the observer only uses the highest confidence rating, and when $\textrm{meta-}\Delta = \infty$, the observer only uses the lowest confidence rating. 
 
-To obtain estimates of \eqn{\textrm{meta-}\Delta}{meta-delta}, one can use the function `metacognitive_bias_draws`:
+To obtain estimates of $\textrm{meta-}\Delta$, one can use the function `metacognitive_bias_draws`:
 ```{r metacognitive_bias_draws}
 tibble(.row=1) |>
   add_metacognitive_bias_draws(m) |>

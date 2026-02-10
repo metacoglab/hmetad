@@ -24,11 +24,11 @@ type2_response(joint_response, K)
 \description{
 Confidence ratings and decisions are collected in one of two ways.
 \itemize{
-\item For separate ratings, there will be a type 1 response (\code{0} or \code{1}) and a
-type 2 response (confidence in \code{1:K}).
+\item For separate ratings, there will be a type 1 response (\eqn{R \in \{0, 1\}}) and a
+type 2 response (\eqn{C \in [1, K]}).
 \item For joint ratings, there is instead a combined type 1/type 2 response
-(in \code{1:(2*K)}), with values in \code{1:K} indicating a type 1 response of \code{0}
-and values in \code{(K+1):(2*K)} indicating a type 1 response of \code{1}, with
+(\eqn{J \in [1, 2K]}), with values in \eqn{[1, K]} indicating a type 1 response of \eqn{0}
+and values in \eqn{[K+1, 2K]} indicating a type 1 response of \eqn{1}, with
 confident responses at the ends of the scale.
 }
 

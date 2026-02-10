@@ -11,28 +11,39 @@ response_probabilities(counts)
 responses as provided by \link{aggregate_metad}}
 }
 \value{
-A vector (or matrix) of response probabilities \code{P(R, C | S)}
+A vector (or matrix) of response probabilities \eqn{P(R, C \;\vert\; S)}
 }
 \description{
 Compute joint response probabilities from aggregated counts
 }
 \details{
-For response \code{R}, confidence \code{C}, stimulus \code{S}, and \code{K=length(counts)/4},
-\code{counts} should be a vector (or matrix with rows) of the form:
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{[N(R=0, C=K, S=0), ..., N(R=0, C=1, S=0),
+For response \eqn{R}, confidence \eqn{C}, stimulus \eqn{S}, and number of
+confidence levels \eqn{K}, \code{counts} should be a vector (or matrix with rows)
+of the form:
+\deqn{
+ [N_{S=0, R=0, C=K}, \ldots, N_{S=0, R=0, C=1}, \\
+ N_{S=0, R=1, C=1}, \ldots, N_{S=0, R=1, C=K}, \\
+ N_{S=1, R=0, C=K}, \ldots, N_{S=1, R=0, C=1}, \\
+ N_{S=1, R=1, C=1}, \ldots, N_{S=1, R=1, C=K}] \\
+}{
+[N(R=0, C=K, S=0), ..., N(R=0, C=1, S=0),
  N(R=1, C=1, S=0), ..., N(R=1, C=K, S=0),
  N(R=0, C=K, S=1), ..., N(R=0, C=1, S=1),
  N(R=1, C=1, S=1), ..., N(R=1, C=K, S=1)]
-}\if{html}{\out{</div>}}
+}
 
 Returns a vector (or matrix with rows) of the form:
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{[P(R=0, C=K | S=0), ..., P(R=0, C=1 | S=0),
+\deqn{
+[P(R=0, C=K \;\vert\; S=0), ..., P(R=0, C=1 \;\vert\; S=0), \\
+ P(R=1, C=1 \;\vert\; S=0), ..., P(R=1, C=K \;\vert\; S=0), \\
+ P(R=0, C=K \;\vert\; S=1), ..., P(R=0, C=1 \;\vert\; S=1), \\
+ P(R=1, C=1 \;\vert\; S=1), ..., P(R=1, C=K \;\vert\; S=1)]
+}{
+[P(R=0, C=K | S=0), ..., P(R=0, C=1 | S=0),
  P(R=1, C=1 | S=0), ..., P(R=1, C=K | S=0),
  P(R=0, C=K | S=1), ..., P(R=0, C=1 | S=1),
  P(R=1, C=1 | S=1), ..., P(R=1, C=K | S=1)]
-}\if{html}{\out{</div>}}
+}
 }
 \examples{
 # Aggregate responses from simulated data

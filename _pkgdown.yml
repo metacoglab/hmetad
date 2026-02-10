@@ -2,4 +2,58 @@ url: https://metacoglab.github.io/mRatio/
 template:
   bootstrap: 5
   light-switch: true
+  math-rendering: katex
+
+
+reference:
+  - title: Fitting the meta-d' model
+    desc: Run the meta-d' model on aggregated or non-aggregated data using `brms`
+    contents:
+    - fit_metad
+    - metad
+
+  - title: Processing data for model fitting
+    desc: Transform data between common formats used in metacognition research
+    contents:
+    - to_signed
+    - to_unsigned
+    - joint_response
+    - type1_response
+    - type2_response
+    - response_probabilities
+    - aggregate_metad
+
+  - title: Extracting model estimates
+    desc:
+    contents:
+    - mean_confidence_draws
+    - add_mean_confidence_draws
+    - metacognitive_bias_draws
+    - add_metacognitive_bias_draws
+    - roc1_draws
+    - add_roc1_draws
+    - roc2_draws
+    - add_roc2_draws
+
+  - title: Simulating from the meta-d' model
+    desc: >
+      Generate simulated type 1 responses and confidence ratings
+      from the meta-d' model
+    contents:
+    - sim_metad
+    - sim_metad_condition
+    - sim_metad_participant
+    - sim_metad_participant_condition
+
+  - title: Working with common distributions
+    desc: >
+      Calculate model log likelihood, response probabilities, or sample from
+      distributions
+    contents:
+    - normal_lcdf
+    - normal_lccdf
+    - metad_pmf
+    - cov_matrix
+    - cor_matrix
+    - rmatrixnorm
 

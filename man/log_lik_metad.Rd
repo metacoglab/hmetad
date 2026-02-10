@@ -21,3 +21,4 @@ where \code{D} is the number of posterior draws,
 \description{
 Generate a function to calculate the log likelihood of the metad' model
 }
+\keyword{internal}

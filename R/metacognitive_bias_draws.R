@@ -1,6 +1,7 @@
 #' Given the distances between successive confidence thresholds,
 #' calculate the average of the cumulative distances to 0.
 #' @param ... a series of distances between confidence thresholds
+#' @keywords internal
 metacognitive_bias <- function(...) {
   k <- length(c(...))
   sum(c(...) * (k:1) / k)

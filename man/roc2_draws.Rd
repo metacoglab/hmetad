@@ -16,7 +16,7 @@ add_roc2_draws(newdata, object, ...)
 
 \item{...}{Additional parameters passed to \link[tidybayes:add_predicted_draws]{tidybayes::epred_draws}}
 
-\item{bounds}{If \code{TRUE}, include the endpoints of the ROC at \verb{(0, 0)} and \verb{(1, 1)}.
+\item{bounds}{If \code{TRUE}, include the endpoints of the ROC at \eqn{(0, 0)} and \eqn{(1, 1)}.
 Otherwise, the endpoints are excluded.}
 }
 \value{
@@ -25,11 +25,11 @@ columns:
 \itemize{
 \item \code{.row}: the row of \code{newdata}
 \item \code{.chain}, \code{.iteration}, \code{.draw}: identifiers for the posterior sample
-\item \code{joint_response}: the combined type 1 / type 2 response (in \code{1:(2*K)} for \code{K} confidence levels)
-\item \code{response}: the type 1 response for perceived stimulus presence
-\item \code{confidence}: the type 2 confidence response
-\item \code{p_fa2}: the cumulative probability of an incorrect response
-\item \code{p_hit2}: the cumulative probability of a correct response
+\item \code{joint_response}: the combined type 1 / type 2 response (\eqn{J \in [1, 2K]}) for \eqn{K} confidence levels)
+\item \code{response}: the type 1 response for perceived stimulus presence (\eqn{R \in \{0, 1\}})
+\item \code{confidence}: the type 2 confidence response (\eqn{C \in [1, K]})
+\item \code{p_fa2}: the cumulative probability of an incorrect response (\eqn{P(C\ge c \;\vert\; R\ne S)})
+\item \code{p_hit2}: the cumulative probability of a correct response (\eqn{P(C\ge c \;\vert\; R = S)})
 }
 }
 \description{

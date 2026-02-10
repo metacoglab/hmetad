@@ -20,14 +20,20 @@ If \code{NULL}, this is estimated from \code{data}.}
 \value{
 A tibble with one row per combination of the variables in \code{...},
 and another column named by the value of \code{.response} containing trial counts.
-For \code{K} confidence levels, this will be an \verb{N x K*4} matrix, such that the
-columns represent:
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{[N(stimulus=0, response=0, confidence=K), ..., N(stimulus=0, response=0, confidence=1),
- N(stimulus=0, response=1, confidence=1), ..., N(stimulus=0, response=1, confidence=K),
- N(stimulus=1, response=0, confidence=K), ..., N(stimulus=1, response=0, confidence=1),
- N(stimulus=1, response=1, confidence=1), ..., N(stimulus=1, response=1, confidence=K)]
-}\if{html}{\out{</div>}}
+For \eqn{K} confidence levels, this will be an \eqn{N \times K*4} matrix, such that the
+columns represent (for stimulus \eqn{S}, type 1 response \eqn{R}, and
+type 2 response \eqn{C}):
+\deqn{
+ [N_{S=0, R=0, C=K}, \ldots, N_{S=0, R=0, C=1}, \\
+ N_{S=0, R=1, C=1}, \ldots, N_{S=0, R=1, C=K}, \\
+ N_{S=1, R=0, C=K}, \ldots, N_{S=1, R=0, C=1}, \\
+ N_{S=1, R=1, C=1}, \ldots, N_{S=1, R=1, C=K}] \\
+}{
+[N(R=0, C=K, S=0), ..., N(R=0, C=1, S=0),
+ N(R=1, C=1, S=0), ..., N(R=1, C=K, S=0),
+ N(R=0, C=K, S=1), ..., N(R=0, C=1, S=1),
+ N(R=1, C=1, S=1), ..., N(R=1, C=K, S=1)]
+}
 }
 \description{
 Counts number of rows in \code{data} with unique combinations values in the

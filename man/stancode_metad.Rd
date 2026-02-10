@@ -27,3 +27,4 @@ and where \code{metac = c} if \code{metac_absolute==TRUE}, and \code{metac = M*c
 \description{
 Generate Stan code for the meta-d' model
 }
+\keyword{internal}

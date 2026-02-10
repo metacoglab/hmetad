@@ -462,8 +462,9 @@ posterior_predict_metad <- function(i, prep, ...) {
 #' @param K The number of confidence levels
 #' @param distribution The noise distribution to use for the signal detection model
 #' @param metac_absolute If `TRUE`, fix the type 2 criterion to be equal to the type 1 criterion.
-#' Otherwise, equate the criteria relatively such that `meta_c/meta_dprime = c/dprime`.
-#' @returns A `brms` family for the metad' model with K confidence levels
+#' Otherwise, equate the criteria relatively such that
+#' \deqn{\frac{\textrm{meta-}c}{\textrm{meta-}d'} = \frac{c}{d'}}
+#' @returns A `brms` family for the metad' model with \eqn{K} confidence levels
 #' @examples
 #' # create a family using the normal distribution and 3 levels of confidence
 #' metad(3)

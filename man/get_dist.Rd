@@ -20,3 +20,4 @@ Get the R function for the model's underlying distribution functions
 \details{
 Will throw an error if this function does not exist
 }
+\keyword{internal}

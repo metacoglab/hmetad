@@ -18,3 +18,4 @@ for observation \code{i} in \code{prep}
 \description{
 Calculate the log probability simplex of the metad' model
 }
+\keyword{internal}

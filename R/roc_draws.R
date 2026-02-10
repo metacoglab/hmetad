@@ -3,17 +3,17 @@
 #' @param object The `brms` model with the `metad` family
 #' @param newdata A data frame from which to generate posterior predictions
 #' @param ... Additional parameters passed to [tidybayes::epred_draws]
-#' @param bounds If `TRUE`, include the endpoints of the ROC at `(0, 0)` and `(1, 1)`.
+#' @param bounds If `TRUE`, include the endpoints of the ROC at \eqn{(0, 0)} and \eqn{(1, 1)}.
 #' Otherwise, the endpoints are excluded.
 #' @returns a tibble containing posterior draws of the pseudo type 1 ROC with the following
 #' columns:
 #'  * `.row`: the row of `newdata`
 #'  * `.chain`, `.iteration`, `.draw`: identifiers for the posterior sample
-#'  * `joint_response`: the combined type 1 / type 2 response (in `1:(2*K)` for `K` confidence levels)
-#'  * `response`: the type 1 response for perceived stimulus presence
-#'  * `confidence`: the type 2 confidence response
-#'  * `p_fa`: the cumulative probability of a 'present'/'old' response for `stimulus==0`
-#'  * `p_hit`: the cumulative probability of a 'present'/'old' response for `stimulus==1`
+#'  * `joint_response`: the combined type 1 / type 2 response (\eqn{J \in [1, 2K]}) for \eqn{K} confidence levels)
+#'  * `response`: the type 1 response for perceived stimulus presence (\eqn{R \in \{0, 1\}})
+#'  * `confidence`: the type 2 confidence response (\eqn{C \in [1, K]})
+#'  * `p_fa`: the cumulative probability of a 'present'/'old' response for `stimulus==0` (\eqn{P(J \ge j \;\vert\; S=0)})
+#'  * `p_hit`: the cumulative probability of a 'present'/'old' response for `stimulus==1` (\eqn{P(J \ge j \;\vert\; S=1)})
 #' @rdname roc1_draws
 #' @examples
 #' # running few iterations so example runs quickly, use more in practice
@@ -99,17 +99,17 @@ add_roc1_draws <- function(newdata, object, ...) {
 #' @param object The `brms` model with the `metad` family
 #' @param newdata A data frame from which to generate posterior predictions
 #' @param ... Additional parameters passed to [tidybayes::epred_draws]
-#' @param bounds If `TRUE`, include the endpoints of the ROC at `(0, 0)` and `(1, 1)`.
+#' @param bounds If `TRUE`, include the endpoints of the ROC at \eqn{(0, 0)} and \eqn{(1, 1)}.
 #' Otherwise, the endpoints are excluded.
 #' @returns a tibble containing posterior draws of the pseudo type 1 ROC with the following
 #' columns:
 #'  * `.row`: the row of `newdata`
 #'  * `.chain`, `.iteration`, `.draw`: identifiers for the posterior sample
-#'  * `joint_response`: the combined type 1 / type 2 response (in `1:(2*K)` for `K` confidence levels)
-#'  * `response`: the type 1 response for perceived stimulus presence
-#'  * `confidence`: the type 2 confidence response
-#'  * `p_fa2`: the cumulative probability of an incorrect response
-#'  * `p_hit2`: the cumulative probability of a correct response
+#'  * `joint_response`: the combined type 1 / type 2 response (\eqn{J \in [1, 2K]}) for \eqn{K} confidence levels)
+#'  * `response`: the type 1 response for perceived stimulus presence (\eqn{R \in \{0, 1\}})
+#'  * `confidence`: the type 2 confidence response (\eqn{C \in [1, K]})
+#'  * `p_fa2`: the cumulative probability of an incorrect response (\eqn{P(C\ge c \;\vert\; R\ne S)})
+#'  * `p_hit2`: the cumulative probability of a correct response (\eqn{P(C\ge c \;\vert\; R = S)})
 #' @rdname roc2_draws
 #' @examples
 #' # running few iterations so example runs quickly, use more in practice

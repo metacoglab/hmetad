@@ -14,3 +14,4 @@ metacognitive_bias(...)
 Given the distances between successive confidence thresholds,
 calculate the average of the cumulative distances to 0.
 }
+\keyword{internal}

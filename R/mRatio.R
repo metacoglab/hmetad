@@ -1,7 +1,7 @@
-#' Convert binary variable `x` between `{0, 1}` and `{-1, 1}`
+#' Convert binary variable \eqn{x} between \eqn{\{0, 1\}} and \eqn{\{-1, 1\}}
 #' @description
-#'  * `to_signed()` converts a variable from `{0, 1}` to `{-1, 1}`
-#'  * `to_unsigned()` converts a variable from `{-1, 1}` to `{0, 1}`
+#'  * `to_signed(x)` converts \eqn{x \in \{0, 1\}} to \eqn{x' \in \{-1, 1\}}
+#'  * `to_unsigned(x)` converts \eqn{x \in \{-1, 1\}} to \eqn{x' \in \{0, 1\}}
 #' @param x A binary variable
 #' @returns A signed (for `to_signed`) or unsigned (for `to_unsigned`) version
 #'   of `x`
@@ -38,11 +38,11 @@ to_unsigned <- function(x) as.numeric(x > 0)
 #'
 #' @description
 #' Confidence ratings and decisions are collected in one of two ways.
-#'  * For separate ratings, there will be a type 1 response (`0` or `1`) and a
-#' type 2 response (confidence in `1:K`).
+#'  * For separate ratings, there will be a type 1 response (\eqn{R \in \{0, 1\}}) and a
+#' type 2 response (\eqn{C \in [1, K]}).
 #'  * For joint ratings, there is instead a combined type 1/type 2 response
-#' (in `1:(2*K)`), with values in `1:K` indicating a type 1 response of `0`
-#' and values in `(K+1):(2*K)` indicating a type 1 response of `1`, with
+#' (\eqn{J \in [1, 2K]}), with values in \eqn{[1, K]} indicating a type 1 response of \eqn{0}
+#' and values in \eqn{[K+1, 2K]} indicating a type 1 response of \eqn{1}, with
 #' confident responses at the ends of the scale.
 #'
 #' `joint_response` converts separate type 1 and type 2 responses into the joint
@@ -92,24 +92,36 @@ type2_response <- function(joint_response, K) {
 #'
 #' @param counts A vector (or matrix) of counts of joint type 1/type 2
 #' responses as provided by [aggregate_metad]
-#' @returns A vector (or matrix) of response probabilities `P(R, C | S)`
+#' @returns A vector (or matrix) of response probabilities \eqn{P(R, C \;\vert\; S)}
 #' @details
-#' For response `R`, confidence `C`, stimulus `S`, and `K=length(counts)/4`,
-#'  `counts` should be a vector (or matrix with rows) of the form:
-#' ```
+#' For response \eqn{R}, confidence \eqn{C}, stimulus \eqn{S}, and number of
+#' confidence levels \eqn{K}, `counts` should be a vector (or matrix with rows)
+#' of the form:
+#' \deqn{
+#'  [N_{S=0, R=0, C=K}, \ldots, N_{S=0, R=0, C=1}, \\
+#'  N_{S=0, R=1, C=1}, \ldots, N_{S=0, R=1, C=K}, \\
+#'  N_{S=1, R=0, C=K}, \ldots, N_{S=1, R=0, C=1}, \\
+#'  N_{S=1, R=1, C=1}, \ldots, N_{S=1, R=1, C=K}] \\
+#' }{
 #' [N(R=0, C=K, S=0), ..., N(R=0, C=1, S=0),
 #'  N(R=1, C=1, S=0), ..., N(R=1, C=K, S=0),
 #'  N(R=0, C=K, S=1), ..., N(R=0, C=1, S=1),
 #'  N(R=1, C=1, S=1), ..., N(R=1, C=K, S=1)]
-#' ```
+#' }
+#'
 #'
 #' Returns a vector (or matrix with rows) of the form:
-#' ```
+#' \deqn{
+#' [P(R=0, C=K \;\vert\; S=0), ..., P(R=0, C=1 \;\vert\; S=0), \\
+#'  P(R=1, C=1 \;\vert\; S=0), ..., P(R=1, C=K \;\vert\; S=0), \\
+#'  P(R=0, C=K \;\vert\; S=1), ..., P(R=0, C=1 \;\vert\; S=1), \\
+#'  P(R=1, C=1 \;\vert\; S=1), ..., P(R=1, C=K \;\vert\; S=1)]
+#' }{
 #' [P(R=0, C=K | S=0), ..., P(R=0, C=1 | S=0),
 #'  P(R=1, C=1 | S=0), ..., P(R=1, C=K | S=0),
 #'  P(R=0, C=K | S=1), ..., P(R=0, C=1 | S=1),
 #'  P(R=1, C=1 | S=1), ..., P(R=1, C=K | S=1)]
-#' ```
+#' }
 #' @examples
 #' # Aggregate responses from simulated data
 #' d <- sim_metad() |> aggregate_metad()
@@ -162,14 +174,20 @@ response_probabilities <- function(counts) {
 #' If `NULL`, this is estimated from `data`.
 #' @returns A tibble with one row per combination of the variables in `...`,
 #' and another column named by the value of `.response` containing trial counts.
-#' For `K` confidence levels, this will be an `N x K*4` matrix, such that the
-#' columns represent:
-#' ```
-#' [N(stimulus=0, response=0, confidence=K), ..., N(stimulus=0, response=0, confidence=1),
-#'  N(stimulus=0, response=1, confidence=1), ..., N(stimulus=0, response=1, confidence=K),
-#'  N(stimulus=1, response=0, confidence=K), ..., N(stimulus=1, response=0, confidence=1),
-#'  N(stimulus=1, response=1, confidence=1), ..., N(stimulus=1, response=1, confidence=K)]
-#' ```
+#' For \eqn{K} confidence levels, this will be an \eqn{N \times K*4} matrix, such that the
+#' columns represent (for stimulus \eqn{S}, type 1 response \eqn{R}, and
+#' type 2 response \eqn{C}):
+#' \deqn{
+#'  [N_{S=0, R=0, C=K}, \ldots, N_{S=0, R=0, C=1}, \\
+#'  N_{S=0, R=1, C=1}, \ldots, N_{S=0, R=1, C=K}, \\
+#'  N_{S=1, R=0, C=K}, \ldots, N_{S=1, R=0, C=1}, \\
+#'  N_{S=1, R=1, C=1}, \ldots, N_{S=1, R=1, C=K}] \\
+#' }{
+#' [N(R=0, C=K, S=0), ..., N(R=0, C=1, S=0),
+#'  N(R=1, C=1, S=0), ..., N(R=1, C=K, S=0),
+#'  N(R=0, C=K, S=1), ..., N(R=0, C=1, S=1),
+#'  N(R=1, C=1, S=1), ..., N(R=1, C=K, S=1)]
+#' }
 #' @examples
 #' # aggregate a dataset without grouping factors
 #' d <- sim_metad()

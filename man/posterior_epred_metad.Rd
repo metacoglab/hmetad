@@ -19,3 +19,4 @@ where \code{D} is the number of posterior draws,
 \description{
 Generate posterior predictions for the metad' model
 }
+\keyword{internal}

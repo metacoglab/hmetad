@@ -12,7 +12,7 @@ cov_matrix(S, OMEGA)
 \item{OMEGA}{A correlation matrix}
 }
 \value{
-a \verb{[N x N]} covariance matrix, where \code{N = length(S)}.
+an \eqn{N \times N} covariance matrix, where \code{N = length(S)}.
 }
 \description{
 Generate a covariance matrix.
