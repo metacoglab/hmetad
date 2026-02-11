@@ -97,7 +97,7 @@ optional arguments `lcdf` and `lccdf`:
 d <- sim_metad(
   N_trials = 10000, dprime = 1.5, c = .1, log_M = -.5,
   c2_0_diff = c(.25, .5, .25), c2_1_diff = c(.1, .5, .25),
-  lcdf=gumbel_min_lcdf, lccdf=gumbel_min_lccdf
+  lcdf = gumbel_min_lcdf, lccdf = gumbel_min_lccdf
 )
 ```
 
@@ -190,7 +190,7 @@ tibble(.row = 1) |>
   geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
   geom_errorbar(orientation = "y", width = .01) +
   geom_errorbar(orientation = "x", width = .01) +
-  geom_point() +  
+  geom_point() +
   geom_line() +
   coord_fixed(xlim = 0:1, ylim = 0:1, expand = FALSE) +
   xlab("P(False Alarm)") +

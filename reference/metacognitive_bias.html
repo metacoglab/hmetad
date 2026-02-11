@@ -53,7 +53,7 @@ calculate the average of the cumulative distances to 0.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">metacognitive_bias</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">metacognitive_bias</span><span class="op">(</span><span class="va">...</span>, rvar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -62,6 +62,10 @@ calculate the average of the cumulative distances to 0.</p>
 
 <dl><dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>a series of distances between confidence thresholds</p></dd>
+
+
+<dt id="arg-rvar">rvar<a class="anchor" aria-label="anchor" href="#arg-rvar"></a></dt>
+<dd><p>if <code>TRUE</code>, use <code><a href="https://mc-stan.org/posterior/reference/rvar-summaries-within-draws.html" class="external-link">posterior::rvar_sum</a></code> in place of <code>sum</code></p></dd>
 
 </dl></div>
 

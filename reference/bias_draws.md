@@ -2,7 +2,13 @@
 
 Computes \\\textrm{meta-}\Delta\\, an index of metacognitive bias.
 \\\textrm{meta-}\Delta\\ is the distance between `meta_c` and the
-average of the the confidence criteria `meta_c2_0` and `meta_c2_1`.
+average of the the confidence criteria `meta_c2_0` and `meta_c2_1`. For
+`metacognitive_bias_draws` and `add_metacognitive_bias_draws`,
+parameters are returned in a tidy tibble with one row per posterior draw
+and per response. For `metacognitive_bias_rvars` and
+`add_metacognitive_bias_rvars`, parameters are returned as
+[posterior::rvar](https://mc-stan.org/posterior/reference/rvar.html)s,
+with one row per row in `newdata` and per response.
 
 ## Usage
 
@@ -10,6 +16,10 @@ average of the the confidence criteria `meta_c2_0` and `meta_c2_1`.
 metacognitive_bias_draws(object, newdata, ..., by_response = TRUE)
 
 add_metacognitive_bias_draws(newdata, object, ...)
+
+metacognitive_bias_rvars(object, newdata, ..., by_response = TRUE)
+
+add_metacognitive_bias_rvars(newdata, object, ...)
 ```
 
 ## Arguments
@@ -26,6 +36,8 @@ add_metacognitive_bias_draws(newdata, object, ...)
 
   Additional parameters passed to
   [tidybayes::epred_draws](https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html)
+  or
+  [tidybayes::epred_rvars](https://mjskay.github.io/tidybayes/reference/add_predicted_rvars.html)
 
 - by_response:
 
@@ -35,11 +47,13 @@ add_metacognitive_bias_draws(newdata, object, ...)
 
 ## Value
 
-a tibble containing posterior draws of with the following columns:
+a tibble containing posterior draws of \\\textrm{meta-}\Delta\\ with the
+following columns:
 
 - `.row`: the row of `newdata`
 
-- `.chain`, `.iteration`, `.draw`: identifiers for the posterior sample
+- `.chain`, `.iteration`, `.draw`: for `metacognitive_bias_draws` and
+  `add_metacognitive_bias_draws`, identifiers for the posterior sample
 
 - `response`: the type 1 response for perceived stimulus presence
 
@@ -56,8 +70,8 @@ m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
 #> Chain 1: 
-#> Chain 1: Gradient evaluation took 2.3e-05 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.23 seconds.
+#> Chain 1: Gradient evaluation took 2.6e-05 seconds
+#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.26 seconds.
 #> Chain 1: Adjust your expectations accordingly!
 #> Chain 1: 
 #> Chain 1: 
@@ -74,60 +88,82 @@ m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
 #> Chain 1: Iteration: 450 / 500 [ 90%]  (Sampling)
 #> Chain 1: Iteration: 500 / 500 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.031 seconds (Warm-up)
-#> Chain 1:                0.025 seconds (Sampling)
-#> Chain 1:                0.056 seconds (Total)
+#> Chain 1:  Elapsed Time: 0.03 seconds (Warm-up)
+#> Chain 1:                0.024 seconds (Sampling)
+#> Chain 1:                0.054 seconds (Total)
 #> Chain 1: 
 newdata <- tidyr::tibble(.row = 1)
 
-# compute pseudo-type 1 ROC curve
+# compute metacognitive bias
 metacognitive_bias_draws(m, newdata)
-#> # A tibble: 500 × 3
-#> # Groups:   response [2]
-#>    response .draw metacognitive_bias
-#>       <int> <int>              <dbl>
-#>  1        0     1              0.981
-#>  2        0     2              1.18 
-#>  3        0     3              1.10 
-#>  4        0     4              1.00 
-#>  5        0     5              0.875
-#>  6        0     6              1.04 
-#>  7        0     7              1.01 
-#>  8        0     8              1.14 
-#>  9        0     9              1.04 
-#> 10        0    10              1.06 
+#> # A tibble: 500 × 6
+#> # Groups:   .row, response [2]
+#>     .row response .chain .iteration .draw metacognitive_bias
+#>    <int>    <int>  <int>      <int> <int>              <dbl>
+#>  1     1        0     NA         NA     1              0.981
+#>  2     1        0     NA         NA     2              1.18 
+#>  3     1        0     NA         NA     3              1.10 
+#>  4     1        0     NA         NA     4              1.00 
+#>  5     1        0     NA         NA     5              0.875
+#>  6     1        0     NA         NA     6              1.04 
+#>  7     1        0     NA         NA     7              1.01 
+#>  8     1        0     NA         NA     8              1.14 
+#>  9     1        0     NA         NA     9              1.04 
+#> 10     1        0     NA         NA    10              1.06 
 #> # ℹ 490 more rows
 add_metacognitive_bias_draws(newdata, m)
-#> # A tibble: 500 × 3
-#> # Groups:   response [2]
-#>    response .draw metacognitive_bias
-#>       <int> <int>              <dbl>
-#>  1        0     1              0.981
-#>  2        0     2              1.18 
-#>  3        0     3              1.10 
-#>  4        0     4              1.00 
-#>  5        0     5              0.875
-#>  6        0     6              1.04 
-#>  7        0     7              1.01 
-#>  8        0     8              1.14 
-#>  9        0     9              1.04 
-#> 10        0    10              1.06 
+#> # A tibble: 500 × 6
+#> # Groups:   .row, response [2]
+#>     .row response .chain .iteration .draw metacognitive_bias
+#>    <int>    <int>  <int>      <int> <int>              <dbl>
+#>  1     1        0     NA         NA     1              0.981
+#>  2     1        0     NA         NA     2              1.18 
+#>  3     1        0     NA         NA     3              1.10 
+#>  4     1        0     NA         NA     4              1.00 
+#>  5     1        0     NA         NA     5              0.875
+#>  6     1        0     NA         NA     6              1.04 
+#>  7     1        0     NA         NA     7              1.01 
+#>  8     1        0     NA         NA     8              1.14 
+#>  9     1        0     NA         NA     9              1.04 
+#> 10     1        0     NA         NA    10              1.06 
 #> # ℹ 490 more rows
+
+# use posterior::rvar for increased efficiency
+metacognitive_bias_rvars(m, newdata)
+#> # A tibble: 2 × 3
+#> # Groups:   .row, response [2]
+#>    .row response metacognitive_bias
+#>   <dbl>    <int>         <rvar[1d]>
+#> 1     1        0        1.02 ± 0.13
+#> 2     1        1        0.97 ± 0.14
+add_metacognitive_bias_rvars(newdata, m)
+#> # A tibble: 2 × 3
+#> # Groups:   .row, response [2]
+#>    .row response metacognitive_bias
+#>   <dbl>    <int>         <rvar[1d]>
+#> 1     1        0        1.02 ± 0.13
+#> 2     1        1        0.97 ± 0.14
 
 # average over the two type 1 responses
 metacognitive_bias_draws(m, newdata, by_response = FALSE)
-#> # A tibble: 250 × 2
-#>    .draw metacognitive_bias
-#>    <int>              <dbl>
-#>  1     1              1.00 
-#>  2     2              1.04 
-#>  3     3              0.983
-#>  4     4              0.927
-#>  5     5              1.01 
-#>  6     6              1.07 
-#>  7     7              0.882
-#>  8     8              1.00 
-#>  9     9              1.03 
-#> 10    10              1.14 
+#> # A tibble: 250 × 5
+#> # Groups:   .row [1]
+#>     .row .chain .iteration .draw metacognitive_bias
+#>    <int>  <int>      <int> <int>              <dbl>
+#>  1     1     NA         NA     1              1.00 
+#>  2     1     NA         NA     2              1.04 
+#>  3     1     NA         NA     3              0.983
+#>  4     1     NA         NA     4              0.927
+#>  5     1     NA         NA     5              1.01 
+#>  6     1     NA         NA     6              1.07 
+#>  7     1     NA         NA     7              0.882
+#>  8     1     NA         NA     8              1.00 
+#>  9     1     NA         NA     9              1.03 
+#> 10     1     NA         NA    10              1.14 
 #> # ℹ 240 more rows
+metacognitive_bias_rvars(m, newdata, by_response = FALSE)
+#> # A tibble: 1 × 2
+#>    .row metacognitive_bias
+#>   <dbl>         <rvar[1d]>
+#> 1     1       0.99 ± 0.098
 ```

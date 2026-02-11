@@ -9,6 +9,10 @@ Useful links:
 
 - <https://metacoglab.github.io/mRatio/>
 
+- <https://github.com/metacoglab/mRatio>
+
+- Report bugs at <https://github.com/metacoglab/mRatio/issues>
+
 ## Author
 
 **Maintainer**: Kevin O'Neill [kevin.o'neill@ucl.ac.uk](mailto:kevin.o)

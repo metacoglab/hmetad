@@ -122,9 +122,12 @@ distribution or a custom model prior (see <code><a href="https://paulbuerkner.co
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Start sampling</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Rejecting initial value:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:   Gradient evaluated at the initial value is not finite.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:   Stan can't start sampling from this initial value.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Gradient evaluation took 1.9e-05 seconds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.19 seconds.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Gradient evaluation took 1e-05 seconds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.1 seconds.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Adjust your expectations accordingly!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
@@ -141,10 +144,13 @@ distribution or a custom model prior (see <code><a href="https://paulbuerkner.co
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 450 / 500 [ 90%]  (Sampling)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 500 / 500 [100%]  (Sampling)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:  Elapsed Time: 0.047 seconds (Warm-up)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:                0.034 seconds (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:                0.081 seconds (Total)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:  Elapsed Time: 0.028 seconds (Warm-up)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:                0.024 seconds (Sampling)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:                0.052 seconds (Total)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> Running the chains for more iterations may help. See</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> https://mc-stan.org/misc/warnings.html#tail-ess</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Family: metad__4__normal__absolute </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Links: mu = log </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Formula: N ~ 1 </span>
@@ -154,18 +160,18 @@ distribution or a custom model prior (see <code><a href="https://paulbuerkner.co
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Regression Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Intercept    -0.67      1.11    -3.43     0.68 1.02      148      164</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Intercept    -0.41      0.88    -1.85     0.62 1.00      118       97</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Further Distributional Parameters:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> dprime              0.84      0.24     0.42     1.30 1.01      267      179</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> c                   0.21      0.13    -0.04     0.46 1.01      119      174</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2zero1diff     0.52      0.12     0.32     0.78 1.00      193      138</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2zero2diff     0.63      0.13     0.39     0.91 1.04      167      161</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2zero3diff     0.45      0.13     0.26     0.73 1.00      219      195</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2one1diff      0.33      0.10     0.16     0.55 1.00      205      144</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2one2diff      0.60      0.12     0.40     0.83 1.00      179      104</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2one3diff      0.67      0.20     0.36     1.09 1.01      166      164</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> dprime              1.19      0.27     0.63     1.73 1.01      288      193</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> c                   0.17      0.15    -0.14     0.44 1.01      164      151</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> metac2zero1diff     0.45      0.11     0.25     0.66 1.03      167      125</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> metac2zero2diff     0.69      0.12     0.48     0.94 1.01      216      112</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> metac2zero3diff     0.63      0.15     0.37     0.94 1.00      276      158</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> metac2one1diff      0.51      0.12     0.30     0.77 1.00      215      181</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> metac2one2diff      0.54      0.13     0.29     0.82 1.01      230      199</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> metac2one3diff      0.33      0.13     0.14     0.59 1.03      239      173</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> and Tail_ESS are effective sample size measures, and Rhat is the potential</span>

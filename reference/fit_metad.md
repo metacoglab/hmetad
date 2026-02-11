@@ -84,9 +84,12 @@ fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
 #> Start sampling
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
+#> Chain 1: Rejecting initial value:
+#> Chain 1:   Gradient evaluated at the initial value is not finite.
+#> Chain 1:   Stan can't start sampling from this initial value.
 #> Chain 1: 
-#> Chain 1: Gradient evaluation took 1.9e-05 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.19 seconds.
+#> Chain 1: Gradient evaluation took 1e-05 seconds
+#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.1 seconds.
 #> Chain 1: Adjust your expectations accordingly!
 #> Chain 1: 
 #> Chain 1: 
@@ -103,10 +106,13 @@ fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
 #> Chain 1: Iteration: 450 / 500 [ 90%]  (Sampling)
 #> Chain 1: Iteration: 500 / 500 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.047 seconds (Warm-up)
-#> Chain 1:                0.034 seconds (Sampling)
-#> Chain 1:                0.081 seconds (Total)
+#> Chain 1:  Elapsed Time: 0.028 seconds (Warm-up)
+#> Chain 1:                0.024 seconds (Sampling)
+#> Chain 1:                0.052 seconds (Total)
 #> Chain 1: 
+#> Warning: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.
+#> Running the chains for more iterations may help. See
+#> https://mc-stan.org/misc/warnings.html#tail-ess
 #>  Family: metad__4__normal__absolute 
 #>   Links: mu = log 
 #> Formula: N ~ 1 
@@ -116,18 +122,18 @@ fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
 #> 
 #> Regression Coefficients:
 #>           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-#> Intercept    -0.67      1.11    -3.43     0.68 1.02      148      164
+#> Intercept    -0.41      0.88    -1.85     0.62 1.00      118       97
 #> 
 #> Further Distributional Parameters:
 #>                 Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-#> dprime              0.84      0.24     0.42     1.30 1.01      267      179
-#> c                   0.21      0.13    -0.04     0.46 1.01      119      174
-#> metac2zero1diff     0.52      0.12     0.32     0.78 1.00      193      138
-#> metac2zero2diff     0.63      0.13     0.39     0.91 1.04      167      161
-#> metac2zero3diff     0.45      0.13     0.26     0.73 1.00      219      195
-#> metac2one1diff      0.33      0.10     0.16     0.55 1.00      205      144
-#> metac2one2diff      0.60      0.12     0.40     0.83 1.00      179      104
-#> metac2one3diff      0.67      0.20     0.36     1.09 1.01      166      164
+#> dprime              1.19      0.27     0.63     1.73 1.01      288      193
+#> c                   0.17      0.15    -0.14     0.44 1.01      164      151
+#> metac2zero1diff     0.45      0.11     0.25     0.66 1.03      167      125
+#> metac2zero2diff     0.69      0.12     0.48     0.94 1.01      216      112
+#> metac2zero3diff     0.63      0.15     0.37     0.94 1.00      276      158
+#> metac2one1diff      0.51      0.12     0.30     0.77 1.00      215      181
+#> metac2one2diff      0.54      0.13     0.29     0.82 1.01      230      199
+#> metac2one3diff      0.33      0.13     0.14     0.59 1.03      239      173
 #> 
 #> Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
 #> and Tail_ESS are effective sample size measures, and Rhat is the potential

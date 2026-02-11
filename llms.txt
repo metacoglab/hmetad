@@ -44,18 +44,31 @@ Transform data between common formats used in metacognition research
 
 ## Extracting model estimates
 
+- [`metad_draws()`](https://metacoglab.github.io/mRatio/reference/metad_draws.md)
+  [`add_metad_draws()`](https://metacoglab.github.io/mRatio/reference/metad_draws.md)
+  [`metad_rvars()`](https://metacoglab.github.io/mRatio/reference/metad_draws.md)
+  [`add_metad_rvars()`](https://metacoglab.github.io/mRatio/reference/metad_draws.md)
+  : Obtain posterior draws of meta-d' model parameters
 - [`mean_confidence_draws()`](https://metacoglab.github.io/mRatio/reference/mean_conf_draws.md)
   [`add_mean_confidence_draws()`](https://metacoglab.github.io/mRatio/reference/mean_conf_draws.md)
+  [`mean_confidence_rvars()`](https://metacoglab.github.io/mRatio/reference/mean_conf_draws.md)
+  [`add_mean_confidence_rvars()`](https://metacoglab.github.io/mRatio/reference/mean_conf_draws.md)
   : Obtain posterior draws of mean confidence
 - [`metacognitive_bias_draws()`](https://metacoglab.github.io/mRatio/reference/bias_draws.md)
   [`add_metacognitive_bias_draws()`](https://metacoglab.github.io/mRatio/reference/bias_draws.md)
+  [`metacognitive_bias_rvars()`](https://metacoglab.github.io/mRatio/reference/bias_draws.md)
+  [`add_metacognitive_bias_rvars()`](https://metacoglab.github.io/mRatio/reference/bias_draws.md)
   : Obtain posterior draws of an index of metacognitive bias
 - [`roc1_draws()`](https://metacoglab.github.io/mRatio/reference/roc1_draws.md)
   [`add_roc1_draws()`](https://metacoglab.github.io/mRatio/reference/roc1_draws.md)
+  [`roc1_rvars()`](https://metacoglab.github.io/mRatio/reference/roc1_draws.md)
+  [`add_roc1_rvars()`](https://metacoglab.github.io/mRatio/reference/roc1_draws.md)
   : Obtain posterior draws of the pseudo type 1 receiver operating
   characteristic (ROC) curve.
 - [`roc2_draws()`](https://metacoglab.github.io/mRatio/reference/roc2_draws.md)
   [`add_roc2_draws()`](https://metacoglab.github.io/mRatio/reference/roc2_draws.md)
+  [`roc2_rvars()`](https://metacoglab.github.io/mRatio/reference/roc2_draws.md)
+  [`add_roc2_rvars()`](https://metacoglab.github.io/mRatio/reference/roc2_draws.md)
   : Obtain posterior draws of the response-specific type 2 receiver
   operating characteristic (ROC) curves.
 

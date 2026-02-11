@@ -4,10 +4,16 @@ Computes posterior mean confidence conditional on stimulus and response
 (\\\mathbb{E}\[C \\\vert\\ S=s,R=r\]\\), stimulus (averaging over
 responses, \\\mathbb{E}\[C \\\vert\\ S=s\]\\), response (averaging over
 stimuli, \\\mathbb{E}\[C \\\vert\\ R=r\]\\), or neither (averaging over
-stimuli and responses, \\\mathbb{E}\[C\]\\).
+stimuli and responses, \\\mathbb{E}\[C\]\\). For `mean_confidence_draws`
+and `add_mean_confidence_draws`, estimates are returned in a tidy tibble
+with one row per posterior draw, stimulus, and response. For
+`mean_confidence_rvars` and `add_mean_confidence_rvars`, estimates are
+returned as
+[posterior::rvar](https://mc-stan.org/posterior/reference/rvar.html)s,
+with one row per row in `newdata`.
 
 `add_mean_confidence_draws` is an alias of `mean_confidence_draws` with
-argument order swapped
+argument order swapped.
 
 ## Usage
 
@@ -21,6 +27,16 @@ mean_confidence_draws(
 )
 
 add_mean_confidence_draws(newdata, object, ...)
+
+mean_confidence_rvars(
+  object,
+  newdata,
+  ...,
+  by_stimulus = TRUE,
+  by_response = TRUE
+)
+
+add_mean_confidence_rvars(newdata, object, ...)
 ```
 
 ## Arguments
@@ -37,6 +53,8 @@ add_mean_confidence_draws(newdata, object, ...)
 
   Additional arguments to
   [tidybayes::epred_draws](https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html)
+  or
+  [tidybayes::epred_rvars](https://mjskay.github.io/tidybayes/reference/add_predicted_rvars.html)
 
 - by_stimulus:
 
@@ -55,7 +73,8 @@ following columns:
 
 - `.row`: the row of `newdata`
 
-- `.chain`, `.iteration`, `.draw`: identifiers for the posterior sample
+- `.chain`, `.iteration`, `.draw`: for `mean_confidence_draws` and
+  `add_mean_confidence_draws`, identifiers for the posterior sample
 
 - `stimulus`: indicator for stimulus presence (if `by_stimulus==TRUE`)
 

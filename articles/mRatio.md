@@ -87,8 +87,10 @@ Then we could convert our joint response like so:
 
 ``` r
 d.joint_response |>
-  mutate(response=type1_response(joint_response, K=4),
-         confidence=type2_response(joint_response, K=4))
+  mutate(
+    response = type1_response(joint_response, K = 4),
+    confidence = type2_response(joint_response, K = 4)
+  )
 #> # A tibble: 1,000 × 4
 #>    trial joint_response response confidence
 #>    <int>          <dbl>    <int>      <dbl>
@@ -110,7 +112,7 @@ response:
 
 ``` r
 d |>
-  mutate(joint_response=joint_response(response, confidence, K=4))
+  mutate(joint_response = joint_response(response, confidence, K = 4))
 #> # A tibble: 1,000 × 5
 #> # Groups:   stimulus, response, confidence [16]
 #>    trial stimulus response confidence joint_response
@@ -167,17 +169,17 @@ d.summary <- aggregate_metad(d)
     #> 1   500   500           3         59        117         44         83        135
     #> # ℹ 1 more variable: N[7:16] <int>
 
-The resulting dataframe has three columns: `N_0` is the number of trials
-with `stimulus==0`, `N_1` is the number of trials with `stimulus==1`,
-and `N` is a matrix containing the number of joint responses for each of
-the two possible stimuli (with column names indicating the `stimulus`
-and `joint_response`).
+The resulting data frame has three columns: `N_0` is the number of
+trials with `stimulus==0`, `N_1` is the number of trials with
+`stimulus==1`, and `N` is a matrix containing the number of joint
+responses for each of the two possible stimuli (with column names
+indicating the `stimulus` and `joint_response`).
 
 If you would like to use variable name other than `N` for the counts,
 you can change the name with the `.response` argument:
 
 ``` r
-aggregate_metad(d, .response='y')
+aggregate_metad(d, .response = "y")
 #> # A tibble: 1 × 3
 #>     y_0   y_1 y[,"y_0_1"] [,"y_0_2"] [,"y_0_3"] [,"y_0_4"] [,"y_0_5"] [,"y_0_6"]
 #>   <int> <int>       <int>      <int>      <int>      <int>      <int>      <int>
@@ -190,7 +192,7 @@ or `condition` columns) that you would like to be aggregated separately,
 you can simply add them to the function call:
 
 ``` r
-aggregate_metad(d, participant condition)
+aggregate_metad(d, participant, condition)
 ```
 
 ## Model fitting
@@ -273,82 +275,78 @@ with model posterior samples.
 ### Parameter estimates
 
 First, it is often useful to extract the posterior draws of the model
-parameters. Here we can use
-[`tidybayes::linpred_draws`](https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html)
-(with arguments `dpar=TRUE` and `transform=TRUE` to extract the
-estimates of all model parameters on their true scale):
+parameters, which we can do with `metad_draws`:
 
 ``` r
-draws.linpred <- tibble(.row = 1) |>
-  add_linpred_draws(m, dpar = TRUE, transform = TRUE) 
+draws.metad <- tibble(.row = 1) |>
+  add_metad_draws(m)
 ```
 
-    #> # A tibble: 4,000 × 14
+    #> # A tibble: 4,000 × 15
     #> # Groups:   .row [1]
-    #>     .row .chain .iteration .draw .linpred    mu dprime      c metac2zero1diff
-    #>    <int>  <int>      <int> <int>    <dbl> <dbl>  <dbl>  <dbl>           <dbl>
-    #>  1     1     NA         NA     1    0.635 0.635  0.756 -0.505           0.201
-    #>  2     1     NA         NA     2    0.419 0.419  0.723 -0.503           0.197
-    #>  3     1     NA         NA     3    0.358 0.358  0.775 -0.499           0.212
-    #>  4     1     NA         NA     4    0.571 0.571  0.687 -0.463           0.206
-    #>  5     1     NA         NA     5    0.499 0.499  0.803 -0.540           0.243
-    #>  6     1     NA         NA     6    0.398 0.398  0.735 -0.557           0.231
-    #>  7     1     NA         NA     7    0.574 0.574  0.605 -0.475           0.197
-    #>  8     1     NA         NA     8    0.456 0.456  0.716 -0.501           0.227
-    #>  9     1     NA         NA     9    0.693 0.693  0.476 -0.482           0.190
-    #> 10     1     NA         NA    10    0.596 0.596  0.777 -0.481           0.239
+    #>     .row .chain .iteration .draw     M dprime      c meta_dprime meta_c
+    #>    <int>  <int>      <int> <int> <dbl>  <dbl>  <dbl>       <dbl>  <dbl>
+    #>  1     1     NA         NA     1 0.635  0.756 -0.505       0.480 -0.505
+    #>  2     1     NA         NA     2 0.419  0.723 -0.503       0.303 -0.505
+    #>  3     1     NA         NA     3 0.358  0.775 -0.499       0.277 -0.505
+    #>  4     1     NA         NA     4 0.571  0.687 -0.463       0.392 -0.505
+    #>  5     1     NA         NA     5 0.499  0.803 -0.540       0.401 -0.505
+    #>  6     1     NA         NA     6 0.398  0.735 -0.557       0.293 -0.505
+    #>  7     1     NA         NA     7 0.574  0.605 -0.475       0.347 -0.505
+    #>  8     1     NA         NA     8 0.456  0.716 -0.501       0.326 -0.505
+    #>  9     1     NA         NA     9 0.693  0.476 -0.482       0.330 -0.505
+    #> 10     1     NA         NA    10 0.596  0.777 -0.481       0.463 -0.505
     #> # ℹ 3,990 more rows
-    #> # ℹ 5 more variables: metac2zero2diff <dbl>, metac2zero3diff <dbl>,
-    #> #   metac2one1diff <dbl>, metac2one2diff <dbl>, metac2one3diff <dbl>
+    #> # ℹ 6 more variables: meta_c2_0_1 <dbl>, meta_c2_0_2 <dbl>, meta_c2_0_3 <dbl>,
+    #> #   meta_c2_1_1 <dbl>, meta_c2_1_2 <dbl>, meta_c2_1_3 <dbl>
 
 This `tibble` has a separate row for every posterior sample and a
-separate column for every model parameter (`.linpred` and `mu` both
-representing M\textrm{-ratio}). This format is useful for some purposes,
-but it will often be useful to pivot it so that we have a separate row
-for each model parameter and posterior sample:
+separate column for every model parameter. This format is useful for
+some purposes, but it will often be useful to pivot it so that we have a
+separate row for each model parameter and posterior sample:
 
 ``` r
-draws.linpred <- draws.linpred |>
-  pivot_longer(.linpred:metac2one3diff, names_to = ".variable", values_to = ".value")
+draws.metad <- tibble(.row = 1) |>
+  add_metad_draws(m, pivot_longer=TRUE)
 ```
 
-    #> # A tibble: 40,000 × 6
-    #> # Groups:   .row [1]
-    #>     .row .chain .iteration .draw .variable       .value
-    #>    <int>  <int>      <int> <int> <chr>            <dbl>
-    #>  1     1     NA         NA     1 .linpred         0.635
-    #>  2     1     NA         NA     1 mu               0.635
-    #>  3     1     NA         NA     1 dprime           0.756
-    #>  4     1     NA         NA     1 c               -0.505
-    #>  5     1     NA         NA     1 metac2zero1diff  0.201
-    #>  6     1     NA         NA     1 metac2zero2diff  0.753
-    #>  7     1     NA         NA     1 metac2zero3diff  1.57 
-    #>  8     1     NA         NA     1 metac2one1diff   0.485
-    #>  9     1     NA         NA     1 metac2one2diff   1.03 
-    #> 10     1     NA         NA     1 metac2one3diff   1.26 
-    #> # ℹ 39,990 more rows
+    #> # A tibble: 44,000 × 6
+    #> # Groups:   .row, .variable [11]
+    #>     .row .chain .iteration .draw .variable    .value
+    #>    <int>  <int>      <int> <int> <chr>         <dbl>
+    #>  1     1     NA         NA     1 M            0.635 
+    #>  2     1     NA         NA     1 dprime       0.756 
+    #>  3     1     NA         NA     1 c           -0.505 
+    #>  4     1     NA         NA     1 meta_dprime  0.480 
+    #>  5     1     NA         NA     1 meta_c      -0.505 
+    #>  6     1     NA         NA     1 meta_c2_0_1 -0.706 
+    #>  7     1     NA         NA     1 meta_c2_0_2 -1.46  
+    #>  8     1     NA         NA     1 meta_c2_0_3 -3.03  
+    #>  9     1     NA         NA     1 meta_c2_1_1 -0.0206
+    #> 10     1     NA         NA     1 meta_c2_1_2  1.01  
+    #> # ℹ 43,990 more rows
 
 Now that all of the posterior samples are stored in a single column
 `.value`, it is easy to get posterior summaries using
 e.g. [`tidybayes::median_qi`](https://mjskay.github.io/ggdist/reference/point_interval.html):
 
 ``` r
-draws.linpred |>
-  group_by(.variable) |>
-  median_qi(.value)
-#> # A tibble: 10 × 7
-#>    .variable       .value .lower .upper .width .point .interval
-#>    <chr>            <dbl>  <dbl>  <dbl>  <dbl> <chr>  <chr>    
-#>  1 .linpred         0.518  0.240  0.865   0.95 median qi       
-#>  2 c               -0.493 -0.574 -0.409   0.95 median qi       
-#>  3 dprime           0.707  0.543  0.871   0.95 median qi       
-#>  4 metac2one1diff   0.472  0.409  0.539   0.95 median qi       
-#>  5 metac2one2diff   0.999  0.910  1.09    0.95 median qi       
-#>  6 metac2one3diff   1.30   1.10   1.52    0.95 median qi       
-#>  7 metac2zero1diff  0.212  0.167  0.263   0.95 median qi       
-#>  8 metac2zero2diff  0.780  0.678  0.892   0.95 median qi       
-#>  9 metac2zero3diff  1.26   0.971  1.63    0.95 median qi       
-#> 10 mu               0.518  0.240  0.865   0.95 median qi
+draws.metad |>
+  median_qi()
+#> # A tibble: 11 × 8
+#>     .row .variable    .value  .lower  .upper .width .point .interval
+#>    <int> <chr>         <dbl>   <dbl>   <dbl>  <dbl> <chr>  <chr>    
+#>  1     1 c           -0.493  -0.574  -0.409    0.95 median qi       
+#>  2     1 dprime       0.707   0.543   0.871    0.95 median qi       
+#>  3     1 M            0.518   0.240   0.865    0.95 median qi       
+#>  4     1 meta_c      -0.505  -0.505  -0.505    0.95 median qi       
+#>  5     1 meta_c2_0_1 -0.718  -0.769  -0.673    0.95 median qi       
+#>  6     1 meta_c2_0_2 -1.50   -1.62   -1.39     0.95 median qi       
+#>  7     1 meta_c2_0_3 -2.76   -3.14   -2.45     0.95 median qi       
+#>  8     1 meta_c2_1_1 -0.0339 -0.0968  0.0334   0.95 median qi       
+#>  9     1 meta_c2_1_2  0.965   0.862   1.07     0.95 median qi       
+#> 10     1 meta_c2_1_3  2.26    2.05    2.50     0.95 median qi       
+#> 11     1 meta_dprime  0.367   0.171   0.573    0.95 median qi
 ```
 
 ### Posterior predictions
@@ -366,20 +364,20 @@ draws.predicted <- predicted_draws(m, d.summary)
     #> # Groups:   N_0, N_1, N, .row, .category [16]
     #>      N_0   N_1 N[,"N_0_1"]  .row .chain .iteration .draw .category .prediction
     #>    <int> <int>       <int> <int>  <int>      <int> <int> <fct>           <int>
-    #>  1   500   500           3     1     NA         NA     1 N_0_1               1
-    #>  2   500   500           3     1     NA         NA     2 N_0_1               7
-    #>  3   500   500           3     1     NA         NA     3 N_0_1               2
-    #>  4   500   500           3     1     NA         NA     4 N_0_1               7
+    #>  1   500   500           3     1     NA         NA     1 N_0_1               2
+    #>  2   500   500           3     1     NA         NA     2 N_0_1               4
+    #>  3   500   500           3     1     NA         NA     3 N_0_1               1
+    #>  4   500   500           3     1     NA         NA     4 N_0_1               3
     #>  5   500   500           3     1     NA         NA     5 N_0_1               1
-    #>  6   500   500           3     1     NA         NA     6 N_0_1               1
+    #>  6   500   500           3     1     NA         NA     6 N_0_1               4
     #>  7   500   500           3     1     NA         NA     7 N_0_1               2
-    #>  8   500   500           3     1     NA         NA     8 N_0_1               2
-    #>  9   500   500           3     1     NA         NA     9 N_0_1               8
-    #> 10   500   500           3     1     NA         NA    10 N_0_1               6
+    #>  8   500   500           3     1     NA         NA     8 N_0_1               1
+    #>  9   500   500           3     1     NA         NA     9 N_0_1               4
+    #> 10   500   500           3     1     NA         NA    10 N_0_1               2
     #> # ℹ 63,990 more rows
     #> # ℹ 1 more variable: N[2:16] <int>
 
-In this dataframe, we have all of the columns from our aggregated data
+In this data frame, we have all of the columns from our aggregated data
 `d.summary` as well as `.category` (indicating the simulated stimulus
 and joint response) and `.prediction` (indicating the number of
 simulated trials per stimulus and joint response). To make this format
@@ -394,8 +392,8 @@ draws.predicted <- draws.predicted |>
     sep = "_", convert = TRUE
   ) |>
   mutate(
-    response = factor(type1_response(joint_response, K=4)),
-    confidence = factor(type2_response(joint_response, K=4))
+    response = factor(type1_response(joint_response, K = 4)),
+    confidence = factor(type2_response(joint_response, K = 4))
   )
 ```
 
@@ -426,9 +424,9 @@ draws.predicted |>
   group_by(.row, stimulus, joint_response, response, confidence) |>
   median_qi(.prediction) |>
   group_by(.row) |>
-  mutate(N=t(d.summary$N[.row,])) |>
+  mutate(N = t(d.summary$N[.row, ])) |>
   ggplot(aes(x = joint_response)) +
-  geom_col(aes(y = N), fill='grey80') +
+  geom_col(aes(y = N), fill = "grey80") +
   geom_pointrange(aes(y = .prediction, ymin = .lower, ymax = .upper)) +
   facet_wrap(~stimulus, labeller = label_both) +
   theme_classic(18)
@@ -449,8 +447,8 @@ but using
 draws.epred <- epred_draws(m, newdata = tibble(.row = 1)) |>
   separate(.category, into = c("var", "stimulus", "joint_response"), sep = "_", convert = TRUE) |>
   mutate(
-    response = factor(type1_response(joint_response, K=4)),
-    confidence = factor(type2_response(joint_response, K=4))
+    response = factor(type1_response(joint_response, K = 4)),
+    confidence = factor(type2_response(joint_response, K = 4))
   )
 ```
 
@@ -476,9 +474,9 @@ draws.epred |>
   group_by(.row, stimulus, joint_response, response, confidence) |>
   median_qi(.epred) |>
   group_by(.row) |>
-  mutate(.true=t(response_probabilities(d.summary$N[.row,]))) |>
+  mutate(.true = t(response_probabilities(d.summary$N[.row, ]))) |>
   ggplot(aes(x = joint_response)) +
-  geom_col(aes(y = .true), fill='grey80') +
+  geom_col(aes(y = .true), fill = "grey80") +
   geom_pointrange(aes(y = .epred, ymin = .lower, ymax = .upper)) +
   scale_alpha_discrete(range = c(.25, 1)) +
   facet_wrap(~stimulus, labeller = label_both) +
@@ -499,9 +497,9 @@ model using `mean_confidence_draws`:
 tibble(.row = 1) |>
   add_mean_confidence_draws(m) |>
   median_qi(.epred) |>
-  left_join(d |> 
-              group_by(stimulus, response) |>
-              summarize(.true=mean(confidence)))
+  left_join(d |>
+    group_by(stimulus, response) |>
+    summarize(.true = mean(confidence)))
 #> `summarise()` has regrouped the output.
 #> Joining with `by = join_by(stimulus, response)`
 #> ℹ Summaries were computed grouped by stimulus and response.
@@ -525,11 +523,11 @@ In addition, we can compute mean confidence marginalizing over stimuli:
 
 ``` r
 tibble(.row = 1) |>
-  add_mean_confidence_draws(m, by_stimulus=FALSE) |>
+  add_mean_confidence_draws(m, by_stimulus = FALSE) |>
   median_qi(.epred) |>
-  left_join(d |> 
-              group_by(response) |>
-              summarize(.true=mean(confidence)))
+  left_join(d |>
+    group_by(response) |>
+    summarize(.true = mean(confidence)))
 #> Joining with `by = join_by(response)`
 #> # A tibble: 2 × 9
 #>    .row response .epred .lower .upper .width .point .interval .true
@@ -542,11 +540,11 @@ over responses:
 
 ``` r
 tibble(.row = 1) |>
-  add_mean_confidence_draws(m, by_response=FALSE) |>
+  add_mean_confidence_draws(m, by_response = FALSE) |>
   median_qi(.epred) |>
-  left_join(d |> 
-              group_by(stimulus) |>
-              summarize(.true=mean(confidence)))
+  left_join(d |>
+    group_by(stimulus) |>
+    summarize(.true = mean(confidence)))
 #> Joining with `by = join_by(stimulus)`
 #> # A tibble: 2 × 9
 #>    .row stimulus .epred .lower .upper .width .point .interval .true
@@ -559,11 +557,11 @@ or both over stimuli and responses:
 
 ``` r
 tibble(.row = 1) |>
-  add_mean_confidence_draws(m, by_stimulus=FALSE, by_response=FALSE) |>
+  add_mean_confidence_draws(m, by_stimulus = FALSE, by_response = FALSE) |>
   median_qi(.epred) |>
-  bind_cols(d |> 
-              ungroup() |>
-              summarize(.true=mean(confidence)))
+  bind_cols(d |>
+    ungroup() |>
+    summarize(.true = mean(confidence)))
 #> # A tibble: 1 × 8
 #>    .row .epred .lower .upper .width .point .interval .true
 #>   <int>  <dbl>  <dbl>  <dbl>  <dbl> <chr>  <chr>     <dbl>
@@ -589,14 +587,14 @@ To obtain estimates of \textrm{meta-}\Delta, one can use the function
 `metacognitive_bias_draws`:
 
 ``` r
-tibble(.row=1) |>
+tibble(.row = 1) |>
   add_metacognitive_bias_draws(m) |>
   median_qi()
-#> # A tibble: 2 × 7
-#>   response metacognitive_bias .lower .upper .width .point .interval
-#>      <int>              <dbl>  <dbl>  <dbl>  <dbl> <chr>  <chr>    
-#> 1        0               1.16   1.03   1.30   0.95 median qi       
-#> 2        1               1.57   1.47   1.67   0.95 median qi
+#> # A tibble: 2 × 8
+#>    .row response metacognitive_bias .lower .upper .width .point .interval
+#>   <int>    <int>              <dbl>  <dbl>  <dbl>  <dbl> <chr>  <chr>    
+#> 1     1        0               1.16   1.03   1.30   0.95 median qi       
+#> 2     1        1               1.57   1.47   1.67   0.95 median qi
 ```
 
 ### Pseudo Type 1 ROC
@@ -628,10 +626,10 @@ draws.roc1 <- tibble(.row = 1) |>
 Again, we have a tidy tibble with columns `.chain`, `.iteration`, and
 `.draw` identifying individual posterior samples, `joint_response`,
 `response`, and `confidence` identifying the different points on the
-ROC, and `.row` identifying different ROCs (since our dataframe has only
-one row, here there is only one ROC). In addition, we also have `p_hit`
-and `p_fa`, which contain posterior estimates of type 1 hit rate (i.e.,
-the probability of a `"1"` response with `confidence >= c` given
+ROC, and `.row` identifying different ROCs (since our data frame has
+only one row, here there is only one ROC). In addition, we also have
+`p_hit` and `p_fa`, which contain posterior estimates of type 1 hit rate
+(i.e., the probability of a `"1"` response with `confidence >= c` given
 `stimulus==1`) and type 1 false alarm rate (i.e., the probability of a
 `"1"` response with `confidence >= c` given `stimulus==0`).
 
@@ -665,7 +663,7 @@ Finally, to plot type 2 performance as a type 2 ROC, we can use
 
 ``` r
 draws.roc2 <- tibble(.row = 1) |>
-    add_roc2_draws(m)
+  add_roc2_draws(m)
 ```
 
     #> # A tibble: 24,000 × 8
