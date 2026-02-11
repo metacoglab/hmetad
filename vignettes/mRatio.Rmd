@@ -1,6 +1,8 @@
 ---
 title: "Fitting the meta-d' model"
 output: rmarkdown::html_vignette
+bibliography: citations.bib
+link-citations: true
 vignette: >
   %\VignetteIndexEntry{Fitting the meta-d' model}
   %\VignetteEngine{knitr::rmarkdown}
@@ -22,7 +24,7 @@ dir.create("models", showWarnings = FALSE)
 
 
 ## Introduction
-This vignette demonstrates how to use the `mRatio` package to fit the meta-d' model (Maniscalco & Lau, 2012) to a dataset including a binary decision with confidence ratings.
+This vignette demonstrates how to use the `mRatio` package to fit the meta-d' model [@maniscalco2012] to a dataset including a binary decision with confidence ratings.
 
 
 
@@ -365,4 +367,6 @@ draws.roc2 |>
   theme_bw(18)
 ```
 
+
+## References
 

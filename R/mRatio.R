@@ -229,6 +229,7 @@ aggregate_metad <- function(data, ..., .response = "N", K = NULL) {
     }
 
     data <- data |>
+      ungroup() |>
       mutate(
         response = as.integer(as.character(.data$response)),
         confidence = as.integer(as.character(.data$confidence)),
