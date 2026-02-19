@@ -8,50 +8,111 @@ d <- sim_metad(
 m <- fit_metad(N ~ 1, d)
 newdata <- tibble(.row = 1)
 
-test_that("metad_draws works", {
+test_that("linpred_draws_metad works", {
   m |>
-    metad_draws(newdata, pivot_longer = TRUE) |>
+    linpred_draws_metad(newdata, pivot_longer = TRUE) |>
     median_qi() |>
     nrow() |>
     expect_equal(11)
 
   m |>
-    metad_draws(newdata) |>
+    linpred_draws_metad(newdata) |>
     median_qi(M) |>
     nrow() |>
     expect_equal(1)
 
   expect_equal(
-    metad_draws(m, newdata),
-    add_metad_draws(newdata, m)
+    linpred_draws_metad(m, newdata),
+    add_linpred_draws_metad(newdata, m)
   )
 
   m |>
-    metad_rvars(newdata, pivot_longer = TRUE) |>
+    linpred_rvars_metad(newdata, pivot_longer = TRUE) |>
     median_qi() |>
     nrow() |>
     expect_equal(11)
 
   m |>
-    metad_rvars(newdata) |>
+    linpred_rvars_metad(newdata) |>
     nrow() |>
     expect_equal(1)
 
   expect_equal(
-    metad_rvars(m, newdata),
-    add_metad_rvars(newdata, m)
+    linpred_rvars_metad(m, newdata),
+    add_linpred_rvars_metad(newdata, m)
   )
 
   ## compare between _draws and _rvars
-  metad_draws(m, newdata, pivot_longer=TRUE) |>
+  linpred_draws_metad(m, newdata, pivot_longer = TRUE) |>
     median_qi() |>
     arrange(.variable) |>
     pull(.value) |>
-    near(metad_rvars(m, newdata, pivot_longer=TRUE) |>
-           median_qi() |>
-           arrange(.variable) |>
-           pull(.value),
-         tol=.01
+    near(
+      linpred_rvars_metad(m, newdata, pivot_longer = TRUE) |>
+        median_qi() |>
+        arrange(.variable) |>
+        pull(.value),
+      tol = .01
+    ) |>
+    expect_all_true()
+})
+
+test_that("epred_draws_metad works", {
+  ## compare epred to empirical joint response probabilities
+  epred_draws_metad(m, newdata) |>
+    median_qi() |>
+    arrange(stimulus, response, confidence) |>
+    pull(.epred) |>
+    near(
+      count(d) |>
+        group_by(stimulus) |>
+        mutate(p = n / sum(n)) |>
+        pull(p),
+      tol = 0.01
+    ) |>
+    expect_all_true()
+
+  ## compare _draws and _rvars
+  epred_draws_metad(m, newdata) |>
+    median_qi() |>
+    expect_equal(
+      epred_rvars_metad(m, newdata) |>
+        median_qi()
+    )
+})
+
+test_that("predicted_draws_metad works", {
+  ## compare predictions to empirical joint response probabilities
+  predicted_draws_metad(m, m$data) |>
+    group_by(.row, stimulus, .chain, .iteration, .draw) |>
+    mutate(.prediction = .prediction / sum(.prediction)) |>
+    group_by(.row, stimulus, response, confidence) |>
+    median_qi(.prediction) |>
+    arrange(stimulus, response, confidence) |>
+    pull(.prediction) |>
+    near(
+      count(d) |>
+        group_by(stimulus) |>
+        mutate(p = n / sum(n)) |>
+        pull(p),
+      tol = 0.01
+    ) |>
+    expect_all_true()
+
+  ## compare predictions to empirical joint response probabilities
+  predicted_rvars_metad(m, m$data) |>
+    group_by(.row, stimulus) |>
+    mutate(.prediction = .prediction / rvar_sum(.prediction)) |>
+    group_by(.row, stimulus, response, confidence) |>
+    median_qi(.prediction) |>
+    arrange(stimulus, response, confidence) |>
+    pull(.prediction) |>
+    near(
+      count(d) |>
+        group_by(stimulus) |>
+        mutate(p = n / sum(n)) |>
+        pull(p),
+      tol = 0.01
     ) |>
     expect_all_true()
 })
@@ -63,12 +124,11 @@ test_that("mean_confidence_draws works", {
     pull(.epred) |>
     near(
       d |> group_by(stimulus, response) |>
-        summarize(m = mean(confidence), .groups='keep') |>
+        summarize(m = mean(confidence), .groups = "keep") |>
         pull(m),
       tol = .01
     ) |>
-    all() |>
-    expect_equal(TRUE)
+    expect_all_true()
 
   m |>
     mean_confidence_draws(newdata, by_stimulus = FALSE) |>
@@ -76,12 +136,11 @@ test_that("mean_confidence_draws works", {
     pull(.epred) |>
     near(
       d |> group_by(response) |>
-        summarize(m = mean(confidence), .groups='keep') |>
+        summarize(m = mean(confidence), .groups = "keep") |>
         pull(m),
       tol = .01
     ) |>
-    all() |>
-    expect_equal(TRUE)
+    expect_all_true()
 
   m |>
     mean_confidence_draws(newdata, by_response = FALSE) |>
@@ -89,12 +148,11 @@ test_that("mean_confidence_draws works", {
     pull(.epred) |>
     near(
       d |> group_by(stimulus) |>
-        summarize(m = mean(confidence), .groups='keep') |>
+        summarize(m = mean(confidence), .groups = "keep") |>
         pull(m),
       tol = .01
     ) |>
-    all() |>
-    expect_equal(TRUE)
+    expect_all_true()
 
   m |>
     mean_confidence_draws(newdata, by_stimulus = FALSE, by_response = FALSE) |>
@@ -102,12 +160,11 @@ test_that("mean_confidence_draws works", {
     pull(.epred) |>
     near(
       d |> group_by() |>
-        summarize(m = mean(confidence), .groups='keep') |>
+        summarize(m = mean(confidence), .groups = "keep") |>
         pull(m),
       tol = .01
     ) |>
-    all() |>
-    expect_equal(TRUE)
+    expect_all_true()
 
   expect_equal(
     mean_confidence_draws(m, newdata),
@@ -121,12 +178,11 @@ test_that("mean_confidence_draws works", {
     pull(.epred) |>
     near(
       d |> group_by(stimulus, response) |>
-        summarize(m = mean(confidence), .groups='keep') |>
+        summarize(m = mean(confidence), .groups = "keep") |>
         pull(m),
       tol = .01
     ) |>
-    all() |>
-    expect_equal(TRUE)
+    expect_all_true()
 
   m |>
     mean_confidence_rvars(newdata, by_stimulus = FALSE) |>
@@ -134,12 +190,11 @@ test_that("mean_confidence_draws works", {
     pull(.epred) |>
     near(
       d |> group_by(response) |>
-        summarize(m = mean(confidence), .groups='keep') |>
+        summarize(m = mean(confidence), .groups = "keep") |>
         pull(m),
       tol = .01
     ) |>
-    all() |>
-    expect_equal(TRUE)
+    expect_all_true()
 
   m |>
     mean_confidence_rvars(newdata, by_response = FALSE) |>
@@ -147,12 +202,11 @@ test_that("mean_confidence_draws works", {
     pull(.epred) |>
     near(
       d |> group_by(stimulus) |>
-        summarize(m = mean(confidence), .groups='keep') |>
+        summarize(m = mean(confidence), .groups = "keep") |>
         pull(m),
       tol = .01
     ) |>
-    all() |>
-    expect_equal(TRUE)
+    expect_all_true()
 
   m |>
     mean_confidence_rvars(newdata, by_stimulus = FALSE, by_response = FALSE) |>
@@ -160,12 +214,11 @@ test_that("mean_confidence_draws works", {
     pull(.epred) |>
     near(
       d |> group_by() |>
-        summarize(m = mean(confidence), .groups='keep') |>
+        summarize(m = mean(confidence), .groups = "keep") |>
         pull(m),
       tol = .01
     ) |>
-    all() |>
-    expect_equal(TRUE)
+    expect_all_true()
 
   expect_equal(
     mean_confidence_rvars(m, newdata),
@@ -182,8 +235,7 @@ test_that("metacognitive_bias_draws works", {
   draws |>
     mutate(test = metacognitive_bias > 0) |>
     pull(test) |>
-    all() |>
-    expect_equal(TRUE)
+    expect_all_true()
 
   expect_equal(draws, add_metacognitive_bias_draws(newdata, m))
 
@@ -195,8 +247,7 @@ test_that("metacognitive_bias_draws works", {
   draws2 |>
     mutate(test = all(metacognitive_bias > 0)) |>
     pull(test) |>
-    all() |>
-    expect_equal(TRUE)
+    expect_all_true()
 
   expect_equal(draws2, add_metacognitive_bias_rvars(newdata, m))
 
@@ -204,10 +255,12 @@ test_that("metacognitive_bias_draws works", {
   draws |>
     median_qi() |>
     pull(metacognitive_bias) |>
-    near(draws2 |>
-           median_qi() |>
-           pull(metacognitive_bias),
-         tol=.01) |>
+    near(
+      draws2 |>
+        median_qi() |>
+        pull(metacognitive_bias),
+      tol = .01
+    ) |>
     expect_all_true()
 })
 
@@ -218,14 +271,12 @@ test_that("roc1_draws works", {
   draws |>
     pull(p_hit) |>
     between(0, 1) |>
-    all() |>
-    expect_equal(TRUE)
+    expect_all_true()
 
   draws |>
     pull(p_fa) |>
     between(0, 1) |>
-    all() |>
-    expect_equal(TRUE)
+    expect_all_true()
 
   expect_equal(draws, add_roc1_draws(newdata, m))
 
@@ -233,19 +284,23 @@ test_that("roc1_draws works", {
   draws |>
     median_qi(p_hit) |>
     pull(p_hit) |>
-    near(roc1_rvars(m, newdata) |>
-           median_qi(p_hit) |>
-           pull(p_hit),
-         tol=.01) |>
+    near(
+      roc1_rvars(m, newdata) |>
+        median_qi(p_hit) |>
+        pull(p_hit),
+      tol = .01
+    ) |>
     expect_all_true()
 
   draws |>
     median_qi(p_fa) |>
     pull(p_fa) |>
-    near(roc1_rvars(m, newdata) |>
-           median_qi(p_fa) |>
-           pull(p_fa),
-         tol=.01) |>
+    near(
+      roc1_rvars(m, newdata) |>
+        median_qi(p_fa) |>
+        pull(p_fa),
+      tol = .01
+    ) |>
     expect_all_true()
 })
 
@@ -255,14 +310,12 @@ test_that("roc2_draws works", {
   draws |>
     pull(p_hit2) |>
     between(0, 1) |>
-    all() |>
-    expect_equal(TRUE)
+    expect_all_true()
 
   draws |>
     pull(p_fa2) |>
     between(0, 1) |>
-    all() |>
-    expect_equal(TRUE)
+    expect_all_true()
 
   expect_equal(draws, add_roc2_draws(newdata, m))
 
@@ -270,18 +323,22 @@ test_that("roc2_draws works", {
   draws |>
     median_qi(p_hit2) |>
     pull(p_hit2) |>
-    near(roc2_rvars(m, newdata) |>
-           median_qi(p_hit2) |>
-           pull(p_hit2),
-         tol=.01) |>
+    near(
+      roc2_rvars(m, newdata) |>
+        median_qi(p_hit2) |>
+        pull(p_hit2),
+      tol = .01
+    ) |>
     expect_all_true()
 
   draws |>
     median_qi(p_fa2) |>
     pull(p_fa2) |>
-    near(roc2_rvars(m, newdata) |>
-           median_qi(p_fa2) |>
-           pull(p_fa2),
-         tol=.01) |>
+    near(
+      roc2_rvars(m, newdata) |>
+        median_qi(p_fa2) |>
+        pull(p_fa2),
+      tol = .01
+    ) |>
     expect_all_true()
 })

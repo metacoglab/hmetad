@@ -8,13 +8,16 @@ template:
 
 reference:
   - title: Fitting the meta-d' model
-    desc: Run the meta-d' model on aggregated or non-aggregated data using `brms`
+    desc: >
+      Run the meta-d' model on aggregated or non-aggregated data using `brms`
     contents:
     - fit_metad
     - metad
+    - stanvars_metad
 
   - title: Processing data for model fitting
-    desc: Transform data between common formats used in metacognition research
+    desc: >
+      Transform data between common formats used in metacognition research
     contents:
     - to_signed
     - to_unsigned
@@ -25,12 +28,22 @@ reference:
     - aggregate_metad
 
   - title: Extracting model estimates
-    desc:
+    desc: >
+      Obtain model parameters, posterior expectations, and implied quantities
+      from fitted models.
     contents:
-    - metad_draws
-    - add_metad_draws
-    - metad_rvars
-    - add_metad_rvars
+    - linpred_draws_metad
+    - add_linpred_draws_metad
+    - linpred_rvars_metad
+    - add_linpred_rvars_metad
+    - epred_draws_metad
+    - add_epred_draws_metad
+    - epred_rvars_metad
+    - add_epred_rvars_metad
+    - predicted_draws_metad
+    - add_predicted_draws_metad
+    - predicted_rvars_metad
+    - add_predicted_rvars_metad
     - mean_confidence_draws
     - add_mean_confidence_draws
     - mean_confidence_rvars

@@ -28,6 +28,25 @@ test_that("get_metac works", {
     expect_error()
 })
 
+test_that("get_stimulus works", {
+  fit_metad(N ~ 1, sim_metad(), empty = TRUE) |>
+    get_stimulus() |>
+    expect_equal("stimulus")
+
+  sim_metad() |>
+    rename(manipulation = stimulus) |>
+    mutate(joint_response=joint_response(response, confidence, 4)) |>
+    fit_metad(joint_response | vint(manipulation) ~ 1, data=_,
+      empty = TRUE, categorical = TRUE, .stimulus = "manipulation"
+    ) |>
+    get_stimulus() |>
+    expect_equal("manipulation")
+
+  brm(response ~ 1, sim_metad(), family = "bernoulli", empty = TRUE) |>
+    get_stimulus() |>
+    expect_error()
+})
+
 test_that("normal cumulative distribution functions work", {
   expect_equal(normal_lcdf(0, 0), log(.5))
   expect_equal(normal_lccdf(0, 0), log(.5))
@@ -50,13 +69,13 @@ test_that("metad_pmf works", {
 
 test_that("metad works", {
   expect_s3_class(metad(3), "brmsfamily")
-  expect_equal(metad(2)$name, "metad__2__normal__absolute")
+  expect_equal(metad(2)$name, "metad__2__normal__absolute__multinomial")
   expect_equal(
     metad(2, metac_absolute = FALSE)$name,
-    "metad__2__normal__relative"
+    "metad__2__normal__relative__multinomial"
   )
   expect_equal(
     metad(2, distribution = "gumbel_min")$name,
-    "metad__2__gumbel_min__absolute"
+    "metad__2__gumbel_min__absolute__multinomial"
   )
 })

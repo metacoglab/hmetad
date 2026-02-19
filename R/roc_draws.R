@@ -39,37 +39,26 @@
 #' roc1_draws(m, newdata, bounds = TRUE)
 #' @export
 roc1_draws <- function(object, newdata, ..., bounds = FALSE) {
-  if (object$family$family != "custom" ||
-    !stringr::str_starts(object$family$name, "metad")) {
-    stop("Model must use the `metad` family.")
-  }
-
-  draws <- tidybayes::epred_draws(object = object, newdata = newdata, ...)
-
-  ## number of confidence levels
-  K <- as.integer(n_distinct(draws$.category) / 4)
+  draws <- epred_draws_metad(object, newdata, ...)
 
   ## grouping columns
+  .stimulus <- get_stimulus(object)
   .cols <- names(newdata)
-  .cols <- .cols[!(.cols %in% c(".row", "joint_response", "response", "confidence"))]
+  .cols <- .cols[!(.cols %in% c(
+    ".row", .stimulus, "joint_response",
+    "response", "confidence"
+  ))]
 
+  ## number of confidence levels
+  K <- as.integer(n_distinct(draws$joint_response) / 2)
+
+  ## calculate cumulative probabilities
   draws <- draws |>
-    mutate(
-      .category = as.integer(.data$.category),
-      stimulus = as.integer(.data$.category > 2 * K),
-      joint_response = ifelse(.data$stimulus,
-        .data$.category - 2 * K,
-        .data$.category
-      ),
-      response = type1_response(.data$joint_response, K),
-      confidence = type2_response(.data$joint_response, K)
-    ) |>
     filter(.data$joint_response < 2 * K) |>
-    group_by(.data$.row, .data$stimulus, .data$.draw) |>
+    group_by(.data$.row, !!sym(.stimulus), .data$.draw) |>
     mutate(.epred = 1 - cumsum(.data$.epred)) |>
-    select(-".category") |>
     tidyr::pivot_wider(
-      names_from = "stimulus", values_from = ".epred",
+      names_from = !!sym(.stimulus), values_from = ".epred",
       names_prefix = "p_"
     ) |>
     rename(p_hit = "p_1", p_fa = "p_0") |>
@@ -109,39 +98,26 @@ add_roc1_draws <- function(newdata, object, ...) {
 #' @rdname roc1_draws
 #' @export
 roc1_rvars <- function(object, newdata, ..., bounds = FALSE) {
-  if (object$family$family != "custom" ||
-    !stringr::str_starts(object$family$name, "metad")) {
-    stop("Model must use the `metad` family.")
-  }
-
-  draws <- tidybayes::epred_rvars(
-    object = object, newdata = newdata, ...,
-    columns_to = ".category"
-  )
-
-  ## number of confidence levels
-  K <- as.integer(n_distinct(draws$.category) / 4)
+  draws <- epred_rvars_metad(object, newdata, ...)
 
   ## grouping columns
+  .stimulus <- get_stimulus(object)
   .cols <- names(newdata)
-  .cols <- .cols[!(.cols %in% c(".row", "joint_response", "response", "confidence"))]
+  .cols <- .cols[!(.cols %in% c(
+    ".row", .stimulus, "joint_response",
+    "response", "confidence"
+  ))]
 
+  ## number of confidence levels
+  K <- as.integer(n_distinct(draws$joint_response) / 2)
+
+  ## calculate cumulative probabilities
   draws <- draws |>
-    tidyr::separate_wider_delim(.data$.category,
-      delim = "_",
-      names = c(NA, "stimulus", "joint_response")
-    ) |>
-    mutate(
-      stimulus = as.integer(.data$stimulus),
-      joint_response = as.integer(.data$joint_response),
-      response = type1_response(.data$joint_response, K),
-      confidence = type2_response(.data$joint_response, K)
-    ) |>
     filter(.data$joint_response < 2 * K) |>
-    group_by(.data$.row, .data$stimulus) |>
+    group_by(.data$.row, !!sym(.stimulus)) |>
     mutate(.epred = 1 - cumsum(.data$.epred)) |>
     tidyr::pivot_wider(
-      names_from = "stimulus", values_from = ".epred",
+      names_from = !!sym(.stimulus), values_from = ".epred",
       names_prefix = "p_"
     ) |>
     rename(p_hit = "p_1", p_fa = "p_0") |>
@@ -216,31 +192,25 @@ add_roc1_rvars <- function(newdata, object, ...) {
 #' roc2_draws(m, newdata, bounds = TRUE)
 #' @export
 roc2_draws <- function(object, newdata, ..., bounds = FALSE) {
-  if (object$family$family != "custom" ||
-    !stringr::str_starts(object$family$name, "metad")) {
-    stop("Model must use the `metad` family.")
-  }
-
-  draws <- tidybayes::epred_draws(object = object, newdata = newdata, ...)
-
-  ## number of confidence levels
-  K <- as.integer(n_distinct(draws$.category) / 4)
+  draws <- epred_draws_metad(object, newdata, ...)
 
   ## grouping columns
+  .stimulus <- get_stimulus(object)
   .cols <- names(newdata)
-  .cols <- .cols[!(.cols %in% c(".row", "response", "confidence"))]
+  .cols <- .cols[!(.cols %in% c(
+    ".row", .stimulus, "joint_response",
+    "response", "confidence"
+  ))]
 
+  ## number of confidence levels
+  K <- as.integer(n_distinct(draws$joint_response) / 2)
+
+  ## calculate cumulative probabilities
   draws <- draws |>
     mutate(
-      .category = as.integer(.data$.category),
-      stimulus = as.integer(.data$.category > 2 * K),
-      joint_response = ifelse(.data$stimulus,
-        .data$.category - 2 * K,
-        .data$.category
-      ),
       response = type1_response(.data$joint_response, K),
       confidence = type2_response(.data$joint_response, K),
-      accuracy = as.integer(.data$stimulus == .data$response)
+      accuracy = as.integer(!!sym(.stimulus) == .data$response)
     ) |>
     group_by(.data$.row, .data$.draw, .data$accuracy, .data$response) |>
     mutate(
@@ -251,7 +221,7 @@ roc2_draws <- function(object, newdata, ..., bounds = FALSE) {
       !(.data$response == 0 & .data$confidence == 1),
       !(.data$response == 1 & .data$confidence == K)
     ) |>
-    select(-".category", -"joint_response", -"stimulus") |>
+    select(-"joint_response", -!!sym(.stimulus)) |>
     ungroup() |>
     tidyr::pivot_wider(
       names_from = "accuracy",
@@ -289,35 +259,21 @@ add_roc2_draws <- function(newdata, object, ...) {
 #' @rdname roc2_draws
 #' @export
 roc2_rvars <- function(object, newdata, ..., bounds = FALSE) {
-  if (object$family$family != "custom" ||
-    !stringr::str_starts(object$family$name, "metad")) {
-    stop("Model must use the `metad` family.")
-  }
-
-  draws <- tidybayes::epred_rvars(
-    object = object, newdata = newdata, ...,
-    columns_to = ".category"
-  )
-
-  ## number of confidence levels
-  K <- as.integer(n_distinct(draws$.category) / 4)
+  draws <- epred_rvars_metad(object, newdata, ...)
 
   ## grouping columns
+  .stimulus <- get_stimulus(object)
   .cols <- names(newdata)
-  .cols <- .cols[!(.cols %in% c(".row", "response", "confidence"))]
+  .cols <- .cols[!(.cols %in% c(
+    ".row", .stimulus, "joint_response",
+    "response", "confidence"
+  ))]
+
+  ## number of confidence levels
+  K <- as.integer(n_distinct(draws$joint_response) / 2)
 
   draws <- draws |>
-    tidyr::separate_wider_delim(.data$.category,
-      delim = "_",
-      names = c(NA, "stimulus", "joint_response")
-    ) |>
-    mutate(
-      stimulus = as.integer(.data$stimulus),
-      joint_response = as.integer(.data$joint_response),
-      response = type1_response(.data$joint_response, K),
-      confidence = type2_response(.data$joint_response, K),
-      accuracy = as.integer(.data$stimulus == .data$response)
-    ) |>
+    mutate(accuracy = as.integer(!!sym(.stimulus) == .data$response)) |>
     group_by(.data$.row, .data$accuracy, .data$response) |>
     mutate(
       .epred = cumsum(.data$.epred) / posterior::rvar_sum(.data$.epred),
@@ -327,7 +283,7 @@ roc2_rvars <- function(object, newdata, ..., bounds = FALSE) {
       !(.data$response == 0 & .data$confidence == 1),
       !(.data$response == 1 & .data$confidence == K)
     ) |>
-    select(-"joint_response", -"stimulus") |>
+    select(-"joint_response", -!!sym(.stimulus)) |>
     ungroup() |>
     tidyr::pivot_wider(
       names_from = "accuracy",

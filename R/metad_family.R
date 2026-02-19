@@ -2,18 +2,27 @@
 #'
 #' @param K The number of confidence levels
 #' @param distribution The noise distribution to use. Should be a parameter-free
-#' distribution, i.e., one that is mean-centered without additional variance/shape parameters.
-#' If the distribution is not already available in stan, you must additionally provide two
-#' functions to Stan (one for `<distribution>_lcdf` and one for `<distribution>_lccdf`).
-#' @param metac_absolute Should the type 2 criterion (metac) be fixed to the absolute type 1 criterion (c)?
-#' If `TRUE`, the model will set `metac = c`. Otherwise, it will set `metac = M * c`, such that
-#' the type 2 criterion is _relatively_ equal to the type 1 criterion
-#' (i.e., `meta_c/meta_dprime = c/dprime`)
-#' @returns A single string containing Stan code defining the likelihood for the metad' model
-#' with `K` confidence levels, signal distributed according to the distribution `distribution`,
-#' and where `metac = c` if `metac_absolute==TRUE`, and `metac = M*c` otherwise.
+#'   distribution, i.e., one that is mean-centered without additional
+#'   variance/shape parameters. If the distribution is not already available in
+#'   stan, you must additionally provide two functions to Stan (one for
+#'   `<distribution>_lcdf` and one for `<distribution>_lccdf`).
+#' @param metac_absolute Should the type 2 criterion (metac) be fixed to the
+#'   absolute type 1 criterion (c)? If `TRUE`, the model will set `metac = c`.
+#'   Otherwise, it will set `metac = M * c`, such that the type 2 criterion is
+#'   _relatively_ equal to the type 1 criterion (i.e., `meta_c/meta_dprime =
+#'   c/dprime`)
+#' @param categorical If `FALSE` (default), use the multinomial likelihood over
+#'   aggregated data. If `TRUE`, use the categorical likelihood over individual
+#'   trials.
+#' @returns A string containing Stan code defining the likelihood for the metad'
+#'   model with `K` confidence levels, signal distributed according to the
+#'   distribution `distribution`, and where `metac = c` if
+#'   `metac_absolute==TRUE`, and `metac = M*c` otherwise.
 #' @keywords internal
-stancode_metad <- function(K, distribution = "normal", metac_absolute = TRUE) {
+stancode_metad <- function(
+  K, distribution = "normal", metac_absolute = TRUE,
+  categorical = FALSE
+) {
   if (!is.numeric(K) || K <= 1) {
     stop("Number of confidence levels must be an integer greater than 1")
   }
@@ -28,69 +37,133 @@ stancode_metad <- function(K, distribution = "normal", metac_absolute = TRUE) {
   }
 
   paste0(
-    "	// Convert a binary int x from {0, 1} to {-1, 1}
-	int to_signed(int x) {
-	  return 2*x - 1;
-	}
+    "
+  // Convert a binary int x from {0, 1} to {-1, 1}
+  int to_signed(int x) {
+    return 2*x - 1;
+  }
 
-	// P(response, confidence | stimulus) given as simplex
-	// [P(resp=0, conf=K), .... P(resp=0, conf=1), P(resp=1, conf=1), ... P(resp=1, conf=K)]
-	vector metad_", distribution, "_pmf(int stimulus, real dprime, real c, real meta_dprime, real meta_c, vector meta_c2_0, vector meta_c2_1) {
-		// number of confidence levels
-		int K = size(meta_c2_0)+1;
+  // P(response, confidence | stimulus) given as simplex
+  // [P(resp=0, conf=K), .... P(resp=0, conf=1), P(resp=1, conf=1), ... P(resp=1, conf=K)]
+  vector metad_", distribution, "_pmf(int stimulus, real dprime, real c, real meta_dprime, real meta_c, vector meta_c2_0, vector meta_c2_1) {
+    // number of confidence levels
+    int K = size(meta_c2_0) + 1;
 
-  	// type-1 response probabilities
-	  real lp_1 = ", dist_fun("c", "to_signed(stimulus)*dprime/2", "lccdf"), ";
-  	real lp_0 = ", dist_fun("c", "to_signed(stimulus)*dprime/2", "lcdf"), ";
+    // type-1 response probabilities
+    real lp_1 = ", dist_fun("c", "to_signed(stimulus)*dprime/2", "lccdf"), ";
+    real lp_0 = ", dist_fun("c", "to_signed(stimulus)*dprime/2", "lcdf"), ";
 
-  	// means of type-2 distributions
-  	real meta_mu = to_signed(stimulus) * meta_dprime/2;
+    // means of type-2 distributions
+    real meta_mu = to_signed(stimulus) * meta_dprime/2;
 
-	  vector[K] lp2_1;         // CDFs (response == 1)
-  	vector[K] lp2_0;         // CDFs (response == 0)
-		vector[2*K] log_theta;   // joint (type-1 x type-2) response probabilities
+    vector[K] lp2_1;         // CDFs (response == 1)
+    vector[K] lp2_0;         // CDFs (response == 0)
+    vector[2*K] log_theta;   // joint (type-1 x type-2) response probabilities
 
-	  lp2_1[1] = ", dist_fun("meta_c", "meta_mu", "lccdf"), ";
-  	lp2_0[1] = ", dist_fun("meta_c", "meta_mu", "lcdf"), ";
-  	for (k in 2:K) {
-    	lp2_1[k] = ", dist_fun("meta_c2_1[k-1]", "meta_mu", "lccdf"), ";
-    	lp2_0[k] = ", dist_fun("meta_c2_0[k-1]", "meta_mu", "lcdf"), ";
+    lp2_1[1] = ", dist_fun("meta_c", "meta_mu", "lccdf"), ";
+    lp2_0[1] = ", dist_fun("meta_c", "meta_mu", "lcdf"), ";
+    for (k in 2:K) {
+      lp2_1[k] = ", dist_fun("meta_c2_1[k-1]", "meta_mu", "lccdf"), ";
+      lp2_0[k] = ", dist_fun("meta_c2_0[k-1]", "meta_mu", "lcdf"), ";
 
-			log_theta[K-k+2] = log_diff_exp(lp2_0[k-1], lp2_0[k]);
-    	log_theta[K+k-1] = log_diff_exp(lp2_1[k-1], lp2_1[k]);
-  	}
-  	log_theta[1] = lp2_0[K];
-  	log_theta[2*K] = lp2_1[K];
+      log_theta[K-k+2] = log_diff_exp(lp2_0[k-1], lp2_0[k]);
+      log_theta[K+k-1] = log_diff_exp(lp2_1[k-1], lp2_1[k]);
+    }
+    log_theta[1] = lp2_0[K];
+    log_theta[2*K] = lp2_1[K];
 
-	  // weight by P(response|stimulus) and normalize
-  	log_theta[1:K] += lp_0 - lp2_0[1];
-  	log_theta[(K+1):(2*K)] += lp_1 - lp2_1[1];
+    // weight by P(response|stimulus) and normalize
+    log_theta[1:K] += lp_0 - lp2_0[1];
+    log_theta[(K+1):(2*K)] += lp_1 - lp2_1[1];
 
-	  return exp(log_theta);
-	}
+    return exp(log_theta);
+  }
 
-	real metad__", K, "__", distribution, "__", ifelse(metac_absolute, "absolute", "relative"),
-    "_lpmf(array[] int Y, real M, real dprime, real c, ",
+  real metad__", K, "__", distribution, "__",
+    ifelse(metac_absolute, "absolute", "relative"),
+    "__", ifelse(categorical, "categorical", "multinomial"),
+    "_lpmf(",
+    ifelse(categorical, "int y", "array[] int Y"),
+    ", real M, real dprime, real c, ",
     paste0("real z_meta_c2_0_", 1:k, collapse = ", "), ", ",
     paste0("real z_meta_c2_1_", 1:k, collapse = ", "),
+    ifelse(categorical, ", int stimulus", ""),
     ") {
-		int K = size(Y) %/% 4; // number of confidence levels
+  int K = ", K, "; // number of confidence levels
 
-		real meta_dprime = M * dprime;
-		real meta_c = ", ifelse(metac_absolute, "c", "M * c"), ";
-		vector[K-1] meta_c2_0 = meta_c - cumulative_sum([",
+  real meta_dprime = M * dprime;
+  real meta_c = ", ifelse(metac_absolute, "c", "M * c"), ";
+  vector[K-1] meta_c2_0 = meta_c - cumulative_sum([",
     paste0("z_meta_c2_0_", 1:k, collapse = ", "),
     "]');
-		vector[K-1] meta_c2_1 = meta_c + cumulative_sum([",
+  vector[K-1] meta_c2_1 = meta_c + cumulative_sum([",
     paste0("z_meta_c2_1_", 1:k, collapse = ", "),
     "]');
+",
+    ifelse(categorical,
+      paste0("
+  // use categorical likelihood
+  return categorical_lpmf(y | metad_", distribution, "_pmf(", "stimulus, dprime, c, meta_dprime,
+                          meta_c, meta_c2_0, meta_c2_1));
+"),
+      paste0("
+  // use multinomial likelihood
+  return multinomial_lpmf(Y[1:(2*K)] | metad_", distribution, "_pmf(0, dprime, c,
+                          meta_dprime, meta_c, meta_c2_0, meta_c2_1)) +
+    multinomial_lpmf(Y[(2*K+1):(4*K)] |  metad_", distribution, "_pmf(1, dprime, c,
+                      meta_dprime, meta_c, meta_c2_0, meta_c2_1));
+")
+    ),
+    "}"
+  )
+}
 
-		// use multinomial likelihood
-		return multinomial_lpmf(Y[1:(2*K)] | metad_", distribution, "_pmf(0, dprime, c,
-														meta_dprime, meta_c, meta_c2_0, meta_c2_1)) +
-  		multinomial_lpmf(Y[(2*K+1):(4*K)] |  metad_", distribution, "_pmf(1, dprime, c,
-											 meta_dprime, meta_c, meta_c2_0, meta_c2_1));
-	}"
+#' Generate Stan code for the meta-d' model
+#'
+#' @param K The number of confidence levels
+#' @param distribution The noise distribution to use. Should be a parameter-free
+#'   distribution, i.e., one that is mean-centered without additional
+#'   variance/shape parameters. If the distribution is not already available in
+#'   stan, you must additionally provide two functions to Stan (one for
+#'   `<distribution>_lcdf` and one for `<distribution>_lccdf`).
+#' @param metac_absolute Should the type 2 criterion (metac) be fixed to the
+#'   absolute type 1 criterion (c)? If `TRUE`, the model will set `metac = c`.
+#'   Otherwise, it will set `metac = M * c`, such that the type 2 criterion is
+#'   _relatively_ equal to the type 1 criterion (i.e., `meta_c/meta_dprime =
+#'   c/dprime`)
+#' @param categorical If `FALSE` (default), use the multinomial likelihood over
+#'   aggregated data. If `TRUE`, use the categorical likelihood over individual
+#'   trials.
+#' @returns A [brms::stanvar] object containing Stan code defining the
+#'   likelihood for the metad' model with `K` confidence levels, signal
+#'   distributed according to the distribution `distribution`, and where `metac
+#'   = c` if `metac_absolute==TRUE`, and `metac = M*c` otherwise.
+#' @examples
+#' # create stancode for the meta-d' model
+#' # using the normal distribution and 3 levels of confidence
+#' stanvars_metad(3)
+#'
+#' # create stancode for the meta-d' model with meta_c = M * c
+#' stanvars_metad(3, metac_absolute = FALSE)
+#'
+#' # create stancode for the meta-d' model with
+#' # an alternative distribution
+#' # note: cumulative distribution functions must be defined
+#' # in R and in Stan using [brms::stanvar()]
+#' stanvars_metad(4, distribution = "gumbel_min")
+#'
+#' @export
+stanvars_metad <- function(
+  K, distribution = "normal",
+  metac_absolute = TRUE, categorical = FALSE
+) {
+  stanvar(
+    scode = stancode_metad(K,
+      distribution = distribution,
+      metac_absolute = metac_absolute,
+      categorical = categorical
+    ),
+    block = "functions"
   )
 }
 
@@ -107,7 +180,7 @@ get_dist <- function(model, fun = "lcdf") {
   }
   dist <- stringr::str_match(
     model$family$name,
-    "metad__[[:digit:]]*__(.*)__[[:alpha:]]*"
+    "metad__[[:digit:]]*__(.*)__[[:alpha:]]*__[[:alpha:]]*"
   )[, 2]
   paste0(dist, "_", fun) |>
     sym() |>
@@ -125,8 +198,39 @@ get_metac <- function(model) {
   }
   stringr::str_match(
     model$family$name,
-    "metad__[[:digit:]]*__.*__([[:alpha:]]*)"
+    "metad__[[:digit:]]*__.*__([[:alpha:]]*)__[[:alpha:]]*"
   )[, 2]
+}
+
+#' Get the likelihood parameterization in `model`
+#' @param model The `brms` model to get the parameterization for
+#' @returns A character vector, either `"multinomial"` or `"categorical"`.
+#' @keywords internal
+get_ll <- function(model) {
+  if (model$family$family != "custom" ||
+    !stringr::str_starts(model$family$name, "metad")) {
+    stop("Model must use the `metad` family.")
+  }
+  stringr::str_match(
+    model$family$name,
+    "metad__[[:digit:]]*__.*__[[:alpha:]]*__([[:alpha:]]*)"
+  )[, 2]
+}
+
+#' Get the stimulus variable in `model`
+#' @param model The `brms` model to get the variable for
+#' @returns A character vector.
+#' @keywords internal
+get_stimulus <- function(model) {
+  if (get_ll(model) == "categorical") {
+    if (is.null(brmsterms(model$formula)$adforms$vint)) {
+      stop("Error: couldn't find a 'stimulus' variable for categorical model")
+    }
+
+    return(all.vars(brmsterms(model$formula)$adforms$vint)[1])
+  }
+
+  "stimulus"
 }
 
 #' Normal cumulative distribution functions
@@ -234,9 +338,9 @@ metad_pmf <- function(stimulus, dprime, c,
 #' `K` is the number of confidence levels.
 #' @keywords internal
 posterior_epred_metad <- function(prep) {
-  M <- brms::get_dpar(prep, "mu")
-  dprime <- brms::get_dpar(prep, "dprime")
-  c1 <- brms::get_dpar(prep, "c")
+  M <- get_dpar(prep, "mu")
+  dprime <- get_dpar(prep, "dprime")
+  c1 <- get_dpar(prep, "c")
 
   # align dimensions
   n_obs <- dim(M)[2]
@@ -259,13 +363,13 @@ posterior_epred_metad <- function(prep) {
   meta_c2_0 <- NULL
   meta_c2_1 <- NULL
 
-  if (is.vector(brms::get_dpar(prep, "metac2zero1diff"))) {
+  if (is.vector(get_dpar(prep, "metac2zero1diff"))) {
     if (length(dpars[stringr::str_detect(dpars, "metac2zero")]) == 1) {
-      meta_c2_0 <- brms::get_dpar(prep, "metac2zero1diff")
+      meta_c2_0 <- get_dpar(prep, "metac2zero1diff")
       meta_c2_0 <- array(meta_c2_0, dim = c(length(meta_c2_0), 1, 1))
     } else {
       meta_c2_0 <- dpars[stringr::str_detect(dpars, "metac2zero")] |>
-        sapply(function(s) brms::get_dpar(prep, s)) |>
+        sapply(function(s) get_dpar(prep, s)) |>
         apply(1, cumsum) |>
         t() |>
         replicate(last(dim(meta_c)), expr = _) |>
@@ -273,19 +377,19 @@ posterior_epred_metad <- function(prep) {
     }
   } else {
     meta_c2_0 <- dpars[stringr::str_detect(dpars, "metac2zero")] |>
-      lapply(function(s) brms::get_dpar(prep, s)) |>
+      lapply(function(s) get_dpar(prep, s)) |>
       abind::abind(along = 3) |>
       apply(1:2, cumsum) |>
       aperm(c(2, 3, 1))
   }
 
-  if (is.vector(brms::get_dpar(prep, "metac2one1diff"))) {
+  if (is.vector(get_dpar(prep, "metac2one1diff"))) {
     if (length(dpars[stringr::str_detect(dpars, "metac2one")]) == 1) {
-      meta_c2_1 <- brms::get_dpar(prep, "metac2one1diff")
+      meta_c2_1 <- get_dpar(prep, "metac2one1diff")
       meta_c2_1 <- array(meta_c2_1, dim = c(length(meta_c2_1), 1, 1))
     } else {
       meta_c2_1 <- dpars[stringr::str_detect(dpars, "metac2one")] |>
-        sapply(function(s) brms::get_dpar(prep, s)) |>
+        sapply(function(s) get_dpar(prep, s)) |>
         apply(1, cumsum) |>
         t() |>
         replicate(last(dim(meta_c)), expr = _) |>
@@ -293,7 +397,7 @@ posterior_epred_metad <- function(prep) {
     }
   } else {
     meta_c2_1 <- dpars[stringr::str_detect(dpars, "metac2one")] |>
-      lapply(function(s) brms::get_dpar(prep, s)) |>
+      lapply(function(s) get_dpar(prep, s)) |>
       abind::abind(along = 3) |>
       apply(1:2, cumsum) |>
       aperm(c(2, 3, 1))
@@ -311,19 +415,35 @@ posterior_epred_metad <- function(prep) {
   # calculate joint response & confidence probabilities
   lcdf <- get_dist(prep, fun = "lcdf")
   lccdf <- get_dist(prep, fun = "lccdf")
-  p <- array(dim = c(dim(dprime), 4 * K))
-  for (s in 1:first(dim(dprime))) {
-    for (i in 1:last(dim(dprime))) {
-      p[s, i, 1:(2 * K)] <-
-        metad_pmf(0, dprime[s, i], c1[s, i], meta_dprime[s, i],
-          meta_c[s, i], meta_c2_0[s, i, ], meta_c2_1[s, i, ],
-          lcdf = lcdf, lccdf = lccdf
-        )
-      p[s, i, (2 * K + 1):(4 * K)] <-
-        metad_pmf(1, dprime[s, i], c1[s, i], meta_dprime[s, i],
-          meta_c[s, i], meta_c2_0[s, i, ], meta_c2_1[s, i, ],
-          lcdf = lcdf, lccdf = lccdf
-        )
+
+  ll <- get_ll(prep)
+  p <- NULL
+  if (ll == "multinomial") {
+    p <- array(dim = c(dim(dprime), 4 * K))
+    for (s in 1:first(dim(dprime))) {
+      for (i in 1:last(dim(dprime))) {
+        p[s, i, 1:(2 * K)] <-
+          metad_pmf(0, dprime[s, i], c1[s, i], meta_dprime[s, i],
+            meta_c[s, i], meta_c2_0[s, i, ], meta_c2_1[s, i, ],
+            lcdf = lcdf, lccdf = lccdf
+          )
+        p[s, i, (2 * K + 1):(4 * K)] <-
+          metad_pmf(1, dprime[s, i], c1[s, i], meta_dprime[s, i],
+            meta_c[s, i], meta_c2_0[s, i, ], meta_c2_1[s, i, ],
+            lcdf = lcdf, lccdf = lccdf
+          )
+      }
+    }
+  } else if (ll == "categorical") {
+    p <- array(dim = c(dim(dprime), 2 * K))
+    for (s in 1:first(dim(dprime))) {
+      for (i in 1:last(dim(dprime))) {
+        p[s, i, ] <-
+          metad_pmf(prep$data$vint1[i], dprime[s, i], c1[s, i], meta_dprime[s, i],
+            meta_c[s, i], meta_c2_0[s, i, ], meta_c2_1[s, i, ],
+            lcdf = lcdf, lccdf = lccdf
+          )
+      }
     }
   }
 
@@ -337,9 +457,9 @@ posterior_epred_metad <- function(prep) {
 #' for observation `i` in `prep`
 #' @keywords internal
 lp_metad <- function(i, prep) {
-  M <- brms::get_dpar(prep, "mu", i = i)
-  dprime <- brms::get_dpar(prep, "dprime", i = i)
-  c1 <- brms::get_dpar(prep, "c", i = i)
+  M <- get_dpar(prep, "mu", i = i)
+  dprime <- get_dpar(prep, "dprime", i = i)
+  c1 <- get_dpar(prep, "c", i = i)
   meta_dprime <- M * dprime
   meta_c <- NULL
   if (get_metac(prep) == "absolute") {
@@ -351,7 +471,7 @@ lp_metad <- function(i, prep) {
   # determine confidence thresholds
   dpars <- names(prep$dpars)
   meta_c2_0 <- dpars[stringr::str_detect(dpars, "metac2zero")] |>
-    sapply(function(s) brms::get_dpar(prep, s, i = i))
+    sapply(function(s) get_dpar(prep, s, i = i))
   if (is.vector(meta_c2_0)) {
     meta_c2_0 <- matrix(meta_c2_0, ncol = length(meta_c2_0))
   }
@@ -359,7 +479,7 @@ lp_metad <- function(i, prep) {
     apply(1, cumsum) |>
     t()
   meta_c2_1 <- dpars[stringr::str_detect(dpars, "metac2one")] |>
-    sapply(function(s) brms::get_dpar(prep, s, i = i))
+    sapply(function(s) get_dpar(prep, s, i = i))
   if (is.vector(meta_c2_1)) {
     meta_c2_1 <- matrix(meta_c2_1, ncol = length(meta_c2_1))
   }
@@ -400,22 +520,24 @@ lp_metad <- function(i, prep) {
 #' `K` is the number of confidence levels.
 #' @keywords internal
 log_lik_metad <- function(i, prep) {
-  p <- exp(lp_metad(i, prep))
+  if (get_ll(prep) == "categorical") {
+    return(lp_metad(i, prep)[, prep$data$Y[i] +
+      prep$data$vint1[i] * prep$data$ncat])
+  }
 
   if (any(is.na(prep$data$Y))) {
     stop("Error: please provide sample data y with trial counts")
   }
 
+  p <- exp(lp_metad(i, prep))
   y <- prep$data$Y[i, ]
-  N_0 <- sum(y[1:(length(y) / 2)])
-  N_1 <- sum(y[(length(y) / 2 + 1):length(y)])
 
   # calculate multinomial response probabilities
   apply(
     p[, 1:(ncol(p) / 2), drop = FALSE], 1,
     function(prob) {
       dmultinom(y[1:(length(y) / 2)],
-        size = N_0, prob = prob, log = TRUE
+        prob = prob, log = TRUE
       )
     }
   ) +
@@ -423,7 +545,7 @@ log_lik_metad <- function(i, prep) {
       p[, (ncol(p) / 2 + 1):ncol(p), drop = FALSE], 1,
       function(prob) {
         dmultinom(y[(length(y) / 2 + 1):length(y)],
-          size = N_1, prob = prob, log = TRUE
+          prob = prob, log = TRUE
         )
       }
     )
@@ -440,13 +562,27 @@ log_lik_metad <- function(i, prep) {
 #' `K` is the number of confidence levels.
 #' @keywords internal
 posterior_predict_metad <- function(i, prep, ...) {
+  if (get_ll(prep) == "categorical") {
+    p <- lp_metad(i, prep)[, 1:prep$data$ncat +
+      prep$data$vint1[i] * prep$data$ncat]
+    return(apply(exp(p), 1, function(prob) sample.int(prep$data$ncat, size = 1, prob = prob)))
+  }
+
   p <- exp(lp_metad(i, prep))
 
+  ## multinomial model needs trial counts
   if (any(is.na(prep$data$Y))) {
     stop("Error: please provide sample data y with trial counts")
   }
 
-  y <- prep$data$Y[i, ]
+  ## get trial counts
+  y <- NULL
+  if (is.matrix(prep$data$Y)) {
+    y <- prep$data$Y[i, ]
+  } else {
+    y <- prep$data$Y
+  }
+
   N_0 <- as.integer(sum(y[1:(length(y) / 2)]))
   N_1 <- as.integer(sum(y[(length(y) / 2 + 1):length(y)]))
 
@@ -460,10 +596,14 @@ posterior_predict_metad <- function(i, prep, ...) {
 
 #' `brms` family for the metad' model
 #' @param K The number of confidence levels
-#' @param distribution The noise distribution to use for the signal detection model
-#' @param metac_absolute If `TRUE`, fix the type 2 criterion to be equal to the type 1 criterion.
-#' Otherwise, equate the criteria relatively such that
-#' \deqn{\frac{\textrm{meta-}c}{\textrm{meta-}d'} = \frac{c}{d'}}
+#' @param distribution The noise distribution to use for the signal detection
+#'   model
+#' @param metac_absolute If `TRUE`, fix the type 2 criterion to be equal to the
+#'   type 1 criterion. Otherwise, equate the criteria relatively such that
+#'   \deqn{\frac{\textrm{meta-}c}{\textrm{meta-}d'} = \frac{c}{d'}}
+#' @param categorical If `FALSE` (default), use the multinomial likelihood over
+#'   aggregated data. If `TRUE`, use the categorical likelihood over individual
+#'   trials.
 #' @returns A `brms` family for the metad' model with \eqn{K} confidence levels
 #' @examples
 #' # create a family using the normal distribution and 3 levels of confidence
@@ -477,12 +617,23 @@ posterior_predict_metad <- function(i, prep, ...) {
 #' # in R and in Stan using [brms::stanvar()]
 #' metad(4, distribution = "gumbel_min")
 #' @export
-metad <- function(K, distribution = "normal", metac_absolute = TRUE) {
+metad <- function(K, distribution = "normal", metac_absolute = TRUE, categorical = FALSE) {
   k <- K - 1
-  brms::custom_family(
+
+  # if categorical=TRUE, use categorical likelihood with
+  # stimulus as a stanvar
+  vars <- NULL
+  specials <- "multinomial"
+  if (categorical) {
+    vars <- "vint1[n]"
+    specials <- "categorical"
+  }
+
+  custom_family(
     name = paste0(
       "metad__", K, "__", distribution, "__",
-      ifelse(metac_absolute, "absolute", "relative")
+      ifelse(metac_absolute, "absolute", "relative"), "__",
+      ifelse(categorical, "categorical", "multinomial")
     ),
     dpars = c(
       "mu", "dprime", "c", paste0("metac2zero", 1:k, "diff"),
@@ -490,7 +641,8 @@ metad <- function(K, distribution = "normal", metac_absolute = TRUE) {
     ),
     links = c("log", "identity", "identity", rep("log", 2 * k)),
     lb = c(0, NA, NA, rep(0, 2 * k)),
-    type = "int", specials = c("multinomial"),
+    type = "int",
+    vars = vars, specials = specials,
     log_lik = log_lik_metad,
     posterior_predict = posterior_predict_metad,
     posterior_epred = posterior_epred_metad

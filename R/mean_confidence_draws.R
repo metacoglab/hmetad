@@ -48,48 +48,26 @@
 #' @export
 mean_confidence_draws <- function(object, newdata, ...,
                                   by_stimulus = TRUE, by_response = TRUE) {
-  if (object$family$family != "custom" ||
-    !stringr::str_starts(object$family$name, "metad")) {
-    stop("Model must use the `metad` family.")
-  }
-
-  draws <- tidybayes::epred_draws(object, newdata, ...)
-
-  ## number of confidence levels
-  K <- as.integer(n_distinct(draws$.category) / 4)
-
   ## grouping columns
+  .stimulus <- get_stimulus(object)
   .cols <- names(newdata)
-  .cols <- .cols[!(.cols %in% c(".row", "stimulus", ".draw"))]
+  .cols <- .cols[!(.cols %in% c(".row", .stimulus, ".draw"))]
 
-  draws <- draws |>
-    mutate(
-      .category = as.integer(.data$.category),
-      stimulus = as.integer(.data$.category > 2 * K),
-      joint_response = ifelse(.data$stimulus,
-        .data$.category - 2 * K,
-        .data$.category
-      ),
-      response = type1_response(.data$joint_response, K),
-      confidence = type2_response(.data$joint_response, K)
-    ) |>
-    group_by(
-      .data$.row, !!!syms(.cols),
-      .data$.chain, .data$.iteration, .data$.draw
-    )
+  draws <- epred_draws_metad(object, newdata, ...) |>
+    group_by(.data$.row, !!!syms(.cols), .data$.chain, .data$.iteration, .data$.draw)
 
   if (by_stimulus) {
     if (by_response) {
       draws |>
-        group_by(.data$stimulus, .data$response, .add = TRUE) |>
+        group_by(!!sym(.stimulus), .data$response, .add = TRUE) |>
         mutate(.epred = .data$.epred / sum(.data$.epred)) |> ## normalize within responses
         summarize(.epred = sum(.data$.epred * .data$confidence), .groups = "keep") |>
-        group_by(.data$.row, !!!syms(.cols), .data$stimulus, .data$response)
+        group_by(.data$.row, !!!syms(.cols), !!sym(.stimulus), .data$response)
     } else {
       draws |>
-        group_by(.data$stimulus, .add = TRUE) |>
+        group_by(!!sym(.stimulus), .add = TRUE) |>
         summarize(.epred = sum(.data$.epred * .data$confidence), .groups = "keep") |>
-        group_by(.data$.row, !!!syms(.cols), .data$stimulus)
+        group_by(.data$.row, !!!syms(.cols), !!sym(.stimulus))
     }
   } else {
     if (by_response) {
@@ -105,7 +83,9 @@ mean_confidence_draws <- function(object, newdata, ...,
           .data$.row, !!!syms(.cols),
           .data$.chain, .data$.iteration, .data$.draw, .data$response
         ) |>
-        summarize(.epred = sum(.data$.epred) / 2, .groups = "keep") |>
+        summarize(
+          .epred = sum(.data$.epred) / 2 # , .groups = "keep"
+        ) |>
         group_by(.data$.row, !!!syms(.cols), .data$response)
     } else {
       draws |>
@@ -125,32 +105,13 @@ add_mean_confidence_draws <- function(newdata, object, ...) {
 #' @export
 mean_confidence_rvars <- function(object, newdata, ...,
                                   by_stimulus = TRUE, by_response = TRUE) {
-  if (object$family$family != "custom" ||
-    !stringr::str_starts(object$family$name, "metad")) {
-    stop("Model must use the `metad` family.")
-  }
-
-  draws <- tidybayes::epred_rvars(object, newdata, ..., columns_to = ".category")
-
-  ## number of confidence levels
-  K <- as.integer(n_distinct(draws$.category) / 4)
-
   ## grouping columns
+  .stimulus <- get_stimulus(object)
   .cols <- names(newdata)
-  .cols <- .cols[!(.cols %in% c(".row", "stimulus", ".draw"))]
+  .cols <- .cols[!(.cols %in% c(".row", .stimulus, ".draw"))]
 
-  draws <- draws |>
-    tidyr::separate_wider_delim(.data$.category,
-      delim = "_",
-      names = c(NA, "stimulus", "joint_response")
-    ) |>
-    mutate(
-      stimulus = as.integer(.data$stimulus),
-      joint_response = as.integer(.data$joint_response),
-      response = type1_response(.data$joint_response, K),
-      confidence = type2_response(.data$joint_response, K)
-    ) |>
-    group_by(.data$.row, !!!syms(.cols))
+  draws <- epred_rvars_metad(object, newdata, ...) |>
+    group_by(.row, !!!syms(.cols))
 
   if (by_stimulus) {
     if (by_response) {

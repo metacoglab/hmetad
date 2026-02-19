@@ -33,7 +33,6 @@ This vignette demonstrates how to use the `mRatio` package to fit the meta-d' mo
 To get a better idea of what kind of datasets the `mRatio` package is designed for, we can start by simulating one (see `help('sim_metad')` for a description of the data simulation function):
 ```{r setup, message=FALSE, warning=FALSE}
 library(tidyverse)
-library(brms)
 library(tidybayes)
 library(mRatio)
 
@@ -106,9 +105,9 @@ d.summary
 
 The resulting data frame has three columns: `N_0` is the number of trials with `stimulus==0`, `N_1` is the number of trials with `stimulus==1`, and `N` is a matrix containing the number of joint responses for each of the two possible stimuli (with column names indicating the `stimulus` and `joint_response`).
 
-If you would like to use variable name other than `N` for the counts, you can change the name with the `.response` argument:
+If you would like to use variable name other than `N` for the counts, you can change the name with the `.name` argument:
 ```{r aggregate_metad_response}
-aggregate_metad(d, .response = "y")
+aggregate_metad(d, .name = "y")
 ```
 
 
@@ -149,10 +148,10 @@ Once we have our fitted model, there are many estimates that we can extract from
 
 
 ### Parameter estimates
-First, it is often useful to extract the posterior draws of the model parameters, which we can do with `metad_draws`:
+First, it is often useful to extract the posterior draws of the model parameters, which we can do with `linpred_draws_metad` (which is a wrapper around `tidybayes::linpred_draws`):
 ```{r parameters}
 draws.metad <- tibble(.row = 1) |>
-  add_metad_draws(m)
+  add_linpred_draws_metad(m)
 ```
 
 ```{r, echo=FALSE}
@@ -161,7 +160,7 @@ print(draws.metad)
 This `tibble` has a separate row for every posterior sample and a separate column for every model parameter. This format is useful for some purposes, but it will often be useful to pivot it so that we have a separate row for each model parameter and posterior sample:
 ```{r}
 draws.metad <- tibble(.row = 1) |>
-  add_metad_draws(m, pivot_longer=TRUE)
+  add_linpred_draws_metad(m, pivot_longer = TRUE)
 ```
 
 ```{r, echo=FALSE}
@@ -175,34 +174,16 @@ draws.metad |>
 
 
 ### Posterior predictions
-One way to evaluate model fit is to perform a *posterior predictive check*: to simulate data from the model's posterior and compare our simulated and actual data. We can do this using `tidybayes::predicted_draws`:
+One way to evaluate model fit is to perform a *posterior predictive check*: to simulate data from the model's posterior and compare our simulated and actual data. We can do this using the function `predicted_draws_metad` (which is a wrapper around `tidybayes::predicted_draws`):
 ```{r post_pred1}
-draws.predicted <- predicted_draws(m, d.summary)
+draws.predicted <- predicted_draws_metad(m, d.summary)
 ```
 
 ```{r echo=FALSE}
 draws.predicted
 ```
 
-In this data frame, we have all of the columns from our aggregated data `d.summary` as well as `.category` (indicating the simulated stimulus and joint response) and `.prediction` (indicating the number of simulated trials per stimulus and joint response). To make this format easier to manage, we can pull the relevant information out of `.category`:
-```{r post_pred2}
-draws.predicted <- draws.predicted |>
-  ungroup() |>
-  separate(.category,
-    into = c("var", "stimulus", "joint_response"),
-    sep = "_", convert = TRUE
-  ) |>
-  mutate(
-    response = factor(type1_response(joint_response, K = 4)),
-    confidence = factor(type2_response(joint_response, K = 4))
-  )
-```
-
-```{r echo=FALSE}
-draws.predicted
-```
-
-We now have a tidy `tibble` with a row per `stimulus`, `response`, and `confidence`, with `.prediction` containing the number of simulated trials. From here, we can plot the posterior predictions (points and errorbars) against the actual data (bars):
+In this data frame, we have all of the columns from our aggregated data `d.summary` as well as `stimulus`, `joint_response`, `response`, and `confidence` (indicating the simulated trial type), as well as `.prediction` (indicating the number of simulated trials per trial type). From here, we can plot the posterior predictions (points and error-bars) against the actual data (bars):
 ```{r}
 draws.predicted |>
   group_by(.row, stimulus, joint_response, response, confidence) |>
@@ -217,15 +198,10 @@ draws.predicted |>
 ```
 
 ### Posterior expectations
-Usually it will be simpler to compare response probabilities rather than raw response counts. To do this, we can use the same workflow as above but using `tidybayes::epred_draws`:
+Usually it will be simpler to compare response probabilities rather than raw response counts. To do this, we can use the same workflow as above but using `epred_draws_metad` (which is a wrapper around `tidybayes::epred_draws`):
 
 ```{r epred_draws}
-draws.epred <- epred_draws(m, newdata = tibble(.row = 1)) |>
-  separate(.category, into = c("var", "stimulus", "joint_response"), sep = "_", convert = TRUE) |>
-  mutate(
-    response = factor(type1_response(joint_response, K = 4)),
-    confidence = factor(type2_response(joint_response, K = 4))
-  )
+draws.epred <- epred_draws_metad(m, newdata = tibble(.row = 1))
 ```
 
 ```{r echo=FALSE}

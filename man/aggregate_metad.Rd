@@ -4,15 +4,32 @@
 \alias{aggregate_metad}
 \title{Aggregate \code{data} by \code{response}, \code{confidence}, and other columns}
 \usage{
-aggregate_metad(data, ..., .response = "N", K = NULL)
+aggregate_metad(
+  data,
+  ...,
+  .stimulus = "stimulus",
+  .response = "response",
+  .confidence = "confidence",
+  .joint_response = "joint_response",
+  .name = "N",
+  K = NULL
+)
 }
 \arguments{
-\item{data}{The dataframe to aggregate}
+\item{data}{The data frame to aggregate}
 
 \item{...}{Grouping columns in \code{data}.
 These columns will be converted to factors.}
 
-\item{.response}{The name of the resulting column containing trial counts}
+\item{.stimulus}{The name of "stimulus" column}
+
+\item{.response}{The name of "response" column}
+
+\item{.confidence}{The name of "confidence" column}
+
+\item{.joint_response}{The name of "joint_response" column}
+
+\item{.name}{The name of the resulting column containing trial counts}
 
 \item{K}{The number of confidence levels in \code{data}.
 If \code{NULL}, this is estimated from \code{data}.}
@@ -39,6 +56,16 @@ type 2 response \eqn{C}):
 Counts number of rows in \code{data} with unique combinations values in the
 columns \code{response}, \code{confidence}, and any other columns in \code{...}.
 }
+\details{
+The data frame \code{data} must have one column with the name given by \code{.stimulus}.
+Additionally, it must have either:
+\itemize{
+\item Two columns with names given by \code{.response} and \code{.confidence}
+\item One column with the name given by \code{.joint_response}
+}
+
+Finally, it must also have columns for any additional variables in \code{...}.
+}
 \examples{
 # aggregate a dataset without grouping factors
 d <- sim_metad()
@@ -50,4 +77,16 @@ aggregate_metad(d2, condition)
 
 # can also aggregate ignoring grouping factors
 aggregate_metad(d2)
+
+# aggregate data with only `joint_response` column
+library(dplyr)
+d |>
+  ungroup() |>
+  mutate(joint_response = joint_response(
+    response, confidence,
+    n_distinct(confidence)
+  )) |>
+  select(-response, -confidence) |>
+  aggregate_metad()
+
 }

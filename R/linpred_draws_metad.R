@@ -1,9 +1,9 @@
 #' Obtain posterior draws of meta-d' model parameters
 #'
 #' @description Given a data frame and a meta-d' model, adds estimates of all
-#'   model parameters. For `metad_draws` and `add_metad_draws`, parameters are
+#'   model parameters. For `linpred_draws_metad` and `add_linpred_draws_metad`, parameters are
 #'   returned in a tidy tibble with one row per posterior draw. For
-#'   `metad_rvars` and `add_metad_rvars`, parameters are returned as
+#'   `linpred_rvars_metad` and `add_linpred_rvars_metad`, parameters are returned as
 #'   [posterior::rvar]s, with one row per row in `newdata`.
 #'
 #' @param object The `brms` model with the `metad` family
@@ -16,7 +16,7 @@
 #' @returns a tibble containing posterior draws of model parameters with the
 #'   following columns:
 #'  * `.row`: the row of `newdata`
-#'  * `.chain`, `.iteration`, `.draw`: for `metad_draws`, identifiers for the posterior sample
+#'  * `.chain`, `.iteration`, `.draw`: for `linpred_draws_metad`, identifiers for the posterior sample
 #'  * `.variable`, `.value`: if `pivot_longer=TRUE`, `.variable` identifies different meta-d' model parameters and `.value` stores posterior samples
 #'  * `M`, `dprime`, `c`, `meta_dprime`, `meta_c`, `meta_c2_0_<k>`, `meta_c2_1_<k>`: if `pivot_longer=FALSE`, posterior samples of all meta-d' model parameters
 #' @examples
@@ -25,32 +25,38 @@
 #' newdata <- tidyr::tibble(.row = 1)
 #'
 #' # obtain model parameters (wide format)
-#' metad_draws(m, newdata)
-#' add_metad_draws(newdata, m)
+#' linpred_draws_metad(m, newdata)
+#' add_linpred_draws_metad(newdata, m)
 #'
 #' # obtain model parameters (long format)
-#' metad_draws(m, newdata, pivot_longer = TRUE)
-#' add_metad_draws(newdata, m, pivot_longer = TRUE)
+#' linpred_draws_metad(m, newdata, pivot_longer = TRUE)
+#' add_linpred_draws_metad(newdata, m, pivot_longer = TRUE)
 #'
 #' # obtain model parameters (wide format, posterior::rvar)
-#' metad_rvars(m, newdata)
-#' add_metad_rvars(newdata, m)
+#' linpred_rvars_metad(m, newdata)
+#' add_linpred_rvars_metad(newdata, m)
 #'
 #' # obtain model parameters (long format, posterior::rvar)
-#' metad_rvars(m, newdata, pivot_longer = TRUE)
-#' add_metad_rvars(newdata, m, pivot_longer = TRUE)
+#' linpred_rvars_metad(m, newdata, pivot_longer = TRUE)
+#' add_linpred_rvars_metad(newdata, m, pivot_longer = TRUE)
 #'
-#' @rdname metad_draws
+#' @rdname linpred_draws_metad
 #' @export
-metad_draws <- function(object, newdata, ..., pivot_longer = FALSE) {
+linpred_draws_metad <- function(object, newdata, ..., pivot_longer = FALSE) {
   if (object$family$family != "custom" ||
     !stringr::str_starts(object$family$name, "metad")) {
     stop("Model must use the `metad` family.")
   }
 
   ## grouping columns
+  .stimulus <- get_stimulus(object)
   .cols <- names(newdata)
-  .cols <- .cols[!(.cols %in% c(".row", "stimulus", ".draw"))]
+  .cols <- .cols[!(.cols %in% c(".row", .stimulus, ".draw"))]
+
+  ## set stimulus for categorical models (not used in linpred_draws)
+  if (get_ll(object) == "categorical") {
+    newdata <- newdata |> mutate("{.stimulus}" := 0L)
+  }
 
   draws <- object |>
     tidybayes::linpred_draws(newdata, ..., value = "M", dpar = TRUE, transform = TRUE) |>
@@ -82,6 +88,11 @@ metad_draws <- function(object, newdata, ..., pivot_longer = FALSE) {
       names_prefix = "meta_c2_"
     )
 
+  ## remove stimulus column for categorical models
+  if (get_ll(object) == "categorical") {
+    draws <- draws |> select(-!!sym(.stimulus))
+  }
+
   if (pivot_longer) {
     draws |>
       tidyr::pivot_longer(
@@ -98,23 +109,29 @@ metad_draws <- function(object, newdata, ..., pivot_longer = FALSE) {
   }
 }
 
-#' @rdname metad_draws
+#' @rdname linpred_draws_metad
 #' @export
-add_metad_draws <- function(newdata, object, ..., pivot_longer = FALSE) {
-  metad_draws(object, newdata, ..., pivot_longer = pivot_longer)
+add_linpred_draws_metad <- function(newdata, object, ..., pivot_longer = FALSE) {
+  linpred_draws_metad(object, newdata, ..., pivot_longer = pivot_longer)
 }
 
-#' @rdname metad_draws
+#' @rdname linpred_draws_metad
 #' @export
-metad_rvars <- function(object, newdata, ..., pivot_longer = FALSE) {
+linpred_rvars_metad <- function(object, newdata, ..., pivot_longer = FALSE) {
   if (object$family$family != "custom" ||
     !stringr::str_starts(object$family$name, "metad")) {
     stop("Model must use the `metad` family.")
   }
 
   ## grouping columns
+  .stimulus <- get_stimulus(object)
   .cols <- names(newdata)
-  .cols <- .cols[!(.cols %in% c(".row", "stimulus", ".draw"))]
+  .cols <- .cols[!(.cols %in% c(".row", .stimulus, ".draw"))]
+
+  ## set stimulus for categorical models (not used in linpred_draws)
+  if (get_ll(object) == "categorical") {
+    newdata <- newdata |> mutate("{.stimulus}" := 0L)
+  }
 
   draws <- object |>
     tidybayes::linpred_rvars(newdata, ..., value = "M", dpar = TRUE, transform = TRUE) |>
@@ -145,6 +162,11 @@ metad_rvars <- function(object, newdata, ..., pivot_longer = FALSE) {
       names_prefix = "meta_c2_"
     )
 
+  ## remove stimulus column for categorical models
+  if (get_ll(object) == "categorical") {
+    draws <- draws |> select(-!!sym(.stimulus))
+  }
+
   if (pivot_longer) {
     draws |>
       tidyr::pivot_longer(
@@ -161,8 +183,8 @@ metad_rvars <- function(object, newdata, ..., pivot_longer = FALSE) {
   }
 }
 
-#' @rdname metad_draws
+#' @rdname linpred_draws_metad
 #' @export
-add_metad_rvars <- function(newdata, object, pivot_longer = FALSE) {
-  metad_rvars(object, newdata, pivot_longer = pivot_longer)
+add_linpred_rvars_metad <- function(newdata, object, pivot_longer = FALSE) {
+  linpred_rvars_metad(object, newdata, pivot_longer = pivot_longer)
 }

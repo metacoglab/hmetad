@@ -61,12 +61,18 @@ metacognitive_bias_draws <- function(object, newdata, ..., by_response = TRUE) {
     stop("Model must use the `metad` family.")
   }
 
+  ## grouping columns
+  .stimulus <- get_stimulus(object)
+  .cols <- names(newdata)
+  .cols <- .cols[!(.cols %in% c(".row", .stimulus, ".draw", "response"))]
+
+  ## set stimulus for categorical models (not used in linpred_draws)
+  if (get_ll(object) == "categorical") {
+    newdata <- newdata |> mutate("{.stimulus}" := 0L)
+  }
+
   dpar <- object$family$dpar[stringr::str_starts(object$family$dpar, "metac2")]
   draws <- tidybayes::linpred_draws(object, newdata, ..., dpar = dpar, transform = TRUE)
-
-  ## grouping columns
-  .cols <- names(newdata)
-  .cols <- .cols[!(.cols %in% c(".row", ".draw"))]
 
   draws <- draws |>
     group_by(.data$.row, !!!syms(.cols)) |>
@@ -83,7 +89,10 @@ metacognitive_bias_draws <- function(object, newdata, ..., by_response = TRUE) {
       .data$.row, !!!syms(.cols), .data$response,
       .data$.chain, .data$.iteration, .data$.draw
     ) |>
-    summarize(metacognitive_bias = metacognitive_bias(.data$value)) |>
+    summarize(
+      metacognitive_bias = metacognitive_bias(.data$value),
+      .groups = "keep"
+    ) |>
     group_by(.data$.row, !!!syms(.cols), .data$response)
 
   if (!by_response) {
@@ -92,7 +101,10 @@ metacognitive_bias_draws <- function(object, newdata, ..., by_response = TRUE) {
         .data$.row, !!!syms(.cols),
         .data$.chain, .data$.iteration, .data$.draw
       ) |>
-      summarize(metacognitive_bias = mean(.data$metacognitive_bias)) |>
+      summarize(
+        metacognitive_bias = mean(.data$metacognitive_bias),
+        .groups = "keep"
+      ) |>
       group_by(.data$.row, !!!syms(.cols))
   }
 
@@ -114,12 +126,18 @@ metacognitive_bias_rvars <- function(object, newdata, ..., by_response = TRUE) {
     stop("Model must use the `metad` family.")
   }
 
+  ## grouping columns
+  .stimulus <- get_stimulus(object)
+  .cols <- names(newdata)
+  .cols <- .cols[!(.cols %in% c(".row", .stimulus, ".draw", "response"))]
+
+  ## set stimulus for categorical models (not used in linpred_draws)
+  if (get_ll(object) == "categorical") {
+    newdata <- newdata |> mutate("{.stimulus}" := 0L)
+  }
+
   dpar <- object$family$dpar[stringr::str_starts(object$family$dpar, "metac2")]
   draws <- tidybayes::linpred_rvars(object, newdata, ..., dpar = dpar, transform = TRUE)
-
-  ## grouping columns
-  .cols <- names(newdata)
-  .cols <- .cols[!(.cols %in% c(".row", ".draw"))]
 
   draws <- draws |>
     group_by(.data$.row, !!!syms(.cols)) |>
@@ -138,7 +156,10 @@ metacognitive_bias_rvars <- function(object, newdata, ..., by_response = TRUE) {
   if (!by_response) {
     draws <- draws |>
       group_by(.data$.row, !!!syms(.cols)) |>
-      summarize(metacognitive_bias = posterior::rvar_mean(.data$metacognitive_bias))
+      summarize(
+        metacognitive_bias = posterior::rvar_mean(.data$metacognitive_bias),
+        .groups = "keep"
+      )
   }
 
   draws

@@ -4,16 +4,21 @@
 \alias{metad}
 \title{\code{brms} family for the metad' model}
 \usage{
-metad(K, distribution = "normal", metac_absolute = TRUE)
+metad(K, distribution = "normal", metac_absolute = TRUE, categorical = FALSE)
 }
 \arguments{
 \item{K}{The number of confidence levels}
 
-\item{distribution}{The noise distribution to use for the signal detection model}
+\item{distribution}{The noise distribution to use for the signal detection
+model}
 
-\item{metac_absolute}{If \code{TRUE}, fix the type 2 criterion to be equal to the type 1 criterion.
-Otherwise, equate the criteria relatively such that
+\item{metac_absolute}{If \code{TRUE}, fix the type 2 criterion to be equal to the
+type 1 criterion. Otherwise, equate the criteria relatively such that
 \deqn{\frac{\textrm{meta-}c}{\textrm{meta-}d'} = \frac{c}{d'}}}
+
+\item{categorical}{If \code{FALSE} (default), use the multinomial likelihood over
+aggregated data. If \code{TRUE}, use the categorical likelihood over individual
+trials.}
 }
 \value{
 A \code{brms} family for the metad' model with \eqn{K} confidence levels

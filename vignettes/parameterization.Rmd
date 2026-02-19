@@ -136,7 +136,7 @@ LL \;&=\; \textrm{multinomial}\_\textrm{lpmf}\left(N_{0,r,c} \;\vert\; P(R=r, C=
 \end{align*}
 $$
 
-This formulation only requires the model likelihood to be evaluated twice (once per stimulus), dramatically increasing the efficiency of model fitting.
+This formulation only requires the model likelihood to be evaluated twice (once per stimulus), dramatically increasing the efficiency of model fitting. Because of the increase in efficiency, the multinomial likelihood is the default in the `mRatio` package. If the categorical likelihood is desired (e.g., for trial-level effects or crossed random effects), it can be used with the argument `categorical=TRUE`.
 
 ## Fixing the type 1 threshold for type 2 responses
 The meta-d' model requires the parameter $\textrm{meta-}c$ to be fixed to be equal with respect to the type 1 criterion $c$. As discussed by [@maniscalco2014], there are multiple ways of fixing $\textrm{meta-}c$. The `mRatio` package implements two:

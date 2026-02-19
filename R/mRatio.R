@@ -166,12 +166,25 @@ response_probabilities <- function(counts) {
 #' Counts number of rows in `data` with unique combinations values in the
 #' columns `response`, `confidence`, and any other columns in `...`.
 #'
-#' @param data The dataframe to aggregate
+#' @param data The data frame to aggregate
 #' @param ... Grouping columns in `data`.
 #' These columns will be converted to factors.
-#' @param .response The name of the resulting column containing trial counts
+#' @param .stimulus The name of "stimulus" column
+#' @param .response The name of "response" column
+#' @param .confidence The name of "confidence" column
+#' @param .joint_response The name of "joint_response" column
+#' @param .name The name of the resulting column containing trial counts
 #' @param K The number of confidence levels in `data`.
 #' If `NULL`, this is estimated from `data`.
+#'
+#' @details
+#' The data frame `data` must have one column with the name given by `.stimulus`.
+#' Additionally, it must have either:
+#'   * Two columns with names given by `.response` and `.confidence`
+#'   * One column with the name given by `.joint_response`
+#'
+#' Finally, it must also have columns for any additional variables in `...`.
+#'
 #' @returns A tibble with one row per combination of the variables in `...`,
 #' and another column named by the value of `.response` containing trial counts.
 #' For \eqn{K} confidence levels, this will be an \eqn{N \times K*4} matrix, such that the
@@ -199,8 +212,24 @@ response_probabilities <- function(counts) {
 #'
 #' # can also aggregate ignoring grouping factors
 #' aggregate_metad(d2)
+#'
+#' # aggregate data with only `joint_response` column
+#' library(dplyr)
+#' d |>
+#'   ungroup() |>
+#'   mutate(joint_response = joint_response(
+#'     response, confidence,
+#'     n_distinct(confidence)
+#'   )) |>
+#'   select(-response, -confidence) |>
+#'   aggregate_metad()
+#'
 #' @export
-aggregate_metad <- function(data, ..., .response = "N", K = NULL) {
+aggregate_metad <- function(
+  data, ..., .stimulus = "stimulus", .response = "response",
+  .confidence = "confidence", .joint_response = "joint_response",
+  .name = "N", K = NULL
+) {
   if (nrow(data) == 0) {
     ## generate zeros if empty
     if (is.null(K)) {
@@ -209,52 +238,97 @@ aggregate_metad <- function(data, ..., .response = "N", K = NULL) {
       stop("Number of confidence levels (`K`) must be greater than 1.")
     }
 
-    data <- tidyr::expand_grid(..., stimulus = 0:1, response = 0:1, confidence = 1:K) |>
+    data <- tidyr::expand_grid(..., "{.stimulus}" := 0:1, "{.response}" := 0:1, "{.confidence}" := 1:K) |>
       mutate(
-        joint_response = factor(joint_response(.data$response, .data$confidence, K)),
+        "{.joint_response}" := factor(joint_response(!!sym(.response), !!sym(.confidence), K)),
         n = 0
       ) |>
-      select(-"response", -"confidence") |>
-      arrange(..., .data$stimulus, .data$joint_response)
+      select(-!!sym(.response), -!!sym(.confidence)) |>
+      arrange(..., !!sym(.stimulus), !!sym(.joint_response))
   } else {
     ## aggregate data if non-empty
 
-    # number of confidence levels
-    if (is.null(K)) {
-      K <- n_distinct(data$confidence)
+    ## fill in missing columns
+    if (!(.joint_response %in% names(data))) {
+      if (!(.response %in% names(data) && .confidence %in% names(data))) {
+        stop(paste0(
+          'Data must have a column called "', .joint_response,
+          '", or two columns called "', .response, '" and "', .confidence, '".'
+        ))
+      }
+
+      # number of confidence levels
+      if (is.null(K)) {
+        K <- data |>
+          pull(!!sym(.confidence)) |>
+          n_distinct()
+      }
+
+      ## add joint_response column
+      data <- data |>
+        mutate("{.joint_response}" := factor(
+          joint_response(!!sym(.response), !!sym(.confidence), K),
+          levels = 1:(2 * K)
+        ))
+    } else {
+      # number of confidence levels
+      if (is.null(K)) {
+        K <- as.integer((data |> pull(!!sym(.joint_response)) |> n_distinct()) / 2)
+      }
+
+      if (!(.response %in% names(data))) {
+        ## add response column
+        data <- data |>
+          mutate("{.response}" := factor(type1_response(!!sym(.joint_response), K)))
+      }
+
+      if (!(.confidence %in% names(data))) {
+        ## add confidence column
+        data <- data |>
+          mutate("{.confidence}" := factor(type2_response(!!sym(.joint_response), K)))
+      }
     }
 
     if (K <= 1) {
       stop("Number of confidence levels (`K`) must be greater than 1.")
     }
 
+    if (!(.stimulus %in% names(data))) {
+      stop(paste0('Data must have a column called "', .stimulus, '".'))
+    }
+
+    if (!all(names(enquos(..., .named = TRUE)) %in% names(data))) {
+      stop(paste0(
+        "Data must have the following columns: ",
+        stringr::str_flatten_comma(sapply(
+          names(enquos(..., .named = TRUE)),
+          function(s) paste0('"', s, '"')
+        )),
+        "."
+      ))
+    }
+
     data <- data |>
       ungroup() |>
       mutate(
-        response = as.integer(as.character(.data$response)),
-        confidence = as.integer(as.character(.data$confidence)),
-        joint_response = factor(
-          joint_response(.data$response, .data$confidence, K),
-          levels = 1:(2 * K)
-        ),
-        stimulus = factor(.data$stimulus),
+        "{.stimulus}" := factor(!!sym(.stimulus)),
         across(c(...), factor)
       ) |>
       group_by(...) |>
-      count(.data$stimulus, .data$joint_response, .drop = FALSE)
+      count(!!sym(.stimulus), !!sym(.joint_response), .drop = FALSE)
   }
 
   data <- data |>
     tidyr::pivot_wider(
-      names_from = c("stimulus", "joint_response"),
+      names_from = all_of(c(.stimulus, .joint_response)),
       values_from = "n",
-      names_prefix = glue::glue("{.response}_")
+      names_prefix = glue::glue("{.name}_")
     ) |>
     mutate(
-      "{.response}_0" := sum(c_across(starts_with(glue::glue("{.response}_0_"),
+      "{.name}_0" := sum(c_across(starts_with(glue::glue("{.name}_0_"),
         ignore.case = FALSE
       ))),
-      "{.response}_1" := sum(c_across(starts_with(glue::glue("{.response}_1_"),
+      "{.name}_1" := sum(c_across(starts_with(glue::glue("{.name}_1_"),
         ignore.case = FALSE
       )))
     )
@@ -264,12 +338,12 @@ aggregate_metad <- function(data, ..., .response = "N", K = NULL) {
     select(
       data, ...,
       all_of(c(
-        glue::glue("{.response}_0"),
-        glue::glue("{.response}_1")
+        glue::glue("{.name}_0"),
+        glue::glue("{.name}_1")
       ))
     ),
-    "{.response}" := data |> ungroup() |>
-      select(matches(glue::glue("{.response}_([[:digit:]]+)_([[:digit:]]+)"),
+    "{.name}" := data |> ungroup() |>
+      select(matches(glue::glue("{.name}_([[:digit:]]+)_([[:digit:]]+)"),
         ignore.case = FALSE
       )) |>
       as.matrix()
@@ -281,84 +355,110 @@ aggregate_metad <- function(data, ..., .response = "N", K = NULL) {
 #' This function is a wrapper around [brms::brm()] using a custom family for the
 #' meta-d' model.
 #'
-#' @param formula A model formula for some or all parameters of the `metad` brms family.
-#' To display all parameter names for a model with `K` confidence levels, use `metad(K)`.
+#' @param formula A model formula for some or all parameters of the `metad` brms
+#'   family. To display all parameter names for a model with `K` confidence
+#'   levels, use `metad(K)`.
 #' @param data A tibble containing the data to fit the model.
 #' * If `aggregate`==TRUE, `data` should have one row per observation with
-#' columns `stimulus`, `response`, `confidence`, and any other variables in `formula`
+#'   columns `stimulus`, `response`, `confidence`, and any other variables in
+#'   `formula`
 #' * If `aggregate`==FALSE, it should be aggregated to have one row per cell of
-#' the design matrix, with joint type 1/type 2 response counts in a matrix column
-#' (see [aggregate_metad()]).
+#'   the design matrix, with joint type 1/type 2 response counts in a matrix
+#'   column (see [aggregate_metad()]).
 #' @param ... Additional parameters passed to the `brm` function.
 #' @param aggregate If `TRUE`, automatically aggregate `data` by the variables
-#' included in `formula` using [aggregate_metad()].
-#' Otherwise, `data` should already be aggregated.
-#' @param K The number of confidence levels. By default, this is estimated from the data.
-#' @param distribution The noise distribution to use for the signal detection model.
-#' By default, uses a normal distribution with a mean parameterized by `dprime`.
-#' @param metac_absolute If `TRUE`, fix the type 2 criterion to be equal to the type 1 criterion.
-#' Otherwise, equate the criteria relatively such that metac/metadprime = c/dprime.
-#' @param stanvars Additional `stanvars` to pass to the model code, for example to define an alternative
-#' distribution or a custom model prior (see [brms::stanvar()]).
+#'   included in `formula` using [aggregate_metad()]. Otherwise, `data` should
+#'   already be aggregated.
+#' @param .stimulus The name of "stimulus" column
+#' @param .response The name of "response" column
+#' @param .confidence The name of "confidence" column
+#' @param .joint_response The name of "joint_response" column
+#' @param K The number of confidence levels. By default, this is estimated from
+#'   the data.
+#' @param distribution The noise distribution to use for the signal detection
+#'   model. By default, uses a normal distribution with a mean parameterized by
+#'   `dprime`.
+#' @param metac_absolute If `TRUE`, fix the type 2 criterion to be equal to the
+#'   type 1 criterion. Otherwise, equate the criteria relatively such that
+#'   metac/metadprime = c/dprime.
+#' @param stanvars Additional `stanvars` to pass to the model code, for example
+#'   to define an alternative distribution or a custom model prior (see
+#'   [brms::stanvar()]).
+#' @param categorical If `FALSE` (default), use the multinomial likelihood over
+#'   aggregated data. If `TRUE`, use the categorical likelihood over individual
+#'   trials.
 #' @examples
 #' # fit a basic model on simulated data
 #' # running few iterations so example runs quickly, use more in practice
 #' fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
 #'
 #' @export
-fit_metad <- function(formula, data, ..., aggregate = TRUE, K = NULL,
-                      distribution = "normal", metac_absolute = TRUE, stanvars = NULL) {
-  data.aggregated <- NULL
+fit_metad <- function(formula, data, ..., aggregate = TRUE,
+                      .stimulus = "stimulus", .response = "response",
+                      .confidence = "confidence", .joint_response = "joint_response",
+                      K = NULL,
+                      distribution = "normal", metac_absolute = TRUE, stanvars = NULL,
+                      categorical = FALSE) {
+  data.aggregated <- data
 
   # ensure formula is a brmsformula
-  if (!("brmsformula" %in% attr(formula, "class"))) {
-    formula <- brms::bf(formula)
+  if ("formula" %in% class(formula)) {
+    formula <- bf(formula)
+  } else if ("mvbrmsformula" %in% class(formula)) {
+    stop("Error: multivariate brms formulas not yet supported.")
   }
 
   # determine response variable
-  .response <- all.vars(formula$formula)[attr(terms(formula$formula), "response")]
+  .name <- all.vars(formula$formula)[attr(terms(formula$formula), "response")]
 
-  # aggregate data by formula terms
-  if (aggregate) {
-    if (is.null(K)) {
+  # determine number of confidence levels
+  if (is.null(K)) {
+    if (aggregate && !categorical) {
       K <- n_distinct(data$confidence)
+    } else if (!categorical) {
+      # if data is already aggregated, count number of columns
+      K <- ncol(pull(data, .name)) / 4
+    } else {
+      # for categorical models, use joint_response column
+      K <- n_distinct(pull(data, .name)) / 2
     }
-    if (K <= 1) {
-      stop("Number of confidence levels (`K`) must be greater than 1.")
-    }
-
-    # get a list of variables by which to aggregate
-    terms <- all.vars(brms::brmsterms(brms::bf(formula, family = metad(K)))$allvars)
-    terms <- syms(terms[!(terms %in% c(.response, "Intercept"))])
-    data.aggregated <- aggregate_metad(data, !!!terms, .response = .response)
-  } else {
-    if (is.null(K)) {
-      K <- ncol(pull(data, .response)) / 4
-    }
-    if (K <= 1) {
-      stop("Number of confidence levels (`K`) must be greater than 1.")
-    }
-    data.aggregated <- data
   }
 
-  if (K < 2) {
-    stop(glue::glue("Error: must have at least one confidence level (found {{K}})."))
+  if (K <= 1) {
+    stop("Number of confidence levels (`K`) must be greater than 1.")
+  }
+
+  ## convert the formula to use the metad family
+  formula <- bf(formula,
+    family = metad(K,
+      distribution = distribution,
+      metac_absolute = metac_absolute,
+      categorical = categorical
+    )
+  )
+
+  # aggregate data by formula terms
+  if (aggregate && !categorical) {
+    # get a list of variables by which to aggregate
+    terms <- all.vars(brmsterms(formula)$allvars)
+    terms <- syms(terms[!(terms %in% c(.name, "Intercept"))])
+    data.aggregated <- aggregate_metad(
+      data, !!!terms,
+      .stimulus = .stimulus, .response = .response,
+      .confidence = .confidence, .joint_response = .joint_response,
+      .name = .name,
+    )
   }
 
   # add metad stanvars to any user-defined stanvars
-  sv <- brms::stanvar(
-    scode = stancode_metad(K,
-      distribution = distribution,
-      metac_absolute = metac_absolute
-    ),
-    block = "functions"
+  sv <- stanvars_metad(K,
+    distribution = distribution,
+    metac_absolute = metac_absolute,
+    categorical = categorical
   )
   if (!is.null(stanvars)) {
     sv <- sv + stanvars
   }
 
-  brms::brm(formula, data.aggregated,
-    family = metad(K, distribution = distribution, metac_absolute = metac_absolute),
-    stanvars = sv, ...
-  )
+  brm(formula, data.aggregated, stanvars = sv, ...)
 }

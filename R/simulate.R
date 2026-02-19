@@ -73,7 +73,7 @@ rmatrixnorm <- function(mu, L_sigma_rows, L_sigma_cols) {
   D <- nrow(L_sigma_rows) * nrow(L_sigma_cols)
   mu +
     L_sigma_rows %*%
-    matrix(brms::rmulti_normal(1, mu = rep(0, D), Sigma = diag(D)),
+    matrix(rmulti_normal(1, mu = rep(0, D), Sigma = diag(D)),
       nrow = nrow(L_sigma_rows)
     ) %*%
     L_sigma_cols
@@ -165,8 +165,8 @@ sim_metad <- function(N_trials = 100, dprime = 1, c = 0, log_M = 0,
         meta_dprime, meta_c, meta_c2_0, meta_c2_1,
         lcdf = lcdf, lccdf = lccdf
       ),
-      theta_1 = ifelse(.data$response, lccdf(c, to_signed(.data$stimulus) * dprime / 2),
-        lcdf(c, to_signed(.data$stimulus) * dprime / 2)
+      theta_1 = ifelse(.data$response, exp(lccdf(c, to_signed(.data$stimulus) * dprime / 2)),
+        exp(lcdf(c, to_signed(.data$stimulus) * dprime / 2))
       ),
       # theta_1=sdt_type1_pmf(first(stimulus), response=response, dprime, c),
       theta_2 = .data$theta / .data$theta_1,
@@ -334,14 +334,14 @@ sim_metad_participant <- function(N_participants = 100, N_trials = 100,
       log_M = rnorm(n(), mu_log_M, sd_log_M),
       c2_0_diff = purrr::map(
         .data$participant,
-        ~ exp(brms::rmulti_normal(1,
+        ~ exp(rmulti_normal(1,
           mu = mu_z_c2_0,
           Sigma = cov_matrix(sd_z_c2_0, r_z_c2_0)
         ))
       ),
       c2_1_diff = purrr::map(
         .data$participant,
-        ~ exp(brms::rmulti_normal(1,
+        ~ exp(rmulti_normal(1,
           mu = mu_z_c2_1,
           Sigma = cov_matrix(sd_z_c2_1, r_z_c2_1)
         ))
@@ -455,15 +455,15 @@ sim_metad_participant_condition <-
       mutate(
         dprime = purrr::map_dbl(
           .data$condition, function(condition, d) d[, condition],
-          brms::rmulti_normal(1, mu_dprime, sigma_dprime)
+          rmulti_normal(1, mu_dprime, sigma_dprime)
         ),
         c = purrr::map_dbl(
           .data$condition, function(condition, c) c[, condition],
-          brms::rmulti_normal(1, mu_c, sigma_c)
+          rmulti_normal(1, mu_c, sigma_c)
         ),
         log_M = purrr::map_dbl(
           .data$condition, function(condition, log_m) log_m[, condition],
-          brms::rmulti_normal(1, mu_log_M, sigma_log_M)
+          rmulti_normal(1, mu_log_M, sigma_log_M)
         ),
         c2_0_diff = purrr::map(
           .data$condition, function(condition, c2) c2[, condition],

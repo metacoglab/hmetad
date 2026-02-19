@@ -9,41 +9,64 @@ fit_metad(
   data,
   ...,
   aggregate = TRUE,
+  .stimulus = "stimulus",
+  .response = "response",
+  .confidence = "confidence",
+  .joint_response = "joint_response",
   K = NULL,
   distribution = "normal",
   metac_absolute = TRUE,
-  stanvars = NULL
+  stanvars = NULL,
+  categorical = FALSE
 )
 }
 \arguments{
-\item{formula}{A model formula for some or all parameters of the \code{metad} brms family.
-To display all parameter names for a model with \code{K} confidence levels, use \code{metad(K)}.}
+\item{formula}{A model formula for some or all parameters of the \code{metad} brms
+family. To display all parameter names for a model with \code{K} confidence
+levels, use \code{metad(K)}.}
 
 \item{data}{A tibble containing the data to fit the model.
 \itemize{
 \item If \code{aggregate}==TRUE, \code{data} should have one row per observation with
-columns \code{stimulus}, \code{response}, \code{confidence}, and any other variables in \code{formula}
+columns \code{stimulus}, \code{response}, \code{confidence}, and any other variables in
+\code{formula}
 \item If \code{aggregate}==FALSE, it should be aggregated to have one row per cell of
-the design matrix, with joint type 1/type 2 response counts in a matrix column
-(see \code{\link[=aggregate_metad]{aggregate_metad()}}).
+the design matrix, with joint type 1/type 2 response counts in a matrix
+column (see \code{\link[=aggregate_metad]{aggregate_metad()}}).
 }}
 
 \item{...}{Additional parameters passed to the \code{brm} function.}
 
 \item{aggregate}{If \code{TRUE}, automatically aggregate \code{data} by the variables
-included in \code{formula} using \code{\link[=aggregate_metad]{aggregate_metad()}}.
-Otherwise, \code{data} should already be aggregated.}
+included in \code{formula} using \code{\link[=aggregate_metad]{aggregate_metad()}}. Otherwise, \code{data} should
+already be aggregated.}
 
-\item{K}{The number of confidence levels. By default, this is estimated from the data.}
+\item{.stimulus}{The name of "stimulus" column}
 
-\item{distribution}{The noise distribution to use for the signal detection model.
-By default, uses a normal distribution with a mean parameterized by \code{dprime}.}
+\item{.response}{The name of "response" column}
 
-\item{metac_absolute}{If \code{TRUE}, fix the type 2 criterion to be equal to the type 1 criterion.
-Otherwise, equate the criteria relatively such that metac/metadprime = c/dprime.}
+\item{.confidence}{The name of "confidence" column}
 
-\item{stanvars}{Additional \code{stanvars} to pass to the model code, for example to define an alternative
-distribution or a custom model prior (see \code{\link[brms:stanvar]{brms::stanvar()}}).}
+\item{.joint_response}{The name of "joint_response" column}
+
+\item{K}{The number of confidence levels. By default, this is estimated from
+the data.}
+
+\item{distribution}{The noise distribution to use for the signal detection
+model. By default, uses a normal distribution with a mean parameterized by
+\code{dprime}.}
+
+\item{metac_absolute}{If \code{TRUE}, fix the type 2 criterion to be equal to the
+type 1 criterion. Otherwise, equate the criteria relatively such that
+metac/metadprime = c/dprime.}
+
+\item{stanvars}{Additional \code{stanvars} to pass to the model code, for example
+to define an alternative distribution or a custom model prior (see
+\code{\link[brms:stanvar]{brms::stanvar()}}).}
+
+\item{categorical}{If \code{FALSE} (default), use the multinomial likelihood over
+aggregated data. If \code{TRUE}, use the categorical likelihood over individual
+trials.}
 }
 \description{
 This function is a wrapper around \code{\link[brms:brm]{brms::brm()}} using a custom family for the
