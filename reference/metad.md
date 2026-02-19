@@ -5,7 +5,7 @@
 ## Usage
 
 ``` r
-metad(K, distribution = "normal", metac_absolute = TRUE)
+metad(K, distribution = "normal", metac_absolute = TRUE, categorical = FALSE)
 ```
 
 ## Arguments
@@ -24,6 +24,12 @@ metad(K, distribution = "normal", metac_absolute = TRUE)
   criterion. Otherwise, equate the criteria relatively such that
   \$\$\frac{\textrm{meta-}c}{\textrm{meta-}d'} = \frac{c}{d'}\$\$
 
+- categorical:
+
+  If `FALSE` (default), use the multinomial likelihood over aggregated
+  data. If `TRUE`, use the categorical likelihood over individual
+  trials.
+
 ## Value
 
 A `brms` family for the metad' model with \\K\\ confidence levels
@@ -34,7 +40,7 @@ A `brms` family for the metad' model with \\K\\ confidence levels
 # create a family using the normal distribution and 3 levels of confidence
 metad(3)
 #> 
-#> Custom family: metad__3__normal__absolute 
+#> Custom family: metad__3__normal__absolute__multinomial 
 #> Link function: log 
 #> Parameters: mu, dprime, c, metac2zero1diff, metac2zero2diff, metac2one1diff, metac2one2diff 
 #> 
@@ -42,7 +48,7 @@ metad(3)
 # create a family with meta_c = M * c
 metad(3, metac_absolute = FALSE)
 #> 
-#> Custom family: metad__3__normal__relative 
+#> Custom family: metad__3__normal__relative__multinomial 
 #> Link function: log 
 #> Parameters: mu, dprime, c, metac2zero1diff, metac2zero2diff, metac2one1diff, metac2one2diff 
 #> 
@@ -52,7 +58,7 @@ metad(3, metac_absolute = FALSE)
 # in R and in Stan using [brms::stanvar()]
 metad(4, distribution = "gumbel_min")
 #> 
-#> Custom family: metad__4__gumbel_min__absolute 
+#> Custom family: metad__4__gumbel_min__absolute__multinomial 
 #> Link function: log 
 #> Parameters: mu, dprime, c, metac2zero1diff, metac2zero2diff, metac2zero3diff, metac2one1diff, metac2one2diff, metac2one3diff 
 #> 

@@ -207,7 +207,7 @@ with our new <code>gumbel_min</code> distribution:</p>
 <span>    <span class="fu"><a href="https://paulbuerkner.com/brms/reference/set_prior.html" class="external-link">prior</a></span><span class="op">(</span><span class="fu"><a href="https://paulbuerkner.com/brms/reference/brmsfamily.html" class="external-link">lognormal</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, class <span class="op">=</span> <span class="va">metac2one3diff</span><span class="op">)</span>,</span>
 <span>  distribution <span class="op">=</span> <span class="st">"gumbel_min"</span>, stanvars <span class="op">=</span> <span class="va">gumbel_min</span>, file <span class="op">=</span> <span class="st">"models/gumbel.rds"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt;  Family: metad__4__gumbel_min__absolute </span></span>
+<pre><code><span><span class="co">#&gt;  Family: metad__4__gumbel_min__absolute__multinomial </span></span>
 <span><span class="co">#&gt;   Links: mu = log </span></span>
 <span><span class="co">#&gt; Formula: N ~ 1 </span></span>
 <span><span class="co">#&gt;    Data: data.aggregated (Number of observations: 1) </span></span>
@@ -234,10 +234,9 @@ with our new <code>gumbel_min</code> distribution:</p>
 <span><span class="co">#&gt; scale reduction factor on split chains (at convergence, Rhat = 1).</span></span></code></pre>
 <p>The model summary can be interpreted just as with any other model,
 however here you can see that the model family is
-<code>metad__4__gumbel_min__absolute</code>, indicating that this model
-indeed uses the <code>gumbel_min</code> distribution with four
-confidence levels and <span class="math inline">\textrm{meta-}c =
-c</span>.</p>
+<code>metad__4__gumbel_min__absolute__multinomial</code>, indicating
+that this model indeed uses the <code>gumbel_min</code> distribution
+with four confidence levels and <span class="math inline">\textrm{meta-}c = c</span>.</p>
 </div>
 <div class="section level2">
 <h2 id="model-estimates">Model estimates<a class="anchor" aria-label="anchor" href="#model-estimates"></a>

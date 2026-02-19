@@ -15,7 +15,6 @@ for a description of the data simulation function):
 
 ``` r
 library(tidyverse)
-library(brms)
 library(tidybayes)
 library(mRatio)
 
@@ -176,10 +175,10 @@ responses for each of the two possible stimuli (with column names
 indicating the `stimulus` and `joint_response`).
 
 If you would like to use variable name other than `N` for the counts,
-you can change the name with the `.response` argument:
+you can change the name with the `.name` argument:
 
 ``` r
-aggregate_metad(d, .response = "y")
+aggregate_metad(d, .name = "y")
 #> # A tibble: 1 × 3
 #>     y_0   y_1 y[,"y_0_1"] [,"y_0_2"] [,"y_0_3"] [,"y_0_4"] [,"y_0_5"] [,"y_0_6"]
 #>   <int> <int>       <int>      <int>      <int>      <int>      <int>      <int>
@@ -222,7 +221,7 @@ m <- fit_metad(N ~ 1,
 )
 ```
 
-    #>  Family: metad__4__normal__absolute 
+    #>  Family: metad__4__normal__absolute__multinomial 
     #>   Links: mu = log 
     #> Formula: N ~ 1 
     #>    Data: data.aggregated (Number of observations: 1) 
@@ -275,11 +274,13 @@ with model posterior samples.
 ### Parameter estimates
 
 First, it is often useful to extract the posterior draws of the model
-parameters, which we can do with `metad_draws`:
+parameters, which we can do with `linpred_draws_metad` (which is a
+wrapper around
+[`tidybayes::linpred_draws`](https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html)):
 
 ``` r
 draws.metad <- tibble(.row = 1) |>
-  add_metad_draws(m)
+  add_linpred_draws_metad(m)
 ```
 
     #> # A tibble: 4,000 × 15
@@ -307,7 +308,7 @@ separate row for each model parameter and posterior sample:
 
 ``` r
 draws.metad <- tibble(.row = 1) |>
-  add_metad_draws(m, pivot_longer=TRUE)
+  add_linpred_draws_metad(m, pivot_longer = TRUE)
 ```
 
     #> # A tibble: 44,000 × 6
@@ -353,71 +354,39 @@ draws.metad |>
 
 One way to evaluate model fit is to perform a *posterior predictive
 check*: to simulate data from the model’s posterior and compare our
-simulated and actual data. We can do this using
-[`tidybayes::predicted_draws`](https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html):
+simulated and actual data. We can do this using the function
+`predicted_draws_metad` (which is a wrapper around
+[`tidybayes::predicted_draws`](https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html)):
 
 ``` r
-draws.predicted <- predicted_draws(m, d.summary)
+draws.predicted <- predicted_draws_metad(m, d.summary)
 ```
 
-    #> # A tibble: 64,000 × 9
-    #> # Groups:   N_0, N_1, N, .row, .category [16]
-    #>      N_0   N_1 N[,"N_0_1"]  .row .chain .iteration .draw .category .prediction
-    #>    <int> <int>       <int> <int>  <int>      <int> <int> <fct>           <int>
-    #>  1   500   500           3     1     NA         NA     1 N_0_1               2
-    #>  2   500   500           3     1     NA         NA     2 N_0_1               4
-    #>  3   500   500           3     1     NA         NA     3 N_0_1               1
-    #>  4   500   500           3     1     NA         NA     4 N_0_1               3
-    #>  5   500   500           3     1     NA         NA     5 N_0_1               1
-    #>  6   500   500           3     1     NA         NA     6 N_0_1               4
-    #>  7   500   500           3     1     NA         NA     7 N_0_1               2
-    #>  8   500   500           3     1     NA         NA     8 N_0_1               1
-    #>  9   500   500           3     1     NA         NA     9 N_0_1               4
-    #> 10   500   500           3     1     NA         NA    10 N_0_1               2
+    #> # A tibble: 64,000 × 12
+    #> # Groups:   .row, N_0, N_1, N, stimulus, joint_response, response, confidence
+    #> #   [16]
+    #>     .row   N_0   N_1 N[,"N_0_1"] stimulus joint_response response confidence
+    #>    <int> <int> <int>       <int>    <int>          <int>    <int>      <dbl>
+    #>  1     1   500   500           3        0              1        0          4
+    #>  2     1   500   500           3        0              1        0          4
+    #>  3     1   500   500           3        0              1        0          4
+    #>  4     1   500   500           3        0              1        0          4
+    #>  5     1   500   500           3        0              1        0          4
+    #>  6     1   500   500           3        0              1        0          4
+    #>  7     1   500   500           3        0              1        0          4
+    #>  8     1   500   500           3        0              1        0          4
+    #>  9     1   500   500           3        0              1        0          4
+    #> 10     1   500   500           3        0              1        0          4
     #> # ℹ 63,990 more rows
-    #> # ℹ 1 more variable: N[2:16] <int>
+    #> # ℹ 5 more variables: N[2:16] <int>, .prediction <int>, .chain <int>,
+    #> #   .iteration <int>, .draw <int>
 
 In this data frame, we have all of the columns from our aggregated data
-`d.summary` as well as `.category` (indicating the simulated stimulus
-and joint response) and `.prediction` (indicating the number of
-simulated trials per stimulus and joint response). To make this format
-easier to manage, we can pull the relevant information out of
-`.category`:
-
-``` r
-draws.predicted <- draws.predicted |>
-  ungroup() |>
-  separate(.category,
-    into = c("var", "stimulus", "joint_response"),
-    sep = "_", convert = TRUE
-  ) |>
-  mutate(
-    response = factor(type1_response(joint_response, K = 4)),
-    confidence = factor(type2_response(joint_response, K = 4))
-  )
-```
-
-    #> # A tibble: 64,000 × 13
-    #>      N_0   N_1 N[,"N_0_1"]  .row .chain .iteration .draw var   stimulus
-    #>    <int> <int>       <int> <int>  <int>      <int> <int> <chr>    <int>
-    #>  1   500   500           3     1     NA         NA     1 N            0
-    #>  2   500   500           3     1     NA         NA     2 N            0
-    #>  3   500   500           3     1     NA         NA     3 N            0
-    #>  4   500   500           3     1     NA         NA     4 N            0
-    #>  5   500   500           3     1     NA         NA     5 N            0
-    #>  6   500   500           3     1     NA         NA     6 N            0
-    #>  7   500   500           3     1     NA         NA     7 N            0
-    #>  8   500   500           3     1     NA         NA     8 N            0
-    #>  9   500   500           3     1     NA         NA     9 N            0
-    #> 10   500   500           3     1     NA         NA    10 N            0
-    #> # ℹ 63,990 more rows
-    #> # ℹ 5 more variables: N[2:16] <int>, joint_response <int>, .prediction <int>,
-    #> #   response <fct>, confidence <fct>
-
-We now have a tidy `tibble` with a row per `stimulus`, `response`, and
-`confidence`, with `.prediction` containing the number of simulated
-trials. From here, we can plot the posterior predictions (points and
-errorbars) against the actual data (bars):
+`d.summary` as well as `stimulus`, `joint_response`, `response`, and
+`confidence` (indicating the simulated trial type), as well as
+`.prediction` (indicating the number of simulated trials per trial
+type). From here, we can plot the posterior predictions (points and
+error-bars) against the actual data (bars):
 
 ``` r
 draws.predicted |>
@@ -434,40 +403,35 @@ draws.predicted |>
 #> replacement element 1 has 256 rows to replace 16 rows
 ```
 
-![](mRatio_files/figure-html/unnamed-chunk-10-1.png)
+![](mRatio_files/figure-html/unnamed-chunk-9-1.png)
 
 ### Posterior expectations
 
 Usually it will be simpler to compare response probabilities rather than
 raw response counts. To do this, we can use the same workflow as above
-but using
-[`tidybayes::epred_draws`](https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html):
+but using `epred_draws_metad` (which is a wrapper around
+[`tidybayes::epred_draws`](https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html)):
 
 ``` r
-draws.epred <- epred_draws(m, newdata = tibble(.row = 1)) |>
-  separate(.category, into = c("var", "stimulus", "joint_response"), sep = "_", convert = TRUE) |>
-  mutate(
-    response = factor(type1_response(joint_response, K = 4)),
-    confidence = factor(type2_response(joint_response, K = 4))
-  )
+draws.epred <- epred_draws_metad(m, newdata = tibble(.row = 1))
 ```
 
-    #> # A tibble: 64,000 × 10
-    #> # Groups:   .row [1]
-    #>     .row .chain .iteration .draw var   stimulus joint_response  .epred response
-    #>    <int>  <int>      <int> <int> <chr>    <int>          <int>   <dbl> <fct>   
-    #>  1     1     NA         NA     1 N            0              1 0.00296 0       
-    #>  2     1     NA         NA     2 N            0              1 0.0100  0       
-    #>  3     1     NA         NA     3 N            0              1 0.00375 0       
-    #>  4     1     NA         NA     4 N            0              1 0.0122  0       
-    #>  5     1     NA         NA     5 N            0              1 0.00535 0       
-    #>  6     1     NA         NA     6 N            0              1 0.00504 0       
-    #>  7     1     NA         NA     7 N            0              1 0.00363 0       
-    #>  8     1     NA         NA     8 N            0              1 0.00509 0       
-    #>  9     1     NA         NA     9 N            0              1 0.00828 0       
-    #> 10     1     NA         NA    10 N            0              1 0.00637 0       
+    #> # A tibble: 64,000 × 9
+    #> # Groups:   .row, stimulus, joint_response, response, confidence [16]
+    #>     .row stimulus joint_response response confidence  .epred .chain .iteration
+    #>    <int>    <int>          <int>    <int>      <dbl>   <dbl>  <int>      <int>
+    #>  1     1        0              1        0          4 0.00296     NA         NA
+    #>  2     1        0              1        0          4 0.0100      NA         NA
+    #>  3     1        0              1        0          4 0.00375     NA         NA
+    #>  4     1        0              1        0          4 0.0122      NA         NA
+    #>  5     1        0              1        0          4 0.00535     NA         NA
+    #>  6     1        0              1        0          4 0.00504     NA         NA
+    #>  7     1        0              1        0          4 0.00363     NA         NA
+    #>  8     1        0              1        0          4 0.00509     NA         NA
+    #>  9     1        0              1        0          4 0.00828     NA         NA
+    #> 10     1        0              1        0          4 0.00637     NA         NA
     #> # ℹ 63,990 more rows
-    #> # ℹ 1 more variable: confidence <fct>
+    #> # ℹ 1 more variable: .draw <int>
 
 ``` r
 draws.epred |>
@@ -609,18 +573,18 @@ draws.roc1 <- tibble(.row = 1) |>
 
     #> # A tibble: 28,000 × 9
     #> # Groups:   .row, joint_response, response, confidence [7]
-    #>     .row .chain .iteration .draw joint_response response confidence  p_fa p_hit
-    #>    <int>  <int>      <int> <int>          <dbl>    <int>      <dbl> <dbl> <dbl>
-    #>  1     1     NA         NA     1              1        0          4 0.997 1.000
-    #>  2     1     NA         NA     2              1        0          4 0.990 0.997
-    #>  3     1     NA         NA     3              1        0          4 0.996 0.999
-    #>  4     1     NA         NA     4              1        0          4 0.988 0.997
-    #>  5     1     NA         NA     5              1        0          4 0.995 0.999
-    #>  6     1     NA         NA     6              1        0          4 0.995 0.999
-    #>  7     1     NA         NA     7              1        0          4 0.996 0.999
-    #>  8     1     NA         NA     8              1        0          4 0.995 0.999
-    #>  9     1     NA         NA     9              1        0          4 0.992 0.997
-    #> 10     1     NA         NA    10              1        0          4 0.994 0.999
+    #>     .row joint_response response confidence .chain .iteration .draw  p_fa p_hit
+    #>    <int>          <int>    <int>      <dbl>  <int>      <int> <int> <dbl> <dbl>
+    #>  1     1              1        0          4     NA         NA     1 0.997 1.000
+    #>  2     1              1        0          4     NA         NA     2 0.990 0.997
+    #>  3     1              1        0          4     NA         NA     3 0.996 0.999
+    #>  4     1              1        0          4     NA         NA     4 0.988 0.997
+    #>  5     1              1        0          4     NA         NA     5 0.995 0.999
+    #>  6     1              1        0          4     NA         NA     6 0.995 0.999
+    #>  7     1              1        0          4     NA         NA     7 0.996 0.999
+    #>  8     1              1        0          4     NA         NA     8 0.995 0.999
+    #>  9     1              1        0          4     NA         NA     9 0.992 0.997
+    #> 10     1              1        0          4     NA         NA    10 0.994 0.999
     #> # ℹ 27,990 more rows
 
 Again, we have a tidy tibble with columns `.chain`, `.iteration`, and
@@ -668,18 +632,18 @@ draws.roc2 <- tibble(.row = 1) |>
 
     #> # A tibble: 24,000 × 8
     #> # Groups:   .row, response, confidence [6]
-    #>     .row .chain .iteration .draw response confidence  p_hit2   p_fa2
-    #>    <int>  <int>      <int> <int>    <int>      <dbl>   <dbl>   <dbl>
-    #>  1     1     NA         NA     1        0          4 0.00659 0.00233
-    #>  2     1     NA         NA     2        0          4 0.0226  0.0134 
-    #>  3     1     NA         NA     3        0          4 0.00824 0.00468
-    #>  4     1     NA         NA     4        0          4 0.0270  0.0138 
-    #>  5     1     NA         NA     5        0          4 0.0120  0.00552
-    #>  6     1     NA         NA     6        0          4 0.0119  0.00678
-    #>  7     1     NA         NA     7        0          4 0.00841 0.00410
-    #>  8     1     NA         NA     8        0          4 0.0115  0.00608
-    #>  9     1     NA         NA     9        0          4 0.0205  0.0114 
-    #> 10     1     NA         NA    10        0          4 0.0138  0.00559
+    #>     .row response confidence .chain .iteration .draw  p_hit2   p_fa2
+    #>    <int>    <int>      <dbl>  <int>      <int> <int>   <dbl>   <dbl>
+    #>  1     1        0          4     NA         NA     1 0.00659 0.00233
+    #>  2     1        0          4     NA         NA     2 0.0226  0.0134 
+    #>  3     1        0          4     NA         NA     3 0.00824 0.00468
+    #>  4     1        0          4     NA         NA     4 0.0270  0.0138 
+    #>  5     1        0          4     NA         NA     5 0.0120  0.00552
+    #>  6     1        0          4     NA         NA     6 0.0119  0.00678
+    #>  7     1        0          4     NA         NA     7 0.00841 0.00410
+    #>  8     1        0          4     NA         NA     8 0.0115  0.00608
+    #>  9     1        0          4     NA         NA     9 0.0205  0.0114 
+    #> 10     1        0          4     NA         NA    10 0.0138  0.00559
     #> # ℹ 23,990 more rows
 
 This tibble looks the same as for `roc1_draws`, except now there are
@@ -711,7 +675,7 @@ draws.roc2 |>
   theme_bw(18)
 ```
 
-![](mRatio_files/figure-html/unnamed-chunk-14-1.png)
+![](mRatio_files/figure-html/unnamed-chunk-13-1.png)
 
 ## References
 

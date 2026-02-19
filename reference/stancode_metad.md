@@ -5,7 +5,12 @@ Generate Stan code for the meta-d' model
 ## Usage
 
 ``` r
-stancode_metad(K, distribution = "normal", metac_absolute = TRUE)
+stancode_metad(
+  K,
+  distribution = "normal",
+  metac_absolute = TRUE,
+  categorical = FALSE
+)
 ```
 
 ## Arguments
@@ -30,9 +35,15 @@ stancode_metad(K, distribution = "normal", metac_absolute = TRUE)
   *relatively* equal to the type 1 criterion (i.e.,
   `meta_c/meta_dprime = c/dprime`)
 
+- categorical:
+
+  If `FALSE` (default), use the multinomial likelihood over aggregated
+  data. If `TRUE`, use the categorical likelihood over individual
+  trials.
+
 ## Value
 
-A single string containing Stan code defining the likelihood for the
-metad' model with `K` confidence levels, signal distributed according to
-the distribution `distribution`, and where `metac = c` if
+A string containing Stan code defining the likelihood for the metad'
+model with `K` confidence levels, signal distributed according to the
+distribution `distribution`, and where `metac = c` if
 `metac_absolute==TRUE`, and `metac = M*c` otherwise.

@@ -58,10 +58,15 @@ meta-d' model.</p>
 <span>  <span class="va">data</span>,</span>
 <span>  <span class="va">...</span>,</span>
 <span>  aggregate <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  .stimulus <span class="op">=</span> <span class="st">"stimulus"</span>,</span>
+<span>  .response <span class="op">=</span> <span class="st">"response"</span>,</span>
+<span>  .confidence <span class="op">=</span> <span class="st">"confidence"</span>,</span>
+<span>  .joint_response <span class="op">=</span> <span class="st">"joint_response"</span>,</span>
 <span>  K <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  distribution <span class="op">=</span> <span class="st">"normal"</span>,</span>
 <span>  metac_absolute <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  stanvars <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  stanvars <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  categorical <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -70,16 +75,18 @@ meta-d' model.</p>
 
 
 <dl><dt id="arg-formula">formula<a class="anchor" aria-label="anchor" href="#arg-formula"></a></dt>
-<dd><p>A model formula for some or all parameters of the <code>metad</code> brms family.
-To display all parameter names for a model with <code>K</code> confidence levels, use <code>metad(K)</code>.</p></dd>
+<dd><p>A model formula for some or all parameters of the <code>metad</code> brms
+family. To display all parameter names for a model with <code>K</code> confidence
+levels, use <code>metad(K)</code>.</p></dd>
 
 
 <dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p>A tibble containing the data to fit the model.</p><ul><li><p>If <code>aggregate</code>==TRUE, <code>data</code> should have one row per observation with
-columns <code>stimulus</code>, <code>response</code>, <code>confidence</code>, and any other variables in <code>formula</code></p></li>
+columns <code>stimulus</code>, <code>response</code>, <code>confidence</code>, and any other variables in
+<code>formula</code></p></li>
 <li><p>If <code>aggregate</code>==FALSE, it should be aggregated to have one row per cell of
-the design matrix, with joint type 1/type 2 response counts in a matrix column
-(see <code><a href="aggregate_metad.html">aggregate_metad()</a></code>).</p></li>
+the design matrix, with joint type 1/type 2 response counts in a matrix
+column (see <code><a href="aggregate_metad.html">aggregate_metad()</a></code>).</p></li>
 </ul></dd>
 
 
@@ -89,27 +96,53 @@ the design matrix, with joint type 1/type 2 response counts in a matrix column
 
 <dt id="arg-aggregate">aggregate<a class="anchor" aria-label="anchor" href="#arg-aggregate"></a></dt>
 <dd><p>If <code>TRUE</code>, automatically aggregate <code>data</code> by the variables
-included in <code>formula</code> using <code><a href="aggregate_metad.html">aggregate_metad()</a></code>.
-Otherwise, <code>data</code> should already be aggregated.</p></dd>
+included in <code>formula</code> using <code><a href="aggregate_metad.html">aggregate_metad()</a></code>. Otherwise, <code>data</code> should
+already be aggregated.</p></dd>
+
+
+<dt id="arg--stimulus">.stimulus<a class="anchor" aria-label="anchor" href="#arg--stimulus"></a></dt>
+<dd><p>The name of "stimulus" column</p></dd>
+
+
+<dt id="arg--response">.response<a class="anchor" aria-label="anchor" href="#arg--response"></a></dt>
+<dd><p>The name of "response" column</p></dd>
+
+
+<dt id="arg--confidence">.confidence<a class="anchor" aria-label="anchor" href="#arg--confidence"></a></dt>
+<dd><p>The name of "confidence" column</p></dd>
+
+
+<dt id="arg--joint-response">.joint_response<a class="anchor" aria-label="anchor" href="#arg--joint-response"></a></dt>
+<dd><p>The name of "joint_response" column</p></dd>
 
 
 <dt id="arg-k">K<a class="anchor" aria-label="anchor" href="#arg-k"></a></dt>
-<dd><p>The number of confidence levels. By default, this is estimated from the data.</p></dd>
+<dd><p>The number of confidence levels. By default, this is estimated from
+the data.</p></dd>
 
 
 <dt id="arg-distribution">distribution<a class="anchor" aria-label="anchor" href="#arg-distribution"></a></dt>
-<dd><p>The noise distribution to use for the signal detection model.
-By default, uses a normal distribution with a mean parameterized by <code>dprime</code>.</p></dd>
+<dd><p>The noise distribution to use for the signal detection
+model. By default, uses a normal distribution with a mean parameterized by
+<code>dprime</code>.</p></dd>
 
 
 <dt id="arg-metac-absolute">metac_absolute<a class="anchor" aria-label="anchor" href="#arg-metac-absolute"></a></dt>
-<dd><p>If <code>TRUE</code>, fix the type 2 criterion to be equal to the type 1 criterion.
-Otherwise, equate the criteria relatively such that metac/metadprime = c/dprime.</p></dd>
+<dd><p>If <code>TRUE</code>, fix the type 2 criterion to be equal to the
+type 1 criterion. Otherwise, equate the criteria relatively such that
+metac/metadprime = c/dprime.</p></dd>
 
 
 <dt id="arg-stanvars">stanvars<a class="anchor" aria-label="anchor" href="#arg-stanvars"></a></dt>
-<dd><p>Additional <code>stanvars</code> to pass to the model code, for example to define an alternative
-distribution or a custom model prior (see <code><a href="https://paulbuerkner.com/brms/reference/stanvar.html" class="external-link">brms::stanvar()</a></code>).</p></dd>
+<dd><p>Additional <code>stanvars</code> to pass to the model code, for example
+to define an alternative distribution or a custom model prior (see
+<code><a href="https://paulbuerkner.com/brms/reference/stanvar.html" class="external-link">brms::stanvar()</a></code>).</p></dd>
+
+
+<dt id="arg-categorical">categorical<a class="anchor" aria-label="anchor" href="#arg-categorical"></a></dt>
+<dd><p>If <code>FALSE</code> (default), use the multinomial likelihood over
+aggregated data. If <code>TRUE</code>, use the categorical likelihood over individual
+trials.</p></dd>
 
 </dl></div>
 
@@ -122,12 +155,9 @@ distribution or a custom model prior (see <code><a href="https://paulbuerkner.co
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Start sampling</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Rejecting initial value:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:   Gradient evaluated at the initial value is not finite.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:   Stan can't start sampling from this initial value.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Gradient evaluation took 1e-05 seconds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.1 seconds.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Gradient evaluation took 1.8e-05 seconds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.18 seconds.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Adjust your expectations accordingly!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
@@ -144,14 +174,17 @@ distribution or a custom model prior (see <code><a href="https://paulbuerkner.co
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 450 / 500 [ 90%]  (Sampling)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 500 / 500 [100%]  (Sampling)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:  Elapsed Time: 0.027 seconds (Warm-up)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:                0.023 seconds (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:                0.05 seconds (Total)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:  Elapsed Time: 0.029 seconds (Warm-up)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:                0.031 seconds (Sampling)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:                0.06 seconds (Total)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> Running the chains for more iterations may help. See</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> https://mc-stan.org/misc/warnings.html#bulk-ess</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> Running the chains for more iterations may help. See</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> https://mc-stan.org/misc/warnings.html#tail-ess</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Family: metad__4__normal__absolute </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Family: metad__4__normal__absolute__multinomial </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Links: mu = log </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Formula: N ~ 1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Data: data.aggregated (Number of observations: 1) </span>
@@ -160,18 +193,18 @@ distribution or a custom model prior (see <code><a href="https://paulbuerkner.co
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Regression Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Intercept    -0.41      0.88    -1.85     0.62 1.00      118       97</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Intercept    -1.97      2.08    -7.37     0.52 1.00      123       96</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Further Distributional Parameters:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> dprime              1.19      0.27     0.63     1.73 1.01      288      193</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> c                   0.17      0.15    -0.14     0.44 1.01      164      151</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2zero1diff     0.45      0.11     0.25     0.66 1.03      167      125</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2zero2diff     0.69      0.12     0.48     0.94 1.01      216      112</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2zero3diff     0.63      0.15     0.37     0.94 1.00      276      158</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2one1diff      0.51      0.12     0.30     0.77 1.00      215      181</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2one2diff      0.54      0.13     0.29     0.82 1.01      230      199</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2one3diff      0.33      0.13     0.14     0.59 1.03      239      173</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> dprime              0.76      0.26     0.27     1.24 1.02      309      104</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> c                  -0.03      0.13    -0.26     0.22 1.02      190      153</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> metac2zero1diff     0.47      0.08     0.33     0.65 1.00      206      154</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> metac2zero2diff     0.23      0.08     0.11     0.39 1.00      327      206</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> metac2zero3diff     0.69      0.16     0.44     1.05 1.01      433      208</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> metac2one1diff      0.58      0.10     0.42     0.80 1.02      133      186</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> metac2one2diff      0.58      0.13     0.37     0.89 1.00      437      230</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> metac2one3diff      0.52      0.17     0.21     0.89 1.00      286      153</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> and Tail_ESS are effective sample size measures, and Rhat is the potential</span>

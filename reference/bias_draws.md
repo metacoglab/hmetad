@@ -70,8 +70,8 @@ m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
 #> Chain 1: 
-#> Chain 1: Gradient evaluation took 2.8e-05 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.28 seconds.
+#> Chain 1: Gradient evaluation took 2.6e-05 seconds
+#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.26 seconds.
 #> Chain 1: Adjust your expectations accordingly!
 #> Chain 1: 
 #> Chain 1: 
@@ -88,9 +88,9 @@ m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
 #> Chain 1: Iteration: 450 / 500 [ 90%]  (Sampling)
 #> Chain 1: Iteration: 500 / 500 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.029 seconds (Warm-up)
-#> Chain 1:                0.024 seconds (Sampling)
-#> Chain 1:                0.053 seconds (Total)
+#> Chain 1:  Elapsed Time: 0.031 seconds (Warm-up)
+#> Chain 1:                0.025 seconds (Sampling)
+#> Chain 1:                0.056 seconds (Total)
 #> Chain 1: 
 newdata <- tidyr::tibble(.row = 1)
 
@@ -163,6 +163,7 @@ metacognitive_bias_draws(m, newdata, by_response = FALSE)
 #> # ℹ 240 more rows
 metacognitive_bias_rvars(m, newdata, by_response = FALSE)
 #> # A tibble: 1 × 2
+#> # Groups:   .row [1]
 #>    .row metacognitive_bias
 #>   <dbl>         <rvar[1d]>
 #> 1     1       0.99 ± 0.098

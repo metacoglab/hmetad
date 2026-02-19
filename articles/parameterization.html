@@ -253,7 +253,11 @@ LL \;&amp;=\; \textrm{multinomial}\_\textrm{lpmf}\left(N_{0,r,c}
 </span></p>
 <p>This formulation only requires the model likelihood to be evaluated
 twice (once per stimulus), dramatically increasing the efficiency of
-model fitting.</p>
+model fitting. Because of the increase in efficiency, the multinomial
+likelihood is the default in the <code>mRatio</code> package. If the
+categorical likelihood is desired (e.g., for trial-level effects or
+crossed random effects), it can be used with the argument
+<code>categorical=TRUE</code>.</p>
 </div>
 <div class="section level2">
 <h2 id="fixing-the-type-1-threshold-for-type-2-responses">Fixing the type 1 threshold for type 2 responses<a class="anchor" aria-label="anchor" href="#fixing-the-type-1-threshold-for-type-2-responses"></a>

@@ -130,33 +130,33 @@ sim_metad_participant(N_participants = 10, N_trials = 10)
 #> # A tibble: 100 × 15
 #>    participant trial stimulus response correct confidence dprime     c
 #>          <int> <int>    <int>    <int>   <int>      <int>  <dbl> <dbl>
-#>  1           1     1        0        0       1          3  0.600 0.331
-#>  2           1     2        0        0       1          3  0.600 0.331
-#>  3           1     3        0        0       1          4  0.600 0.331
-#>  4           1     4        0        0       1          4  0.600 0.331
-#>  5           1     5        0        1       0          1  0.600 0.331
-#>  6           1     1        1        0       0          1  0.600 0.331
-#>  7           1     2        1        0       0          2  0.600 0.331
-#>  8           1     3        1        0       0          3  0.600 0.331
-#>  9           1     4        1        1       1          2  0.600 0.331
-#> 10           1     5        1        1       1          4  0.600 0.331
+#>  1           1     1        0        0       1          4   1.02 0.579
+#>  2           1     2        0        0       1          4   1.02 0.579
+#>  3           1     3        0        0       1          4   1.02 0.579
+#>  4           1     4        0        0       1          4   1.02 0.579
+#>  5           1     5        0        0       1          4   1.02 0.579
+#>  6           1     1        1        0       0          1   1.02 0.579
+#>  7           1     2        1        1       1          1   1.02 0.579
+#>  8           1     3        1        1       1          1   1.02 0.579
+#>  9           1     4        1        1       1          3   1.02 0.579
+#> 10           1     5        1        1       1          3   1.02 0.579
 #> # ℹ 90 more rows
 #> # ℹ 7 more variables: meta_dprime <dbl>, M <dbl>, meta_c2_0 <list>,
 #> #   meta_c2_1 <list>, theta <dbl>, theta_1 <dbl>, theta_2 <dbl>
 sim_metad_participant(mu_dprime = 2, mu_log_M = -1)
 #> # A tibble: 10,000 × 15
-#>    participant trial stimulus response correct confidence dprime     c
-#>          <int> <int>    <int>    <int>   <int>      <int>  <dbl> <dbl>
-#>  1           1     1        0        0       1          1   2.95 0.317
-#>  2           1     2        0        0       1          1   2.95 0.317
-#>  3           1     3        0        0       1          1   2.95 0.317
-#>  4           1     4        0        0       1          1   2.95 0.317
-#>  5           1     5        0        0       1          2   2.95 0.317
-#>  6           1     6        0        0       1          2   2.95 0.317
-#>  7           1     7        0        0       1          2   2.95 0.317
-#>  8           1     8        0        0       1          2   2.95 0.317
-#>  9           1     9        0        0       1          2   2.95 0.317
-#> 10           1    10        0        0       1          2   2.95 0.317
+#>    participant trial stimulus response correct confidence dprime      c
+#>          <int> <int>    <int>    <int>   <int>      <int>  <dbl>  <dbl>
+#>  1           1     1        0        0       1          1   1.61 -0.324
+#>  2           1     2        0        0       1          1   1.61 -0.324
+#>  3           1     3        0        0       1          1   1.61 -0.324
+#>  4           1     4        0        0       1          1   1.61 -0.324
+#>  5           1     5        0        0       1          1   1.61 -0.324
+#>  6           1     6        0        0       1          1   1.61 -0.324
+#>  7           1     7        0        0       1          1   1.61 -0.324
+#>  8           1     8        0        0       1          1   1.61 -0.324
+#>  9           1     9        0        0       1          2   1.61 -0.324
+#> 10           1    10        0        0       1          2   1.61 -0.324
 #> # ℹ 9,990 more rows
 #> # ℹ 7 more variables: meta_dprime <dbl>, M <dbl>, meta_c2_0 <list>,
 #> #   meta_c2_1 <list>, theta <dbl>, theta_1 <dbl>, theta_2 <dbl>

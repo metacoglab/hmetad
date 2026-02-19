@@ -136,7 +136,7 @@ m <- fit_metad(N ~ 1,
 )
 ```
 
-    #>  Family: metad__4__gumbel_min__absolute 
+    #>  Family: metad__4__gumbel_min__absolute__multinomial 
     #>   Links: mu = log 
     #> Formula: N ~ 1 
     #>    Data: data.aggregated (Number of observations: 1) 
@@ -164,9 +164,9 @@ m <- fit_metad(N ~ 1,
 
 The model summary can be interpreted just as with any other model,
 however here you can see that the model family is
-`metad__4__gumbel_min__absolute`, indicating that this model indeed uses
-the `gumbel_min` distribution with four confidence levels and
-\textrm{meta-}c = c.
+`metad__4__gumbel_min__absolute__multinomial`, indicating that this
+model indeed uses the `gumbel_min` distribution with four confidence
+levels and \textrm{meta-}c = c.
 
 ## Model estimates
 

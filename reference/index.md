@@ -13,6 +13,9 @@ Run the meta-d’ model on aggregated or non-aggregated data using `brms`
 
   `brms` family for the metad' model
 
+- [`stanvars_metad()`](https://metacoglab.github.io/mRatio/reference/stanvars_metad.md)
+  : Generate Stan code for the meta-d' model
+
 ## Processing data for model fitting
 
 Transform data between common formats used in metacognition research
@@ -36,11 +39,24 @@ Transform data between common formats used in metacognition research
 
 ## Extracting model estimates
 
-- [`metad_draws()`](https://metacoglab.github.io/mRatio/reference/metad_draws.md)
-  [`add_metad_draws()`](https://metacoglab.github.io/mRatio/reference/metad_draws.md)
-  [`metad_rvars()`](https://metacoglab.github.io/mRatio/reference/metad_draws.md)
-  [`add_metad_rvars()`](https://metacoglab.github.io/mRatio/reference/metad_draws.md)
+Obtain model parameters, posterior expectations, and implied quantities
+from fitted models.
+
+- [`linpred_draws_metad()`](https://metacoglab.github.io/mRatio/reference/linpred_draws_metad.md)
+  [`add_linpred_draws_metad()`](https://metacoglab.github.io/mRatio/reference/linpred_draws_metad.md)
+  [`linpred_rvars_metad()`](https://metacoglab.github.io/mRatio/reference/linpred_draws_metad.md)
+  [`add_linpred_rvars_metad()`](https://metacoglab.github.io/mRatio/reference/linpred_draws_metad.md)
   : Obtain posterior draws of meta-d' model parameters
+- [`epred_draws_metad()`](https://metacoglab.github.io/mRatio/reference/epred_draws_metad.md)
+  [`add_epred_draws_metad()`](https://metacoglab.github.io/mRatio/reference/epred_draws_metad.md)
+  [`epred_rvars_metad()`](https://metacoglab.github.io/mRatio/reference/epred_draws_metad.md)
+  [`add_epred_rvars_metad()`](https://metacoglab.github.io/mRatio/reference/epred_draws_metad.md)
+  : Obtain posterior draws of joint response probabilities
+- [`predicted_draws_metad()`](https://metacoglab.github.io/mRatio/reference/predicted_draws_metad.md)
+  [`add_predicted_draws_metad()`](https://metacoglab.github.io/mRatio/reference/predicted_draws_metad.md)
+  [`predicted_rvars_metad()`](https://metacoglab.github.io/mRatio/reference/predicted_draws_metad.md)
+  [`add_predicted_rvars_metad()`](https://metacoglab.github.io/mRatio/reference/predicted_draws_metad.md)
+  : Obtain posterior predictions of joint responses
 - [`mean_confidence_draws()`](https://metacoglab.github.io/mRatio/reference/mean_conf_draws.md)
   [`add_mean_confidence_draws()`](https://metacoglab.github.io/mRatio/reference/mean_conf_draws.md)
   [`mean_confidence_rvars()`](https://metacoglab.github.io/mRatio/reference/mean_conf_draws.md)

@@ -53,7 +53,16 @@ columns <code>response</code>, <code>confidence</code>, and any other columns in
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">aggregate_metad</span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span>, .response <span class="op">=</span> <span class="st">"N"</span>, K <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">aggregate_metad</span><span class="op">(</span></span>
+<span>  <span class="va">data</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  .stimulus <span class="op">=</span> <span class="st">"stimulus"</span>,</span>
+<span>  .response <span class="op">=</span> <span class="st">"response"</span>,</span>
+<span>  .confidence <span class="op">=</span> <span class="st">"confidence"</span>,</span>
+<span>  .joint_response <span class="op">=</span> <span class="st">"joint_response"</span>,</span>
+<span>  .name <span class="op">=</span> <span class="st">"N"</span>,</span>
+<span>  K <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -61,7 +70,7 @@ columns <code>response</code>, <code>confidence</code>, and any other columns in
 
 
 <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>The dataframe to aggregate</p></dd>
+<dd><p>The data frame to aggregate</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -69,7 +78,23 @@ columns <code>response</code>, <code>confidence</code>, and any other columns in
 These columns will be converted to factors.</p></dd>
 
 
+<dt id="arg--stimulus">.stimulus<a class="anchor" aria-label="anchor" href="#arg--stimulus"></a></dt>
+<dd><p>The name of "stimulus" column</p></dd>
+
+
 <dt id="arg--response">.response<a class="anchor" aria-label="anchor" href="#arg--response"></a></dt>
+<dd><p>The name of "response" column</p></dd>
+
+
+<dt id="arg--confidence">.confidence<a class="anchor" aria-label="anchor" href="#arg--confidence"></a></dt>
+<dd><p>The name of "confidence" column</p></dd>
+
+
+<dt id="arg--joint-response">.joint_response<a class="anchor" aria-label="anchor" href="#arg--joint-response"></a></dt>
+<dd><p>The name of "joint_response" column</p></dd>
+
+
+<dt id="arg--name">.name<a class="anchor" aria-label="anchor" href="#arg--name"></a></dt>
 <dd><p>The name of the resulting column containing trial counts</p></dd>
 
 
@@ -91,6 +116,13 @@ $$
  N_{S=1, R=0, C=K}, \ldots, N_{S=1, R=0, C=1}, \\
  N_{S=1, R=1, C=1}, \ldots, N_{S=1, R=1, C=K}] \\
 $$</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>The data frame <code>data</code> must have one column with the name given by <code>.stimulus</code>.
+Additionally, it must have either:</p><ul><li><p>Two columns with names given by <code>.response</code> and <code>.confidence</code></p></li>
+<li><p>One column with the name given by <code>.joint_response</code></p></li>
+</ul><p>Finally, it must also have columns for any additional variables in <code>...</code>.</p>
     </div>
 
     <div class="section level2">
@@ -121,6 +153,31 @@ $$</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>   100   100          10         10         20         29         14          9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: N[7:16] &lt;int&gt;</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># aggregate data with only `joint_response` column</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘dplyr’</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:stats’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     filter, lag</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:base’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     intersect, setdiff, setequal, union</span>
+<span class="r-in"><span><span class="va">d</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>joint_response <span class="op">=</span> <span class="fu"><a href="responses.html">joint_response</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="va">response</span>, <span class="va">confidence</span>,</span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/n_distinct.html" class="external-link">n_distinct</a></span><span class="op">(</span><span class="va">confidence</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">response</span>, <span class="op">-</span><span class="va">confidence</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">aggregate_metad</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     N_0   N_1 N[,"N_0_1"] [,"N_0_2"] [,"N_0_3"] [,"N_0_4"] [,"N_0_5"] [,"N_0_6"]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    50    50           8          5          4         12         10          7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: N[7:16] &lt;int&gt;</span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -158,7 +158,10 @@ and C=c:
 
 This formulation only requires the model likelihood to be evaluated
 twice (once per stimulus), dramatically increasing the efficiency of
-model fitting.
+model fitting. Because of the increase in efficiency, the multinomial
+likelihood is the default in the `mRatio` package. If the categorical
+likelihood is desired (e.g., for trial-level effects or crossed random
+effects), it can be used with the argument `categorical=TRUE`.
 
 ## Fixing the type 1 threshold for type 2 responses
 
