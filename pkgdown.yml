@@ -3,9 +3,11 @@ pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   alternative_distributions: alternative_distributions.html
-  mRatio: mRatio.html
+  categorical: categorical.html
+  history: history.html
+  hmetad: hmetad.html
   parameterization: parameterization.html
-last_built: 2026-02-19T10:51Z
+last_built: 2026-02-20T17:09Z
 urls:
-  reference: https://metacoglab.github.io/mRatio/reference
-  article: https://metacoglab.github.io/mRatio/articles
+  reference: https://metacoglab.github.io/hmetad/reference
+  article: https://metacoglab.github.io/hmetad/articles

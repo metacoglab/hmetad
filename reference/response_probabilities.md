@@ -14,7 +14,7 @@ response_probabilities(counts)
 
   A vector (or matrix) of counts of joint type 1/type 2 responses as
   provided by
-  [aggregate_metad](https://metacoglab.github.io/mRatio/reference/aggregate_metad.md)
+  [aggregate_metad](https://metacoglab.github.io/hmetad/reference/aggregate_metad.md)
 
 ## Value
 

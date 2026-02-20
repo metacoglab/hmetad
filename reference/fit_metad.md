@@ -43,7 +43,7 @@ fit_metad(
   - If `aggregate`==FALSE, it should be aggregated to have one row per
     cell of the design matrix, with joint type 1/type 2 response counts
     in a matrix column (see
-    [`aggregate_metad()`](https://metacoglab.github.io/mRatio/reference/aggregate_metad.md)).
+    [`aggregate_metad()`](https://metacoglab.github.io/hmetad/reference/aggregate_metad.md)).
 
 - ...:
 
@@ -53,7 +53,7 @@ fit_metad(
 
   If `TRUE`, automatically aggregate `data` by the variables included in
   `formula` using
-  [`aggregate_metad()`](https://metacoglab.github.io/mRatio/reference/aggregate_metad.md).
+  [`aggregate_metad()`](https://metacoglab.github.io/hmetad/reference/aggregate_metad.md).
   Otherwise, `data` should already be aggregated.
 
 - .stimulus:
@@ -112,8 +112,8 @@ fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
 #> Chain 1: 
-#> Chain 1: Gradient evaluation took 1.8e-05 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.18 seconds.
+#> Chain 1: Gradient evaluation took 3.4e-05 seconds
+#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.34 seconds.
 #> Chain 1: Adjust your expectations accordingly!
 #> Chain 1: 
 #> Chain 1: 
@@ -131,8 +131,8 @@ fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
 #> Chain 1: Iteration: 500 / 500 [100%]  (Sampling)
 #> Chain 1: 
 #> Chain 1:  Elapsed Time: 0.029 seconds (Warm-up)
-#> Chain 1:                0.031 seconds (Sampling)
-#> Chain 1:                0.06 seconds (Total)
+#> Chain 1:                0.032 seconds (Sampling)
+#> Chain 1:                0.061 seconds (Total)
 #> Chain 1: 
 #> Warning: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.
 #> Running the chains for more iterations may help. See

@@ -62,12 +62,9 @@ m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
 #> Start sampling
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
-#> Chain 1: Rejecting initial value:
-#> Chain 1:   Gradient evaluated at the initial value is not finite.
-#> Chain 1:   Stan can't start sampling from this initial value.
 #> Chain 1: 
-#> Chain 1: Gradient evaluation took 9e-06 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.09 seconds.
+#> Chain 1: Gradient evaluation took 1.8e-05 seconds
+#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.18 seconds.
 #> Chain 1: Adjust your expectations accordingly!
 #> Chain 1: 
 #> Chain 1: 
@@ -84,13 +81,13 @@ m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
 #> Chain 1: Iteration: 450 / 500 [ 90%]  (Sampling)
 #> Chain 1: Iteration: 500 / 500 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.039 seconds (Warm-up)
-#> Chain 1:                0.054 seconds (Sampling)
-#> Chain 1:                0.093 seconds (Total)
+#> Chain 1:  Elapsed Time: 0.031 seconds (Warm-up)
+#> Chain 1:                0.026 seconds (Sampling)
+#> Chain 1:                0.057 seconds (Total)
 #> Chain 1: 
-#> Warning: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.
+#> Warning: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.
 #> Running the chains for more iterations may help. See
-#> https://mc-stan.org/misc/warnings.html#bulk-ess
+#> https://mc-stan.org/misc/warnings.html#tail-ess
 
 # obtain model predictions
 predicted_draws_metad(m, m$data)
@@ -102,43 +99,43 @@ predicted_rvars_metad(m, m$data)
 #> # Groups:   .row, N, stimulus, joint_response, response, confidence [16]
 #>     .row N[,"N_0_1"] stimulus joint_response response confidence  .prediction
 #>    <int>       <int>    <int>          <int>    <int>      <dbl>   <rvar[1d]>
-#>  1     1           9        0              1        0          4   8.13 ± 3.6
-#>  2     1           9        0              2        0          3   8.07 ± 3.6
-#>  3     1           9        0              3        0          2  11.45 ± 3.6
-#>  4     1           9        0              4        0          1  10.01 ± 4.0
-#>  5     1           9        0              5        1          1   5.65 ± 3.2
-#>  6     1           9        0              6        1          2   4.04 ± 2.3
-#>  7     1           9        0              7        1          3   1.87 ± 1.5
-#>  8     1           9        0              8        1          4   0.78 ± 1.0
-#>  9     1           9        1              1        0          4   1.30 ± 1.3
-#> 10     1           9        1              2        0          3   2.83 ± 2.0
-#> 11     1           9        1              3        0          2   6.61 ± 3.0
-#> 12     1           9        1              4        0          1  11.02 ± 3.9
-#> 13     1           9        1              5        1          1   7.78 ± 3.4
-#> 14     1           9        1              6        1          2   8.44 ± 3.5
-#> 15     1           9        1              7        1          3   6.06 ± 2.9
-#> 16     1           9        1              8        1          4   5.95 ± 3.0
+#>  1     1          11        0              1        0          4   9.87 ± 4.0
+#>  2     1          11        0              2        0          3   8.94 ± 3.6
+#>  3     1          11        0              3        0          2   8.37 ± 3.2
+#>  4     1          11        0              4        0          1  12.25 ± 4.2
+#>  5     1          11        0              5        1          1   4.24 ± 2.5
+#>  6     1          11        0              6        1          2   3.62 ± 2.4
+#>  7     1          11        0              7        1          3   1.74 ± 1.6
+#>  8     1          11        0              8        1          4   0.98 ± 1.1
+#>  9     1          11        1              1        0          4   2.76 ± 2.1
+#> 10     1          11        1              2        0          3   3.52 ± 2.1
+#> 11     1          11        1              3        0          2   4.47 ± 2.3
+#> 12     1          11        1              4        0          1   8.98 ± 3.7
+#> 13     1          11        1              5        1          1   8.75 ± 3.7
+#> 14     1          11        1              6        1          2   9.77 ± 3.7
+#> 15     1          11        1              7        1          3   6.17 ± 3.1
+#> 16     1          11        1              8        1          4   5.57 ± 2.9
 #> # ℹ 1 more variable: N[2:16] <int>
 add_predicted_rvars_metad(m$data, m)
 #> # A tibble: 16 × 7
 #> # Groups:   .row, N, stimulus, joint_response, response, confidence [16]
-#>     .row N[,"N_0_1"] stimulus joint_response response confidence  .prediction
-#>    <int>       <int>    <int>          <int>    <int>      <dbl>   <rvar[1d]>
-#>  1     1           9        0              1        0          4   8.31 ± 3.3
-#>  2     1           9        0              2        0          3   8.28 ± 3.4
-#>  3     1           9        0              3        0          2  10.99 ± 3.8
-#>  4     1           9        0              4        0          1  10.02 ± 3.7
-#>  5     1           9        0              5        1          1   5.87 ± 3.0
-#>  6     1           9        0              6        1          2   3.82 ± 2.4
-#>  7     1           9        0              7        1          3   1.83 ± 1.5
-#>  8     1           9        0              8        1          4   0.88 ± 1.0
-#>  9     1           9        1              1        0          4   1.41 ± 1.4
-#> 10     1           9        1              2        0          3   2.80 ± 2.1
-#> 11     1           9        1              3        0          2   6.56 ± 3.1
-#> 12     1           9        1              4        0          1  10.75 ± 4.2
-#> 13     1           9        1              5        1          1   7.82 ± 3.2
-#> 14     1           9        1              6        1          2   8.51 ± 3.4
-#> 15     1           9        1              7        1          3   6.26 ± 2.7
-#> 16     1           9        1              8        1          4   5.88 ± 3.0
+#>     .row N[,"N_0_1"] stimulus joint_response response confidence .prediction
+#>    <int>       <int>    <int>          <int>    <int>      <dbl>  <rvar[1d]>
+#>  1     1          11        0              1        0          4   9.9 ± 3.8
+#>  2     1          11        0              2        0          3   9.2 ± 3.4
+#>  3     1          11        0              3        0          2   8.1 ± 3.3
+#>  4     1          11        0              4        0          1  11.7 ± 4.1
+#>  5     1          11        0              5        1          1   4.4 ± 2.5
+#>  6     1          11        0              6        1          2   3.7 ± 2.3
+#>  7     1          11        0              7        1          3   1.7 ± 1.5
+#>  8     1          11        0              8        1          4   1.1 ± 1.2
+#>  9     1          11        1              1        0          4   2.6 ± 2.1
+#> 10     1          11        1              2        0          3   3.6 ± 2.1
+#> 11     1          11        1              3        0          2   4.5 ± 2.6
+#> 12     1          11        1              4        0          1   8.9 ± 3.7
+#> 13     1          11        1              5        1          1   9.0 ± 3.6
+#> 14     1          11        1              6        1          2   9.8 ± 3.5
+#> 15     1          11        1              7        1          3   6.1 ± 3.0
+#> 16     1          11        1              8        1          4   5.6 ± 2.9
 #> # ℹ 1 more variable: N[2:16] <int>
 ```

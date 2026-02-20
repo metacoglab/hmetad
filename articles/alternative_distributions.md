@@ -9,7 +9,7 @@ normal distribution. However, there has been recent interest in using
 other distributions in signal detection theory. While not all
 distributions will be identifiable with the meta-d’ model (e.g., one
 cannot simultaneously estimate unequal variances and \textrm{meta-}d'),
-the `mRatio` package allows one to specify any distribution that takes a
+the `hmetad` package allows one to specify any distribution that takes a
 single parameter defining the location (i.e., mean, median, or mode) of
 the distribution.
 
@@ -24,14 +24,14 @@ We begin by loading necessary packages in `R`:
 library(tidyverse)
 library(brms)
 library(tidybayes)
-library(mRatio)
+library(hmetad)
 ```
 
-## Implementing a distribution function for use with `mRatio`
+## Implementing a distribution function for use with `hmetad`
 
-In order for a distribution to be used with the `mRatio` package, one
+In order for a distribution to be used with the `hmetad` package, one
 needs to implement its cumulative distribution functions in both `R` and
-`Stan`. Specifically, since the `mRatio` package computes the model
+`Stan`. Specifically, since the `hmetad` package computes the model
 likelihood on the logarithmic scale, one must define:
 
 - `<distribution>_lcdf(x, mu)`: the log cumulative distribution function
@@ -41,7 +41,7 @@ likelihood on the logarithmic scale, one must define:
   distribution function defining \textrm{log } P(X \ge x) for a random
   variable X \sim \textrm{distribution}(\mu).
 
-Please note that for use with the `mRatio` package, these two functions
+Please note that for use with the `hmetad` package, these two functions
 **must** use the above naming scheme (i.e., must be named
 `<distribution>_l(c)cdf`).
 
@@ -81,7 +81,7 @@ real gumbel_min_lccdf(real x, real g) {
 Again, note that the name of the functions in `Stan` must match their
 corresponding names in `R`. With the `lcdf` and `lccdf` functions
 implemented in both `R` and `Stan`, the new distribution is ready to use
-with the `mRatio` package!
+with the `hmetad` package!
 
 ## Data simulation
 
@@ -171,7 +171,7 @@ levels and \textrm{meta-}c = c.
 ## Model estimates
 
 Once the model is fit, it can be post-processed like any other model
-from the `mRatio` package. Because alternative distributions are often
+from the `hmetad` package. Because alternative distributions are often
 understood in terms of their effects on the ROC, here we will focus on
 plotting them.
 

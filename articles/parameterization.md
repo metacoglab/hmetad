@@ -1,7 +1,7 @@
 # Parameterization of the meta-d' model
 
 This vignette describes the parameterization of the meta-d’ model used
-in the `mRatio` package. For an in-depth review, we refer readers to
+in the `hmetad` package. For an in-depth review, we refer readers to
 ([Maniscalco and Lau 2012](#ref-maniscalco2012),
 [2014](#ref-maniscalco2014)).
 
@@ -146,7 +146,7 @@ LL \\=\\ \sum_n
 
 However, this formulation requires the likelihood to be evaluated once
 per trial, which for well-powered experiments can take a long time. So,
-by default the `mRatio` package uses a multinomial likelihood over the
+by default the `hmetad` package uses a multinomial likelihood over the
 aggregated data. Where N\_{s,r,c} is the number of trials with S=s, R=r,
 and C=c:
 
@@ -159,7 +159,7 @@ and C=c:
 This formulation only requires the model likelihood to be evaluated
 twice (once per stimulus), dramatically increasing the efficiency of
 model fitting. Because of the increase in efficiency, the multinomial
-likelihood is the default in the `mRatio` package. If the categorical
+likelihood is the default in the `hmetad` package. If the categorical
 likelihood is desired (e.g., for trial-level effects or crossed random
 effects), it can be used with the argument `categorical=TRUE`.
 
@@ -168,7 +168,7 @@ effects), it can be used with the argument `categorical=TRUE`.
 The meta-d’ model requires the parameter \textrm{meta-}c to be fixed to
 be equal with respect to the type 1 criterion c. As discussed by
 ([Maniscalco and Lau 2014](#ref-maniscalco2014)), there are multiple
-ways of fixing \textrm{meta-}c. The `mRatio` package implements two:
+ways of fixing \textrm{meta-}c. The `hmetad` package implements two:
 
 Under the fixed parameterization, \textrm{meta-}c = c. This
 parameterization is used as the default, since it was also used in the
@@ -189,17 +189,17 @@ by default. To use the relative parameterization, simply set
 ## Model parameterization
 
 To further increase the efficiency model fitting and help with
-convergence, the `mRatio` parameterizes the meta-d’ model so that all
+convergence, the `hmetad` parameterizes the meta-d’ model so that all
 parameters are unconstrained variables (i.e., they fall in the range
 (-\infty, \infty)). The parameters for type 1 responses (d' and c) are
 already unconstrained, so they are estimated normally. However, the
 parameters for the type 2 parameters are bounded.
 
-First, instead of fitting \textrm{meta-}d' directly, the `mRatio`
+First, instead of fitting \textrm{meta-}d' directly, the `hmetad`
 package models the M-ratio M = \frac{\textrm{meta-}d'}{d'}. While this
 parameterization helps regularize against strong differences between
 \textrm{meta-}d' and d', the M-ratio is still bounded by zero. So, the
-`mRatio` package models the M-ratio on the logarithmic scale, i.e.,
+`hmetad` package models the M-ratio on the logarithmic scale, i.e.,
 \textrm{log }M = \textrm{log}\frac{\textrm{meta-}d'}{d'}. In this
 parameterization, one can compute \textrm{meta-}d' as \textrm{meta-}d' =
 e^{\textrm{log }M}d'.
@@ -209,7 +209,7 @@ Second, the confidence criteria \textrm{meta-}c\_{2,1:K}^0 and
 \textrm{meta-}c\_{2,1:K}^0 must be strictly decreasing and less than
 \textrm{meta-}c, whereas \textrm{meta-}c\_{2,1:K}^1 must be strictly
 increasing and greater than \textrm{meta-}c. To deal with these
-constraints, the `mRatio` package estimates the differences between
+constraints, the `hmetad` package estimates the differences between
 successive confidence criteria:
 
 \textrm{dmeta-}c\_{2,k}^0 = \begin{cases} \textrm{meta-}c -

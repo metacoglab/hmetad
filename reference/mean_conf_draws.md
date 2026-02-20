@@ -92,8 +92,8 @@ m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
 #> Chain 1: 
-#> Chain 1: Gradient evaluation took 1.9e-05 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.19 seconds.
+#> Chain 1: Gradient evaluation took 2.4e-05 seconds
+#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.24 seconds.
 #> Chain 1: Adjust your expectations accordingly!
 #> Chain 1: 
 #> Chain 1: 
@@ -209,4 +209,15 @@ mean_confidence_draws(m, newdata, by_stimulus = FALSE, by_response = FALSE)
 #>  9     1     NA         NA     9   2.14
 #> 10     1     NA         NA    10   2.21
 #> # ℹ 240 more rows
+
+# use posterior::rvar for increased efficiency
+mean_confidence_rvars(m, newdata)
+#> # A tibble: 4 × 4
+#> # Groups:   .row, stimulus, response [4]
+#>    .row stimulus response      .epred
+#>   <int>    <int>    <int>  <rvar[1d]>
+#> 1     1        0        0  2.3 ± 0.17
+#> 2     1        0        1  1.8 ± 0.22
+#> 3     1        1        0  1.7 ± 0.20
+#> 4     1        1        1  2.3 ± 0.18
 ```

@@ -5,15 +5,15 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Fit the meta-d' model of confidence ratings using `brms` • mRatio</title>
+<title>Fit the Meta-D Model of Confidence Ratings Using brms' • hmetad</title>
 <!-- katex math --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script><script src="katex-auto.js"></script><script src="lightswitch.js"></script><script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Fit the meta-d' model of confidence ratings using `brms`">
-<meta name="description" content="Implementation of a `brms` custom family for the meta-d\' model (Maniscalco &amp; Lau, 2012).">
-<meta property="og:description" content="Implementation of a `brms` custom family for the meta-d\' model (Maniscalco &amp; Lau, 2012).">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Fit the Meta-D Model of Confidence Ratings Using brms'">
+<meta name="description" content="Implementation of Bayesian regressions over the meta-d\ model of psychological data from two alternative forced choice tasks with ordinal confidence ratings. For more information, see Maniscalco &amp; Lau (2012) &lt;doi:10.1016/j.concog.2011.09.021&gt;. The package is a front-end to the brms' package, which facilitates a wide range of regression designs, as well as tools for efficiently extracting posterior estimates, plotting, and significance testing.">
+<meta property="og:description" content="Implementation of Bayesian regressions over the meta-d\ model of psychological data from two alternative forced choice tasks with ordinal confidence ratings. For more information, see Maniscalco &amp; Lau (2012) &lt;doi:10.1016/j.concog.2011.09.021&gt;. The package is a front-end to the brms' package, which facilitates a wide range of regression designs, as well as tools for efficiently extracting posterior estimates, plotting, and significance testing.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -21,7 +21,7 @@
 
     <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
 
-    <a class="navbar-brand me-2" href="index.html">mRatio</a>
+    <a class="navbar-brand me-2" href="index.html">hmetad</a>
 
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
 
@@ -32,21 +32,24 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item"><a class="nav-link" href="articles/mRatio.html">Get started</a></li>
+<li class="nav-item"><a class="nav-link" href="articles/hmetad.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="articles/alternative_distributions.html">Using alternative signal distributions with the meta-d' model</a></li>
+    <li><a class="dropdown-item" href="articles/categorical.html">Estimating trial-level effects</a></li>
+    <li><a class="dropdown-item" href="articles/history.html">History of the hmetad package</a></li>
     <li><a class="dropdown-item" href="articles/parameterization.html">Parameterization of the meta-d' model</a></li>
   </ul>
 </li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/metacoglab/mRatio/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/metacoglab/hmetad/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
@@ -63,11 +66,11 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="mratio">mRatio<a class="anchor" aria-label="anchor" href="#mratio"></a>
+<div class="page-header"><h1 id="hmetad">hmetad<a class="anchor" aria-label="anchor" href="#hmetad"></a>
 </h1></div>
 <!-- badges: start -->
 
-<p>The mRatio package is designed to fit the meta-d’ model for confidence ratings (<a href="#ref-maniscalco2012">Maniscalco and Lau 2012</a>, <a href="#ref-maniscalco2014">2014</a>). Like the <a href="https://github.com/metacoglab/HMeta-d" class="external-link">Hmeta-d toolbox</a> (<a href="#ref-fleming2017">Fleming 2017</a>), the mRatio package uses a Bayesian modeling approach. The mRatio package builds on the Hmeta-d toolbox through implementation as a custom family in the <a href="https://paulbuerkner.com/brms/" class="external-link">brms</a> package, which itself provides a friendly interface to the probabilistic programming language <a href="https://mc-stan.org" class="external-link">Stan</a>.</p>
+<p>The <code>hmetad</code> package is designed to fit the meta-d’ model for confidence ratings (<a href="#ref-maniscalco2012">Maniscalco and Lau 2012</a>, <a href="#ref-maniscalco2014">2014</a>). Like the <a href="https://github.com/metacoglab/HMeta-d" class="external-link">Hmeta-d toolbox</a> (<a href="#ref-fleming2017">Fleming 2017</a>), the <code>hmetad</code> package uses a Bayesian modeling approach. The <code>hmetad</code> package builds on the Hmeta-d toolbox through implementation as a custom family in the <a href="https://paulbuerkner.com/brms/" class="external-link">brms</a> package, which itself provides a friendly interface to the probabilistic programming language <a href="https://mc-stan.org" class="external-link">Stan</a>.</p>
 <p>This provides major benefits:</p>
 <ul>
 <li>Model designs can be specified as simple <code>R</code> formulas</li>
@@ -79,77 +82,80 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of mRatio from <a href="https://github.com/metacoglab/mRatio" class="external-link">GitHub</a> with:</p>
+<p><code>hmetad</code> is currently under submission to CRAN, which means soon you will be able to install it using:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"hmetad"</span><span class="op">)</span></span></code></pre></div>
+<p>For now, you can install the development version of <code>hmetad</code> from <a href="https://github.com/metacoglab/hmetad" class="external-link">GitHub</a> with:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
-<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"metacoglab/mRatio"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"metacoglab/hmetad"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="quick-setup">Quick setup<a class="anchor" aria-label="anchor" href="#quick-setup"></a>
 </h2>
 <p>Let’s say you have some data from a binary decision task with ordinal confidence ratings:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1,000 × 5</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">#&gt;    trial stimulus response correct confidence</span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt;    &lt;int&gt;    &lt;int&gt;    &lt;int&gt;   &lt;int&gt;      &lt;int&gt;</span></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt;  1     1        0        0       1          2</span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt;  2     2        1        1       1          4</span></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt;  3     3        0        0       1          1</span></span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt;  4     4        1        1       1          2</span></span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt;  5     5        0        0       1          2</span></span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt;  6     6        0        0       1          3</span></span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt;  7     7        0        0       1          1</span></span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt;  8     8        0        1       0          1</span></span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt;  9     9        0        0       1          1</span></span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; 10    10        1        0       0          4</span></span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt; # ℹ 990 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1,000 × 5</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt;    trial stimulus response correct confidence</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt;    &lt;int&gt;    &lt;int&gt;    &lt;int&gt;   &lt;int&gt;      &lt;int&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt;  1     1        0        0       1          3</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt;  2     2        0        0       1          4</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt;  3     3        0        0       1          2</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt;  4     4        1        1       1          1</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt;  5     5        1        0       0          1</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt;  6     6        0        1       0          2</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt;  7     7        1        1       1          2</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt;  8     8        0        0       1          2</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt;  9     9        0        0       1          2</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt; 10    10        0        0       1          1</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt; # ℹ 990 more rows</span></span></code></pre></div>
 <p>You can fit an intercepts-only meta-d’ model using <code>fit_metad</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://metacoglab.github.io/mRatio/">mRatio</a></span><span class="op">)</span></span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://metacoglab.github.io/hmetad/">hmetad</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fit_metad.html">fit_metad</a></span><span class="op">(</span><span class="va">N</span> <span class="op">~</span> <span class="fl">1</span>, data <span class="op">=</span> <span class="va">d</span>, file <span class="op">=</span> <span class="st">"vignettes/models/readme1.rds"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co">#&gt;  Family: metad__4__normal__absolute__multinomial </span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co">#&gt;   Links: mu = log </span></span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; Formula: N ~ 1 </span></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt;    Data: data.aggregated (Number of observations: 1) </span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt;   Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;</span></span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt;          total post-warmup draws = 4000</span></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; Regression Coefficients:</span></span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt;           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS</span></span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; Intercept     0.03      0.14    -0.27     0.29 1.00     3539     2895</span></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt; Further Distributional Parameters:</span></span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt;                 Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS</span></span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; dprime              1.04      0.08     0.88     1.20 1.00     4271     2982</span></span>
-<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt; c                   0.05      0.04    -0.04     0.12 1.00     3808     3275</span></span>
-<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt; metac2zero1diff     0.54      0.04     0.47     0.61 1.00     4535     3460</span></span>
-<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt; metac2zero2diff     0.53      0.04     0.46     0.61 1.00     5245     3345</span></span>
-<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt; metac2zero3diff     0.49      0.05     0.40     0.58 1.00     5219     3298</span></span>
-<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt; metac2one1diff      0.44      0.03     0.38     0.51 1.00     4889     3351</span></span>
-<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt; metac2one2diff      0.51      0.04     0.44     0.60 1.00     5030     2835</span></span>
-<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt; metac2one3diff      0.51      0.05     0.42     0.61 1.00     5413     3109</span></span>
-<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="co">#&gt; Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS</span></span>
-<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="co">#&gt; and Tail_ESS are effective sample size measures, and Rhat is the potential</span></span>
-<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="co">#&gt; scale reduction factor on split chains (at convergence, Rhat = 1).</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co">#&gt;  Family: metad__4__normal__absolute__multinomial </span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt;   Links: mu = log </span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt; Formula: N ~ 1 </span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt;    Data: data.aggregated (Number of observations: 1) </span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt;   Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt;          total post-warmup draws = 4000</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; Regression Coefficients:</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt;           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; Intercept    -0.18      0.16    -0.52     0.11 1.00     3142     3260</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; Further Distributional Parameters:</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt;                 Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt; dprime              1.08      0.08     0.92     1.25 1.00     4527     3273</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; c                   0.02      0.04    -0.06     0.10 1.00     3675     3067</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt; metac2zero1diff     0.48      0.03     0.41     0.55 1.00     4490     3209</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt; metac2zero2diff     0.52      0.04     0.44     0.60 1.00     5076     3242</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt; metac2zero3diff     0.55      0.05     0.46     0.65 1.00     5655     2716</span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt; metac2one1diff      0.46      0.03     0.39     0.52 1.00     4627     2976</span></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co">#&gt; metac2one2diff      0.43      0.04     0.36     0.50 1.00     4979     2987</span></span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co">#&gt; metac2one3diff      0.52      0.05     0.43     0.61 1.00     5653     2723</span></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="co">#&gt; Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS</span></span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt; and Tail_ESS are effective sample size measures, and Rhat is the potential</span></span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt; scale reduction factor on split chains (at convergence, Rhat = 1).</span></span></code></pre></div>
 <p>Now let’s say you have a more complicated design, such as a within-participants manipulation:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5,000 × 7</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; # Groups:   participant, condition [50]</span></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt;    participant condition trial stimulus response correct confidence</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt;          &lt;int&gt;     &lt;int&gt; &lt;int&gt;    &lt;int&gt;    &lt;int&gt;   &lt;int&gt;      &lt;int&gt;</span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt;  1           1         1     1        1        1       1          4</span></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt;  2           1         1     2        0        1       0          1</span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt;  3           1         1     3        1        0       0          1</span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt;  4           1         1     4        1        1       1          3</span></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt;  5           1         1     5        1        1       1          4</span></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt;  6           1         1     6        0        1       0          2</span></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt;  7           1         1     7        0        0       1          4</span></span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt;  8           1         1     8        1        0       0          2</span></span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt;  9           1         1     9        1        1       1          3</span></span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt; 10           1         1    10        0        0       1          4</span></span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; # ℹ 4,990 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5,000 × 7</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; # Groups:   participant, condition [50]</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt;    participant condition trial stimulus response correct confidence</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt;          &lt;int&gt;     &lt;int&gt; &lt;int&gt;    &lt;int&gt;    &lt;int&gt;   &lt;int&gt;      &lt;int&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt;  1           1         1     1        1        1       1          4</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt;  2           1         1     2        0        1       0          2</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt;  3           1         1     3        0        1       0          1</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt;  4           1         1     4        1        1       1          1</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt;  5           1         1     5        0        0       1          2</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt;  6           1         1     6        1        0       0          1</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt;  7           1         1     7        1        1       1          2</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt;  8           1         1     8        0        0       1          3</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt;  9           1         1     9        1        1       1          4</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co">#&gt; 10           1         1    10        0        0       1          1</span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#&gt; # ℹ 4,990 more rows</span></span></code></pre></div>
 <p>To account for the repeated measures in this design, you can simply adjust the formula to include participant-level effects:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fit_metad.html">fit_metad</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://paulbuerkner.com/brms/reference/brmsformula.html" class="external-link">bf</a></span><span class="op">(</span></span>
 <span>    <span class="va">N</span> <span class="op">~</span> <span class="va">condition</span> <span class="op">+</span> <span class="op">(</span><span class="va">condition</span> <span class="op">|</span> <span class="va">participant</span><span class="op">)</span>,</span>
@@ -169,184 +175,184 @@
 <span>    <span class="fu"><a href="https://paulbuerkner.com/brms/reference/set_prior.html" class="external-link">prior</a></span><span class="op">(</span><span class="fu">normal</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, dpar <span class="op">=</span> <span class="va">metac2one2diff</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://paulbuerkner.com/brms/reference/set_prior.html" class="external-link">prior</a></span><span class="op">(</span><span class="fu">normal</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, dpar <span class="op">=</span> <span class="va">metac2one3diff</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co">#&gt;  Family: metad__4__normal__absolute__multinomial </span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt;   Links: mu = log; dprime = identity; c = identity; metac2zero1diff = log; metac2zero2diff = log; metac2zero3diff = log; metac2one1diff = log; metac2one2diff = log; metac2one3diff = log </span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; Formula: N ~ condition + (condition | participant) </span></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt;          dprime ~ condition + (condition | participant)</span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt;          c ~ condition + (condition | participant)</span></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt;          metac2zero1diff ~ condition + (condition | participant)</span></span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt;          metac2zero2diff ~ condition + (condition | participant)</span></span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt;          metac2zero3diff ~ condition + (condition | participant)</span></span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt;          metac2one1diff ~ condition + (condition | participant)</span></span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt;          metac2one2diff ~ condition + (condition | participant)</span></span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt;          metac2one3diff ~ condition + (condition | participant)</span></span>
-<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt;    Data: data.aggregated (Number of observations: 50) </span></span>
-<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt;   Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;</span></span>
-<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt;          total post-warmup draws = 4000</span></span>
-<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt; Multilevel Hyperparameters:</span></span>
-<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt; ~participant (Number of levels: 25) </span></span>
-<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt;                                                           Estimate Est.Error</span></span>
-<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt; sd(Intercept)                                                 0.38      0.16</span></span>
-<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co">#&gt; sd(condition2)                                                0.61      0.22</span></span>
-<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co">#&gt; sd(dprime_Intercept)                                          0.57      0.10</span></span>
-<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a><span class="co">#&gt; sd(dprime_condition2)                                         0.81      0.15</span></span>
-<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a><span class="co">#&gt; sd(c_Intercept)                                               0.58      0.09</span></span>
-<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a><span class="co">#&gt; sd(c_condition2)                                              0.59      0.10</span></span>
-<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero1diff_Intercept)                                 0.06      0.05</span></span>
-<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero1diff_condition2)                                0.10      0.07</span></span>
-<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero2diff_Intercept)                                 0.06      0.04</span></span>
-<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero2diff_condition2)                                0.11      0.08</span></span>
-<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero3diff_Intercept)                                 0.06      0.05</span></span>
-<span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero3diff_condition2)                                0.09      0.07</span></span>
-<span id="cb7-31"><a href="#cb7-31" tabindex="-1"></a><span class="co">#&gt; sd(metac2one1diff_Intercept)                                  0.08      0.06</span></span>
-<span id="cb7-32"><a href="#cb7-32" tabindex="-1"></a><span class="co">#&gt; sd(metac2one1diff_condition2)                                 0.14      0.09</span></span>
-<span id="cb7-33"><a href="#cb7-33" tabindex="-1"></a><span class="co">#&gt; sd(metac2one2diff_Intercept)                                  0.12      0.07</span></span>
-<span id="cb7-34"><a href="#cb7-34" tabindex="-1"></a><span class="co">#&gt; sd(metac2one2diff_condition2)                                 0.12      0.09</span></span>
-<span id="cb7-35"><a href="#cb7-35" tabindex="-1"></a><span class="co">#&gt; sd(metac2one3diff_Intercept)                                  0.13      0.09</span></span>
-<span id="cb7-36"><a href="#cb7-36" tabindex="-1"></a><span class="co">#&gt; sd(metac2one3diff_condition2)                                 0.20      0.12</span></span>
-<span id="cb7-37"><a href="#cb7-37" tabindex="-1"></a><span class="co">#&gt; cor(Intercept,condition2)                                    -0.29      0.41</span></span>
-<span id="cb7-38"><a href="#cb7-38" tabindex="-1"></a><span class="co">#&gt; cor(dprime_Intercept,dprime_condition2)                      -0.65      0.14</span></span>
-<span id="cb7-39"><a href="#cb7-39" tabindex="-1"></a><span class="co">#&gt; cor(c_Intercept,c_condition2)                                -0.63      0.13</span></span>
-<span id="cb7-40"><a href="#cb7-40" tabindex="-1"></a><span class="co">#&gt; cor(metac2zero1diff_Intercept,metac2zero1diff_condition2)    -0.09      0.58</span></span>
-<span id="cb7-41"><a href="#cb7-41" tabindex="-1"></a><span class="co">#&gt; cor(metac2zero2diff_Intercept,metac2zero2diff_condition2)    -0.09      0.58</span></span>
-<span id="cb7-42"><a href="#cb7-42" tabindex="-1"></a><span class="co">#&gt; cor(metac2zero3diff_Intercept,metac2zero3diff_condition2)    -0.19      0.57</span></span>
-<span id="cb7-43"><a href="#cb7-43" tabindex="-1"></a><span class="co">#&gt; cor(metac2one1diff_Intercept,metac2one1diff_condition2)      -0.11      0.57</span></span>
-<span id="cb7-44"><a href="#cb7-44" tabindex="-1"></a><span class="co">#&gt; cor(metac2one2diff_Intercept,metac2one2diff_condition2)      -0.13      0.58</span></span>
-<span id="cb7-45"><a href="#cb7-45" tabindex="-1"></a><span class="co">#&gt; cor(metac2one3diff_Intercept,metac2one3diff_condition2)      -0.18      0.56</span></span>
-<span id="cb7-46"><a href="#cb7-46" tabindex="-1"></a><span class="co">#&gt;                                                           l-95% CI u-95% CI</span></span>
-<span id="cb7-47"><a href="#cb7-47" tabindex="-1"></a><span class="co">#&gt; sd(Intercept)                                                 0.09     0.73</span></span>
-<span id="cb7-48"><a href="#cb7-48" tabindex="-1"></a><span class="co">#&gt; sd(condition2)                                                0.21     1.09</span></span>
-<span id="cb7-49"><a href="#cb7-49" tabindex="-1"></a><span class="co">#&gt; sd(dprime_Intercept)                                          0.41     0.82</span></span>
-<span id="cb7-50"><a href="#cb7-50" tabindex="-1"></a><span class="co">#&gt; sd(dprime_condition2)                                         0.57     1.14</span></span>
-<span id="cb7-51"><a href="#cb7-51" tabindex="-1"></a><span class="co">#&gt; sd(c_Intercept)                                               0.43     0.79</span></span>
-<span id="cb7-52"><a href="#cb7-52" tabindex="-1"></a><span class="co">#&gt; sd(c_condition2)                                              0.42     0.81</span></span>
-<span id="cb7-53"><a href="#cb7-53" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero1diff_Intercept)                                 0.00     0.18</span></span>
-<span id="cb7-54"><a href="#cb7-54" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero1diff_condition2)                                0.00     0.27</span></span>
-<span id="cb7-55"><a href="#cb7-55" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero2diff_Intercept)                                 0.00     0.16</span></span>
-<span id="cb7-56"><a href="#cb7-56" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero2diff_condition2)                                0.00     0.30</span></span>
-<span id="cb7-57"><a href="#cb7-57" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero3diff_Intercept)                                 0.00     0.17</span></span>
-<span id="cb7-58"><a href="#cb7-58" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero3diff_condition2)                                0.00     0.28</span></span>
-<span id="cb7-59"><a href="#cb7-59" tabindex="-1"></a><span class="co">#&gt; sd(metac2one1diff_Intercept)                                  0.00     0.22</span></span>
-<span id="cb7-60"><a href="#cb7-60" tabindex="-1"></a><span class="co">#&gt; sd(metac2one1diff_condition2)                                 0.01     0.34</span></span>
-<span id="cb7-61"><a href="#cb7-61" tabindex="-1"></a><span class="co">#&gt; sd(metac2one2diff_Intercept)                                  0.01     0.27</span></span>
-<span id="cb7-62"><a href="#cb7-62" tabindex="-1"></a><span class="co">#&gt; sd(metac2one2diff_condition2)                                 0.01     0.33</span></span>
-<span id="cb7-63"><a href="#cb7-63" tabindex="-1"></a><span class="co">#&gt; sd(metac2one3diff_Intercept)                                  0.01     0.33</span></span>
-<span id="cb7-64"><a href="#cb7-64" tabindex="-1"></a><span class="co">#&gt; sd(metac2one3diff_condition2)                                 0.01     0.46</span></span>
-<span id="cb7-65"><a href="#cb7-65" tabindex="-1"></a><span class="co">#&gt; cor(Intercept,condition2)                                    -0.85     0.71</span></span>
-<span id="cb7-66"><a href="#cb7-66" tabindex="-1"></a><span class="co">#&gt; cor(dprime_Intercept,dprime_condition2)                      -0.86    -0.32</span></span>
-<span id="cb7-67"><a href="#cb7-67" tabindex="-1"></a><span class="co">#&gt; cor(c_Intercept,c_condition2)                                -0.83    -0.31</span></span>
-<span id="cb7-68"><a href="#cb7-68" tabindex="-1"></a><span class="co">#&gt; cor(metac2zero1diff_Intercept,metac2zero1diff_condition2)    -0.96     0.94</span></span>
-<span id="cb7-69"><a href="#cb7-69" tabindex="-1"></a><span class="co">#&gt; cor(metac2zero2diff_Intercept,metac2zero2diff_condition2)    -0.97     0.93</span></span>
-<span id="cb7-70"><a href="#cb7-70" tabindex="-1"></a><span class="co">#&gt; cor(metac2zero3diff_Intercept,metac2zero3diff_condition2)    -0.97     0.92</span></span>
-<span id="cb7-71"><a href="#cb7-71" tabindex="-1"></a><span class="co">#&gt; cor(metac2one1diff_Intercept,metac2one1diff_condition2)      -0.96     0.93</span></span>
-<span id="cb7-72"><a href="#cb7-72" tabindex="-1"></a><span class="co">#&gt; cor(metac2one2diff_Intercept,metac2one2diff_condition2)      -0.96     0.94</span></span>
-<span id="cb7-73"><a href="#cb7-73" tabindex="-1"></a><span class="co">#&gt; cor(metac2one3diff_Intercept,metac2one3diff_condition2)      -0.96     0.90</span></span>
-<span id="cb7-74"><a href="#cb7-74" tabindex="-1"></a><span class="co">#&gt;                                                           Rhat Bulk_ESS</span></span>
-<span id="cb7-75"><a href="#cb7-75" tabindex="-1"></a><span class="co">#&gt; sd(Intercept)                                             1.00     1167</span></span>
-<span id="cb7-76"><a href="#cb7-76" tabindex="-1"></a><span class="co">#&gt; sd(condition2)                                            1.00     1254</span></span>
-<span id="cb7-77"><a href="#cb7-77" tabindex="-1"></a><span class="co">#&gt; sd(dprime_Intercept)                                      1.00     2015</span></span>
-<span id="cb7-78"><a href="#cb7-78" tabindex="-1"></a><span class="co">#&gt; sd(dprime_condition2)                                     1.00     1728</span></span>
-<span id="cb7-79"><a href="#cb7-79" tabindex="-1"></a><span class="co">#&gt; sd(c_Intercept)                                           1.00     1493</span></span>
-<span id="cb7-80"><a href="#cb7-80" tabindex="-1"></a><span class="co">#&gt; sd(c_condition2)                                          1.00     1307</span></span>
-<span id="cb7-81"><a href="#cb7-81" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero1diff_Intercept)                             1.00     2852</span></span>
-<span id="cb7-82"><a href="#cb7-82" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero1diff_condition2)                            1.00     2155</span></span>
-<span id="cb7-83"><a href="#cb7-83" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero2diff_Intercept)                             1.00     3360</span></span>
-<span id="cb7-84"><a href="#cb7-84" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero2diff_condition2)                            1.00     2344</span></span>
-<span id="cb7-85"><a href="#cb7-85" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero3diff_Intercept)                             1.00     2901</span></span>
-<span id="cb7-86"><a href="#cb7-86" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero3diff_condition2)                            1.00     2720</span></span>
-<span id="cb7-87"><a href="#cb7-87" tabindex="-1"></a><span class="co">#&gt; sd(metac2one1diff_Intercept)                              1.00     2195</span></span>
-<span id="cb7-88"><a href="#cb7-88" tabindex="-1"></a><span class="co">#&gt; sd(metac2one1diff_condition2)                             1.00     1534</span></span>
-<span id="cb7-89"><a href="#cb7-89" tabindex="-1"></a><span class="co">#&gt; sd(metac2one2diff_Intercept)                              1.00     1600</span></span>
-<span id="cb7-90"><a href="#cb7-90" tabindex="-1"></a><span class="co">#&gt; sd(metac2one2diff_condition2)                             1.00     2027</span></span>
-<span id="cb7-91"><a href="#cb7-91" tabindex="-1"></a><span class="co">#&gt; sd(metac2one3diff_Intercept)                              1.00     1928</span></span>
-<span id="cb7-92"><a href="#cb7-92" tabindex="-1"></a><span class="co">#&gt; sd(metac2one3diff_condition2)                             1.00     1251</span></span>
-<span id="cb7-93"><a href="#cb7-93" tabindex="-1"></a><span class="co">#&gt; cor(Intercept,condition2)                                 1.00     1119</span></span>
-<span id="cb7-94"><a href="#cb7-94" tabindex="-1"></a><span class="co">#&gt; cor(dprime_Intercept,dprime_condition2)                   1.00     1615</span></span>
-<span id="cb7-95"><a href="#cb7-95" tabindex="-1"></a><span class="co">#&gt; cor(c_Intercept,c_condition2)                             1.00     1754</span></span>
-<span id="cb7-96"><a href="#cb7-96" tabindex="-1"></a><span class="co">#&gt; cor(metac2zero1diff_Intercept,metac2zero1diff_condition2) 1.00     3431</span></span>
-<span id="cb7-97"><a href="#cb7-97" tabindex="-1"></a><span class="co">#&gt; cor(metac2zero2diff_Intercept,metac2zero2diff_condition2) 1.00     3622</span></span>
-<span id="cb7-98"><a href="#cb7-98" tabindex="-1"></a><span class="co">#&gt; cor(metac2zero3diff_Intercept,metac2zero3diff_condition2) 1.00     4661</span></span>
-<span id="cb7-99"><a href="#cb7-99" tabindex="-1"></a><span class="co">#&gt; cor(metac2one1diff_Intercept,metac2one1diff_condition2)   1.00     2572</span></span>
-<span id="cb7-100"><a href="#cb7-100" tabindex="-1"></a><span class="co">#&gt; cor(metac2one2diff_Intercept,metac2one2diff_condition2)   1.00     3701</span></span>
-<span id="cb7-101"><a href="#cb7-101" tabindex="-1"></a><span class="co">#&gt; cor(metac2one3diff_Intercept,metac2one3diff_condition2)   1.00     1899</span></span>
-<span id="cb7-102"><a href="#cb7-102" tabindex="-1"></a><span class="co">#&gt;                                                           Tail_ESS</span></span>
-<span id="cb7-103"><a href="#cb7-103" tabindex="-1"></a><span class="co">#&gt; sd(Intercept)                                                 1009</span></span>
-<span id="cb7-104"><a href="#cb7-104" tabindex="-1"></a><span class="co">#&gt; sd(condition2)                                                1956</span></span>
-<span id="cb7-105"><a href="#cb7-105" tabindex="-1"></a><span class="co">#&gt; sd(dprime_Intercept)                                          2108</span></span>
-<span id="cb7-106"><a href="#cb7-106" tabindex="-1"></a><span class="co">#&gt; sd(dprime_condition2)                                         2256</span></span>
-<span id="cb7-107"><a href="#cb7-107" tabindex="-1"></a><span class="co">#&gt; sd(c_Intercept)                                               2290</span></span>
-<span id="cb7-108"><a href="#cb7-108" tabindex="-1"></a><span class="co">#&gt; sd(c_condition2)                                              2149</span></span>
-<span id="cb7-109"><a href="#cb7-109" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero1diff_Intercept)                                 2489</span></span>
-<span id="cb7-110"><a href="#cb7-110" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero1diff_condition2)                                2263</span></span>
-<span id="cb7-111"><a href="#cb7-111" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero2diff_Intercept)                                 2837</span></span>
-<span id="cb7-112"><a href="#cb7-112" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero2diff_condition2)                                2553</span></span>
-<span id="cb7-113"><a href="#cb7-113" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero3diff_Intercept)                                 2288</span></span>
-<span id="cb7-114"><a href="#cb7-114" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero3diff_condition2)                                2587</span></span>
-<span id="cb7-115"><a href="#cb7-115" tabindex="-1"></a><span class="co">#&gt; sd(metac2one1diff_Intercept)                                  2350</span></span>
-<span id="cb7-116"><a href="#cb7-116" tabindex="-1"></a><span class="co">#&gt; sd(metac2one1diff_condition2)                                 2261</span></span>
-<span id="cb7-117"><a href="#cb7-117" tabindex="-1"></a><span class="co">#&gt; sd(metac2one2diff_Intercept)                                  1509</span></span>
-<span id="cb7-118"><a href="#cb7-118" tabindex="-1"></a><span class="co">#&gt; sd(metac2one2diff_condition2)                                 2491</span></span>
-<span id="cb7-119"><a href="#cb7-119" tabindex="-1"></a><span class="co">#&gt; sd(metac2one3diff_Intercept)                                  2517</span></span>
-<span id="cb7-120"><a href="#cb7-120" tabindex="-1"></a><span class="co">#&gt; sd(metac2one3diff_condition2)                                 2267</span></span>
-<span id="cb7-121"><a href="#cb7-121" tabindex="-1"></a><span class="co">#&gt; cor(Intercept,condition2)                                     1252</span></span>
-<span id="cb7-122"><a href="#cb7-122" tabindex="-1"></a><span class="co">#&gt; cor(dprime_Intercept,dprime_condition2)                       2213</span></span>
-<span id="cb7-123"><a href="#cb7-123" tabindex="-1"></a><span class="co">#&gt; cor(c_Intercept,c_condition2)                                 2620</span></span>
-<span id="cb7-124"><a href="#cb7-124" tabindex="-1"></a><span class="co">#&gt; cor(metac2zero1diff_Intercept,metac2zero1diff_condition2)     2981</span></span>
-<span id="cb7-125"><a href="#cb7-125" tabindex="-1"></a><span class="co">#&gt; cor(metac2zero2diff_Intercept,metac2zero2diff_condition2)     2824</span></span>
-<span id="cb7-126"><a href="#cb7-126" tabindex="-1"></a><span class="co">#&gt; cor(metac2zero3diff_Intercept,metac2zero3diff_condition2)     3424</span></span>
-<span id="cb7-127"><a href="#cb7-127" tabindex="-1"></a><span class="co">#&gt; cor(metac2one1diff_Intercept,metac2one1diff_condition2)       2647</span></span>
-<span id="cb7-128"><a href="#cb7-128" tabindex="-1"></a><span class="co">#&gt; cor(metac2one2diff_Intercept,metac2one2diff_condition2)       2952</span></span>
-<span id="cb7-129"><a href="#cb7-129" tabindex="-1"></a><span class="co">#&gt; cor(metac2one3diff_Intercept,metac2one3diff_condition2)       1864</span></span>
-<span id="cb7-130"><a href="#cb7-130" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-131"><a href="#cb7-131" tabindex="-1"></a><span class="co">#&gt; Regression Coefficients:</span></span>
-<span id="cb7-132"><a href="#cb7-132" tabindex="-1"></a><span class="co">#&gt;                            Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS</span></span>
-<span id="cb7-133"><a href="#cb7-133" tabindex="-1"></a><span class="co">#&gt; Intercept                      0.17      0.14    -0.13     0.41 1.00     3333</span></span>
-<span id="cb7-134"><a href="#cb7-134" tabindex="-1"></a><span class="co">#&gt; dprime_Intercept               0.85      0.13     0.61     1.11 1.00     1769</span></span>
-<span id="cb7-135"><a href="#cb7-135" tabindex="-1"></a><span class="co">#&gt; c_Intercept                    0.01      0.12    -0.23     0.25 1.00      704</span></span>
-<span id="cb7-136"><a href="#cb7-136" tabindex="-1"></a><span class="co">#&gt; metac2zero1diff_Intercept     -1.16      0.06    -1.29    -1.04 1.00     7401</span></span>
-<span id="cb7-137"><a href="#cb7-137" tabindex="-1"></a><span class="co">#&gt; metac2zero2diff_Intercept     -1.01      0.06    -1.13    -0.90 1.00     7512</span></span>
-<span id="cb7-138"><a href="#cb7-138" tabindex="-1"></a><span class="co">#&gt; metac2zero3diff_Intercept     -1.02      0.07    -1.15    -0.89 1.00     7054</span></span>
-<span id="cb7-139"><a href="#cb7-139" tabindex="-1"></a><span class="co">#&gt; metac2one1diff_Intercept      -1.09      0.06    -1.22    -0.97 1.00     7644</span></span>
-<span id="cb7-140"><a href="#cb7-140" tabindex="-1"></a><span class="co">#&gt; metac2one2diff_Intercept      -0.95      0.07    -1.08    -0.82 1.00     6026</span></span>
-<span id="cb7-141"><a href="#cb7-141" tabindex="-1"></a><span class="co">#&gt; metac2one3diff_Intercept      -1.08      0.08    -1.23    -0.94 1.00     6309</span></span>
-<span id="cb7-142"><a href="#cb7-142" tabindex="-1"></a><span class="co">#&gt; condition2                    -0.03      0.19    -0.41     0.33 1.00     3741</span></span>
-<span id="cb7-143"><a href="#cb7-143" tabindex="-1"></a><span class="co">#&gt; dprime_condition2              0.09      0.18    -0.27     0.44 1.00     2065</span></span>
-<span id="cb7-144"><a href="#cb7-144" tabindex="-1"></a><span class="co">#&gt; c_condition2                  -0.12      0.13    -0.37     0.12 1.00     1082</span></span>
-<span id="cb7-145"><a href="#cb7-145" tabindex="-1"></a><span class="co">#&gt; metac2zero1diff_condition2     0.11      0.09    -0.06     0.28 1.00     8006</span></span>
-<span id="cb7-146"><a href="#cb7-146" tabindex="-1"></a><span class="co">#&gt; metac2zero2diff_condition2    -0.02      0.09    -0.19     0.15 1.00     7413</span></span>
-<span id="cb7-147"><a href="#cb7-147" tabindex="-1"></a><span class="co">#&gt; metac2zero3diff_condition2    -0.04      0.10    -0.23     0.15 1.00     7442</span></span>
-<span id="cb7-148"><a href="#cb7-148" tabindex="-1"></a><span class="co">#&gt; metac2one1diff_condition2      0.08      0.09    -0.09     0.25 1.00     6713</span></span>
-<span id="cb7-149"><a href="#cb7-149" tabindex="-1"></a><span class="co">#&gt; metac2one2diff_condition2     -0.11      0.09    -0.29     0.06 1.00     8351</span></span>
-<span id="cb7-150"><a href="#cb7-150" tabindex="-1"></a><span class="co">#&gt; metac2one3diff_condition2      0.11      0.11    -0.10     0.31 1.00     5899</span></span>
-<span id="cb7-151"><a href="#cb7-151" tabindex="-1"></a><span class="co">#&gt;                            Tail_ESS</span></span>
-<span id="cb7-152"><a href="#cb7-152" tabindex="-1"></a><span class="co">#&gt; Intercept                      2811</span></span>
-<span id="cb7-153"><a href="#cb7-153" tabindex="-1"></a><span class="co">#&gt; dprime_Intercept               2187</span></span>
-<span id="cb7-154"><a href="#cb7-154" tabindex="-1"></a><span class="co">#&gt; c_Intercept                    1185</span></span>
-<span id="cb7-155"><a href="#cb7-155" tabindex="-1"></a><span class="co">#&gt; metac2zero1diff_Intercept      2942</span></span>
-<span id="cb7-156"><a href="#cb7-156" tabindex="-1"></a><span class="co">#&gt; metac2zero2diff_Intercept      2788</span></span>
-<span id="cb7-157"><a href="#cb7-157" tabindex="-1"></a><span class="co">#&gt; metac2zero3diff_Intercept      3110</span></span>
-<span id="cb7-158"><a href="#cb7-158" tabindex="-1"></a><span class="co">#&gt; metac2one1diff_Intercept       3152</span></span>
-<span id="cb7-159"><a href="#cb7-159" tabindex="-1"></a><span class="co">#&gt; metac2one2diff_Intercept       2892</span></span>
-<span id="cb7-160"><a href="#cb7-160" tabindex="-1"></a><span class="co">#&gt; metac2one3diff_Intercept       2977</span></span>
-<span id="cb7-161"><a href="#cb7-161" tabindex="-1"></a><span class="co">#&gt; condition2                     2759</span></span>
-<span id="cb7-162"><a href="#cb7-162" tabindex="-1"></a><span class="co">#&gt; dprime_condition2              2332</span></span>
-<span id="cb7-163"><a href="#cb7-163" tabindex="-1"></a><span class="co">#&gt; c_condition2                   1477</span></span>
-<span id="cb7-164"><a href="#cb7-164" tabindex="-1"></a><span class="co">#&gt; metac2zero1diff_condition2     3010</span></span>
-<span id="cb7-165"><a href="#cb7-165" tabindex="-1"></a><span class="co">#&gt; metac2zero2diff_condition2     3354</span></span>
-<span id="cb7-166"><a href="#cb7-166" tabindex="-1"></a><span class="co">#&gt; metac2zero3diff_condition2     3043</span></span>
-<span id="cb7-167"><a href="#cb7-167" tabindex="-1"></a><span class="co">#&gt; metac2one1diff_condition2      3073</span></span>
-<span id="cb7-168"><a href="#cb7-168" tabindex="-1"></a><span class="co">#&gt; metac2one2diff_condition2      3099</span></span>
-<span id="cb7-169"><a href="#cb7-169" tabindex="-1"></a><span class="co">#&gt; metac2one3diff_condition2      2844</span></span>
-<span id="cb7-170"><a href="#cb7-170" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-171"><a href="#cb7-171" tabindex="-1"></a><span class="co">#&gt; Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS</span></span>
-<span id="cb7-172"><a href="#cb7-172" tabindex="-1"></a><span class="co">#&gt; and Tail_ESS are effective sample size measures, and Rhat is the potential</span></span>
-<span id="cb7-173"><a href="#cb7-173" tabindex="-1"></a><span class="co">#&gt; scale reduction factor on split chains (at convergence, Rhat = 1).</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co">#&gt;  Family: metad__4__normal__absolute__multinomial </span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#&gt;   Links: mu = log; dprime = identity; c = identity; metac2zero1diff = log; metac2zero2diff = log; metac2zero3diff = log; metac2one1diff = log; metac2one2diff = log; metac2one3diff = log </span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#&gt; Formula: N ~ condition + (condition | participant) </span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">#&gt;          dprime ~ condition + (condition | participant)</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt;          c ~ condition + (condition | participant)</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt;          metac2zero1diff ~ condition + (condition | participant)</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt;          metac2zero2diff ~ condition + (condition | participant)</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt;          metac2zero3diff ~ condition + (condition | participant)</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt;          metac2one1diff ~ condition + (condition | participant)</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt;          metac2one2diff ~ condition + (condition | participant)</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt;          metac2one3diff ~ condition + (condition | participant)</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt;    Data: data.aggregated (Number of observations: 50) </span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt;   Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt;          total post-warmup draws = 4000</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co">#&gt; Multilevel Hyperparameters:</span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co">#&gt; ~participant (Number of levels: 25) </span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="co">#&gt;                                                           Estimate Est.Error</span></span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="co">#&gt; sd(Intercept)                                                 0.53      0.16</span></span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="co">#&gt; sd(condition2)                                                0.85      0.25</span></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="co">#&gt; sd(dprime_Intercept)                                          0.48      0.09</span></span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a><span class="co">#&gt; sd(dprime_condition2)                                         0.67      0.14</span></span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a><span class="co">#&gt; sd(c_Intercept)                                               0.64      0.10</span></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="co">#&gt; sd(c_condition2)                                              0.75      0.12</span></span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero1diff_Intercept)                                 0.09      0.06</span></span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero1diff_condition2)                                0.09      0.07</span></span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero2diff_Intercept)                                 0.15      0.09</span></span>
+<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero2diff_condition2)                                0.17      0.11</span></span>
+<span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero3diff_Intercept)                                 0.07      0.06</span></span>
+<span id="cb8-30"><a href="#cb8-30" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero3diff_condition2)                                0.14      0.10</span></span>
+<span id="cb8-31"><a href="#cb8-31" tabindex="-1"></a><span class="co">#&gt; sd(metac2one1diff_Intercept)                                  0.08      0.05</span></span>
+<span id="cb8-32"><a href="#cb8-32" tabindex="-1"></a><span class="co">#&gt; sd(metac2one1diff_condition2)                                 0.12      0.08</span></span>
+<span id="cb8-33"><a href="#cb8-33" tabindex="-1"></a><span class="co">#&gt; sd(metac2one2diff_Intercept)                                  0.12      0.07</span></span>
+<span id="cb8-34"><a href="#cb8-34" tabindex="-1"></a><span class="co">#&gt; sd(metac2one2diff_condition2)                                 0.10      0.07</span></span>
+<span id="cb8-35"><a href="#cb8-35" tabindex="-1"></a><span class="co">#&gt; sd(metac2one3diff_Intercept)                                  0.21      0.12</span></span>
+<span id="cb8-36"><a href="#cb8-36" tabindex="-1"></a><span class="co">#&gt; sd(metac2one3diff_condition2)                                 0.19      0.13</span></span>
+<span id="cb8-37"><a href="#cb8-37" tabindex="-1"></a><span class="co">#&gt; cor(Intercept,condition2)                                    -0.84      0.15</span></span>
+<span id="cb8-38"><a href="#cb8-38" tabindex="-1"></a><span class="co">#&gt; cor(dprime_Intercept,dprime_condition2)                      -0.61      0.16</span></span>
+<span id="cb8-39"><a href="#cb8-39" tabindex="-1"></a><span class="co">#&gt; cor(c_Intercept,c_condition2)                                -0.79      0.08</span></span>
+<span id="cb8-40"><a href="#cb8-40" tabindex="-1"></a><span class="co">#&gt; cor(metac2zero1diff_Intercept,metac2zero1diff_condition2)    -0.10      0.57</span></span>
+<span id="cb8-41"><a href="#cb8-41" tabindex="-1"></a><span class="co">#&gt; cor(metac2zero2diff_Intercept,metac2zero2diff_condition2)    -0.20      0.56</span></span>
+<span id="cb8-42"><a href="#cb8-42" tabindex="-1"></a><span class="co">#&gt; cor(metac2zero3diff_Intercept,metac2zero3diff_condition2)    -0.23      0.58</span></span>
+<span id="cb8-43"><a href="#cb8-43" tabindex="-1"></a><span class="co">#&gt; cor(metac2one1diff_Intercept,metac2one1diff_condition2)      -0.07      0.59</span></span>
+<span id="cb8-44"><a href="#cb8-44" tabindex="-1"></a><span class="co">#&gt; cor(metac2one2diff_Intercept,metac2one2diff_condition2)       0.05      0.56</span></span>
+<span id="cb8-45"><a href="#cb8-45" tabindex="-1"></a><span class="co">#&gt; cor(metac2one3diff_Intercept,metac2one3diff_condition2)      -0.63      0.46</span></span>
+<span id="cb8-46"><a href="#cb8-46" tabindex="-1"></a><span class="co">#&gt;                                                           l-95% CI u-95% CI</span></span>
+<span id="cb8-47"><a href="#cb8-47" tabindex="-1"></a><span class="co">#&gt; sd(Intercept)                                                 0.28     0.89</span></span>
+<span id="cb8-48"><a href="#cb8-48" tabindex="-1"></a><span class="co">#&gt; sd(condition2)                                                0.40     1.39</span></span>
+<span id="cb8-49"><a href="#cb8-49" tabindex="-1"></a><span class="co">#&gt; sd(dprime_Intercept)                                          0.33     0.68</span></span>
+<span id="cb8-50"><a href="#cb8-50" tabindex="-1"></a><span class="co">#&gt; sd(dprime_condition2)                                         0.45     0.98</span></span>
+<span id="cb8-51"><a href="#cb8-51" tabindex="-1"></a><span class="co">#&gt; sd(c_Intercept)                                               0.48     0.86</span></span>
+<span id="cb8-52"><a href="#cb8-52" tabindex="-1"></a><span class="co">#&gt; sd(c_condition2)                                              0.55     1.02</span></span>
+<span id="cb8-53"><a href="#cb8-53" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero1diff_Intercept)                                 0.00     0.22</span></span>
+<span id="cb8-54"><a href="#cb8-54" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero1diff_condition2)                                0.00     0.25</span></span>
+<span id="cb8-55"><a href="#cb8-55" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero2diff_Intercept)                                 0.01     0.34</span></span>
+<span id="cb8-56"><a href="#cb8-56" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero2diff_condition2)                                0.01     0.42</span></span>
+<span id="cb8-57"><a href="#cb8-57" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero3diff_Intercept)                                 0.00     0.21</span></span>
+<span id="cb8-58"><a href="#cb8-58" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero3diff_condition2)                                0.01     0.37</span></span>
+<span id="cb8-59"><a href="#cb8-59" tabindex="-1"></a><span class="co">#&gt; sd(metac2one1diff_Intercept)                                  0.00     0.20</span></span>
+<span id="cb8-60"><a href="#cb8-60" tabindex="-1"></a><span class="co">#&gt; sd(metac2one1diff_condition2)                                 0.01     0.31</span></span>
+<span id="cb8-61"><a href="#cb8-61" tabindex="-1"></a><span class="co">#&gt; sd(metac2one2diff_Intercept)                                  0.01     0.26</span></span>
+<span id="cb8-62"><a href="#cb8-62" tabindex="-1"></a><span class="co">#&gt; sd(metac2one2diff_condition2)                                 0.00     0.27</span></span>
+<span id="cb8-63"><a href="#cb8-63" tabindex="-1"></a><span class="co">#&gt; sd(metac2one3diff_Intercept)                                  0.02     0.46</span></span>
+<span id="cb8-64"><a href="#cb8-64" tabindex="-1"></a><span class="co">#&gt; sd(metac2one3diff_condition2)                                 0.01     0.47</span></span>
+<span id="cb8-65"><a href="#cb8-65" tabindex="-1"></a><span class="co">#&gt; cor(Intercept,condition2)                                    -0.99    -0.44</span></span>
+<span id="cb8-66"><a href="#cb8-66" tabindex="-1"></a><span class="co">#&gt; cor(dprime_Intercept,dprime_condition2)                      -0.85    -0.25</span></span>
+<span id="cb8-67"><a href="#cb8-67" tabindex="-1"></a><span class="co">#&gt; cor(c_Intercept,c_condition2)                                -0.91    -0.59</span></span>
+<span id="cb8-68"><a href="#cb8-68" tabindex="-1"></a><span class="co">#&gt; cor(metac2zero1diff_Intercept,metac2zero1diff_condition2)    -0.96     0.93</span></span>
+<span id="cb8-69"><a href="#cb8-69" tabindex="-1"></a><span class="co">#&gt; cor(metac2zero2diff_Intercept,metac2zero2diff_condition2)    -0.97     0.93</span></span>
+<span id="cb8-70"><a href="#cb8-70" tabindex="-1"></a><span class="co">#&gt; cor(metac2zero3diff_Intercept,metac2zero3diff_condition2)    -0.98     0.91</span></span>
+<span id="cb8-71"><a href="#cb8-71" tabindex="-1"></a><span class="co">#&gt; cor(metac2one1diff_Intercept,metac2one1diff_condition2)      -0.96     0.95</span></span>
+<span id="cb8-72"><a href="#cb8-72" tabindex="-1"></a><span class="co">#&gt; cor(metac2one2diff_Intercept,metac2one2diff_condition2)      -0.92     0.95</span></span>
+<span id="cb8-73"><a href="#cb8-73" tabindex="-1"></a><span class="co">#&gt; cor(metac2one3diff_Intercept,metac2one3diff_condition2)      -1.00     0.70</span></span>
+<span id="cb8-74"><a href="#cb8-74" tabindex="-1"></a><span class="co">#&gt;                                                           Rhat Bulk_ESS</span></span>
+<span id="cb8-75"><a href="#cb8-75" tabindex="-1"></a><span class="co">#&gt; sd(Intercept)                                             1.00     1976</span></span>
+<span id="cb8-76"><a href="#cb8-76" tabindex="-1"></a><span class="co">#&gt; sd(condition2)                                            1.00     1316</span></span>
+<span id="cb8-77"><a href="#cb8-77" tabindex="-1"></a><span class="co">#&gt; sd(dprime_Intercept)                                      1.00     1744</span></span>
+<span id="cb8-78"><a href="#cb8-78" tabindex="-1"></a><span class="co">#&gt; sd(dprime_condition2)                                     1.00     1306</span></span>
+<span id="cb8-79"><a href="#cb8-79" tabindex="-1"></a><span class="co">#&gt; sd(c_Intercept)                                           1.00      940</span></span>
+<span id="cb8-80"><a href="#cb8-80" tabindex="-1"></a><span class="co">#&gt; sd(c_condition2)                                          1.00      908</span></span>
+<span id="cb8-81"><a href="#cb8-81" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero1diff_Intercept)                             1.00     1721</span></span>
+<span id="cb8-82"><a href="#cb8-82" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero1diff_condition2)                            1.00     1858</span></span>
+<span id="cb8-83"><a href="#cb8-83" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero2diff_Intercept)                             1.00     1372</span></span>
+<span id="cb8-84"><a href="#cb8-84" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero2diff_condition2)                            1.00     1294</span></span>
+<span id="cb8-85"><a href="#cb8-85" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero3diff_Intercept)                             1.00     1676</span></span>
+<span id="cb8-86"><a href="#cb8-86" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero3diff_condition2)                            1.00     1669</span></span>
+<span id="cb8-87"><a href="#cb8-87" tabindex="-1"></a><span class="co">#&gt; sd(metac2one1diff_Intercept)                              1.00     2318</span></span>
+<span id="cb8-88"><a href="#cb8-88" tabindex="-1"></a><span class="co">#&gt; sd(metac2one1diff_condition2)                             1.00     1592</span></span>
+<span id="cb8-89"><a href="#cb8-89" tabindex="-1"></a><span class="co">#&gt; sd(metac2one2diff_Intercept)                              1.00     1303</span></span>
+<span id="cb8-90"><a href="#cb8-90" tabindex="-1"></a><span class="co">#&gt; sd(metac2one2diff_condition2)                             1.00     1848</span></span>
+<span id="cb8-91"><a href="#cb8-91" tabindex="-1"></a><span class="co">#&gt; sd(metac2one3diff_Intercept)                              1.00      863</span></span>
+<span id="cb8-92"><a href="#cb8-92" tabindex="-1"></a><span class="co">#&gt; sd(metac2one3diff_condition2)                             1.00     1038</span></span>
+<span id="cb8-93"><a href="#cb8-93" tabindex="-1"></a><span class="co">#&gt; cor(Intercept,condition2)                                 1.00     1379</span></span>
+<span id="cb8-94"><a href="#cb8-94" tabindex="-1"></a><span class="co">#&gt; cor(dprime_Intercept,dprime_condition2)                   1.00     1635</span></span>
+<span id="cb8-95"><a href="#cb8-95" tabindex="-1"></a><span class="co">#&gt; cor(c_Intercept,c_condition2)                             1.00     1090</span></span>
+<span id="cb8-96"><a href="#cb8-96" tabindex="-1"></a><span class="co">#&gt; cor(metac2zero1diff_Intercept,metac2zero1diff_condition2) 1.00     4554</span></span>
+<span id="cb8-97"><a href="#cb8-97" tabindex="-1"></a><span class="co">#&gt; cor(metac2zero2diff_Intercept,metac2zero2diff_condition2) 1.00     2823</span></span>
+<span id="cb8-98"><a href="#cb8-98" tabindex="-1"></a><span class="co">#&gt; cor(metac2zero3diff_Intercept,metac2zero3diff_condition2) 1.00     2675</span></span>
+<span id="cb8-99"><a href="#cb8-99" tabindex="-1"></a><span class="co">#&gt; cor(metac2one1diff_Intercept,metac2one1diff_condition2)   1.00     2354</span></span>
+<span id="cb8-100"><a href="#cb8-100" tabindex="-1"></a><span class="co">#&gt; cor(metac2one2diff_Intercept,metac2one2diff_condition2)   1.00     4178</span></span>
+<span id="cb8-101"><a href="#cb8-101" tabindex="-1"></a><span class="co">#&gt; cor(metac2one3diff_Intercept,metac2one3diff_condition2)   1.00     1520</span></span>
+<span id="cb8-102"><a href="#cb8-102" tabindex="-1"></a><span class="co">#&gt;                                                           Tail_ESS</span></span>
+<span id="cb8-103"><a href="#cb8-103" tabindex="-1"></a><span class="co">#&gt; sd(Intercept)                                                 2725</span></span>
+<span id="cb8-104"><a href="#cb8-104" tabindex="-1"></a><span class="co">#&gt; sd(condition2)                                                1774</span></span>
+<span id="cb8-105"><a href="#cb8-105" tabindex="-1"></a><span class="co">#&gt; sd(dprime_Intercept)                                          2325</span></span>
+<span id="cb8-106"><a href="#cb8-106" tabindex="-1"></a><span class="co">#&gt; sd(dprime_condition2)                                         2546</span></span>
+<span id="cb8-107"><a href="#cb8-107" tabindex="-1"></a><span class="co">#&gt; sd(c_Intercept)                                               1722</span></span>
+<span id="cb8-108"><a href="#cb8-108" tabindex="-1"></a><span class="co">#&gt; sd(c_condition2)                                              1190</span></span>
+<span id="cb8-109"><a href="#cb8-109" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero1diff_Intercept)                                 2037</span></span>
+<span id="cb8-110"><a href="#cb8-110" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero1diff_condition2)                                1691</span></span>
+<span id="cb8-111"><a href="#cb8-111" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero2diff_Intercept)                                 1808</span></span>
+<span id="cb8-112"><a href="#cb8-112" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero2diff_condition2)                                1908</span></span>
+<span id="cb8-113"><a href="#cb8-113" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero3diff_Intercept)                                 2164</span></span>
+<span id="cb8-114"><a href="#cb8-114" tabindex="-1"></a><span class="co">#&gt; sd(metac2zero3diff_condition2)                                2429</span></span>
+<span id="cb8-115"><a href="#cb8-115" tabindex="-1"></a><span class="co">#&gt; sd(metac2one1diff_Intercept)                                  2459</span></span>
+<span id="cb8-116"><a href="#cb8-116" tabindex="-1"></a><span class="co">#&gt; sd(metac2one1diff_condition2)                                 1920</span></span>
+<span id="cb8-117"><a href="#cb8-117" tabindex="-1"></a><span class="co">#&gt; sd(metac2one2diff_Intercept)                                  1510</span></span>
+<span id="cb8-118"><a href="#cb8-118" tabindex="-1"></a><span class="co">#&gt; sd(metac2one2diff_condition2)                                 2032</span></span>
+<span id="cb8-119"><a href="#cb8-119" tabindex="-1"></a><span class="co">#&gt; sd(metac2one3diff_Intercept)                                  1528</span></span>
+<span id="cb8-120"><a href="#cb8-120" tabindex="-1"></a><span class="co">#&gt; sd(metac2one3diff_condition2)                                 1590</span></span>
+<span id="cb8-121"><a href="#cb8-121" tabindex="-1"></a><span class="co">#&gt; cor(Intercept,condition2)                                     2113</span></span>
+<span id="cb8-122"><a href="#cb8-122" tabindex="-1"></a><span class="co">#&gt; cor(dprime_Intercept,dprime_condition2)                       2358</span></span>
+<span id="cb8-123"><a href="#cb8-123" tabindex="-1"></a><span class="co">#&gt; cor(c_Intercept,c_condition2)                                 1538</span></span>
+<span id="cb8-124"><a href="#cb8-124" tabindex="-1"></a><span class="co">#&gt; cor(metac2zero1diff_Intercept,metac2zero1diff_condition2)     2956</span></span>
+<span id="cb8-125"><a href="#cb8-125" tabindex="-1"></a><span class="co">#&gt; cor(metac2zero2diff_Intercept,metac2zero2diff_condition2)     2275</span></span>
+<span id="cb8-126"><a href="#cb8-126" tabindex="-1"></a><span class="co">#&gt; cor(metac2zero3diff_Intercept,metac2zero3diff_condition2)     2654</span></span>
+<span id="cb8-127"><a href="#cb8-127" tabindex="-1"></a><span class="co">#&gt; cor(metac2one1diff_Intercept,metac2one1diff_condition2)       2669</span></span>
+<span id="cb8-128"><a href="#cb8-128" tabindex="-1"></a><span class="co">#&gt; cor(metac2one2diff_Intercept,metac2one2diff_condition2)       3249</span></span>
+<span id="cb8-129"><a href="#cb8-129" tabindex="-1"></a><span class="co">#&gt; cor(metac2one3diff_Intercept,metac2one3diff_condition2)       2395</span></span>
+<span id="cb8-130"><a href="#cb8-130" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-131"><a href="#cb8-131" tabindex="-1"></a><span class="co">#&gt; Regression Coefficients:</span></span>
+<span id="cb8-132"><a href="#cb8-132" tabindex="-1"></a><span class="co">#&gt;                            Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS</span></span>
+<span id="cb8-133"><a href="#cb8-133" tabindex="-1"></a><span class="co">#&gt; Intercept                     -0.10      0.16    -0.44     0.19 1.00     3095</span></span>
+<span id="cb8-134"><a href="#cb8-134" tabindex="-1"></a><span class="co">#&gt; dprime_Intercept               0.90      0.11     0.67     1.12 1.00     1523</span></span>
+<span id="cb8-135"><a href="#cb8-135" tabindex="-1"></a><span class="co">#&gt; c_Intercept                   -0.02      0.13    -0.27     0.24 1.01      474</span></span>
+<span id="cb8-136"><a href="#cb8-136" tabindex="-1"></a><span class="co">#&gt; metac2zero1diff_Intercept     -0.95      0.06    -1.07    -0.84 1.00     5998</span></span>
+<span id="cb8-137"><a href="#cb8-137" tabindex="-1"></a><span class="co">#&gt; metac2zero2diff_Intercept     -1.02      0.07    -1.16    -0.89 1.00     4764</span></span>
+<span id="cb8-138"><a href="#cb8-138" tabindex="-1"></a><span class="co">#&gt; metac2zero3diff_Intercept     -1.05      0.07    -1.18    -0.92 1.00     6306</span></span>
+<span id="cb8-139"><a href="#cb8-139" tabindex="-1"></a><span class="co">#&gt; metac2one1diff_Intercept      -0.96      0.06    -1.09    -0.85 1.00     5967</span></span>
+<span id="cb8-140"><a href="#cb8-140" tabindex="-1"></a><span class="co">#&gt; metac2one2diff_Intercept      -0.97      0.06    -1.10    -0.84 1.00     5015</span></span>
+<span id="cb8-141"><a href="#cb8-141" tabindex="-1"></a><span class="co">#&gt; metac2one3diff_Intercept      -1.09      0.08    -1.26    -0.93 1.00     4329</span></span>
+<span id="cb8-142"><a href="#cb8-142" tabindex="-1"></a><span class="co">#&gt; condition2                    -0.05      0.24    -0.53     0.43 1.00     2754</span></span>
+<span id="cb8-143"><a href="#cb8-143" tabindex="-1"></a><span class="co">#&gt; dprime_condition2              0.03      0.15    -0.27     0.33 1.00     2083</span></span>
+<span id="cb8-144"><a href="#cb8-144" tabindex="-1"></a><span class="co">#&gt; c_condition2                  -0.19      0.15    -0.48     0.11 1.00      809</span></span>
+<span id="cb8-145"><a href="#cb8-145" tabindex="-1"></a><span class="co">#&gt; metac2zero1diff_condition2    -0.09      0.08    -0.25     0.07 1.00     5915</span></span>
+<span id="cb8-146"><a href="#cb8-146" tabindex="-1"></a><span class="co">#&gt; metac2zero2diff_condition2    -0.14      0.10    -0.32     0.05 1.00     4944</span></span>
+<span id="cb8-147"><a href="#cb8-147" tabindex="-1"></a><span class="co">#&gt; metac2zero3diff_condition2     0.01      0.10    -0.17     0.20 1.00     5620</span></span>
+<span id="cb8-148"><a href="#cb8-148" tabindex="-1"></a><span class="co">#&gt; metac2one1diff_condition2     -0.12      0.08    -0.28     0.04 1.00     5205</span></span>
+<span id="cb8-149"><a href="#cb8-149" tabindex="-1"></a><span class="co">#&gt; metac2one2diff_condition2     -0.01      0.08    -0.17     0.15 1.00     5177</span></span>
+<span id="cb8-150"><a href="#cb8-150" tabindex="-1"></a><span class="co">#&gt; metac2one3diff_condition2      0.10      0.10    -0.09     0.31 1.00     5508</span></span>
+<span id="cb8-151"><a href="#cb8-151" tabindex="-1"></a><span class="co">#&gt;                            Tail_ESS</span></span>
+<span id="cb8-152"><a href="#cb8-152" tabindex="-1"></a><span class="co">#&gt; Intercept                      2616</span></span>
+<span id="cb8-153"><a href="#cb8-153" tabindex="-1"></a><span class="co">#&gt; dprime_Intercept               2172</span></span>
+<span id="cb8-154"><a href="#cb8-154" tabindex="-1"></a><span class="co">#&gt; c_Intercept                    1239</span></span>
+<span id="cb8-155"><a href="#cb8-155" tabindex="-1"></a><span class="co">#&gt; metac2zero1diff_Intercept      2829</span></span>
+<span id="cb8-156"><a href="#cb8-156" tabindex="-1"></a><span class="co">#&gt; metac2zero2diff_Intercept      3016</span></span>
+<span id="cb8-157"><a href="#cb8-157" tabindex="-1"></a><span class="co">#&gt; metac2zero3diff_Intercept      3005</span></span>
+<span id="cb8-158"><a href="#cb8-158" tabindex="-1"></a><span class="co">#&gt; metac2one1diff_Intercept       2897</span></span>
+<span id="cb8-159"><a href="#cb8-159" tabindex="-1"></a><span class="co">#&gt; metac2one2diff_Intercept       2952</span></span>
+<span id="cb8-160"><a href="#cb8-160" tabindex="-1"></a><span class="co">#&gt; metac2one3diff_Intercept       2879</span></span>
+<span id="cb8-161"><a href="#cb8-161" tabindex="-1"></a><span class="co">#&gt; condition2                     2771</span></span>
+<span id="cb8-162"><a href="#cb8-162" tabindex="-1"></a><span class="co">#&gt; dprime_condition2              2679</span></span>
+<span id="cb8-163"><a href="#cb8-163" tabindex="-1"></a><span class="co">#&gt; c_condition2                   1446</span></span>
+<span id="cb8-164"><a href="#cb8-164" tabindex="-1"></a><span class="co">#&gt; metac2zero1diff_condition2     2905</span></span>
+<span id="cb8-165"><a href="#cb8-165" tabindex="-1"></a><span class="co">#&gt; metac2zero2diff_condition2     3129</span></span>
+<span id="cb8-166"><a href="#cb8-166" tabindex="-1"></a><span class="co">#&gt; metac2zero3diff_condition2     2461</span></span>
+<span id="cb8-167"><a href="#cb8-167" tabindex="-1"></a><span class="co">#&gt; metac2one1diff_condition2      2420</span></span>
+<span id="cb8-168"><a href="#cb8-168" tabindex="-1"></a><span class="co">#&gt; metac2one2diff_condition2      2707</span></span>
+<span id="cb8-169"><a href="#cb8-169" tabindex="-1"></a><span class="co">#&gt; metac2one3diff_condition2      3413</span></span>
+<span id="cb8-170"><a href="#cb8-170" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-171"><a href="#cb8-171" tabindex="-1"></a><span class="co">#&gt; Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS</span></span>
+<span id="cb8-172"><a href="#cb8-172" tabindex="-1"></a><span class="co">#&gt; and Tail_ESS are effective sample size measures, and Rhat is the potential</span></span>
+<span id="cb8-173"><a href="#cb8-173" tabindex="-1"></a><span class="co">#&gt; scale reduction factor on split chains (at convergence, Rhat = 1).</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-fleming2017" class="csl-entry">
 Fleming, Stephen M. 2017. “HMeta-d: Hierarchical Bayesian Estimation of Metacognitive Efficiency from Confidence Ratings.” <em>Neuroscience of Consciousness</em> 2017 (1): nix007.
 </div>
@@ -354,7 +360,7 @@ Fleming, Stephen M. 2017. “HMeta-d: Hierarchical Bayesian Estimation of Metaco
 Maniscalco, Brian, and Hakwan Lau. 2012. “A Signal Detection Theoretic Approach for Estimating Metacognitive Sensitivity from Confidence Ratings.” <em>Consciousness and Cognition</em> 21 (1): 422–30.
 </div>
 <div id="ref-maniscalco2014" class="csl-entry">
-Maniscalco, Brian, and Hakwan Lau. 2014. “Signal Detection Theory Analysis of Type 1 and Type 2 Data: Meta-d′, Response-Specific Meta-d′, and the Unequal Variance SDT Model.” In <em>The Cognitive Neuroscience of Metacognition</em>. Springer.
+———. 2014. “Signal Detection Theory Analysis of Type 1 and Type 2 Data: Meta-d′, Response-Specific Meta-d′, and the Unequal Variance SDT Model.” In <em>The Cognitive Neuroscience of Metacognition</em>, 25–66. Springer.
 </div>
 </div>
 </div>
@@ -362,8 +368,8 @@ Maniscalco, Brian, and Hakwan Lau. 2014. “Signal Detection Theory Analysis of 
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/metacoglab/mRatio/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/metacoglab/mRatio/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://github.com/metacoglab/hmetad/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/metacoglab/hmetad/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -379,21 +385,21 @@ Maniscalco, Brian, and Hakwan Lau. 2014. “Signal Detection Theory Analysis of 
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html#citation">Citing mRatio</a></li>
+<li><a href="authors.html#citation">Citing hmetad</a></li>
 </ul>
 </div>
 
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Kevin O'Neill <br><small class="roles"> Author, maintainer </small>   </li>
+<li>Kevin O'Neill <br><small class="roles"> Author, maintainer, copyright holder </small> <a href="https://orcid.org/https://orcid.org/0000-0001-7401-9802" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
 </ul>
 </div>
 
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/metacoglab/mRatio/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/metacoglab/mRatio/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/metacoglab/hmetad/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/metacoglab/hmetad/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 
