@@ -275,7 +275,7 @@ aggregate_metad <- function(
       if (is.null(K)) {
         K <- as.integer((data |> pull(!!sym(.joint_response)) |> n_distinct()) / 2)
       }
-
+      
       if (!(.response %in% names(data))) {
         ## add response column
         data <- data |>
@@ -312,6 +312,7 @@ aggregate_metad <- function(
       ungroup() |>
       mutate(
         "{.stimulus}" := factor(!!sym(.stimulus)),
+        "{.joint_response}" := factor(!!sym(.joint_response), levels = 1:(2 * K)),
         across(c(...), factor)
       ) |>
       group_by(...) |>

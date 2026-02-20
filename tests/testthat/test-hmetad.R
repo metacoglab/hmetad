@@ -80,5 +80,5 @@ test_that("fit_metad works", {
 })
 
 test_that("fit_metad fails for invalid K", {
-  expect_error(fit_metad(N ~ 1, sim_metad(), K = 0, empty=TRUE))
+  expect_error(fit_metad(N ~ 1, sim_metad(), K = 0, empty = TRUE))
 })

@@ -21,7 +21,7 @@ dir.create("models", showWarnings = FALSE)
 ```
 
 ## Introduction
-The standard meta-d' model assumes that the evidence for making type 1 decisions follows an equal-variance normal distribution and that the evidence for making type 2 decisions follows a truncated equal-variance normal distribution. However, there has been recent interest in using other distributions in signal detection theory. While not all distributions will be identifiable with the meta-d' model (e.g., one cannot simultaneously estimate unequal variances and $\textrm{meta-}d'$), the `mRatio` package allows one to specify any distribution that takes a single parameter defining the location (i.e., mean, median, or mode) of the distribution.
+The standard meta-d' model assumes that the evidence for making type 1 decisions follows an equal-variance normal distribution and that the evidence for making type 2 decisions follows a truncated equal-variance normal distribution. However, there has been recent interest in using other distributions in signal detection theory. While not all distributions will be identifiable with the meta-d' model (e.g., one cannot simultaneously estimate unequal variances and $\textrm{meta-}d'$), the `hmetad` package allows one to specify any distribution that takes a single parameter defining the location (i.e., mean, median, or mode) of the distribution.
 
 To demonstrate this functionality, here we implement the meta-d' model with the Gumbel-min distribution, which has been shown to provide a parsimonious explanation of recognition memory data (Meyer-Grant et al, 2025).
 
@@ -30,16 +30,16 @@ We begin by loading necessary packages in `R`:
 library(tidyverse)
 library(brms)
 library(tidybayes)
-library(mRatio)
+library(hmetad)
 ```
 
-## Implementing a distribution function for use with `mRatio`
-In order for a distribution to be used with the `mRatio` package, one needs to implement its cumulative distribution functions in both `R` and `Stan`. Specifically, since the `mRatio` package computes the model likelihood on the logarithmic scale, one must define:
+## Implementing a distribution function for use with `hmetad`
+In order for a distribution to be used with the `hmetad` package, one needs to implement its cumulative distribution functions in both `R` and `Stan`. Specifically, since the `hmetad` package computes the model likelihood on the logarithmic scale, one must define:
 
 * `<distribution>_lcdf(x, mu)`: the log cumulative distribution function defining $\textrm{log } P(X \le x)$ for a random variable $X \sim \textrm{distribution}(\mu)$.
 * `<distribution>_lccdf(x, mu)`: the log complementary cumulative distribution function defining $\textrm{log } P(X \ge x)$ for a random variable $X \sim \textrm{distribution}(\mu)$.
 
-Please note that for use with the `mRatio` package, these two functions **must** use the above naming scheme (i.e., must be named `<distribution>_l(c)cdf`). 
+Please note that for use with the `hmetad` package, these two functions **must** use the above naming scheme (i.e., must be named `<distribution>_l(c)cdf`). 
 
 For example, we can write the gumbel min distribution functions in `R` as follows:
 ```{r gumbel_min_r}
@@ -65,7 +65,7 @@ real gumbel_min_lccdf(real x, real g) {
 )
 ```
 
-Again, note that the name of the functions in `Stan` must match their corresponding names in `R`. With the `lcdf` and `lccdf` functions implemented in both `R` and `Stan`, the new distribution is ready to use with the `mRatio` package!
+Again, note that the name of the functions in `Stan` must match their corresponding names in `R`. With the `lcdf` and `lccdf` functions implemented in both `R` and `Stan`, the new distribution is ready to use with the `hmetad` package!
 
 
 ## Data simulation
@@ -112,7 +112,7 @@ The model summary can be interpreted just as with any other model, however here 
 
 
 ## Model estimates
-Once the model is fit, it can be post-processed like any other model from the `mRatio` package. Because alternative distributions are often understood in terms of their effects on the ROC, here we will focus on plotting them.
+Once the model is fit, it can be post-processed like any other model from the `hmetad` package. Because alternative distributions are often understood in terms of their effects on the ROC, here we will focus on plotting them.
 
 Looking at the pseudo-type 1 ROC, we can see that the `gumbel_min` distribution exhibits an asymmetry:
 ```{r roc1}

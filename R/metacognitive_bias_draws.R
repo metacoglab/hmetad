@@ -3,6 +3,7 @@
 #' @param ... a series of distances between confidence thresholds
 #' @param rvar if `TRUE`, use `posterior::rvar_sum` in place of `sum`
 #' @keywords internal
+#' @noRd
 metacognitive_bias <- function(..., rvar = FALSE) {
   k <- length(c(...))
 

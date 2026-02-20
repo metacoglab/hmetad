@@ -82,4 +82,7 @@ mean_confidence_draws(m, newdata, by_stimulus = FALSE)
 
 # compute mean confidence averaging over stimuli and responses
 mean_confidence_draws(m, newdata, by_stimulus = FALSE, by_response = FALSE)
+
+# use posterior::rvar for increased efficiency
+mean_confidence_rvars(m, newdata)
 }

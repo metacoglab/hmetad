@@ -61,14 +61,14 @@ epred_draws_metad <- function(object, newdata, ...) {
       )
   } else {
     if (.stimulus %in% names(newdata)) {
-      draws <- tidybayes::epred_draws(object, newdata)
+      draws <- tidybayes::epred_draws(object, newdata, ...)
     } else {
       ## get epred_draws separately by stimulus
       draws <- newdata |>
         mutate("{.stimulus}" := 0L) |>
-        tidybayes::add_epred_draws(object) |>
+        tidybayes::add_epred_draws(object, ...) |>
         bind_rows(newdata |> mutate("{.stimulus}" := 1L) |>
-          tidybayes::add_epred_draws(object))
+          tidybayes::add_epred_draws(object, ...))
     }
 
     draws <- draws |>
@@ -135,14 +135,14 @@ epred_rvars_metad <- function(object, newdata, ...) {
       )
   } else {
     if (.stimulus %in% names(newdata)) {
-      draws <- tidybayes::epred_rvars(object, newdata, columns_to = ".category")
+      draws <- tidybayes::epred_rvars(object, newdata, ..., columns_to = ".category")
     } else {
       ## get epred_rvars separately by stimulus
       draws <- newdata |>
         mutate("{.stimulus}" := 0L) |>
-        tidybayes::add_epred_rvars(object, columns_to = ".category") |>
+        tidybayes::add_epred_rvars(object, ..., columns_to = ".category") |>
         bind_rows(newdata |> mutate("{.stimulus}" := 1L) |>
-          tidybayes::add_epred_rvars(object, columns_to = ".category"))
+          tidybayes::add_epred_rvars(object, ..., columns_to = ".category"))
     }
 
     draws <- draws |>

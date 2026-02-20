@@ -45,6 +45,9 @@
 #'
 #' # compute mean confidence averaging over stimuli and responses
 #' mean_confidence_draws(m, newdata, by_stimulus = FALSE, by_response = FALSE)
+#'
+#' # use posterior::rvar for increased efficiency
+#' mean_confidence_rvars(m, newdata)
 #' @export
 mean_confidence_draws <- function(object, newdata, ...,
                                   by_stimulus = TRUE, by_response = TRUE) {

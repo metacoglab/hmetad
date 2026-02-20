@@ -15,14 +15,14 @@ knitr::opts_chunk$set(
 )
 ```
 
-# mRatio
+# hmetad
 
 <!-- badges: start -->
-  [![R-CMD-check](https://github.com/metacoglab/mRatio/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/metacoglab/mRatio/actions/workflows/R-CMD-check.yaml)
+  [![R-CMD-check](https://github.com/metacoglab/hmetad/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/metacoglab/hmetad/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The mRatio package is designed to fit the meta-d’ model for confidence
-ratings [@maniscalco2012; @maniscalco2014]. Like the [Hmeta-d toolbox](https://github.com/metacoglab/HMeta-d) [@fleming2017], the mRatio package uses a Bayesian modeling approach. The mRatio package builds on the Hmeta-d toolbox through implementation as a custom family in the [brms](https://paulbuerkner.com/brms/) package, which itself provides a friendly interface to the probabilistic programming language [Stan](https://mc-stan.org). 
+The `hmetad` package is designed to fit the meta-d’ model for confidence
+ratings [@maniscalco2012; @maniscalco2014]. Like the [Hmeta-d toolbox](https://github.com/metacoglab/HMeta-d) [@fleming2017], the `hmetad` package uses a Bayesian modeling approach. The `hmetad` package builds on the Hmeta-d toolbox through implementation as a custom family in the [brms](https://paulbuerkner.com/brms/) package, which itself provides a friendly interface to the probabilistic programming language [Stan](https://mc-stan.org). 
 
 This provides major benefits:
 
@@ -35,19 +35,23 @@ This provides major benefits:
 
 
 ## Installation
-
-You can install the development version of mRatio from [GitHub](https://github.com/metacoglab/mRatio) with:
-
+`hmetad` is currently under submission to CRAN, which means soon you will be able to install it using:
 ``` {r install, eval=FALSE}
+install.packages("hmetad")
+```
+
+
+For now, you can install the development version of `hmetad` from [GitHub](https://github.com/metacoglab/hmetad) with:
+``` {r install_dev, eval=FALSE}
 # install.packages("pak")
-pak::pak("metacoglab/mRatio")
+pak::pak("metacoglab/hmetad")
 ```
 
 ## Quick setup
 Let's say you have some data from a binary decision task with ordinal confidence ratings:
 
 ```{r data, echo=FALSE, message=FALSE, warning=FALSE}
-library(mRatio)
+library(hmetad)
 library(dplyr)
 d <- sim_metad(N_trials = 1000) |>
   ungroup() |>
@@ -60,7 +64,7 @@ d
 You can fit an intercepts-only meta-d' model using `fit_metad`:
 
 ```{r example, results=FALSE, warning=FALSE, message=FALSE}
-library(mRatio)
+library(hmetad)
 
 m <- fit_metad(N ~ 1, data = d, file = "vignettes/models/readme1.rds")
 ```

@@ -77,14 +77,14 @@ predicted_draws_metad <- function(object, newdata, ...) {
       )
   } else {
     if (.stimulus %in% names(newdata)) {
-      draws <- tidybayes::predicted_draws(object, newdata)
+      draws <- tidybayes::predicted_draws(object, newdata, ...)
     } else {
       ## get predicted_draws separately by stimulus
       draws <- newdata |>
         mutate("{.stimulus}" := 0L) |>
-        tidybayes::add_predicted_draws(object) |>
+        tidybayes::add_predicted_draws(object, ...) |>
         bind_rows(newdata |> mutate("{.stimulus}" := 1L) |>
-          tidybayes::add_predicted_draws(object))
+          tidybayes::add_predicted_draws(object, ...))
     }
 
     ## number of confidence levels
@@ -135,7 +135,7 @@ predicted_rvars_metad <- function(object, newdata, ...) {
       columns_to = ".category"
     ) |>
       tidyr::separate_wider_delim(
-        .data$.category,
+        ".category",
         delim = "_",
         names = c(NA, "stimulus", "joint_response")
       ) |>
@@ -163,14 +163,14 @@ predicted_rvars_metad <- function(object, newdata, ...) {
       )
   } else {
     if (.stimulus %in% names(newdata)) {
-      draws <- tidybayes::predicted_draws(object, newdata)
+      draws <- tidybayes::predicted_draws(object, newdata, ...)
     } else {
       ## get predicted_draws separately by stimulus
       draws <- newdata |>
         mutate("{.stimulus}" := 0L) |>
-        tidybayes::add_predicted_rvars(object) |>
+        tidybayes::add_predicted_rvars(object, ...) |>
         bind_rows(newdata |> mutate("{.stimulus}" := 1L) |>
-          tidybayes::add_predicted_rvars(object))
+          tidybayes::add_predicted_rvars(object, ...))
     }
 
     ## number of confidence levels

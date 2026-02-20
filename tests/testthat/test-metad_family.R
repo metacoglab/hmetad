@@ -35,8 +35,9 @@ test_that("get_stimulus works", {
 
   sim_metad() |>
     rename(manipulation = stimulus) |>
-    mutate(joint_response=joint_response(response, confidence, 4)) |>
-    fit_metad(joint_response | vint(manipulation) ~ 1, data=_,
+    mutate(joint_response = joint_response(response, confidence, 4)) |>
+    fit_metad(joint_response | vint(manipulation) ~ 1,
+      data = _,
       empty = TRUE, categorical = TRUE, .stimulus = "manipulation"
     ) |>
     get_stimulus() |>

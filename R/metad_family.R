@@ -19,6 +19,7 @@
 #'   distribution `distribution`, and where `metac = c` if
 #'   `metac_absolute==TRUE`, and `metac = M*c` otherwise.
 #' @keywords internal
+#' @noRd
 stancode_metad <- function(
   K, distribution = "normal", metac_absolute = TRUE,
   categorical = FALSE
@@ -173,6 +174,7 @@ stanvars_metad <- function(
 #' @returns An R function with the name `distribution_{fun}`.
 #' @details Will throw an error if this function does not exist
 #' @keywords internal
+#' @noRd
 get_dist <- function(model, fun = "lcdf") {
   if (model$family$family != "custom" ||
     !stringr::str_starts(model$family$name, "metad")) {
@@ -191,6 +193,7 @@ get_dist <- function(model, fun = "lcdf") {
 #' @param model The `brms` model to get the parameterization for
 #' @returns A character vector, either `"absolute"` or `"relative"`.
 #' @keywords internal
+#' @noRd
 get_metac <- function(model) {
   if (model$family$family != "custom" ||
     !stringr::str_starts(model$family$name, "metad")) {
@@ -206,6 +209,7 @@ get_metac <- function(model) {
 #' @param model The `brms` model to get the parameterization for
 #' @returns A character vector, either `"multinomial"` or `"categorical"`.
 #' @keywords internal
+#' @noRd
 get_ll <- function(model) {
   if (model$family$family != "custom" ||
     !stringr::str_starts(model$family$name, "metad")) {
@@ -221,6 +225,7 @@ get_ll <- function(model) {
 #' @param model The `brms` model to get the variable for
 #' @returns A character vector.
 #' @keywords internal
+#' @noRd
 get_stimulus <- function(model) {
   if (get_ll(model) == "categorical") {
     if (is.null(brmsterms(model$formula)$adforms$vint)) {
@@ -337,6 +342,7 @@ metad_pmf <- function(stimulus, dprime, c,
 #' `N` is the number of rows in the data, and
 #' `K` is the number of confidence levels.
 #' @keywords internal
+#' @noRd
 posterior_epred_metad <- function(prep) {
   M <- get_dpar(prep, "mu")
   dprime <- get_dpar(prep, "dprime")
@@ -456,6 +462,7 @@ posterior_epred_metad <- function(prep) {
 #' @returns A vector of joint type 1/type 2 response probabilties
 #' for observation `i` in `prep`
 #' @keywords internal
+#' @noRd
 lp_metad <- function(i, prep) {
   M <- get_dpar(prep, "mu", i = i)
   dprime <- get_dpar(prep, "dprime", i = i)
@@ -519,6 +526,7 @@ lp_metad <- function(i, prep) {
 #' `N` is the number of rows in the data, and
 #' `K` is the number of confidence levels.
 #' @keywords internal
+#' @noRd
 log_lik_metad <- function(i, prep) {
   if (get_ll(prep) == "categorical") {
     return(lp_metad(i, prep)[, prep$data$Y[i] +
@@ -561,6 +569,7 @@ log_lik_metad <- function(i, prep) {
 #' `N` is the number of rows in the data, and
 #' `K` is the number of confidence levels.
 #' @keywords internal
+#' @noRd
 posterior_predict_metad <- function(i, prep, ...) {
   if (get_ll(prep) == "categorical") {
     p <- lp_metad(i, prep)[, 1:prep$data$ncat +

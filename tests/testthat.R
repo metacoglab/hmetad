@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(mRatio)
+library(hmetad)
 
-test_check("mRatio")
+test_check("hmetad")

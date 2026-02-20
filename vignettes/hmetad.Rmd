@@ -24,17 +24,17 @@ dir.create("models", showWarnings = FALSE)
 
 
 ## Introduction
-This vignette demonstrates how to use the `mRatio` package to fit the meta-d' model [@maniscalco2012] to a dataset including a binary decision with confidence ratings.
+This vignette demonstrates how to use the `hmetad` package to fit the meta-d' model [@maniscalco2012] to a dataset including a binary decision with confidence ratings.
 
 
 
 ## Data preparation
 
-To get a better idea of what kind of datasets the `mRatio` package is designed for, we can start by simulating one (see `help('sim_metad')` for a description of the data simulation function):
+To get a better idea of what kind of datasets the `hmetad` package is designed for, we can start by simulating one (see `help('sim_metad')` for a description of the data simulation function):
 ```{r setup, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(tidybayes)
-library(mRatio)
+library(hmetad)
 
 d <- sim_metad(
   N_trials = 1000, dprime = .75, c = -.5, log_M = -1,
@@ -47,7 +47,7 @@ d <- d |> select(trial, stimulus, response, confidence)
 d
 ```
 As you can see, our dataset has a column for the `trial` number, the
-presented `stimulus` on each trial (`0` or `1`), the participant's type 1 response (`0` or `1`), and the corresponding type 2 response (confidence; `1:K`). The trials in this dataset are sorted by `stimulus`, `response`, and `confidence` because this dataset is simulated, but otherwise this should look very similar to the kind of data that you would immediately get from running an experiment.
+presented `stimulus` on each trial (`0` or `1`), the participant's type 1 response (`0` or `1`), and the corresponding type 2 response (confidence; `1:K`). The trials in this dataset are sorted by `stimulus`, `response`, and `confidence` because this data set is simulated, but otherwise this should look very similar to the kind of data that you would immediately get from running an experiment.
 
 ### Type 1, type 2, and joint responses
 One hiccup is that some paradigms do not collect a separate decision (i.e., type 1 response) and confidence rating (i.e., type 2 response)---rather, they collect a single rating reflecting both the primary decision and confidence. For example, instead of a binary type 1 response and a type 2 response ranging from `1` to `K` (where `K` is the maximum confidence level), sometimes participants are asked to make a rating on a scale from `1` to `2*K`, where `1` represents a confidence `"0"` response, `K` represents an uncertain `"0"` response, `K+1` represents an uncertain `"1"` response, and `2*K` represents a confident `"1"` response. We will refer to this as a *joint response*, as it is a combination of the type 1 response and the type 2 response.
@@ -81,7 +81,7 @@ Note that in both cases we need to specify that our confidence scale has `K=4` l
 
 
 ### Signed and unsigned binary numbers
-Often datasets will use `-1` and `1` instead of `0` and `1` to represent the two possible stimuli and type 1 responses. While the `mRatio` package is designed to use the *unsigned* (`0` or `1`) version, it provides helper functions to convert between the two:
+Often datasets will use `-1` and `1` instead of `0` and `1` to represent the two possible stimuli and type 1 responses. While the `hmetad` package is designed to use the *unsigned* (`0` or `1`) version, it provides helper functions to convert between the two:
 
 ```{r to_unsigned} 
 to_unsigned(c(-1, 1))
@@ -93,7 +93,7 @@ to_signed(c(0, 1))
 
 
 ### Data aggregation
-Finally, to ensure that the model runs efficiently, the `mRatio` package currently requires data to be aggregated. If it is easier, the `mRatio` package will aggregate your data for you when you fit your model. But if you would like to do so manually (e.g., for plotting or follow-up analyses), the `aggregate_metad` function can do this for you:
+Finally, to ensure that the model runs efficiently, the `hmetad` package currently requires data to be aggregated. If it is easier, the `hmetad` package will aggregate your data for you when you fit your model. But if you would like to do so manually (e.g., for plotting or follow-up analyses), the `aggregate_metad` function can do this for you:
 
 ```{r aggregate_metad}
 d.summary <- aggregate_metad(d)
@@ -144,7 +144,7 @@ Note that here we have arbitrarily chosen to use standard normal priors for all 
 In this model, `Intercept` is our estimate of $\textrm{log}(M) = \textrm{log}\frac{\textrm{meta-}d'}{d'}$, `dprime` is our estimate of $d'$, `c` is our estimate of $c$, `metac2zero1diff` and `metac2zero2diff` are the distances between successive confidence thresholds for `"0"` responses, and `metac2one1diff` and `metac2one2diff` are the distances between successive confidence thresholds for `"1"` responses. For each parameter, `brms` shows you the posterior means (`Estimate`), posterior standard deviations (`Est. Error`), upper- and lower-95% posterior quantiles (`l-95% CI` and `u-95% CI`), as well as some convergence metrics (`Rhat`, `Bulk_ESS`, and `Tail_ESS`).
 
 ## Extract model estimates
-Once we have our fitted model, there are many estimates that we can extract from it. Although `brms` provides its own functions for extracting posterior estimates, the `mRatio` package is designed to interface well with the `tidybayes` package to make it easier to work with model posterior samples.
+Once we have our fitted model, there are many estimates that we can extract from it. Although `brms` provides its own functions for extracting posterior estimates, the `hmetad` package is designed to interface well with the `tidybayes` package to make it easier to work with model posterior samples.
 
 
 ### Parameter estimates

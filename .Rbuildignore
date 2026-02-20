@@ -1,4 +1,4 @@
-^mRatio\.Rproj$
+^hmetad\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^\.github$
@@ -9,3 +9,4 @@
 ^pkgdown$
 ^TODO$
 ^README\.Rmd$
+^cran-comments\.md$

@@ -1,10 +1,20 @@
-Package: mRatio
-Title: Fit the meta-d' model of confidence ratings using `brms`
+Package: hmetad
+Title: Fit the Meta-D' Model of Confidence Ratings Using 'brms'
 Version: 0.0.1
 Authors@R: 
-    person("Kevin", "O'Neill", , "kevin.o'neill@ucl.ac.uk", role = c("aut", "cre"))
-Description: Implementation of a `brms` custom family for the meta-d\'
-    model (Maniscalco & Lau, 2012).
+    person(
+      "Kevin", "O'Neill", 
+      email = "kevin.o'neill@ucl.ac.uk", 
+      role = c("aut", "cre", "cph"),
+      comment = c(ORCID = "https://orcid.org/0000-0001-7401-9802")
+    )
+Description: Implementation of Bayesian regressions over the meta-d\' model of 
+    psychological data from two alternative forced choice tasks with 
+    ordinal confidence ratings. For more information, see 
+    Maniscalco & Lau (2012) <doi:10.1016/j.concog.2011.09.021>.
+    The package is a front-end to the 'brms' package, which facilitates a wide
+    range of regression designs, as well as tools for efficiently extracting 
+    posterior estimates, plotting, and significance testing. 
 License: GPL (>= 3) + file LICENSE
 Depends: 
     R (>= 4.2.0),
@@ -31,5 +41,5 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 Config/testthat/edition: 3
-URL: https://metacoglab.github.io/mRatio/, https://github.com/metacoglab/mRatio
-BugReports: https://github.com/metacoglab/mRatio/issues
+URL: https://metacoglab.github.io/hmetad/, https://github.com/metacoglab/hmetad
+BugReports: https://github.com/metacoglab/hmetad/issues
