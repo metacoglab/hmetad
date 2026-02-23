@@ -265,7 +265,7 @@ there is nothing stopping us from fitting the model like normal:</p>
 <span>      <span class="va">metac2one1diff</span> <span class="op">+</span> <span class="va">metac2one2diff</span> <span class="op">~</span></span>
 <span>      <span class="fl">1</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">participant</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">item</span><span class="op">)</span></span>
 <span>  <span class="op">)</span>,</span>
-<span>  data <span class="op">=</span> <span class="va">d</span>, init <span class="op">=</span> <span class="fl">0</span>, cores<span class="op">=</span><span class="fl">4</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">d</span>, init <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  file <span class="op">=</span> <span class="st">"models/multinomial.rds"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Compiling Stan program...</span></span>
@@ -283,12 +283,112 @@ there is nothing stopping us from fitting the model like normal:</p>
 <span><span class="co">#&gt; compilation terminated.</span></span>
 <span><span class="co">#&gt; make: *** [/opt/R/4.5.2/lib/R/etc/Makeconf:202: foo.o] Error 1</span></span>
 <span><span class="co">#&gt; Start sampling</span></span>
-<span><span class="co">#&gt; Warning: There were 20 divergent transitions after warmup. See</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).</span></span>
+<span><span class="co">#&gt; Chain 1: </span></span>
+<span><span class="co">#&gt; Chain 1: Gradient evaluation took 0.004686 seconds</span></span>
+<span><span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 46.86 seconds.</span></span>
+<span><span class="co">#&gt; Chain 1: Adjust your expectations accordingly!</span></span>
+<span><span class="co">#&gt; Chain 1: </span></span>
+<span><span class="co">#&gt; Chain 1: </span></span>
+<span><span class="co">#&gt; Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 1: </span></span>
+<span><span class="co">#&gt; Chain 1:  Elapsed Time: 143.857 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 1:                135.983 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 1:                279.84 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 1: </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).</span></span>
+<span><span class="co">#&gt; Chain 2: </span></span>
+<span><span class="co">#&gt; Chain 2: Gradient evaluation took 0.00252 seconds</span></span>
+<span><span class="co">#&gt; Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 25.2 seconds.</span></span>
+<span><span class="co">#&gt; Chain 2: Adjust your expectations accordingly!</span></span>
+<span><span class="co">#&gt; Chain 2: </span></span>
+<span><span class="co">#&gt; Chain 2: </span></span>
+<span><span class="co">#&gt; Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 2: </span></span>
+<span><span class="co">#&gt; Chain 2:  Elapsed Time: 145.331 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 2:                86.523 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 2:                231.854 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 2: </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).</span></span>
+<span><span class="co">#&gt; Chain 3: </span></span>
+<span><span class="co">#&gt; Chain 3: Gradient evaluation took 0.002539 seconds</span></span>
+<span><span class="co">#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 25.39 seconds.</span></span>
+<span><span class="co">#&gt; Chain 3: Adjust your expectations accordingly!</span></span>
+<span><span class="co">#&gt; Chain 3: </span></span>
+<span><span class="co">#&gt; Chain 3: </span></span>
+<span><span class="co">#&gt; Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 3: </span></span>
+<span><span class="co">#&gt; Chain 3:  Elapsed Time: 157.805 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 3:                147.948 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 3:                305.753 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 3: </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).</span></span>
+<span><span class="co">#&gt; Chain 4: </span></span>
+<span><span class="co">#&gt; Chain 4: Gradient evaluation took 0.002528 seconds</span></span>
+<span><span class="co">#&gt; Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 25.28 seconds.</span></span>
+<span><span class="co">#&gt; Chain 4: Adjust your expectations accordingly!</span></span>
+<span><span class="co">#&gt; Chain 4: </span></span>
+<span><span class="co">#&gt; Chain 4: </span></span>
+<span><span class="co">#&gt; Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 4: </span></span>
+<span><span class="co">#&gt; Chain 4:  Elapsed Time: 137.654 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 4:                164.739 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 4:                302.393 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 4:</span></span>
+<span><span class="co">#&gt; Warning: There were 37 divergent transitions after warmup. See</span></span>
 <span><span class="co">#&gt; https://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup</span></span>
 <span><span class="co">#&gt; to find out why this is a problem and how to eliminate them.</span></span>
 <span><span class="co">#&gt; Warning: Examine the pairs() plot to diagnose sampling problems</span></span>
 <span><span class="va">m.multinomial</span></span>
-<span><span class="co">#&gt; Warning: There were 20 divergent transitions after warmup. Increasing</span></span>
+<span><span class="co">#&gt; Warning: There were 37 divergent transitions after warmup. Increasing</span></span>
 <span><span class="co">#&gt; adapt_delta above 0.8 may help. See</span></span>
 <span><span class="co">#&gt; http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup</span></span>
 <span><span class="co">#&gt;  Family: metad__3__normal__absolute__multinomial </span></span>
@@ -307,57 +407,57 @@ there is nothing stopping us from fitting the model like normal:</p>
 <span><span class="co">#&gt; Multilevel Hyperparameters:</span></span>
 <span><span class="co">#&gt; ~item (Number of levels: 10) </span></span>
 <span><span class="co">#&gt;                               Estimate Est.Error l-95% CI u-95% CI Rhat</span></span>
-<span><span class="co">#&gt; sd(Intercept)                     0.21      0.18     0.01     0.66 1.00</span></span>
-<span><span class="co">#&gt; sd(dprime_Intercept)              0.68      0.23     0.37     1.26 1.00</span></span>
-<span><span class="co">#&gt; sd(c_Intercept)                   0.77      0.23     0.45     1.34 1.01</span></span>
-<span><span class="co">#&gt; sd(metac2zero1diff_Intercept)     0.20      0.15     0.01     0.56 1.00</span></span>
-<span><span class="co">#&gt; sd(metac2zero2diff_Intercept)     0.28      0.16     0.03     0.65 1.00</span></span>
-<span><span class="co">#&gt; sd(metac2one1diff_Intercept)      0.15      0.12     0.00     0.44 1.00</span></span>
-<span><span class="co">#&gt; sd(metac2one2diff_Intercept)      0.32      0.18     0.03     0.74 1.00</span></span>
+<span><span class="co">#&gt; sd(Intercept)                     0.21      0.17     0.01     0.65 1.00</span></span>
+<span><span class="co">#&gt; sd(dprime_Intercept)              0.68      0.23     0.35     1.25 1.00</span></span>
+<span><span class="co">#&gt; sd(c_Intercept)                   0.75      0.22     0.45     1.31 1.00</span></span>
+<span><span class="co">#&gt; sd(metac2zero1diff_Intercept)     0.20      0.15     0.01     0.57 1.00</span></span>
+<span><span class="co">#&gt; sd(metac2zero2diff_Intercept)     0.26      0.16     0.02     0.63 1.00</span></span>
+<span><span class="co">#&gt; sd(metac2one1diff_Intercept)      0.15      0.12     0.01     0.44 1.00</span></span>
+<span><span class="co">#&gt; sd(metac2one2diff_Intercept)      0.31      0.18     0.03     0.72 1.00</span></span>
 <span><span class="co">#&gt;                               Bulk_ESS Tail_ESS</span></span>
-<span><span class="co">#&gt; sd(Intercept)                     1149     1831</span></span>
-<span><span class="co">#&gt; sd(dprime_Intercept)              1395     1773</span></span>
-<span><span class="co">#&gt; sd(c_Intercept)                    907     1626</span></span>
-<span><span class="co">#&gt; sd(metac2zero1diff_Intercept)     1193     1452</span></span>
-<span><span class="co">#&gt; sd(metac2zero2diff_Intercept)     1009     1049</span></span>
-<span><span class="co">#&gt; sd(metac2one1diff_Intercept)      1568     1531</span></span>
-<span><span class="co">#&gt; sd(metac2one2diff_Intercept)      1094     1347</span></span>
+<span><span class="co">#&gt; sd(Intercept)                     1342     1942</span></span>
+<span><span class="co">#&gt; sd(dprime_Intercept)              1498     2072</span></span>
+<span><span class="co">#&gt; sd(c_Intercept)                   1226     1701</span></span>
+<span><span class="co">#&gt; sd(metac2zero1diff_Intercept)     1530     1860</span></span>
+<span><span class="co">#&gt; sd(metac2zero2diff_Intercept)     1285     1961</span></span>
+<span><span class="co">#&gt; sd(metac2one1diff_Intercept)      1926     2318</span></span>
+<span><span class="co">#&gt; sd(metac2one2diff_Intercept)      1258     1574</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ~participant (Number of levels: 50) </span></span>
 <span><span class="co">#&gt;                               Estimate Est.Error l-95% CI u-95% CI Rhat</span></span>
-<span><span class="co">#&gt; sd(Intercept)                     0.34      0.18     0.02     0.71 1.01</span></span>
-<span><span class="co">#&gt; sd(dprime_Intercept)              0.56      0.14     0.28     0.84 1.00</span></span>
-<span><span class="co">#&gt; sd(c_Intercept)                   0.37      0.06     0.25     0.50 1.00</span></span>
-<span><span class="co">#&gt; sd(metac2zero1diff_Intercept)     0.27      0.15     0.01     0.57 1.00</span></span>
-<span><span class="co">#&gt; sd(metac2zero2diff_Intercept)     0.30      0.15     0.03     0.59 1.00</span></span>
-<span><span class="co">#&gt; sd(metac2one1diff_Intercept)      0.28      0.16     0.01     0.62 1.01</span></span>
+<span><span class="co">#&gt; sd(Intercept)                     0.35      0.18     0.03     0.72 1.00</span></span>
+<span><span class="co">#&gt; sd(dprime_Intercept)              0.55      0.14     0.28     0.83 1.00</span></span>
+<span><span class="co">#&gt; sd(c_Intercept)                   0.36      0.07     0.25     0.50 1.00</span></span>
+<span><span class="co">#&gt; sd(metac2zero1diff_Intercept)     0.25      0.15     0.02     0.57 1.00</span></span>
+<span><span class="co">#&gt; sd(metac2zero2diff_Intercept)     0.29      0.15     0.02     0.59 1.00</span></span>
+<span><span class="co">#&gt; sd(metac2one1diff_Intercept)      0.29      0.16     0.02     0.62 1.00</span></span>
 <span><span class="co">#&gt; sd(metac2one2diff_Intercept)      0.51      0.14     0.24     0.79 1.00</span></span>
 <span><span class="co">#&gt;                               Bulk_ESS Tail_ESS</span></span>
-<span><span class="co">#&gt; sd(Intercept)                      609      548</span></span>
-<span><span class="co">#&gt; sd(dprime_Intercept)              1434     1291</span></span>
-<span><span class="co">#&gt; sd(c_Intercept)                   1410     2288</span></span>
-<span><span class="co">#&gt; sd(metac2zero1diff_Intercept)      653      789</span></span>
-<span><span class="co">#&gt; sd(metac2zero2diff_Intercept)      746      947</span></span>
-<span><span class="co">#&gt; sd(metac2one1diff_Intercept)       473      666</span></span>
-<span><span class="co">#&gt; sd(metac2one2diff_Intercept)      1199     1308</span></span>
+<span><span class="co">#&gt; sd(Intercept)                      916     1347</span></span>
+<span><span class="co">#&gt; sd(dprime_Intercept)              1629     1738</span></span>
+<span><span class="co">#&gt; sd(c_Intercept)                   1595     2383</span></span>
+<span><span class="co">#&gt; sd(metac2zero1diff_Intercept)      967     1234</span></span>
+<span><span class="co">#&gt; sd(metac2zero2diff_Intercept)      776     1176</span></span>
+<span><span class="co">#&gt; sd(metac2one1diff_Intercept)      1049     1597</span></span>
+<span><span class="co">#&gt; sd(metac2one2diff_Intercept)      1434     1759</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Regression Coefficients:</span></span>
 <span><span class="co">#&gt;                           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS</span></span>
-<span><span class="co">#&gt; Intercept                    -0.37      0.19    -0.81    -0.05 1.00     1582</span></span>
-<span><span class="co">#&gt; dprime_Intercept              1.77      0.27     1.25     2.33 1.00      984</span></span>
-<span><span class="co">#&gt; c_Intercept                  -0.09      0.26    -0.61     0.45 1.00      550</span></span>
-<span><span class="co">#&gt; metac2zero1diff_Intercept    -1.05      0.14    -1.34    -0.79 1.00     2270</span></span>
-<span><span class="co">#&gt; metac2zero2diff_Intercept    -0.76      0.14    -1.06    -0.48 1.00     1633</span></span>
-<span><span class="co">#&gt; metac2one1diff_Intercept     -1.03      0.13    -1.30    -0.79 1.00     2016</span></span>
-<span><span class="co">#&gt; metac2one2diff_Intercept     -1.08      0.18    -1.46    -0.75 1.00     1720</span></span>
+<span><span class="co">#&gt; Intercept                    -0.37      0.18    -0.80    -0.05 1.00     2412</span></span>
+<span><span class="co">#&gt; dprime_Intercept              1.77      0.27     1.25     2.30 1.00     1435</span></span>
+<span><span class="co">#&gt; c_Intercept                  -0.10      0.27    -0.63     0.42 1.00      808</span></span>
+<span><span class="co">#&gt; metac2zero1diff_Intercept    -1.05      0.14    -1.34    -0.78 1.00     3336</span></span>
+<span><span class="co">#&gt; metac2zero2diff_Intercept    -0.76      0.14    -1.05    -0.50 1.00     2484</span></span>
+<span><span class="co">#&gt; metac2one1diff_Intercept     -1.03      0.13    -1.31    -0.78 1.00     2901</span></span>
+<span><span class="co">#&gt; metac2one2diff_Intercept     -1.09      0.18    -1.48    -0.76 1.00     2147</span></span>
 <span><span class="co">#&gt;                           Tail_ESS</span></span>
-<span><span class="co">#&gt; Intercept                     1283</span></span>
-<span><span class="co">#&gt; dprime_Intercept              1229</span></span>
-<span><span class="co">#&gt; c_Intercept                    946</span></span>
-<span><span class="co">#&gt; metac2zero1diff_Intercept     2065</span></span>
-<span><span class="co">#&gt; metac2zero2diff_Intercept     2148</span></span>
-<span><span class="co">#&gt; metac2one1diff_Intercept      2260</span></span>
-<span><span class="co">#&gt; metac2one2diff_Intercept      1576</span></span>
+<span><span class="co">#&gt; Intercept                     2151</span></span>
+<span><span class="co">#&gt; dprime_Intercept              1820</span></span>
+<span><span class="co">#&gt; c_Intercept                   1285</span></span>
+<span><span class="co">#&gt; metac2zero1diff_Intercept     2472</span></span>
+<span><span class="co">#&gt; metac2zero2diff_Intercept     2510</span></span>
+<span><span class="co">#&gt; metac2one1diff_Intercept      3131</span></span>
+<span><span class="co">#&gt; metac2one2diff_Intercept      2244</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS</span></span>
 <span><span class="co">#&gt; and Tail_ESS are effective sample size measures, and Rhat is the potential</span></span>
@@ -436,8 +536,8 @@ and the argument <code>categorical=TRUE</code> to tell
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).</span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
-<span><span class="co">#&gt; Chain 1: Gradient evaluation took 0.004374 seconds</span></span>
-<span><span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 43.74 seconds.</span></span>
+<span><span class="co">#&gt; Chain 1: Gradient evaluation took 0.003318 seconds</span></span>
+<span><span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 33.18 seconds.</span></span>
 <span><span class="co">#&gt; Chain 1: Adjust your expectations accordingly!</span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
@@ -454,15 +554,15 @@ and the argument <code>categorical=TRUE</code> to tell
 <span><span class="co">#&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
-<span><span class="co">#&gt; Chain 1:  Elapsed Time: 150.937 seconds (Warm-up)</span></span>
-<span><span class="co">#&gt; Chain 1:                165.651 seconds (Sampling)</span></span>
-<span><span class="co">#&gt; Chain 1:                316.588 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 1:  Elapsed Time: 163.363 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 1:                177.418 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 1:                340.781 seconds (Total)</span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).</span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
-<span><span class="co">#&gt; Chain 2: Gradient evaluation took 0.002747 seconds</span></span>
-<span><span class="co">#&gt; Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 27.47 seconds.</span></span>
+<span><span class="co">#&gt; Chain 2: Gradient evaluation took 0.002839 seconds</span></span>
+<span><span class="co">#&gt; Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 28.39 seconds.</span></span>
 <span><span class="co">#&gt; Chain 2: Adjust your expectations accordingly!</span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
@@ -479,15 +579,15 @@ and the argument <code>categorical=TRUE</code> to tell
 <span><span class="co">#&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
-<span><span class="co">#&gt; Chain 2:  Elapsed Time: 153.39 seconds (Warm-up)</span></span>
-<span><span class="co">#&gt; Chain 2:                179.069 seconds (Sampling)</span></span>
-<span><span class="co">#&gt; Chain 2:                332.459 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 2:  Elapsed Time: 168.458 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 2:                184.384 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 2:                352.842 seconds (Total)</span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).</span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
-<span><span class="co">#&gt; Chain 3: Gradient evaluation took 0.002789 seconds</span></span>
-<span><span class="co">#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 27.89 seconds.</span></span>
+<span><span class="co">#&gt; Chain 3: Gradient evaluation took 0.002883 seconds</span></span>
+<span><span class="co">#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 28.83 seconds.</span></span>
 <span><span class="co">#&gt; Chain 3: Adjust your expectations accordingly!</span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
@@ -504,15 +604,15 @@ and the argument <code>categorical=TRUE</code> to tell
 <span><span class="co">#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
-<span><span class="co">#&gt; Chain 3:  Elapsed Time: 168.365 seconds (Warm-up)</span></span>
-<span><span class="co">#&gt; Chain 3:                90.374 seconds (Sampling)</span></span>
-<span><span class="co">#&gt; Chain 3:                258.739 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 3:  Elapsed Time: 160.328 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 3:                103.636 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 3:                263.964 seconds (Total)</span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).</span></span>
 <span><span class="co">#&gt; Chain 4: </span></span>
-<span><span class="co">#&gt; Chain 4: Gradient evaluation took 0.002797 seconds</span></span>
-<span><span class="co">#&gt; Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 27.97 seconds.</span></span>
+<span><span class="co">#&gt; Chain 4: Gradient evaluation took 0.00284 seconds</span></span>
+<span><span class="co">#&gt; Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 28.4 seconds.</span></span>
 <span><span class="co">#&gt; Chain 4: Adjust your expectations accordingly!</span></span>
 <span><span class="co">#&gt; Chain 4: </span></span>
 <span><span class="co">#&gt; Chain 4: </span></span>
@@ -529,16 +629,16 @@ and the argument <code>categorical=TRUE</code> to tell
 <span><span class="co">#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 4: </span></span>
-<span><span class="co">#&gt; Chain 4:  Elapsed Time: 162.95 seconds (Warm-up)</span></span>
-<span><span class="co">#&gt; Chain 4:                112.312 seconds (Sampling)</span></span>
-<span><span class="co">#&gt; Chain 4:                275.262 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 4:  Elapsed Time: 182.619 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 4:                92.32 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 4:                274.939 seconds (Total)</span></span>
 <span><span class="co">#&gt; Chain 4:</span></span>
-<span><span class="co">#&gt; Warning: There were 32 divergent transitions after warmup. See</span></span>
+<span><span class="co">#&gt; Warning: There were 24 divergent transitions after warmup. See</span></span>
 <span><span class="co">#&gt; https://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup</span></span>
 <span><span class="co">#&gt; to find out why this is a problem and how to eliminate them.</span></span>
 <span><span class="co">#&gt; Warning: Examine the pairs() plot to diagnose sampling problems</span></span>
 <span><span class="va">m.categorical</span></span>
-<span><span class="co">#&gt; Warning: There were 32 divergent transitions after warmup. Increasing</span></span>
+<span><span class="co">#&gt; Warning: There were 24 divergent transitions after warmup. Increasing</span></span>
 <span><span class="co">#&gt; adapt_delta above 0.8 may help. See</span></span>
 <span><span class="co">#&gt; http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup</span></span>
 <span><span class="co">#&gt;  Family: metad__3__normal__absolute__categorical </span></span>
@@ -557,57 +657,57 @@ and the argument <code>categorical=TRUE</code> to tell
 <span><span class="co">#&gt; Multilevel Hyperparameters:</span></span>
 <span><span class="co">#&gt; ~item (Number of levels: 10) </span></span>
 <span><span class="co">#&gt;                               Estimate Est.Error l-95% CI u-95% CI Rhat</span></span>
-<span><span class="co">#&gt; sd(Intercept)                     0.21      0.18     0.01     0.66 1.00</span></span>
-<span><span class="co">#&gt; sd(dprime_Intercept)              0.67      0.22     0.35     1.20 1.00</span></span>
-<span><span class="co">#&gt; sd(c_Intercept)                   0.75      0.23     0.44     1.29 1.00</span></span>
-<span><span class="co">#&gt; sd(metac2zero1diff_Intercept)     0.20      0.15     0.01     0.54 1.00</span></span>
-<span><span class="co">#&gt; sd(metac2zero2diff_Intercept)     0.26      0.16     0.02     0.62 1.00</span></span>
+<span><span class="co">#&gt; sd(Intercept)                     0.21      0.18     0.01     0.64 1.00</span></span>
+<span><span class="co">#&gt; sd(dprime_Intercept)              0.67      0.23     0.35     1.22 1.00</span></span>
+<span><span class="co">#&gt; sd(c_Intercept)                   0.76      0.22     0.45     1.31 1.00</span></span>
+<span><span class="co">#&gt; sd(metac2zero1diff_Intercept)     0.19      0.14     0.01     0.53 1.00</span></span>
+<span><span class="co">#&gt; sd(metac2zero2diff_Intercept)     0.26      0.15     0.02     0.62 1.00</span></span>
 <span><span class="co">#&gt; sd(metac2one1diff_Intercept)      0.15      0.12     0.01     0.45 1.00</span></span>
-<span><span class="co">#&gt; sd(metac2one2diff_Intercept)      0.31      0.18     0.03     0.73 1.00</span></span>
+<span><span class="co">#&gt; sd(metac2one2diff_Intercept)      0.32      0.18     0.03     0.72 1.01</span></span>
 <span><span class="co">#&gt;                               Bulk_ESS Tail_ESS</span></span>
-<span><span class="co">#&gt; sd(Intercept)                     1309     2135</span></span>
-<span><span class="co">#&gt; sd(dprime_Intercept)              1693     2819</span></span>
-<span><span class="co">#&gt; sd(c_Intercept)                   1015     1924</span></span>
-<span><span class="co">#&gt; sd(metac2zero1diff_Intercept)     1484     1575</span></span>
-<span><span class="co">#&gt; sd(metac2zero2diff_Intercept)     1024     1253</span></span>
-<span><span class="co">#&gt; sd(metac2one1diff_Intercept)      2005     2133</span></span>
-<span><span class="co">#&gt; sd(metac2one2diff_Intercept)       964     1226</span></span>
+<span><span class="co">#&gt; sd(Intercept)                     1395     2061</span></span>
+<span><span class="co">#&gt; sd(dprime_Intercept)              1675     2347</span></span>
+<span><span class="co">#&gt; sd(c_Intercept)                   1424     2120</span></span>
+<span><span class="co">#&gt; sd(metac2zero1diff_Intercept)     1361     1735</span></span>
+<span><span class="co">#&gt; sd(metac2zero2diff_Intercept)     1216     1557</span></span>
+<span><span class="co">#&gt; sd(metac2one1diff_Intercept)      1752     2299</span></span>
+<span><span class="co">#&gt; sd(metac2one2diff_Intercept)       976     1333</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ~participant (Number of levels: 50) </span></span>
 <span><span class="co">#&gt;                               Estimate Est.Error l-95% CI u-95% CI Rhat</span></span>
-<span><span class="co">#&gt; sd(Intercept)                     0.35      0.18     0.03     0.72 1.00</span></span>
-<span><span class="co">#&gt; sd(dprime_Intercept)              0.55      0.14     0.26     0.83 1.00</span></span>
-<span><span class="co">#&gt; sd(c_Intercept)                   0.37      0.07     0.25     0.50 1.00</span></span>
-<span><span class="co">#&gt; sd(metac2zero1diff_Intercept)     0.26      0.15     0.02     0.57 1.00</span></span>
-<span><span class="co">#&gt; sd(metac2zero2diff_Intercept)     0.29      0.15     0.02     0.58 1.00</span></span>
-<span><span class="co">#&gt; sd(metac2one1diff_Intercept)      0.29      0.16     0.02     0.61 1.01</span></span>
-<span><span class="co">#&gt; sd(metac2one2diff_Intercept)      0.51      0.14     0.24     0.81 1.00</span></span>
+<span><span class="co">#&gt; sd(Intercept)                     0.34      0.18     0.03     0.72 1.01</span></span>
+<span><span class="co">#&gt; sd(dprime_Intercept)              0.55      0.15     0.25     0.85 1.00</span></span>
+<span><span class="co">#&gt; sd(c_Intercept)                   0.37      0.06     0.25     0.50 1.00</span></span>
+<span><span class="co">#&gt; sd(metac2zero1diff_Intercept)     0.25      0.15     0.01     0.58 1.00</span></span>
+<span><span class="co">#&gt; sd(metac2zero2diff_Intercept)     0.28      0.15     0.02     0.58 1.01</span></span>
+<span><span class="co">#&gt; sd(metac2one1diff_Intercept)      0.29      0.16     0.02     0.61 1.00</span></span>
+<span><span class="co">#&gt; sd(metac2one2diff_Intercept)      0.51      0.14     0.22     0.80 1.00</span></span>
 <span><span class="co">#&gt;                               Bulk_ESS Tail_ESS</span></span>
-<span><span class="co">#&gt; sd(Intercept)                      739     1071</span></span>
-<span><span class="co">#&gt; sd(dprime_Intercept)              1098     1161</span></span>
-<span><span class="co">#&gt; sd(c_Intercept)                   1545     2245</span></span>
-<span><span class="co">#&gt; sd(metac2zero1diff_Intercept)     1149     1794</span></span>
-<span><span class="co">#&gt; sd(metac2zero2diff_Intercept)      937     1360</span></span>
-<span><span class="co">#&gt; sd(metac2one1diff_Intercept)       926     1486</span></span>
-<span><span class="co">#&gt; sd(metac2one2diff_Intercept)      1347     1640</span></span>
+<span><span class="co">#&gt; sd(Intercept)                      926     1363</span></span>
+<span><span class="co">#&gt; sd(dprime_Intercept)              1126     1245</span></span>
+<span><span class="co">#&gt; sd(c_Intercept)                   1573     2690</span></span>
+<span><span class="co">#&gt; sd(metac2zero1diff_Intercept)      952     1570</span></span>
+<span><span class="co">#&gt; sd(metac2zero2diff_Intercept)      832     1419</span></span>
+<span><span class="co">#&gt; sd(metac2one1diff_Intercept)       738     1047</span></span>
+<span><span class="co">#&gt; sd(metac2one2diff_Intercept)      1200      887</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Regression Coefficients:</span></span>
 <span><span class="co">#&gt;                           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS</span></span>
-<span><span class="co">#&gt; Intercept                    -0.37      0.18    -0.78    -0.05 1.00     2820</span></span>
-<span><span class="co">#&gt; dprime_Intercept              1.77      0.27     1.24     2.33 1.00     1291</span></span>
-<span><span class="co">#&gt; c_Intercept                  -0.08      0.26    -0.60     0.40 1.00      845</span></span>
-<span><span class="co">#&gt; metac2zero1diff_Intercept    -1.05      0.15    -1.35    -0.78 1.00     2573</span></span>
-<span><span class="co">#&gt; metac2zero2diff_Intercept    -0.75      0.15    -1.06    -0.48 1.00     2468</span></span>
-<span><span class="co">#&gt; metac2one1diff_Intercept     -1.03      0.13    -1.31    -0.79 1.00     2926</span></span>
-<span><span class="co">#&gt; metac2one2diff_Intercept     -1.10      0.18    -1.47    -0.77 1.00     2395</span></span>
+<span><span class="co">#&gt; Intercept                    -0.37      0.19    -0.79    -0.04 1.00     2533</span></span>
+<span><span class="co">#&gt; dprime_Intercept              1.76      0.26     1.27     2.26 1.00     1625</span></span>
+<span><span class="co">#&gt; c_Intercept                  -0.08      0.26    -0.60     0.42 1.00      954</span></span>
+<span><span class="co">#&gt; metac2zero1diff_Intercept    -1.04      0.14    -1.35    -0.80 1.00     2738</span></span>
+<span><span class="co">#&gt; metac2zero2diff_Intercept    -0.76      0.14    -1.04    -0.49 1.00     2572</span></span>
+<span><span class="co">#&gt; metac2one1diff_Intercept     -1.03      0.13    -1.31    -0.79 1.00     3293</span></span>
+<span><span class="co">#&gt; metac2one2diff_Intercept     -1.10      0.19    -1.48    -0.76 1.00     2107</span></span>
 <span><span class="co">#&gt;                           Tail_ESS</span></span>
-<span><span class="co">#&gt; Intercept                     2375</span></span>
-<span><span class="co">#&gt; dprime_Intercept              1725</span></span>
-<span><span class="co">#&gt; c_Intercept                    873</span></span>
-<span><span class="co">#&gt; metac2zero1diff_Intercept     2149</span></span>
-<span><span class="co">#&gt; metac2zero2diff_Intercept     2418</span></span>
-<span><span class="co">#&gt; metac2one1diff_Intercept      2500</span></span>
-<span><span class="co">#&gt; metac2one2diff_Intercept      2138</span></span>
+<span><span class="co">#&gt; Intercept                     1740</span></span>
+<span><span class="co">#&gt; dprime_Intercept              1838</span></span>
+<span><span class="co">#&gt; c_Intercept                   1633</span></span>
+<span><span class="co">#&gt; metac2zero1diff_Intercept     2544</span></span>
+<span><span class="co">#&gt; metac2zero2diff_Intercept     2462</span></span>
+<span><span class="co">#&gt; metac2one1diff_Intercept      2871</span></span>
+<span><span class="co">#&gt; metac2one2diff_Intercept      1817</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS</span></span>
 <span><span class="co">#&gt; and Tail_ESS are effective sample size measures, and Rhat is the potential</span></span>
@@ -634,11 +734,11 @@ and items, we can use an empty data set with
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   .row, joint_response, response, confidence [5]</span></span></span>
 <span><span class="co">#&gt;    .row joint_response response confidence           p_fa         p_hit</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;rvar[1d]&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;rvar[1d]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1              1        0          3  0.567 <span style="color: #949494;">± 0.107</span>  0.95 <span style="color: #949494;">± 0.034</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1              2        0          2  0.366 <span style="color: #949494;">± 0.102</span>  0.89 <span style="color: #949494;">± 0.056</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1              3        0          1  0.222 <span style="color: #949494;">± 0.085</span>  0.82 <span style="color: #949494;">± 0.075</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     1              4        1          1  0.143 <span style="color: #949494;">± 0.066</span>  0.69 <span style="color: #949494;">± 0.096</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     1              5        1          2  0.086 <span style="color: #949494;">± 0.047</span>  0.55 <span style="color: #949494;">± 0.107</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1              1        0          3  0.573 <span style="color: #949494;">± 0.107</span>  0.95 <span style="color: #949494;">± 0.034</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1              2        0          2  0.372 <span style="color: #949494;">± 0.101</span>  0.89 <span style="color: #949494;">± 0.056</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1              3        0          1  0.227 <span style="color: #949494;">± 0.085</span>  0.83 <span style="color: #949494;">± 0.075</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     1              4        1          1  0.147 <span style="color: #949494;">± 0.067</span>  0.69 <span style="color: #949494;">± 0.097</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     1              5        1          2  0.089 <span style="color: #949494;">± 0.049</span>  0.55 <span style="color: #949494;">± 0.109</span></span></span></code></pre></div>
 <p>The process is exactly the same for the categorical model:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/roc1_draws.html">roc1_rvars</a></span><span class="op">(</span><span class="va">m.categorical</span>, <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row<span class="op">=</span><span class="fl">1</span><span class="op">)</span>, re_formula<span class="op">=</span><span class="cn">NA</span><span class="op">)</span></span>
@@ -646,11 +746,11 @@ and items, we can use an empty data set with
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   .row, joint_response, response, confidence [5]</span></span></span>
 <span><span class="co">#&gt;    .row joint_response response confidence           p_fa         p_hit</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;rvar[1d]&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;rvar[1d]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1              1        0          3  0.568 <span style="color: #949494;">± 0.105</span>  0.95 <span style="color: #949494;">± 0.033</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1              2        0          2  0.366 <span style="color: #949494;">± 0.100</span>  0.89 <span style="color: #949494;">± 0.055</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1              3        0          1  0.221 <span style="color: #949494;">± 0.083</span>  0.82 <span style="color: #949494;">± 0.073</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     1              4        1          1  0.143 <span style="color: #949494;">± 0.065</span>  0.69 <span style="color: #949494;">± 0.093</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     1              5        1          2  0.087 <span style="color: #949494;">± 0.048</span>  0.55 <span style="color: #949494;">± 0.104</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1              1        0          3  0.567 <span style="color: #949494;">± 0.105</span>  0.95 <span style="color: #949494;">± 0.032</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1              2        0          2  0.365 <span style="color: #949494;">± 0.100</span>  0.89 <span style="color: #949494;">± 0.055</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1              3        0          1  0.221 <span style="color: #949494;">± 0.082</span>  0.82 <span style="color: #949494;">± 0.074</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     1              4        1          1  0.142 <span style="color: #949494;">± 0.065</span>  0.69 <span style="color: #949494;">± 0.094</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     1              5        1          2  0.086 <span style="color: #949494;">± 0.048</span>  0.55 <span style="color: #949494;">± 0.106</span></span></span></code></pre></div>
 <p>Next, to get participant-level ROCs (averaging over items), we can
 use a data set with one row per participant and only the
 participant-level random effects:</p>
@@ -660,15 +760,15 @@ participant-level random effects:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   .row, participant, joint_response, response, confidence [250]</span></span></span>
 <span><span class="co">#&gt;     .row participant joint_response response confidence         p_fa</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;rvar[1d]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1           1              1        0          3  0.50 <span style="color: #949494;">± 0.14</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     2           2              1        0          3  0.58 <span style="color: #949494;">± 0.14</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1           1              1        0          3  0.50 <span style="color: #949494;">± 0.15</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     2           2              1        0          3  0.57 <span style="color: #949494;">± 0.14</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     3           3              1        0          3  0.78 <span style="color: #949494;">± 0.12</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     4           4              1        0          3  0.74 <span style="color: #949494;">± 0.12</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     4           4              1        0          3  0.74 <span style="color: #949494;">± 0.13</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     5           5              1        0          3  0.76 <span style="color: #949494;">± 0.12</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     6           6              1        0          3  0.49 <span style="color: #949494;">± 0.15</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     7           7              1        0          3  0.81 <span style="color: #949494;">± 0.11</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     8           8              1        0          3  0.43 <span style="color: #949494;">± 0.15</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     9           9              1        0          3  0.55 <span style="color: #949494;">± 0.15</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     9           9              1        0          3  0.54 <span style="color: #949494;">± 0.15</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    10          10              1        0          3  0.60 <span style="color: #949494;">± 0.14</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 240 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: p_hit &lt;rvar[1d]&gt;</span></span></span></code></pre></div>
@@ -680,16 +780,16 @@ participants):</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   .row, item, joint_response, response, confidence [50]</span></span></span>
 <span><span class="co">#&gt;     .row  item joint_response response confidence          p_fa          p_hit</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;rvar[1d]&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;rvar[1d]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1     1              1        0          3  0.44 <span style="color: #949494;">± 0.068</span>  0.86 <span style="color: #949494;">± 0.0408</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     2     2              1        0          3  0.63 <span style="color: #949494;">± 0.067</span>  0.99 <span style="color: #949494;">± 0.0055</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     3     3              1        0          3  0.82 <span style="color: #949494;">± 0.049</span>  0.99 <span style="color: #949494;">± 0.0076</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     4     4              1        0          3  0.75 <span style="color: #949494;">± 0.062</span>  1.00 <span style="color: #949494;">± 0.0023</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     5     5              1        0          3  0.66 <span style="color: #949494;">± 0.063</span>  0.98 <span style="color: #949494;">± 0.0108</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     6     6              1        0          3  0.21 <span style="color: #949494;">± 0.057</span>  0.77 <span style="color: #949494;">± 0.0557</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     7     7              1        0          3  0.67 <span style="color: #949494;">± 0.064</span>  0.83 <span style="color: #949494;">± 0.0467</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     8     8              1        0          3  0.77 <span style="color: #949494;">± 0.059</span>  0.99 <span style="color: #949494;">± 0.0073</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     9     9              1        0          3  0.55 <span style="color: #949494;">± 0.071</span>  0.96 <span style="color: #949494;">± 0.0191</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    10    10              1        0          3  0.20 <span style="color: #949494;">± 0.056</span>  0.68 <span style="color: #949494;">± 0.0636</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1     1              1        0          3  0.44 <span style="color: #949494;">± 0.065</span>  0.86 <span style="color: #949494;">± 0.0403</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     2     2              1        0          3  0.63 <span style="color: #949494;">± 0.068</span>  0.99 <span style="color: #949494;">± 0.0056</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     3     3              1        0          3  0.82 <span style="color: #949494;">± 0.048</span>  0.99 <span style="color: #949494;">± 0.0075</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     4     4              1        0          3  0.75 <span style="color: #949494;">± 0.063</span>  1.00 <span style="color: #949494;">± 0.0022</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     5     5              1        0          3  0.66 <span style="color: #949494;">± 0.064</span>  0.98 <span style="color: #949494;">± 0.0108</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     6     6              1        0          3  0.21 <span style="color: #949494;">± 0.057</span>  0.77 <span style="color: #949494;">± 0.0549</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     7     7              1        0          3  0.67 <span style="color: #949494;">± 0.063</span>  0.83 <span style="color: #949494;">± 0.0463</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     8     8              1        0          3  0.77 <span style="color: #949494;">± 0.058</span>  0.99 <span style="color: #949494;">± 0.0071</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     9     9              1        0          3  0.55 <span style="color: #949494;">± 0.068</span>  0.96 <span style="color: #949494;">± 0.0195</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    10    10              1        0          3  0.20 <span style="color: #949494;">± 0.054</span>  0.68 <span style="color: #949494;">± 0.0633</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 40 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -700,10 +800,6 @@ trial-level model should be more useful for things like model comparison
 using the <code>loo</code> package, multivariate models, and mediation
 models. These features should mostly work out the box but they are still
 under active development, so stay tuned!</p>
-</div>
-<div class="section level2">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
-</h2>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

@@ -2,7 +2,7 @@
 
 This vignette describes the parameterization of the meta-d’ model used
 in the `hmetad` package. For an in-depth review, we refer readers to
-([Maniscalco and Lau 2012](#ref-maniscalco2012),
+([Maniscalco & Lau, 2012](#ref-maniscalco2012),
 [2014](#ref-maniscalco2014)).
 
 ## Introduction
@@ -167,8 +167,8 @@ effects), it can be used with the argument `categorical=TRUE`.
 
 The meta-d’ model requires the parameter \textrm{meta-}c to be fixed to
 be equal with respect to the type 1 criterion c. As discussed by
-([Maniscalco and Lau 2014](#ref-maniscalco2014)), there are multiple
-ways of fixing \textrm{meta-}c. The `hmetad` package implements two:
+([Maniscalco & Lau, 2014](#ref-maniscalco2014)), there are multiple ways
+of fixing \textrm{meta-}c. The `hmetad` package implements two:
 
 Under the fixed parameterization, \textrm{meta-}c = c. This
 parameterization is used as the default, since it was also used in the
@@ -178,7 +178,7 @@ Fleming ([2017](#ref-fleming2017))).
 Alternatively, under the relative parameterization,
 \frac{\textrm{meta-}c}{\textrm{meta-}d'} = \frac{c}{d'}, which is
 achieved by setting \textrm{meta-}c = M c. This parameterization was
-used in ([Maniscalco and Lau 2012](#ref-maniscalco2012),
+used in ([Maniscalco & Lau, 2012](#ref-maniscalco2012),
 [2014](#ref-maniscalco2014)).
 
 To switch between these two parameterizations, the `fit_metad` and
@@ -233,14 +233,15 @@ parameterization, the confidence criteria can be computed as follows:
 
 ## References
 
-Fleming, Stephen M. 2017. “HMeta-d: Hierarchical Bayesian Estimation of
-Metacognitive Efficiency from Confidence Ratings.” *Neuroscience of
-Consciousness* 2017 (1): nix007.
+Fleming, S. M. (2017). HMeta-d: Hierarchical bayesian estimation of
+metacognitive efficiency from confidence ratings. *Neuroscience of
+Consciousness*, *2017*(1), nix007.
 
-Maniscalco, Brian, and Hakwan Lau. 2012. “A Signal Detection Theoretic
-Approach for Estimating Metacognitive Sensitivity from Confidence
-Ratings.” *Consciousness and Cognition* 21 (1): 422–30.
+Maniscalco, B., & Lau, H. (2012). A signal detection theoretic approach
+for estimating metacognitive sensitivity from confidence ratings.
+*Consciousness and Cognition*, *21*(1), 422–430.
 
-———. 2014. “Signal Detection Theory Analysis of Type 1 and Type 2 Data:
-Meta-d′, Response-Specific Meta-d′, and the Unequal Variance SDT Model.”
-In *The Cognitive Neuroscience of Metacognition*, 25–66. Springer.
+Maniscalco, B., & Lau, H. (2014). Signal detection theory analysis of
+type 1 and type 2 data: Meta-d′, response-specific meta-d′, and the
+unequal variance SDT model. In *The cognitive neuroscience of
+metacognition* (pp. 25–66). Springer.

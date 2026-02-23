@@ -199,7 +199,7 @@ m.multinomial <- fit_metad(
       metac2one1diff + metac2one2diff ~
       1 + (1 | participant) + (1 | item)
   ),
-  data = d, init = 0, cores=4,
+  data = d, init = 0,
   file = "models/multinomial.rds"
 )
 #> Compiling Stan program...
@@ -217,12 +217,112 @@ m.multinomial <- fit_metad(
 #> compilation terminated.
 #> make: *** [/opt/R/4.5.2/lib/R/etc/Makeconf:202: foo.o] Error 1
 #> Start sampling
-#> Warning: There were 20 divergent transitions after warmup. See
+#> 
+#> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
+#> Chain 1: 
+#> Chain 1: Gradient evaluation took 0.004686 seconds
+#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 46.86 seconds.
+#> Chain 1: Adjust your expectations accordingly!
+#> Chain 1: 
+#> Chain 1: 
+#> Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
+#> Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
+#> Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
+#> Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
+#> Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
+#> Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+#> Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+#> Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+#> Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+#> Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+#> Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+#> Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
+#> Chain 1: 
+#> Chain 1:  Elapsed Time: 143.857 seconds (Warm-up)
+#> Chain 1:                135.983 seconds (Sampling)
+#> Chain 1:                279.84 seconds (Total)
+#> Chain 1: 
+#> 
+#> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
+#> Chain 2: 
+#> Chain 2: Gradient evaluation took 0.00252 seconds
+#> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 25.2 seconds.
+#> Chain 2: Adjust your expectations accordingly!
+#> Chain 2: 
+#> Chain 2: 
+#> Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
+#> Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
+#> Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
+#> Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)
+#> Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
+#> Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+#> Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+#> Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+#> Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+#> Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+#> Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+#> Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
+#> Chain 2: 
+#> Chain 2:  Elapsed Time: 145.331 seconds (Warm-up)
+#> Chain 2:                86.523 seconds (Sampling)
+#> Chain 2:                231.854 seconds (Total)
+#> Chain 2: 
+#> 
+#> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
+#> Chain 3: 
+#> Chain 3: Gradient evaluation took 0.002539 seconds
+#> Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 25.39 seconds.
+#> Chain 3: Adjust your expectations accordingly!
+#> Chain 3: 
+#> Chain 3: 
+#> Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
+#> Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
+#> Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
+#> Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)
+#> Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
+#> Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+#> Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+#> Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+#> Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+#> Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+#> Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+#> Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
+#> Chain 3: 
+#> Chain 3:  Elapsed Time: 157.805 seconds (Warm-up)
+#> Chain 3:                147.948 seconds (Sampling)
+#> Chain 3:                305.753 seconds (Total)
+#> Chain 3: 
+#> 
+#> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
+#> Chain 4: 
+#> Chain 4: Gradient evaluation took 0.002528 seconds
+#> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 25.28 seconds.
+#> Chain 4: Adjust your expectations accordingly!
+#> Chain 4: 
+#> Chain 4: 
+#> Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)
+#> Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)
+#> Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)
+#> Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)
+#> Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)
+#> Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+#> Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+#> Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+#> Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+#> Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+#> Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+#> Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
+#> Chain 4: 
+#> Chain 4:  Elapsed Time: 137.654 seconds (Warm-up)
+#> Chain 4:                164.739 seconds (Sampling)
+#> Chain 4:                302.393 seconds (Total)
+#> Chain 4:
+#> Warning: There were 37 divergent transitions after warmup. See
 #> https://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
 #> to find out why this is a problem and how to eliminate them.
 #> Warning: Examine the pairs() plot to diagnose sampling problems
 m.multinomial
-#> Warning: There were 20 divergent transitions after warmup. Increasing
+#> Warning: There were 37 divergent transitions after warmup. Increasing
 #> adapt_delta above 0.8 may help. See
 #> http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
 #>  Family: metad__3__normal__absolute__multinomial 
@@ -241,57 +341,57 @@ m.multinomial
 #> Multilevel Hyperparameters:
 #> ~item (Number of levels: 10) 
 #>                               Estimate Est.Error l-95% CI u-95% CI Rhat
-#> sd(Intercept)                     0.21      0.18     0.01     0.66 1.00
-#> sd(dprime_Intercept)              0.68      0.23     0.37     1.26 1.00
-#> sd(c_Intercept)                   0.77      0.23     0.45     1.34 1.01
-#> sd(metac2zero1diff_Intercept)     0.20      0.15     0.01     0.56 1.00
-#> sd(metac2zero2diff_Intercept)     0.28      0.16     0.03     0.65 1.00
-#> sd(metac2one1diff_Intercept)      0.15      0.12     0.00     0.44 1.00
-#> sd(metac2one2diff_Intercept)      0.32      0.18     0.03     0.74 1.00
+#> sd(Intercept)                     0.21      0.17     0.01     0.65 1.00
+#> sd(dprime_Intercept)              0.68      0.23     0.35     1.25 1.00
+#> sd(c_Intercept)                   0.75      0.22     0.45     1.31 1.00
+#> sd(metac2zero1diff_Intercept)     0.20      0.15     0.01     0.57 1.00
+#> sd(metac2zero2diff_Intercept)     0.26      0.16     0.02     0.63 1.00
+#> sd(metac2one1diff_Intercept)      0.15      0.12     0.01     0.44 1.00
+#> sd(metac2one2diff_Intercept)      0.31      0.18     0.03     0.72 1.00
 #>                               Bulk_ESS Tail_ESS
-#> sd(Intercept)                     1149     1831
-#> sd(dprime_Intercept)              1395     1773
-#> sd(c_Intercept)                    907     1626
-#> sd(metac2zero1diff_Intercept)     1193     1452
-#> sd(metac2zero2diff_Intercept)     1009     1049
-#> sd(metac2one1diff_Intercept)      1568     1531
-#> sd(metac2one2diff_Intercept)      1094     1347
+#> sd(Intercept)                     1342     1942
+#> sd(dprime_Intercept)              1498     2072
+#> sd(c_Intercept)                   1226     1701
+#> sd(metac2zero1diff_Intercept)     1530     1860
+#> sd(metac2zero2diff_Intercept)     1285     1961
+#> sd(metac2one1diff_Intercept)      1926     2318
+#> sd(metac2one2diff_Intercept)      1258     1574
 #> 
 #> ~participant (Number of levels: 50) 
 #>                               Estimate Est.Error l-95% CI u-95% CI Rhat
-#> sd(Intercept)                     0.34      0.18     0.02     0.71 1.01
-#> sd(dprime_Intercept)              0.56      0.14     0.28     0.84 1.00
-#> sd(c_Intercept)                   0.37      0.06     0.25     0.50 1.00
-#> sd(metac2zero1diff_Intercept)     0.27      0.15     0.01     0.57 1.00
-#> sd(metac2zero2diff_Intercept)     0.30      0.15     0.03     0.59 1.00
-#> sd(metac2one1diff_Intercept)      0.28      0.16     0.01     0.62 1.01
+#> sd(Intercept)                     0.35      0.18     0.03     0.72 1.00
+#> sd(dprime_Intercept)              0.55      0.14     0.28     0.83 1.00
+#> sd(c_Intercept)                   0.36      0.07     0.25     0.50 1.00
+#> sd(metac2zero1diff_Intercept)     0.25      0.15     0.02     0.57 1.00
+#> sd(metac2zero2diff_Intercept)     0.29      0.15     0.02     0.59 1.00
+#> sd(metac2one1diff_Intercept)      0.29      0.16     0.02     0.62 1.00
 #> sd(metac2one2diff_Intercept)      0.51      0.14     0.24     0.79 1.00
 #>                               Bulk_ESS Tail_ESS
-#> sd(Intercept)                      609      548
-#> sd(dprime_Intercept)              1434     1291
-#> sd(c_Intercept)                   1410     2288
-#> sd(metac2zero1diff_Intercept)      653      789
-#> sd(metac2zero2diff_Intercept)      746      947
-#> sd(metac2one1diff_Intercept)       473      666
-#> sd(metac2one2diff_Intercept)      1199     1308
+#> sd(Intercept)                      916     1347
+#> sd(dprime_Intercept)              1629     1738
+#> sd(c_Intercept)                   1595     2383
+#> sd(metac2zero1diff_Intercept)      967     1234
+#> sd(metac2zero2diff_Intercept)      776     1176
+#> sd(metac2one1diff_Intercept)      1049     1597
+#> sd(metac2one2diff_Intercept)      1434     1759
 #> 
 #> Regression Coefficients:
 #>                           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
-#> Intercept                    -0.37      0.19    -0.81    -0.05 1.00     1582
-#> dprime_Intercept              1.77      0.27     1.25     2.33 1.00      984
-#> c_Intercept                  -0.09      0.26    -0.61     0.45 1.00      550
-#> metac2zero1diff_Intercept    -1.05      0.14    -1.34    -0.79 1.00     2270
-#> metac2zero2diff_Intercept    -0.76      0.14    -1.06    -0.48 1.00     1633
-#> metac2one1diff_Intercept     -1.03      0.13    -1.30    -0.79 1.00     2016
-#> metac2one2diff_Intercept     -1.08      0.18    -1.46    -0.75 1.00     1720
+#> Intercept                    -0.37      0.18    -0.80    -0.05 1.00     2412
+#> dprime_Intercept              1.77      0.27     1.25     2.30 1.00     1435
+#> c_Intercept                  -0.10      0.27    -0.63     0.42 1.00      808
+#> metac2zero1diff_Intercept    -1.05      0.14    -1.34    -0.78 1.00     3336
+#> metac2zero2diff_Intercept    -0.76      0.14    -1.05    -0.50 1.00     2484
+#> metac2one1diff_Intercept     -1.03      0.13    -1.31    -0.78 1.00     2901
+#> metac2one2diff_Intercept     -1.09      0.18    -1.48    -0.76 1.00     2147
 #>                           Tail_ESS
-#> Intercept                     1283
-#> dprime_Intercept              1229
-#> c_Intercept                    946
-#> metac2zero1diff_Intercept     2065
-#> metac2zero2diff_Intercept     2148
-#> metac2one1diff_Intercept      2260
-#> metac2one2diff_Intercept      1576
+#> Intercept                     2151
+#> dprime_Intercept              1820
+#> c_Intercept                   1285
+#> metac2zero1diff_Intercept     2472
+#> metac2zero2diff_Intercept     2510
+#> metac2one1diff_Intercept      3131
+#> metac2one2diff_Intercept      2244
 #> 
 #> Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
 #> and Tail_ESS are effective sample size measures, and Rhat is the potential
@@ -370,8 +470,8 @@ m.categorical <- fit_metad(
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
 #> Chain 1: 
-#> Chain 1: Gradient evaluation took 0.004374 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 43.74 seconds.
+#> Chain 1: Gradient evaluation took 0.003318 seconds
+#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 33.18 seconds.
 #> Chain 1: Adjust your expectations accordingly!
 #> Chain 1: 
 #> Chain 1: 
@@ -388,15 +488,15 @@ m.categorical <- fit_metad(
 #> Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 150.937 seconds (Warm-up)
-#> Chain 1:                165.651 seconds (Sampling)
-#> Chain 1:                316.588 seconds (Total)
+#> Chain 1:  Elapsed Time: 163.363 seconds (Warm-up)
+#> Chain 1:                177.418 seconds (Sampling)
+#> Chain 1:                340.781 seconds (Total)
 #> Chain 1: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
 #> Chain 2: 
-#> Chain 2: Gradient evaluation took 0.002747 seconds
-#> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 27.47 seconds.
+#> Chain 2: Gradient evaluation took 0.002839 seconds
+#> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 28.39 seconds.
 #> Chain 2: Adjust your expectations accordingly!
 #> Chain 2: 
 #> Chain 2: 
@@ -413,15 +513,15 @@ m.categorical <- fit_metad(
 #> Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 2: 
-#> Chain 2:  Elapsed Time: 153.39 seconds (Warm-up)
-#> Chain 2:                179.069 seconds (Sampling)
-#> Chain 2:                332.459 seconds (Total)
+#> Chain 2:  Elapsed Time: 168.458 seconds (Warm-up)
+#> Chain 2:                184.384 seconds (Sampling)
+#> Chain 2:                352.842 seconds (Total)
 #> Chain 2: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
 #> Chain 3: 
-#> Chain 3: Gradient evaluation took 0.002789 seconds
-#> Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 27.89 seconds.
+#> Chain 3: Gradient evaluation took 0.002883 seconds
+#> Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 28.83 seconds.
 #> Chain 3: Adjust your expectations accordingly!
 #> Chain 3: 
 #> Chain 3: 
@@ -438,15 +538,15 @@ m.categorical <- fit_metad(
 #> Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 3: 
-#> Chain 3:  Elapsed Time: 168.365 seconds (Warm-up)
-#> Chain 3:                90.374 seconds (Sampling)
-#> Chain 3:                258.739 seconds (Total)
+#> Chain 3:  Elapsed Time: 160.328 seconds (Warm-up)
+#> Chain 3:                103.636 seconds (Sampling)
+#> Chain 3:                263.964 seconds (Total)
 #> Chain 3: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
 #> Chain 4: 
-#> Chain 4: Gradient evaluation took 0.002797 seconds
-#> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 27.97 seconds.
+#> Chain 4: Gradient evaluation took 0.00284 seconds
+#> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 28.4 seconds.
 #> Chain 4: Adjust your expectations accordingly!
 #> Chain 4: 
 #> Chain 4: 
@@ -463,16 +563,16 @@ m.categorical <- fit_metad(
 #> Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 4: 
-#> Chain 4:  Elapsed Time: 162.95 seconds (Warm-up)
-#> Chain 4:                112.312 seconds (Sampling)
-#> Chain 4:                275.262 seconds (Total)
+#> Chain 4:  Elapsed Time: 182.619 seconds (Warm-up)
+#> Chain 4:                92.32 seconds (Sampling)
+#> Chain 4:                274.939 seconds (Total)
 #> Chain 4:
-#> Warning: There were 32 divergent transitions after warmup. See
+#> Warning: There were 24 divergent transitions after warmup. See
 #> https://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
 #> to find out why this is a problem and how to eliminate them.
 #> Warning: Examine the pairs() plot to diagnose sampling problems
 m.categorical
-#> Warning: There were 32 divergent transitions after warmup. Increasing
+#> Warning: There were 24 divergent transitions after warmup. Increasing
 #> adapt_delta above 0.8 may help. See
 #> http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
 #>  Family: metad__3__normal__absolute__categorical 
@@ -491,57 +591,57 @@ m.categorical
 #> Multilevel Hyperparameters:
 #> ~item (Number of levels: 10) 
 #>                               Estimate Est.Error l-95% CI u-95% CI Rhat
-#> sd(Intercept)                     0.21      0.18     0.01     0.66 1.00
-#> sd(dprime_Intercept)              0.67      0.22     0.35     1.20 1.00
-#> sd(c_Intercept)                   0.75      0.23     0.44     1.29 1.00
-#> sd(metac2zero1diff_Intercept)     0.20      0.15     0.01     0.54 1.00
-#> sd(metac2zero2diff_Intercept)     0.26      0.16     0.02     0.62 1.00
+#> sd(Intercept)                     0.21      0.18     0.01     0.64 1.00
+#> sd(dprime_Intercept)              0.67      0.23     0.35     1.22 1.00
+#> sd(c_Intercept)                   0.76      0.22     0.45     1.31 1.00
+#> sd(metac2zero1diff_Intercept)     0.19      0.14     0.01     0.53 1.00
+#> sd(metac2zero2diff_Intercept)     0.26      0.15     0.02     0.62 1.00
 #> sd(metac2one1diff_Intercept)      0.15      0.12     0.01     0.45 1.00
-#> sd(metac2one2diff_Intercept)      0.31      0.18     0.03     0.73 1.00
+#> sd(metac2one2diff_Intercept)      0.32      0.18     0.03     0.72 1.01
 #>                               Bulk_ESS Tail_ESS
-#> sd(Intercept)                     1309     2135
-#> sd(dprime_Intercept)              1693     2819
-#> sd(c_Intercept)                   1015     1924
-#> sd(metac2zero1diff_Intercept)     1484     1575
-#> sd(metac2zero2diff_Intercept)     1024     1253
-#> sd(metac2one1diff_Intercept)      2005     2133
-#> sd(metac2one2diff_Intercept)       964     1226
+#> sd(Intercept)                     1395     2061
+#> sd(dprime_Intercept)              1675     2347
+#> sd(c_Intercept)                   1424     2120
+#> sd(metac2zero1diff_Intercept)     1361     1735
+#> sd(metac2zero2diff_Intercept)     1216     1557
+#> sd(metac2one1diff_Intercept)      1752     2299
+#> sd(metac2one2diff_Intercept)       976     1333
 #> 
 #> ~participant (Number of levels: 50) 
 #>                               Estimate Est.Error l-95% CI u-95% CI Rhat
-#> sd(Intercept)                     0.35      0.18     0.03     0.72 1.00
-#> sd(dprime_Intercept)              0.55      0.14     0.26     0.83 1.00
-#> sd(c_Intercept)                   0.37      0.07     0.25     0.50 1.00
-#> sd(metac2zero1diff_Intercept)     0.26      0.15     0.02     0.57 1.00
-#> sd(metac2zero2diff_Intercept)     0.29      0.15     0.02     0.58 1.00
-#> sd(metac2one1diff_Intercept)      0.29      0.16     0.02     0.61 1.01
-#> sd(metac2one2diff_Intercept)      0.51      0.14     0.24     0.81 1.00
+#> sd(Intercept)                     0.34      0.18     0.03     0.72 1.01
+#> sd(dprime_Intercept)              0.55      0.15     0.25     0.85 1.00
+#> sd(c_Intercept)                   0.37      0.06     0.25     0.50 1.00
+#> sd(metac2zero1diff_Intercept)     0.25      0.15     0.01     0.58 1.00
+#> sd(metac2zero2diff_Intercept)     0.28      0.15     0.02     0.58 1.01
+#> sd(metac2one1diff_Intercept)      0.29      0.16     0.02     0.61 1.00
+#> sd(metac2one2diff_Intercept)      0.51      0.14     0.22     0.80 1.00
 #>                               Bulk_ESS Tail_ESS
-#> sd(Intercept)                      739     1071
-#> sd(dprime_Intercept)              1098     1161
-#> sd(c_Intercept)                   1545     2245
-#> sd(metac2zero1diff_Intercept)     1149     1794
-#> sd(metac2zero2diff_Intercept)      937     1360
-#> sd(metac2one1diff_Intercept)       926     1486
-#> sd(metac2one2diff_Intercept)      1347     1640
+#> sd(Intercept)                      926     1363
+#> sd(dprime_Intercept)              1126     1245
+#> sd(c_Intercept)                   1573     2690
+#> sd(metac2zero1diff_Intercept)      952     1570
+#> sd(metac2zero2diff_Intercept)      832     1419
+#> sd(metac2one1diff_Intercept)       738     1047
+#> sd(metac2one2diff_Intercept)      1200      887
 #> 
 #> Regression Coefficients:
 #>                           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
-#> Intercept                    -0.37      0.18    -0.78    -0.05 1.00     2820
-#> dprime_Intercept              1.77      0.27     1.24     2.33 1.00     1291
-#> c_Intercept                  -0.08      0.26    -0.60     0.40 1.00      845
-#> metac2zero1diff_Intercept    -1.05      0.15    -1.35    -0.78 1.00     2573
-#> metac2zero2diff_Intercept    -0.75      0.15    -1.06    -0.48 1.00     2468
-#> metac2one1diff_Intercept     -1.03      0.13    -1.31    -0.79 1.00     2926
-#> metac2one2diff_Intercept     -1.10      0.18    -1.47    -0.77 1.00     2395
+#> Intercept                    -0.37      0.19    -0.79    -0.04 1.00     2533
+#> dprime_Intercept              1.76      0.26     1.27     2.26 1.00     1625
+#> c_Intercept                  -0.08      0.26    -0.60     0.42 1.00      954
+#> metac2zero1diff_Intercept    -1.04      0.14    -1.35    -0.80 1.00     2738
+#> metac2zero2diff_Intercept    -0.76      0.14    -1.04    -0.49 1.00     2572
+#> metac2one1diff_Intercept     -1.03      0.13    -1.31    -0.79 1.00     3293
+#> metac2one2diff_Intercept     -1.10      0.19    -1.48    -0.76 1.00     2107
 #>                           Tail_ESS
-#> Intercept                     2375
-#> dprime_Intercept              1725
-#> c_Intercept                    873
-#> metac2zero1diff_Intercept     2149
-#> metac2zero2diff_Intercept     2418
-#> metac2one1diff_Intercept      2500
-#> metac2one2diff_Intercept      2138
+#> Intercept                     1740
+#> dprime_Intercept              1838
+#> c_Intercept                   1633
+#> metac2zero1diff_Intercept     2544
+#> metac2zero2diff_Intercept     2462
+#> metac2one1diff_Intercept      2871
+#> metac2one2diff_Intercept      1817
 #> 
 #> Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
 #> and Tail_ESS are effective sample size measures, and Rhat is the potential
@@ -571,11 +671,11 @@ roc1_rvars(m.multinomial, tibble(.row=1), re_formula=NA)
 #> # Groups:   .row, joint_response, response, confidence [5]
 #>    .row joint_response response confidence           p_fa         p_hit
 #>   <int>          <int>    <int>      <dbl>     <rvar[1d]>    <rvar[1d]>
-#> 1     1              1        0          3  0.567 ± 0.107  0.95 ± 0.034
-#> 2     1              2        0          2  0.366 ± 0.102  0.89 ± 0.056
-#> 3     1              3        0          1  0.222 ± 0.085  0.82 ± 0.075
-#> 4     1              4        1          1  0.143 ± 0.066  0.69 ± 0.096
-#> 5     1              5        1          2  0.086 ± 0.047  0.55 ± 0.107
+#> 1     1              1        0          3  0.573 ± 0.107  0.95 ± 0.034
+#> 2     1              2        0          2  0.372 ± 0.101  0.89 ± 0.056
+#> 3     1              3        0          1  0.227 ± 0.085  0.83 ± 0.075
+#> 4     1              4        1          1  0.147 ± 0.067  0.69 ± 0.097
+#> 5     1              5        1          2  0.089 ± 0.049  0.55 ± 0.109
 ```
 
 The process is exactly the same for the categorical model:
@@ -586,11 +686,11 @@ roc1_rvars(m.categorical, tibble(.row=1), re_formula=NA)
 #> # Groups:   .row, joint_response, response, confidence [5]
 #>    .row joint_response response confidence           p_fa         p_hit
 #>   <int>          <int>    <int>      <dbl>     <rvar[1d]>    <rvar[1d]>
-#> 1     1              1        0          3  0.568 ± 0.105  0.95 ± 0.033
-#> 2     1              2        0          2  0.366 ± 0.100  0.89 ± 0.055
-#> 3     1              3        0          1  0.221 ± 0.083  0.82 ± 0.073
-#> 4     1              4        1          1  0.143 ± 0.065  0.69 ± 0.093
-#> 5     1              5        1          2  0.087 ± 0.048  0.55 ± 0.104
+#> 1     1              1        0          3  0.567 ± 0.105  0.95 ± 0.032
+#> 2     1              2        0          2  0.365 ± 0.100  0.89 ± 0.055
+#> 3     1              3        0          1  0.221 ± 0.082  0.82 ± 0.074
+#> 4     1              4        1          1  0.142 ± 0.065  0.69 ± 0.094
+#> 5     1              5        1          2  0.086 ± 0.048  0.55 ± 0.106
 ```
 
 Next, to get participant-level ROCs (averaging over items), we can use a
@@ -603,15 +703,15 @@ roc1_rvars(m.categorical, distinct(d, participant), re_formula=~ (1 | participan
 #> # Groups:   .row, participant, joint_response, response, confidence [250]
 #>     .row participant joint_response response confidence         p_fa
 #>    <int>       <int>          <int>    <int>      <dbl>   <rvar[1d]>
-#>  1     1           1              1        0          3  0.50 ± 0.14
-#>  2     2           2              1        0          3  0.58 ± 0.14
+#>  1     1           1              1        0          3  0.50 ± 0.15
+#>  2     2           2              1        0          3  0.57 ± 0.14
 #>  3     3           3              1        0          3  0.78 ± 0.12
-#>  4     4           4              1        0          3  0.74 ± 0.12
+#>  4     4           4              1        0          3  0.74 ± 0.13
 #>  5     5           5              1        0          3  0.76 ± 0.12
 #>  6     6           6              1        0          3  0.49 ± 0.15
 #>  7     7           7              1        0          3  0.81 ± 0.11
 #>  8     8           8              1        0          3  0.43 ± 0.15
-#>  9     9           9              1        0          3  0.55 ± 0.15
+#>  9     9           9              1        0          3  0.54 ± 0.15
 #> 10    10          10              1        0          3  0.60 ± 0.14
 #> # ℹ 240 more rows
 #> # ℹ 1 more variable: p_hit <rvar[1d]>
@@ -626,16 +726,16 @@ roc1_rvars(m.categorical, distinct(d, item), re_formula=~ (1 | item))
 #> # Groups:   .row, item, joint_response, response, confidence [50]
 #>     .row  item joint_response response confidence          p_fa          p_hit
 #>    <int> <int>          <int>    <int>      <dbl>    <rvar[1d]>     <rvar[1d]>
-#>  1     1     1              1        0          3  0.44 ± 0.068  0.86 ± 0.0408
-#>  2     2     2              1        0          3  0.63 ± 0.067  0.99 ± 0.0055
-#>  3     3     3              1        0          3  0.82 ± 0.049  0.99 ± 0.0076
-#>  4     4     4              1        0          3  0.75 ± 0.062  1.00 ± 0.0023
-#>  5     5     5              1        0          3  0.66 ± 0.063  0.98 ± 0.0108
-#>  6     6     6              1        0          3  0.21 ± 0.057  0.77 ± 0.0557
-#>  7     7     7              1        0          3  0.67 ± 0.064  0.83 ± 0.0467
-#>  8     8     8              1        0          3  0.77 ± 0.059  0.99 ± 0.0073
-#>  9     9     9              1        0          3  0.55 ± 0.071  0.96 ± 0.0191
-#> 10    10    10              1        0          3  0.20 ± 0.056  0.68 ± 0.0636
+#>  1     1     1              1        0          3  0.44 ± 0.065  0.86 ± 0.0403
+#>  2     2     2              1        0          3  0.63 ± 0.068  0.99 ± 0.0056
+#>  3     3     3              1        0          3  0.82 ± 0.048  0.99 ± 0.0075
+#>  4     4     4              1        0          3  0.75 ± 0.063  1.00 ± 0.0022
+#>  5     5     5              1        0          3  0.66 ± 0.064  0.98 ± 0.0108
+#>  6     6     6              1        0          3  0.21 ± 0.057  0.77 ± 0.0549
+#>  7     7     7              1        0          3  0.67 ± 0.063  0.83 ± 0.0463
+#>  8     8     8              1        0          3  0.77 ± 0.058  0.99 ± 0.0071
+#>  9     9     9              1        0          3  0.55 ± 0.068  0.96 ± 0.0195
+#> 10    10    10              1        0          3  0.20 ± 0.054  0.68 ± 0.0633
 #> # ℹ 40 more rows
 ```
 
@@ -646,5 +746,3 @@ trial-level model should be more useful for things like model comparison
 using the `loo` package, multivariate models, and mediation models.
 These features should mostly work out the box but they are still under
 active development, so stay tuned!
-
-## References

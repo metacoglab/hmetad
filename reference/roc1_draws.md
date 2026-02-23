@@ -95,8 +95,8 @@ m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
 #> Chain 1: Iteration: 500 / 500 [100%]  (Sampling)
 #> Chain 1: 
 #> Chain 1:  Elapsed Time: 0.039 seconds (Warm-up)
-#> Chain 1:                0.041 seconds (Sampling)
-#> Chain 1:                0.08 seconds (Total)
+#> Chain 1:                0.049 seconds (Sampling)
+#> Chain 1:                0.088 seconds (Total)
 #> Chain 1: 
 #> Warning: The largest R-hat is 1.07, indicating chains have not mixed.
 #> Running the chains for more iterations may help. See

@@ -80,7 +80,7 @@
     
 <p>This vignette describes the parameterization of the meta-d’ model
 used in the <code>hmetad</code> package. For an in-depth review, we
-refer readers to <span class="citation">(<a href="#ref-maniscalco2012">Maniscalco and Lau 2012</a>, <a href="#ref-maniscalco2014">2014</a>)</span>.</p>
+refer readers to <span class="citation">(<a href="#ref-maniscalco2012">Maniscalco &amp; Lau, 2012</a>, <a href="#ref-maniscalco2014">2014</a>)</span>.</p>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
@@ -267,7 +267,7 @@ crossed random effects), it can be used with the argument
 </h2>
 <p>The meta-d’ model requires the parameter <span class="math inline">\textrm{meta-}c</span> to be fixed to be equal with
 respect to the type 1 criterion <span class="math inline">c</span>. As
-discussed by <span class="citation">(<a href="#ref-maniscalco2014">Maniscalco and Lau 2014</a>)</span>, there
+discussed by <span class="citation">(<a href="#ref-maniscalco2014">Maniscalco &amp; Lau, 2014</a>)</span>, there
 are multiple ways of fixing <span class="math inline">\textrm{meta-}c</span>. The <code>hmetad</code>
 package implements two:</p>
 <p>Under the fixed parameterization, <span class="math inline">\textrm{meta-}c = c</span>. This parameterization is
@@ -275,7 +275,7 @@ used as the default, since it was also used in the <a href="https://github.com/m
 also <span class="citation">Fleming (<a href="#ref-fleming2017">2017</a>)</span>).</p>
 <p>Alternatively, under the relative parameterization, <span class="math inline">\frac{\textrm{meta-}c}{\textrm{meta-}d'} =
 \frac{c}{d'}</span>, which is achieved by setting <span class="math inline">\textrm{meta-}c = M c</span>. This parameterization
-was used in <span class="citation">(<a href="#ref-maniscalco2012">Maniscalco and Lau 2012</a>, <a href="#ref-maniscalco2014">2014</a>)</span>.</p>
+was used in <span class="citation">(<a href="#ref-maniscalco2012">Maniscalco &amp; Lau, 2012</a>, <a href="#ref-maniscalco2014">2014</a>)</span>.</p>
 <p>To switch between these two parameterizations, the
 <code>fit_metad</code> and <code>sim_metad</code> functions have an
 argument <code>metac_absolute</code> which is <code>TRUE</code> by
@@ -339,23 +339,22 @@ confidence criteria can be computed as follows:</p>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0" line-spacing="2">
 <div id="ref-fleming2017" class="csl-entry">
-Fleming, Stephen M. 2017. <span>“HMeta-d: Hierarchical Bayesian
-Estimation of Metacognitive Efficiency from Confidence Ratings.”</span>
-<em>Neuroscience of Consciousness</em> 2017 (1): nix007.
+Fleming, S. M. (2017). HMeta-d: Hierarchical bayesian estimation of
+metacognitive efficiency from confidence ratings. <em>Neuroscience of
+Consciousness</em>, <em>2017</em>(1), nix007.
 </div>
 <div id="ref-maniscalco2012" class="csl-entry">
-Maniscalco, Brian, and Hakwan Lau. 2012. <span>“A Signal Detection
-Theoretic Approach for Estimating Metacognitive Sensitivity from
-Confidence Ratings.”</span> <em>Consciousness and Cognition</em> 21 (1):
-422–30.
+Maniscalco, B., &amp; Lau, H. (2012). A signal detection theoretic
+approach for estimating metacognitive sensitivity from confidence
+ratings. <em>Consciousness and Cognition</em>, <em>21</em>(1), 422–430.
 </div>
 <div id="ref-maniscalco2014" class="csl-entry">
-———. 2014. <span>“Signal Detection Theory Analysis of Type 1 and Type 2
-Data: Meta-d′, Response-Specific Meta-d′, and the Unequal Variance SDT
-Model.”</span> In <em>The Cognitive Neuroscience of Metacognition</em>,
-25–66. Springer.
+Maniscalco, B., &amp; Lau, H. (2014). Signal detection theory analysis
+of type 1 and type 2 data: Meta-d′, response-specific meta-d′, and the
+unequal variance SDT model. In <em>The cognitive neuroscience of
+metacognition</em> (pp. 25–66). Springer.
 </div>
 </div>
 </div>

@@ -70,8 +70,8 @@ m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
 #> Chain 1: 
-#> Chain 1: Gradient evaluation took 2.5e-05 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.25 seconds.
+#> Chain 1: Gradient evaluation took 3.9e-05 seconds
+#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.39 seconds.
 #> Chain 1: Adjust your expectations accordingly!
 #> Chain 1: 
 #> Chain 1: 
@@ -88,9 +88,9 @@ m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
 #> Chain 1: Iteration: 450 / 500 [ 90%]  (Sampling)
 #> Chain 1: Iteration: 500 / 500 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.032 seconds (Warm-up)
-#> Chain 1:                0.026 seconds (Sampling)
-#> Chain 1:                0.058 seconds (Total)
+#> Chain 1:  Elapsed Time: 0.039 seconds (Warm-up)
+#> Chain 1:                0.025 seconds (Sampling)
+#> Chain 1:                0.064 seconds (Total)
 #> Chain 1: 
 newdata <- tidyr::tibble(.row = 1)
 

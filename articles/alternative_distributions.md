@@ -15,8 +15,8 @@ the distribution.
 
 To demonstrate this functionality, here we implement the meta-d’ model
 with the Gumbel-min distribution, which has been shown to provide a
-parsimonious explanation of recognition memory data (Meyer-Grant et al,
-2025).
+parsimonious explanation of recognition memory data ([Meyer-Grant et
+al., 2026](#ref-meyer2026extreme)).
 
 We begin by loading necessary packages in `R`:
 
@@ -224,3 +224,9 @@ roc2_draws(m, tibble(.row = 1), bounds = TRUE) |>
 ```
 
 ![](alternative_distributions_files/figure-html/roc2-1.png)
+
+## References
+
+Meyer-Grant, C. G., Kellen, D., Harding, S. M., & Singmann, H. (2026).
+Extreme-value signal detection theory for recognition memory: The
+parametric road not taken. *Psychological Review*.
