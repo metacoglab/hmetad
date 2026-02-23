@@ -1,6 +1,7 @@
 ---
 output: github_document
 bibliography: vignettes/citations.bib
+csl: vignettes/apa.csl
 link-citations: true
 ---
 
@@ -27,7 +28,7 @@ ratings [@maniscalco2012; @maniscalco2014]. Like the [Hmeta-d toolbox](https://g
 This provides major benefits:
 
   - Model designs can be specified as simple `R` formulas
-  - Support for complex model designs (e.g., multilevel models, distributional models)
+  - Support for complex model designs (e.g., multilevel models, distributional models, multivariate models)
   - Interfaces to other packages surrounding `brms` (e.g., `tidybayes`, `ggdist`, `bayesplot`, `loo`, `posterior`, `bridgesampling`, `bayestestR`)
   - Computation of model-implied quantities (e.g., mean confidence, type 1 and type 2 receiver operating characteristic curves, metacognitive bias)
   - Increased sampling efficiency and better convergence diagnostics
@@ -49,7 +50,6 @@ pak::pak("metacoglab/hmetad")
 
 ## Quick setup
 Let's say you have some data from a binary decision task with ordinal confidence ratings:
-
 ```{r data, echo=FALSE, message=FALSE, warning=FALSE}
 library(hmetad)
 library(dplyr)
@@ -62,7 +62,6 @@ d
 ```
 
 You can fit an intercepts-only meta-d' model using `fit_metad`:
-
 ```{r example, results=FALSE, warning=FALSE, message=FALSE}
 library(hmetad)
 
@@ -74,8 +73,7 @@ m
 ```
 
 
-Now let's say you have a more complicated design, such as a within-participants manipulation:
-
+Now let's say you have a more complicated design, such as a within-participant manipulation:
 ```{r data2, echo=FALSE}
 d <- sim_metad_participant_condition(N_participants = 25) |>
   group_by(participant, condition) |>
@@ -86,7 +84,6 @@ d
 ```
 
 To account for the repeated measures in this design, you can simply adjust the formula to include participant-level effects:
-
 ```{r example2, results=FALSE, warning=FALSE, message=FALSE}
 m <- fit_metad(
   bf(

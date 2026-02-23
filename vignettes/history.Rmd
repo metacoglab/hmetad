@@ -2,6 +2,7 @@
 title: "History of the hmetad package"
 output: rmarkdown::html_vignette
 bibliography: citations.bib
+csl: apa.csl
 link-citations: true
 vignette: >
   %\VignetteIndexEntry{History of the hmetad package}

@@ -1,6 +1,9 @@
 ---
 title: "Using alternative signal distributions with the meta-d' model"
 output: rmarkdown::html_vignette
+bibliography: citations.bib
+csl: apa.csl
+link-citations: true
 vignette: >
   %\VignetteIndexEntry{Using alternative signal distributions with the meta-d' model}
   %\VignetteEngine{knitr::rmarkdown}
@@ -23,7 +26,7 @@ dir.create("models", showWarnings = FALSE)
 ## Introduction
 The standard meta-d' model assumes that the evidence for making type 1 decisions follows an equal-variance normal distribution and that the evidence for making type 2 decisions follows a truncated equal-variance normal distribution. However, there has been recent interest in using other distributions in signal detection theory. While not all distributions will be identifiable with the meta-d' model (e.g., one cannot simultaneously estimate unequal variances and $\textrm{meta-}d'$), the `hmetad` package allows one to specify any distribution that takes a single parameter defining the location (i.e., mean, median, or mode) of the distribution.
 
-To demonstrate this functionality, here we implement the meta-d' model with the Gumbel-min distribution, which has been shown to provide a parsimonious explanation of recognition memory data (Meyer-Grant et al, 2025).
+To demonstrate this functionality, here we implement the meta-d' model with the Gumbel-min distribution, which has been shown to provide a parsimonious explanation of recognition memory data [@meyer2026extreme].
 
 We begin by loading necessary packages in `R`:
 ```{r setup, message=FALSE, warning=FALSE}
@@ -156,3 +159,6 @@ roc2_draws(m, tibble(.row = 1), bounds = TRUE) |>
   ylab("P(Type 2 Hit)") +
   theme_bw(18)
 ```
+
+
+## References

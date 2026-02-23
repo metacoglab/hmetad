@@ -2,6 +2,7 @@
 title: "Estimating trial-level effects"
 output: rmarkdown::html_vignette
 bibliography: citations.bib
+csl: apa.csl
 link-citations: true
 vignette: >
   %\VignetteIndexEntry{Estimating trial-level effects}
@@ -128,7 +129,7 @@ m.multinomial <- fit_metad(
       metac2one1diff + metac2one2diff ~
       1 + (1 | participant) + (1 | item)
   ),
-  data = d, init = 0, cores=4,
+  data = d, init = 0,
   file = "models/multinomial.rds"
 )
 m.multinomial
@@ -219,6 +220,4 @@ multivariate models, and mediation models. These features should mostly work out
 the box but they are still under active development, so stay tuned!
 
 
-
-## References
 

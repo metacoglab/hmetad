@@ -9,9 +9,9 @@
 <!-- badges: end -->
 
 The `hmetad` package is designed to fit the meta-d’ model for confidence
-ratings ([Maniscalco and Lau 2012](#ref-maniscalco2012),
+ratings ([Maniscalco & Lau, 2012](#ref-maniscalco2012),
 [2014](#ref-maniscalco2014)). Like the [Hmeta-d
-toolbox](https://github.com/metacoglab/HMeta-d) ([Fleming
+toolbox](https://github.com/metacoglab/HMeta-d) ([Fleming,
 2017](#ref-fleming2017)), the `hmetad` package uses a Bayesian modeling
 approach. The `hmetad` package builds on the Hmeta-d toolbox through
 implementation as a custom family in the
@@ -23,7 +23,7 @@ This provides major benefits:
 
 - Model designs can be specified as simple `R` formulas
 - Support for complex model designs (e.g., multilevel models,
-  distributional models)
+  distributional models, multivariate models)
 - Interfaces to other packages surrounding `brms` (e.g., `tidybayes`,
   `ggdist`, `bayesplot`, `loo`, `posterior`, `bridgesampling`,
   `bayestestR`)
@@ -57,16 +57,16 @@ confidence ratings:
     #> # A tibble: 1,000 × 5
     #>    trial stimulus response correct confidence
     #>    <int>    <int>    <int>   <int>      <int>
-    #>  1     1        0        0       1          3
-    #>  2     2        0        0       1          4
+    #>  1     1        1        1       1          2
+    #>  2     2        1        0       0          1
     #>  3     3        0        0       1          2
-    #>  4     4        1        1       1          1
-    #>  5     5        1        0       0          1
-    #>  6     6        0        1       0          2
+    #>  4     4        0        0       1          4
+    #>  5     5        1        1       1          2
+    #>  6     6        1        1       1          3
     #>  7     7        1        1       1          2
-    #>  8     8        0        0       1          2
-    #>  9     9        0        0       1          2
-    #> 10    10        0        0       1          1
+    #>  8     8        1        1       1          2
+    #>  9     9        1        1       1          2
+    #> 10    10        1        0       0          2
     #> # ℹ 990 more rows
 
 You can fit an intercepts-only meta-d’ model using `fit_metad`:
@@ -104,22 +104,22 @@ m <- fit_metad(N ~ 1, data = d, file = "vignettes/models/readme1.rds")
     #> scale reduction factor on split chains (at convergence, Rhat = 1).
 
 Now let’s say you have a more complicated design, such as a
-within-participants manipulation:
+within-participant manipulation:
 
     #> # A tibble: 5,000 × 7
     #> # Groups:   participant, condition [50]
     #>    participant condition trial stimulus response correct confidence
     #>          <int>     <int> <int>    <int>    <int>   <int>      <int>
-    #>  1           1         1     1        1        1       1          4
-    #>  2           1         1     2        0        1       0          2
-    #>  3           1         1     3        0        1       0          1
-    #>  4           1         1     4        1        1       1          1
-    #>  5           1         1     5        0        0       1          2
-    #>  6           1         1     6        1        0       0          1
-    #>  7           1         1     7        1        1       1          2
+    #>  1           1         1     1        0        0       1          4
+    #>  2           1         1     2        1        0       0          3
+    #>  3           1         1     3        1        0       0          4
+    #>  4           1         1     4        1        1       1          3
+    #>  5           1         1     5        0        0       1          4
+    #>  6           1         1     6        0        0       1          1
+    #>  7           1         1     7        0        1       0          2
     #>  8           1         1     8        0        0       1          3
-    #>  9           1         1     9        1        1       1          4
-    #> 10           1         1    10        0        0       1          1
+    #>  9           1         1     9        1        1       1          3
+    #> 10           1         1    10        1        0       0          1
     #> # ℹ 4,990 more rows
 
 To account for the repeated measures in this design, you can simply
@@ -324,29 +324,30 @@ m <- fit_metad(
 ## References
 
 <div id="refs" class="references csl-bib-body hanging-indent"
-entry-spacing="0">
+entry-spacing="0" line-spacing="2">
 
 <div id="ref-fleming2017" class="csl-entry">
 
-Fleming, Stephen M. 2017. “HMeta-d: Hierarchical Bayesian Estimation of
-Metacognitive Efficiency from Confidence Ratings.” *Neuroscience of
-Consciousness* 2017 (1): nix007.
+Fleming, S. M. (2017). HMeta-d: Hierarchical bayesian estimation of
+metacognitive efficiency from confidence ratings. *Neuroscience of
+Consciousness*, *2017*(1), nix007.
 
 </div>
 
 <div id="ref-maniscalco2012" class="csl-entry">
 
-Maniscalco, Brian, and Hakwan Lau. 2012. “A Signal Detection Theoretic
-Approach for Estimating Metacognitive Sensitivity from Confidence
-Ratings.” *Consciousness and Cognition* 21 (1): 422–30.
+Maniscalco, B., & Lau, H. (2012). A signal detection theoretic approach
+for estimating metacognitive sensitivity from confidence ratings.
+*Consciousness and Cognition*, *21*(1), 422–430.
 
 </div>
 
 <div id="ref-maniscalco2014" class="csl-entry">
 
-———. 2014. “Signal Detection Theory Analysis of Type 1 and Type 2 Data:
-Meta-d′, Response-Specific Meta-d′, and the Unequal Variance SDT Model.”
-In *The Cognitive Neuroscience of Metacognition*, 25–66. Springer.
+Maniscalco, B., & Lau, H. (2014). Signal detection theory analysis of
+type 1 and type 2 data: Meta-d′, response-specific meta-d′, and the
+unequal variance SDT model. In *The cognitive neuroscience of
+metacognition* (pp. 25–66). Springer.
 
 </div>
 
