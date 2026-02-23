@@ -36,7 +36,7 @@ a researcher might want to estimate both participant-level and item-level
 effects on their model parameters.
 
 We can simulate data from such a design like so:
-```{r}
+```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(tidybayes)
 library(hmetad)
@@ -95,6 +95,9 @@ d <- expand_grid(participant=1:50,
   mutate(trial=pmap(list(dprime, c, log_M, c2_0_diff, c2_1_diff), sim_metad, N_trials=2)) |>
   select(participant, item, trial) |> 
   unnest(trial)
+```
+
+```{r echo=FALSE}
 d
 ```
 
@@ -120,7 +123,7 @@ As you can see, the aggregated data set has `500` rows (with two observations pe
 which is not much smaller than the trial-level data that we started with! 
 So, in this case, it will probably be easier *not* to aggregate our data.
 Nevertheless, there is nothing stopping us from fitting the model like normal:
-```{r multinomial_model}
+```{r multinomial_model, results=FALSE, message=FALSE, warning=FALSE}
 m.multinomial <- fit_metad(
   bf(
     N ~ 1 + (1 | participant) + (1 | item),
@@ -132,15 +135,18 @@ m.multinomial <- fit_metad(
   data = d, init = 0,
   file = "models/multinomial.rds"
 )
-m.multinomial
 ```
 
+```{r echo=FALSE}
+m.multinomial
+```
 
 
 ## Data preparation
 Fitting the trial-level model does not require data aggregation, however it still 
 requires a small amount of data preparation. To fit the model,
 we will need to things:
+
   * a column with the stimulus per trial (`0` or `1`), and 
   * a column containing the joint type 1/type 2 responses per trial (between `1` and `2*K`).
 
@@ -150,16 +156,18 @@ responses. So, we can add in a joint response column now:
 d <- d |>
   mutate(joint_response = joint_response(response, confidence, K)) |>
   relocate(joint_response, .after="stimulus")
-d
 ```
 
+```{r echo=FALSE}
+d
+```
 
 
 ## Model fitting
 Now that we have our data, we can fit the trial-level model using `joint_response`
 as our response variable, `stimulus` as an extra variable passed to `brms`, and
 the argument `categorical=TRUE` to tell `fit_metad` not to aggregate the data:
-```{r model_fitting}
+```{r model_fitting, results=FALSE, message=FALSE, warning=FALSE}
 m.categorical <- fit_metad(
   bf(
     joint_response | vint(stimulus) ~ 1 + (1 | participant) + (1 | item),
@@ -171,6 +179,9 @@ m.categorical <- fit_metad(
   data = d, categorical=TRUE, init = 0,
   file = "models/categorical.rds"
 )
+```
+
+```{r echo=FALSE}
 m.categorical
 ```
 
