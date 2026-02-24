@@ -20,25 +20,29 @@
 #'  * `.variable`, `.value`: if `pivot_longer=TRUE`, `.variable` identifies different meta-d' model parameters and `.value` stores posterior samples
 #'  * `M`, `dprime`, `c`, `meta_dprime`, `meta_c`, `meta_c2_0_<k>`, `meta_c2_1_<k>`: if `pivot_longer=FALSE`, posterior samples of all meta-d' model parameters
 #' @examples
-#' # running few iterations so example runs quickly, use more in practice
-#' m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
+#' \dontrun{
+#'   # running few iterations so example runs quickly, use more in practice
+#'   example_data <- sim_metad(N_trials=1000)
+#'   example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
+#' }
+#' example_model <- hmetad:::example_model
 #' newdata <- tidyr::tibble(.row = 1)
 #'
 #' # obtain model parameters (wide format)
-#' linpred_draws_metad(m, newdata)
-#' add_linpred_draws_metad(newdata, m)
+#' linpred_draws_metad(example_model, newdata)
+#' add_linpred_draws_metad(newdata, example_model)
 #'
 #' # obtain model parameters (long format)
-#' linpred_draws_metad(m, newdata, pivot_longer = TRUE)
-#' add_linpred_draws_metad(newdata, m, pivot_longer = TRUE)
+#' linpred_draws_metad(example_model, newdata, pivot_longer = TRUE)
+#' add_linpred_draws_metad(newdata, example_model, pivot_longer = TRUE)
 #'
 #' # obtain model parameters (wide format, posterior::rvar)
-#' linpred_rvars_metad(m, newdata)
-#' add_linpred_rvars_metad(newdata, m)
+#' linpred_rvars_metad(example_model, newdata)
+#' add_linpred_rvars_metad(newdata, example_model)
 #'
 #' # obtain model parameters (long format, posterior::rvar)
-#' linpred_rvars_metad(m, newdata, pivot_longer = TRUE)
-#' add_linpred_rvars_metad(newdata, m, pivot_longer = TRUE)
+#' linpred_rvars_metad(example_model, newdata, pivot_longer = TRUE)
+#' add_linpred_rvars_metad(newdata, example_model, pivot_longer = TRUE)
 #'
 #' @rdname linpred_draws_metad
 #' @export

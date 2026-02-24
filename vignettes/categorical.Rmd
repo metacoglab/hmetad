@@ -122,8 +122,8 @@ aggregate_metad(d, participant, item)
 As you can see, the aggregated data set has `500` rows (with two observations per row), 
 which is not much smaller than the trial-level data that we started with! 
 So, in this case, it will probably be easier *not* to aggregate our data.
-Nevertheless, there is nothing stopping us from fitting the model like normal:
-```{r multinomial_model, results=FALSE, message=FALSE, warning=FALSE}
+Nevertheless, there is nothing stopping us from fitting the model like normal:^[Note that to keep vignette run time short and to reduce model convergence errors, the models in this vignette are actually fit using `sample_prior="only"`, which ignores the data. In practice, fitting hierarchical models will usually require setting informed priors and adjusting the Stan sampler settings.]
+```{r multinomial_model, eval=FALSE}
 m.multinomial <- fit_metad(
   bf(
     N ~ 1 + (1 | participant) + (1 | item),
@@ -133,11 +133,77 @@ m.multinomial <- fit_metad(
       1 + (1 | participant) + (1 | item)
   ),
   data = d, init = 0,
-  file = "models/multinomial.rds"
+  file = "models/multinomial.rds",
+  prior=prior(normal(0, .25), class = Intercept) +
+    prior(normal(0, .25), class = Intercept, dpar = dprime) +
+    prior(normal(0, .25), class = Intercept, dpar = c) +
+    prior(normal(0, .1), class = Intercept, dpar = metac2zero1diff) +
+    prior(normal(0, .1), class = Intercept, dpar = metac2zero2diff) +
+    prior(normal(0, .1), class = Intercept, dpar = metac2one1diff) +
+    prior(normal(0, .1), class = Intercept, dpar = metac2one2diff) +
+    prior(normal(0, 1), class = sd) +
+    prior(normal(0, 1), class = sd, dpar = dprime) +
+    prior(normal(0, 1), class = sd, dpar = c) +
+    prior(normal(0, 1), class = sd, dpar = metac2zero1diff) +
+    prior(normal(0, 1), class = sd, dpar = metac2zero2diff) +
+    prior(normal(0, 1), class = sd, dpar = metac2one1diff) +
+    prior(normal(0, 1), class = sd, dpar = metac2one2diff)
 )
 ```
 
-```{r echo=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+## use prior_only model in vignette building to reduce runtime
+m.multinomial <- fit_metad(
+  bf(
+    N ~ 1 + (1 | participant) + (1 | item),
+    dprime + c +
+      metac2zero1diff + metac2zero2diff +
+      metac2one1diff + metac2one2diff ~
+      1 + (1 | participant) + (1 | item)
+  ),
+  data = d, sample_prior="only", iter=1000,
+  file = "models/multinomial.rds",
+  prior=prior_string(paste0("normal(", mu_log_M, ", .25)"), class = "Intercept") +
+    prior_string(paste0("normal(", mu_dprime, ", .25)"), class = "Intercept", dpar = "dprime") +
+    prior_string(paste0("normal(", mu_c, ", .25)"), class = "Intercept", dpar = "c") +
+    prior_string(paste0("normal(", mu_c2_0[1], ", .1)"), 
+                 class = "Intercept", dpar = "metac2zero1diff") +
+    prior_string(paste0("normal(", mu_c2_0[2], ", .1)"), 
+                 class = "Intercept", dpar = "metac2zero2diff") +
+    prior_string(paste0("normal(", mu_c2_1[1], ", .1)"), 
+                 class = "Intercept", dpar = "metac2one1diff") +
+    prior_string(paste0("normal(", mu_c2_1[2], ", .1)"), 
+                 class = "Intercept", dpar = "metac2one2diff") +
+    prior_string(paste0("normal(0, ", sd_log_M_participant, ")"), 
+                 class = "sd", group="participant") +
+    prior_string(paste0("normal(0, ", sd_log_M_item, ")"), 
+                 class = "sd", group="item") +
+    prior_string(paste0("normal(0, ", sd_dprime_participant, ")"), 
+                 class = "sd", dpar = "dprime", group="participant") +
+    prior_string(paste0("normal(0, ", sd_dprime_item, ")"), 
+                 class = "sd", dpar = "dprime", group="item") +
+    prior_string(paste0("normal(0, ", sd_c_participant, ")"), 
+                 class = "sd", dpar = "c", group="participant") +
+    prior_string(paste0("normal(0, ", sd_c_item, ")"), 
+                 class = "sd", dpar = "c", group="item") +
+    prior_string(paste0("normal(0, ", sqrt(sd_c2_0_participant[1,1]), ")"), 
+                 class = "sd", dpar = "metac2zero1diff", group="participant") +
+    prior_string(paste0("normal(0, ", sqrt(sd_c2_0_item[1,1]), ")"), 
+                 class = "sd", dpar = "metac2zero1diff", group="item") +
+    prior_string(paste0("normal(0, ", sqrt(sd_c2_0_participant[2,2]), ")"), 
+                 class = "sd", dpar = "metac2zero2diff", group="participant") +
+    prior_string(paste0("normal(0, ", sqrt(sd_c2_0_item[2,2]), ")"), 
+                 class = "sd", dpar = "metac2zero2diff", group="item") +
+    prior_string(paste0("normal(0, ", sqrt(sd_c2_1_participant[1,1]), ")"), 
+                 class = "sd", dpar = "metac2one1diff", group="participant") +
+    prior_string(paste0("normal(0, ", sqrt(sd_c2_1_item[1,1]), ")"), 
+                 class = "sd", dpar = "metac2one1diff", group="item") +
+    prior_string(paste0("normal(0, ", sqrt(sd_c2_1_participant[2,2]), ")"), 
+                 class = "sd", dpar = "metac2one2diff", group="participant") +
+    prior_string(paste0("normal(0, ", sqrt(sd_c2_1_item[2,2]), ")"), 
+                 class = "sd", dpar = "metac2one2diff", group="item")
+)
+
 m.multinomial
 ```
 
@@ -167,7 +233,7 @@ d
 Now that we have our data, we can fit the trial-level model using `joint_response`
 as our response variable, `stimulus` as an extra variable passed to `brms`, and
 the argument `categorical=TRUE` to tell `fit_metad` not to aggregate the data:
-```{r model_fitting, results=FALSE, message=FALSE, warning=FALSE}
+```{r model_fitting,eval=FALSE}
 m.categorical <- fit_metad(
   bf(
     joint_response | vint(stimulus) ~ 1 + (1 | participant) + (1 | item),
@@ -177,11 +243,77 @@ m.categorical <- fit_metad(
       1 + (1 | participant) + (1 | item)
   ),
   data = d, categorical=TRUE, init = 0,
-  file = "models/categorical.rds"
+  file = "models/categorical.rds",
+  prior=prior(normal(0, .25), class = Intercept) +
+    prior(normal(0, .25), class = Intercept, dpar = dprime) +
+    prior(normal(0, .25), class = Intercept, dpar = c) +
+    prior(normal(0, .1), class = Intercept, dpar = metac2zero1diff) +
+    prior(normal(0, .1), class = Intercept, dpar = metac2zero2diff) +
+    prior(normal(0, .1), class = Intercept, dpar = metac2one1diff) +
+    prior(normal(0, .1), class = Intercept, dpar = metac2one2diff) +
+    prior(normal(0, 1), class = sd) +
+    prior(normal(0, 1), class = sd, dpar = dprime) +
+    prior(normal(0, 1), class = sd, dpar = c) +
+    prior(normal(0, 1), class = sd, dpar = metac2zero1diff) +
+    prior(normal(0, 1), class = sd, dpar = metac2zero2diff) +
+    prior(normal(0, 1), class = sd, dpar = metac2one1diff) +
+    prior(normal(0, 1), class = sd, dpar = metac2one2diff)
 )
 ```
 
-```{r echo=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+## use prior_only model in vignette building to reduce runtime
+m.categorical <- fit_metad(
+  bf(
+    joint_response | vint(stimulus) ~ 1 + (1 | participant) + (1 | item),
+    dprime + c +
+      metac2zero1diff + metac2zero2diff +
+      metac2one1diff + metac2one2diff ~
+      1 + (1 | participant) + (1 | item)
+  ),
+  data = d, categorical=TRUE, sample_prior="only", iter=1000,
+  file = "models/categorical.rds",
+  prior=prior_string(paste0("normal(", mu_log_M, ", .25)"), class = "Intercept") +
+    prior_string(paste0("normal(", mu_dprime, ", .25)"), class = "Intercept", dpar = "dprime") +
+    prior_string(paste0("normal(", mu_c, ", .25)"), class = "Intercept", dpar = "c") +
+    prior_string(paste0("normal(", mu_c2_0[1], ", .1)"), 
+                 class = "Intercept", dpar = "metac2zero1diff") +
+    prior_string(paste0("normal(", mu_c2_0[2], ", .1)"), 
+                 class = "Intercept", dpar = "metac2zero2diff") +
+    prior_string(paste0("normal(", mu_c2_1[1], ", .1)"), 
+                 class = "Intercept", dpar = "metac2one1diff") +
+    prior_string(paste0("normal(", mu_c2_1[2], ", .1)"), 
+                 class = "Intercept", dpar = "metac2one2diff") +
+    prior_string(paste0("normal(0, ", sd_log_M_participant, ")"), 
+                 class = "sd", group="participant") +
+    prior_string(paste0("normal(0, ", sd_log_M_item, ")"), 
+                 class = "sd", group="item") +
+    prior_string(paste0("normal(0, ", sd_dprime_participant, ")"), 
+                 class = "sd", dpar = "dprime", group="participant") +
+    prior_string(paste0("normal(0, ", sd_dprime_item, ")"), 
+                 class = "sd", dpar = "dprime", group="item") +
+    prior_string(paste0("normal(0, ", sd_c_participant, ")"), 
+                 class = "sd", dpar = "c", group="participant") +
+    prior_string(paste0("normal(0, ", sd_c_item, ")"), 
+                 class = "sd", dpar = "c", group="item") +
+    prior_string(paste0("normal(0, ", sqrt(sd_c2_0_participant[1,1]), ")"), 
+                 class = "sd", dpar = "metac2zero1diff", group="participant") +
+    prior_string(paste0("normal(0, ", sqrt(sd_c2_0_item[1,1]), ")"), 
+                 class = "sd", dpar = "metac2zero1diff", group="item") +
+    prior_string(paste0("normal(0, ", sqrt(sd_c2_0_participant[2,2]), ")"), 
+                 class = "sd", dpar = "metac2zero2diff", group="participant") +
+    prior_string(paste0("normal(0, ", sqrt(sd_c2_0_item[2,2]), ")"), 
+                 class = "sd", dpar = "metac2zero2diff", group="item") +
+    prior_string(paste0("normal(0, ", sqrt(sd_c2_1_participant[1,1]), ")"), 
+                 class = "sd", dpar = "metac2one1diff", group="participant") +
+    prior_string(paste0("normal(0, ", sqrt(sd_c2_1_item[1,1]), ")"), 
+                 class = "sd", dpar = "metac2one1diff", group="item") +
+    prior_string(paste0("normal(0, ", sqrt(sd_c2_1_participant[2,2]), ")"), 
+                 class = "sd", dpar = "metac2one2diff", group="participant") +
+    prior_string(paste0("normal(0, ", sqrt(sd_c2_1_item[2,2]), ")"), 
+                 class = "sd", dpar = "metac2one2diff", group="item")
+)
+
 m.categorical
 ```
 

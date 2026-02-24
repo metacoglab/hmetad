@@ -23,20 +23,24 @@
 #'  * `p_hit`: the cumulative probability of a 'present'/'old' response for `stimulus==1` (\eqn{P(J \ge j \;\vert\; S=1)})
 #' @rdname roc1_draws
 #' @examples
-#' # running few iterations so example runs quickly, use more in practice
-#' m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
+#' \dontrun{
+#'   # running few iterations so example runs quickly, use more in practice
+#'   example_data <- sim_metad(N_trials=1000)
+#'   example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
+#' }
+#' example_model <- hmetad:::example_model
 #' newdata <- tidyr::tibble(.row = 1)
 #'
 #' # compute pseudo-type 1 ROC curve
-#' roc1_draws(m, newdata)
-#' add_roc1_draws(newdata, m)
+#' roc1_draws(example_model, newdata)
+#' add_roc1_draws(newdata, example_model)
 #'
 #' # use posterior::rvar for additional efficiency
-#' roc1_rvars(m, newdata)
-#' add_roc1_draws(newdata, m)
+#' roc1_rvars(example_model, newdata)
+#' add_roc1_draws(newdata, example_model)
 #'
 #' # include the ROC bounds
-#' roc1_draws(m, newdata, bounds = TRUE)
+#' roc1_draws(example_model, newdata, bounds = TRUE)
 #' @export
 roc1_draws <- function(object, newdata, ..., bounds = FALSE) {
   draws <- epred_draws_metad(object, newdata, ...)
@@ -176,20 +180,24 @@ add_roc1_rvars <- function(newdata, object, ...) {
 #'  * `p_hit2`: the cumulative probability of a correct response (\eqn{P(C\ge c \;\vert\; R = S)})
 #' @rdname roc2_draws
 #' @examples
-#' # running few iterations so example runs quickly, use more in practice
-#' m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
+#' \dontrun{
+#'   # running few iterations so example runs quickly, use more in practice
+#'   example_data <- sim_metad(N_trials=1000)
+#'   example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
+#' }
+#' example_model <- hmetad:::example_model
 #' newdata <- tidyr::tibble(.row = 1)
 #'
 #' # compute type 2 ROC curve
-#' roc2_draws(m, newdata)
-#' add_roc2_draws(newdata, m)
+#' roc2_draws(example_model, newdata)
+#' add_roc2_draws(newdata, example_model)
 #'
 #' # use posterior::rvar for additional efficiency
-#' roc2_rvars(m, newdata)
-#' add_roc2_rvars(newdata, m)
+#' roc2_rvars(example_model, newdata)
+#' add_roc2_rvars(newdata, example_model)
 #'
 #' # include the ROC bounds
-#' roc2_draws(m, newdata, bounds = TRUE)
+#' roc2_draws(example_model, newdata, bounds = TRUE)
 #' @export
 roc2_draws <- function(object, newdata, ..., bounds = FALSE) {
   draws <- epred_draws_metad(object, newdata, ...)

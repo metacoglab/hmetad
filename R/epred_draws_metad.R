@@ -18,17 +18,21 @@
 #'  * `stimulus`, `joint_response`, `response`, `confidence`: identifiers for the response type
 #'  * `.epred`: probability of the type 1 and type 2 response given the stimulus, \eqn{P(R, C \;\vert\; S)}
 #' @examples
-#' # running few iterations so example runs quickly, use more in practice
-#' m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
+#' \dontrun{
+#'   # running few iterations so example runs quickly, use more in practice
+#'   example_data <- sim_metad(N_trials=1000)
+#'   example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
+#' }
+#' example_model <- hmetad:::example_model
 #' newdata <- tidyr::tibble(.row = 1)
 #'
 #' # obtain model predictions
-#' epred_draws_metad(m, newdata)
-#' add_epred_draws_metad(newdata, m)
+#' epred_draws_metad(example_model, newdata)
+#' add_epred_draws_metad(newdata, example_model)
 #'
 #' # obtain model predictions (posterior::rvar)
-#' epred_rvars_metad(m, newdata)
-#' add_epred_rvars_metad(newdata, m)
+#' epred_rvars_metad(example_model, newdata)
+#' add_epred_rvars_metad(newdata, example_model)
 #'
 #' @rdname epred_draws_metad
 #' @export

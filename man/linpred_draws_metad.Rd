@@ -47,24 +47,28 @@ returned in a tidy tibble with one row per posterior draw. For
 \link[posterior:rvar]{posterior::rvar}s, with one row per row in \code{newdata}.
 }
 \examples{
-# running few iterations so example runs quickly, use more in practice
-m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
+\dontrun{
+  # running few iterations so example runs quickly, use more in practice
+  example_data <- sim_metad(N_trials=1000)
+  example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
+}
+example_model <- hmetad:::example_model
 newdata <- tidyr::tibble(.row = 1)
 
 # obtain model parameters (wide format)
-linpred_draws_metad(m, newdata)
-add_linpred_draws_metad(newdata, m)
+linpred_draws_metad(example_model, newdata)
+add_linpred_draws_metad(newdata, example_model)
 
 # obtain model parameters (long format)
-linpred_draws_metad(m, newdata, pivot_longer = TRUE)
-add_linpred_draws_metad(newdata, m, pivot_longer = TRUE)
+linpred_draws_metad(example_model, newdata, pivot_longer = TRUE)
+add_linpred_draws_metad(newdata, example_model, pivot_longer = TRUE)
 
 # obtain model parameters (wide format, posterior::rvar)
-linpred_rvars_metad(m, newdata)
-add_linpred_rvars_metad(newdata, m)
+linpred_rvars_metad(example_model, newdata)
+add_linpred_rvars_metad(newdata, example_model)
 
 # obtain model parameters (long format, posterior::rvar)
-linpred_rvars_metad(m, newdata, pivot_longer = TRUE)
-add_linpred_rvars_metad(newdata, m, pivot_longer = TRUE)
+linpred_rvars_metad(example_model, newdata, pivot_longer = TRUE)
+add_linpred_rvars_metad(newdata, example_model, pivot_longer = TRUE)
 
 }

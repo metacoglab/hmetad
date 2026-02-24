@@ -41,6 +41,8 @@ to_signed(10)
 # `to_unsigned` also works with any signed integer
 to_unsigned(-10)
 
-# neither function works with factors
-to_unsigned(factor(1))
+\dontrun{
+  # neither function works with factors
+  to_unsigned(factor(1))
+}
 }

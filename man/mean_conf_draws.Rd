@@ -66,23 +66,27 @@ returned as \link[posterior:rvar]{posterior::rvar}s, with one row per row in \co
 argument order swapped.
 }
 \examples{
-# running few iterations so example runs quickly, use more in practice
-m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
+\dontrun{
+  # running few iterations so example runs quickly, use more in practice
+  example_data <- sim_metad(N_trials=1000)
+  example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
+}
+example_model <- hmetad:::example_model
 newdata <- tidyr::tibble(.row = 1)
 
 # compute mean confidence by stimulus and response
-mean_confidence_draws(m, newdata)
-add_mean_confidence_draws(newdata, m)
+mean_confidence_draws(example_model, newdata)
+add_mean_confidence_draws(newdata, example_model)
 
 # compute mean confidence by stimulus
-mean_confidence_draws(m, newdata, by_response = FALSE)
+mean_confidence_draws(example_model, newdata, by_response = FALSE)
 
 # compute mean confidence by response
-mean_confidence_draws(m, newdata, by_stimulus = FALSE)
+mean_confidence_draws(example_model, newdata, by_stimulus = FALSE)
 
 # compute mean confidence averaging over stimuli and responses
-mean_confidence_draws(m, newdata, by_stimulus = FALSE, by_response = FALSE)
+mean_confidence_draws(example_model, newdata, by_stimulus = FALSE, by_response = FALSE)
 
 # use posterior::rvar for increased efficiency
-mean_confidence_rvars(m, newdata)
+mean_confidence_rvars(example_model, newdata)
 }

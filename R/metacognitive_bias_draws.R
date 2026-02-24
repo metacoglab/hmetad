@@ -40,21 +40,25 @@ metacognitive_bias <- function(..., rvar = FALSE) {
 #'   the confidence criteria `meta_c2_{response}`.
 #' @rdname bias_draws
 #' @examples
-#' # running few iterations so example runs quickly, use more in practice
-#' m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
+#' \dontrun{
+#'   # running few iterations so example runs quickly, use more in practice
+#'   example_data <- sim_metad(N_trials=1000)
+#'   example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
+#' }
+#' example_model <- hmetad:::example_model
 #' newdata <- tidyr::tibble(.row = 1)
 #'
 #' # compute metacognitive bias
-#' metacognitive_bias_draws(m, newdata)
-#' add_metacognitive_bias_draws(newdata, m)
+#' metacognitive_bias_draws(example_model, newdata)
+#' add_metacognitive_bias_draws(newdata, example_model)
 #'
 #' # use posterior::rvar for increased efficiency
-#' metacognitive_bias_rvars(m, newdata)
-#' add_metacognitive_bias_rvars(newdata, m)
+#' metacognitive_bias_rvars(example_model, newdata)
+#' add_metacognitive_bias_rvars(newdata, example_model)
 #'
 #' # average over the two type 1 responses
-#' metacognitive_bias_draws(m, newdata, by_response = FALSE)
-#' metacognitive_bias_rvars(m, newdata, by_response = FALSE)
+#' metacognitive_bias_draws(example_model, newdata, by_response = FALSE)
+#' metacognitive_bias_rvars(example_model, newdata, by_response = FALSE)
 #' @export
 metacognitive_bias_draws <- function(object, newdata, ..., by_response = TRUE) {
   if (object$family$family != "custom" ||

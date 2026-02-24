@@ -10,3 +10,5 @@
 ^TODO$
 ^README\.Rmd$
 ^cran-comments\.md$
+^vignettes/models$
+^data-raw$

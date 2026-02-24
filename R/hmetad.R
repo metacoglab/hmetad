@@ -24,8 +24,10 @@
 #' # `to_unsigned` also works with any signed integer
 #' to_unsigned(-10)
 #'
-#' # neither function works with factors
-#' to_unsigned(factor(1))
+#' \dontrun{
+#'   # neither function works with factors
+#'   to_unsigned(factor(1))
+#' }
 #' @rdname signed
 #' @export
 to_signed <- function(x) ifelse(x, 1, -1)
@@ -36,25 +38,27 @@ to_unsigned <- function(x) as.numeric(x > 0)
 
 #' Convert between separate and joint type 1/type 2 responses
 #'
-#' @description
-#' Confidence ratings and decisions are collected in one of two ways.
+#' @description Confidence ratings and decisions are collected in one of two
+#' ways.
 #'  * For separate ratings, there will be a type 1 response (\eqn{R \in \{0, 1\}}) and a
 #' type 2 response (\eqn{C \in [1, K]}).
 #'  * For joint ratings, there is instead a combined type 1/type 2 response
-#' (\eqn{J \in [1, 2K]}), with values in \eqn{[1, K]} indicating a type 1 response of \eqn{0}
-#' and values in \eqn{[K+1, 2K]} indicating a type 1 response of \eqn{1}, with
-#' confident responses at the ends of the scale.
+#' (\eqn{J \in [1, 2K]}), with values in \eqn{[1, K]} indicating a type 1
+#' response of \eqn{0} and values in \eqn{[K+1, 2K]} indicating a type 1
+#' response of \eqn{1}, with confident responses at the ends of the scale.
 #'
 #' `joint_response` converts separate type 1 and type 2 responses into the joint
 #' format
 #'
-#' `type1_response` and `type2_response` convert the joint response into separate
-#' responses.
+#' `type1_response` and `type2_response` convert the joint response into
+#' separate responses.
 #'
 #' @param joint_response A joint type 1/type 2 response
 #' @param response A type 1 response (`0` or `1`)
 #' @param confidence A type 2 response/confidence rating (in `1:K`)
 #' @param K The number of confidence levels
+#' @returns A joint response (for `joint_response`), type 1 response (for
+#'   `type1_response`), or type 2 response (for `type2_response`)
 #' @rdname responses
 #' @examples
 #' # convert joint_response to separate responses
@@ -275,7 +279,7 @@ aggregate_metad <- function(
       if (is.null(K)) {
         K <- as.integer((data |> pull(!!sym(.joint_response)) |> n_distinct()) / 2)
       }
-      
+
       if (!(.response %in% names(data))) {
         ## add response column
         data <- data |>
@@ -388,11 +392,32 @@ aggregate_metad <- function(
 #' @param categorical If `FALSE` (default), use the multinomial likelihood over
 #'   aggregated data. If `TRUE`, use the categorical likelihood over individual
 #'   trials.
+#' @returns A `brmsfit` object containing the fitted model
+#' @details `fit_metad(formula, data, ...)` is approximately the same as
+#'   `brm(formula, data=aggregate_metad(data, ...), family=metad(...),
+#'   stanvars=stanvars_metad(...), ...)`. For some models,
+#'   it may often be easier to use the more explicit version
+#'   than using `fit_metad`.
 #' @examples
-#' # fit a basic model on simulated data
-#' # running few iterations so example runs quickly, use more in practice
-#' fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
+#' # check which parameters the model has
+#' metad(3)
 #'
+#' # fit a basic model on simulated data
+#' # (use `empty=true` to bypass fitting, *do not use in real analysis*)
+#' fit_metad(N ~ 1, sim_metad(), empty=TRUE)
+#'
+#' \dontrun{
+#'   # fit a basic model on simulated data
+#'   fit_metad(N ~ 1, sim_metad())
+#'
+#'   # fit a model with condition-level effects
+#'   fit_metad(
+#'     bf(N ~ condition,
+#'        dprime + c + metac2zero1diff + metac2zero2diff +
+#'          metac2one1diff + metac2one1diff ~ condition),
+#'     data=sim_metad_condition()
+#'   )
+#' }
 #' @export
 fit_metad <- function(formula, data, ..., aggregate = TRUE,
                       .stimulus = "stimulus", .response = "response",

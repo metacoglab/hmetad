@@ -21,22 +21,27 @@ type2_response(joint_response, K)
 
 \item{joint_response}{A joint type 1/type 2 response}
 }
+\value{
+A joint response (for \code{joint_response}), type 1 response (for
+\code{type1_response}), or type 2 response (for \code{type2_response})
+}
 \description{
-Confidence ratings and decisions are collected in one of two ways.
+Confidence ratings and decisions are collected in one of two
+ways.
 \itemize{
 \item For separate ratings, there will be a type 1 response (\eqn{R \in \{0, 1\}}) and a
 type 2 response (\eqn{C \in [1, K]}).
 \item For joint ratings, there is instead a combined type 1/type 2 response
-(\eqn{J \in [1, 2K]}), with values in \eqn{[1, K]} indicating a type 1 response of \eqn{0}
-and values in \eqn{[K+1, 2K]} indicating a type 1 response of \eqn{1}, with
-confident responses at the ends of the scale.
+(\eqn{J \in [1, 2K]}), with values in \eqn{[1, K]} indicating a type 1
+response of \eqn{0} and values in \eqn{[K+1, 2K]} indicating a type 1
+response of \eqn{1}, with confident responses at the ends of the scale.
 }
 
 \code{joint_response} converts separate type 1 and type 2 responses into the joint
 format
 
-\code{type1_response} and \code{type2_response} convert the joint response into separate
-responses.
+\code{type1_response} and \code{type2_response} convert the joint response into
+separate responses.
 }
 \examples{
 # convert joint_response to separate responses

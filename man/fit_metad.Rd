@@ -68,13 +68,37 @@ to define an alternative distribution or a custom model prior (see
 aggregated data. If \code{TRUE}, use the categorical likelihood over individual
 trials.}
 }
+\value{
+A \code{brmsfit} object containing the fitted model
+}
 \description{
 This function is a wrapper around \code{\link[brms:brm]{brms::brm()}} using a custom family for the
 meta-d' model.
 }
+\details{
+\code{fit_metad(formula, data, ...)} is approximately the same as
+\code{brm(formula, data=aggregate_metad(data, ...), family=metad(...), stanvars=stanvars_metad(...), ...)}. For some models,
+it may often be easier to use the more explicit version
+than using \code{fit_metad}.
+}
 \examples{
-# fit a basic model on simulated data
-# running few iterations so example runs quickly, use more in practice
-fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
+# check which parameters the model has
+metad(3)
 
+# fit a basic model on simulated data
+# (use `empty=true` to bypass fitting, *do not use in real analysis*)
+fit_metad(N ~ 1, sim_metad(), empty=TRUE)
+
+\dontrun{
+  # fit a basic model on simulated data
+  fit_metad(N ~ 1, sim_metad())
+
+  # fit a model with condition-level effects
+  fit_metad(
+    bf(N ~ condition,
+       dprime + c + metac2zero1diff + metac2zero2diff +
+         metac2one1diff + metac2one1diff ~ condition),
+    data=sim_metad_condition()
+  )
+}
 }

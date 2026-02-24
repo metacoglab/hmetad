@@ -46,18 +46,22 @@ For \code{roc2_rvars} and \code{add_roc2_rvars}, parameters are returned as
 \code{posterior::rvar}s, with one row per row in \code{newdata} and per joint response.
 }
 \examples{
-# running few iterations so example runs quickly, use more in practice
-m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
+\dontrun{
+  # running few iterations so example runs quickly, use more in practice
+  example_data <- sim_metad(N_trials=1000)
+  example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
+}
+example_model <- hmetad:::example_model
 newdata <- tidyr::tibble(.row = 1)
 
 # compute type 2 ROC curve
-roc2_draws(m, newdata)
-add_roc2_draws(newdata, m)
+roc2_draws(example_model, newdata)
+add_roc2_draws(newdata, example_model)
 
 # use posterior::rvar for additional efficiency
-roc2_rvars(m, newdata)
-add_roc2_rvars(newdata, m)
+roc2_rvars(example_model, newdata)
+add_roc2_rvars(newdata, example_model)
 
 # include the ROC bounds
-roc2_draws(m, newdata, bounds = TRUE)
+roc2_draws(example_model, newdata, bounds = TRUE)
 }
