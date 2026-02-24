@@ -125,7 +125,7 @@ metad(3)
 
 # fit a basic model on simulated data
 # (use `empty=true` to bypass fitting, *do not use in real analysis*)
-fit_metad(N ~ 1, sim_metad(), empty=TRUE)
+fit_metad(N ~ 1, sim_metad(), empty = TRUE)
 #>  Family: metad__4__normal__absolute__multinomial 
 #>   Links: mu = log 
 #> Formula: N ~ 1 
@@ -134,15 +134,17 @@ fit_metad(N ~ 1, sim_metad(), empty=TRUE)
 #> The model does not contain posterior draws.
 
 if (FALSE) { # \dontrun{
-  # fit a basic model on simulated data
-  fit_metad(N ~ 1, sim_metad())
+# fit a basic model on simulated data
+fit_metad(N ~ 1, sim_metad())
 
-  # fit a model with condition-level effects
-  fit_metad(
-    bf(N ~ condition,
-       dprime + c + metac2zero1diff + metac2zero2diff +
-         metac2one1diff + metac2one1diff ~ condition),
-    data=sim_metad_condition()
-  )
+# fit a model with condition-level effects
+fit_metad(
+  bf(
+    N ~ condition,
+    dprime + c + metac2zero1diff + metac2zero2diff +
+      metac2one1diff + metac2one1diff ~ condition
+  ),
+  data = sim_metad_condition()
+)
 } # }
 ```

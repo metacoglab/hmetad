@@ -51,7 +51,7 @@ to_unsigned(-10)
 #> [1] 0
 
 if (FALSE) { # \dontrun{
-  # neither function works with factors
-  to_unsigned(factor(1))
+# neither function works with factors
+to_unsigned(factor(1))
 } # }
 ```

@@ -172,7 +172,7 @@ than using <code>fit_metad</code>.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># fit a basic model on simulated data</span></span></span>
 <span class="r-in"><span><span class="co"># (use `empty=true` to bypass fitting, *do not use in real analysis*)</span></span></span>
-<span class="r-in"><span><span class="fu">fit_metad</span><span class="op">(</span><span class="va">N</span> <span class="op">~</span> <span class="fl">1</span>, <span class="fu"><a href="sim_metad.html">sim_metad</a></span><span class="op">(</span><span class="op">)</span>, empty<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">fit_metad</span><span class="op">(</span><span class="va">N</span> <span class="op">~</span> <span class="fl">1</span>, <span class="fu"><a href="sim_metad.html">sim_metad</a></span><span class="op">(</span><span class="op">)</span>, empty <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Family: metad__4__normal__absolute__multinomial </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Links: mu = log </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Formula: N ~ 1 </span>
@@ -181,16 +181,18 @@ than using <code>fit_metad</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> The model does not contain posterior draws.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span>  <span class="co"># fit a basic model on simulated data</span></span></span>
-<span class="r-in"><span>  <span class="fu">fit_metad</span><span class="op">(</span><span class="va">N</span> <span class="op">~</span> <span class="fl">1</span>, <span class="fu"><a href="sim_metad.html">sim_metad</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># fit a basic model on simulated data</span></span></span>
+<span class="r-in"><span><span class="fu">fit_metad</span><span class="op">(</span><span class="va">N</span> <span class="op">~</span> <span class="fl">1</span>, <span class="fu"><a href="sim_metad.html">sim_metad</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="co"># fit a model with condition-level effects</span></span></span>
-<span class="r-in"><span>  <span class="fu">fit_metad</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    <span class="fu"><a href="https://paulbuerkner.com/brms/reference/brmsformula.html" class="external-link">bf</a></span><span class="op">(</span><span class="va">N</span> <span class="op">~</span> <span class="va">condition</span>,</span></span>
-<span class="r-in"><span>       <span class="va">dprime</span> <span class="op">+</span> <span class="va">c</span> <span class="op">+</span> <span class="va">metac2zero1diff</span> <span class="op">+</span> <span class="va">metac2zero2diff</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>         <span class="va">metac2one1diff</span> <span class="op">+</span> <span class="va">metac2one1diff</span> <span class="op">~</span> <span class="va">condition</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    data<span class="op">=</span><span class="fu"><a href="sim_metad_condition.html">sim_metad_condition</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># fit a model with condition-level effects</span></span></span>
+<span class="r-in"><span><span class="fu">fit_metad</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://paulbuerkner.com/brms/reference/brmsformula.html" class="external-link">bf</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="va">N</span> <span class="op">~</span> <span class="va">condition</span>,</span></span>
+<span class="r-in"><span>    <span class="va">dprime</span> <span class="op">+</span> <span class="va">c</span> <span class="op">+</span> <span class="va">metac2zero1diff</span> <span class="op">+</span> <span class="va">metac2zero2diff</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>      <span class="va">metac2one1diff</span> <span class="op">+</span> <span class="va">metac2one1diff</span> <span class="op">~</span> <span class="va">condition</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
+<span class="r-in"><span>  data <span class="op">=</span> <span class="fu"><a href="sim_metad_condition.html">sim_metad_condition</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
