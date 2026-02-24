@@ -68,160 +68,137 @@ following columns:
 ## Examples
 
 ``` r
-# running few iterations so example runs quickly, use more in practice
-m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
-#> Compiling Stan program...
-#> Start sampling
-#> 
-#> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
-#> Chain 1: 
-#> Chain 1: Gradient evaluation took 1.7e-05 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.17 seconds.
-#> Chain 1: Adjust your expectations accordingly!
-#> Chain 1: 
-#> Chain 1: 
-#> Chain 1: Iteration:   1 / 500 [  0%]  (Warmup)
-#> Chain 1: Iteration:  50 / 500 [ 10%]  (Warmup)
-#> Chain 1: Iteration: 100 / 500 [ 20%]  (Warmup)
-#> Chain 1: Iteration: 150 / 500 [ 30%]  (Warmup)
-#> Chain 1: Iteration: 200 / 500 [ 40%]  (Warmup)
-#> Chain 1: Iteration: 250 / 500 [ 50%]  (Warmup)
-#> Chain 1: Iteration: 251 / 500 [ 50%]  (Sampling)
-#> Chain 1: Iteration: 300 / 500 [ 60%]  (Sampling)
-#> Chain 1: Iteration: 350 / 500 [ 70%]  (Sampling)
-#> Chain 1: Iteration: 400 / 500 [ 80%]  (Sampling)
-#> Chain 1: Iteration: 450 / 500 [ 90%]  (Sampling)
-#> Chain 1: Iteration: 500 / 500 [100%]  (Sampling)
-#> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.033 seconds (Warm-up)
-#> Chain 1:                0.021 seconds (Sampling)
-#> Chain 1:                0.054 seconds (Total)
-#> Chain 1: 
+if (FALSE) { # \dontrun{
+  # running few iterations so example runs quickly, use more in practice
+  example_data <- sim_metad(N_trials=1000)
+  example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
+} # }
+example_model <- hmetad:::example_model
 newdata <- tidyr::tibble(.row = 1)
 
 # obtain model parameters (wide format)
-linpred_draws_metad(m, newdata)
+linpred_draws_metad(example_model, newdata)
 #> # A tibble: 250 × 15
 #> # Groups:   .row [1]
-#>     .row .chain .iteration .draw     M dprime      c meta_dprime meta_c
-#>    <int>  <int>      <int> <int> <dbl>  <dbl>  <dbl>       <dbl>  <dbl>
-#>  1     1     NA         NA     1 0.777  1.18  -0.109       0.914 -0.109
-#>  2     1     NA         NA     2 0.305  1.27  -0.172       0.387 -0.109
-#>  3     1     NA         NA     3 0.741  1.19  -0.230       0.883 -0.109
-#>  4     1     NA         NA     4 0.337  1.25  -0.413       0.420 -0.109
-#>  5     1     NA         NA     5 0.362  1.31  -0.439       0.475 -0.109
-#>  6     1     NA         NA     6 0.258  1.57  -0.449       0.406 -0.109
-#>  7     1     NA         NA     7 0.274  1.61  -0.250       0.440 -0.109
-#>  8     1     NA         NA     8 1.09   0.721 -0.167       0.783 -0.109
-#>  9     1     NA         NA     9 1.30   0.623 -0.266       0.809 -0.109
-#> 10     1     NA         NA    10 0.438  1.16  -0.182       0.508 -0.109
+#>     .row .chain .iteration .draw     M dprime       c meta_dprime  meta_c
+#>    <int>  <int>      <int> <int> <dbl>  <dbl>   <dbl>       <dbl>   <dbl>
+#>  1     1     NA         NA     1 1.07   1.03  -0.0303        1.11 -0.0303
+#>  2     1     NA         NA     2 1.19   1.06  -0.0200        1.26 -0.0303
+#>  3     1     NA         NA     3 1.29   0.928 -0.0623        1.20 -0.0303
+#>  4     1     NA         NA     4 0.958  1.14   0.101         1.09 -0.0303
+#>  5     1     NA         NA     5 1.08   1.05   0.126         1.14 -0.0303
+#>  6     1     NA         NA     6 1.20   0.995  0.0572        1.20 -0.0303
+#>  7     1     NA         NA     7 1.07   1.08  -0.0559        1.15 -0.0303
+#>  8     1     NA         NA     8 1.12   0.984 -0.0592        1.10 -0.0303
+#>  9     1     NA         NA     9 1.28   1.01  -0.0244        1.30 -0.0303
+#> 10     1     NA         NA    10 1.21   0.900 -0.0106        1.09 -0.0303
 #> # ℹ 240 more rows
 #> # ℹ 6 more variables: meta_c2_0_1 <dbl>, meta_c2_0_2 <dbl>, meta_c2_0_3 <dbl>,
 #> #   meta_c2_1_1 <dbl>, meta_c2_1_2 <dbl>, meta_c2_1_3 <dbl>
-add_linpred_draws_metad(newdata, m)
+add_linpred_draws_metad(newdata, example_model)
 #> # A tibble: 250 × 15
 #> # Groups:   .row [1]
-#>     .row .chain .iteration .draw     M dprime      c meta_dprime meta_c
-#>    <int>  <int>      <int> <int> <dbl>  <dbl>  <dbl>       <dbl>  <dbl>
-#>  1     1     NA         NA     1 0.777  1.18  -0.109       0.914 -0.109
-#>  2     1     NA         NA     2 0.305  1.27  -0.172       0.387 -0.109
-#>  3     1     NA         NA     3 0.741  1.19  -0.230       0.883 -0.109
-#>  4     1     NA         NA     4 0.337  1.25  -0.413       0.420 -0.109
-#>  5     1     NA         NA     5 0.362  1.31  -0.439       0.475 -0.109
-#>  6     1     NA         NA     6 0.258  1.57  -0.449       0.406 -0.109
-#>  7     1     NA         NA     7 0.274  1.61  -0.250       0.440 -0.109
-#>  8     1     NA         NA     8 1.09   0.721 -0.167       0.783 -0.109
-#>  9     1     NA         NA     9 1.30   0.623 -0.266       0.809 -0.109
-#> 10     1     NA         NA    10 0.438  1.16  -0.182       0.508 -0.109
+#>     .row .chain .iteration .draw     M dprime       c meta_dprime  meta_c
+#>    <int>  <int>      <int> <int> <dbl>  <dbl>   <dbl>       <dbl>   <dbl>
+#>  1     1     NA         NA     1 1.07   1.03  -0.0303        1.11 -0.0303
+#>  2     1     NA         NA     2 1.19   1.06  -0.0200        1.26 -0.0303
+#>  3     1     NA         NA     3 1.29   0.928 -0.0623        1.20 -0.0303
+#>  4     1     NA         NA     4 0.958  1.14   0.101         1.09 -0.0303
+#>  5     1     NA         NA     5 1.08   1.05   0.126         1.14 -0.0303
+#>  6     1     NA         NA     6 1.20   0.995  0.0572        1.20 -0.0303
+#>  7     1     NA         NA     7 1.07   1.08  -0.0559        1.15 -0.0303
+#>  8     1     NA         NA     8 1.12   0.984 -0.0592        1.10 -0.0303
+#>  9     1     NA         NA     9 1.28   1.01  -0.0244        1.30 -0.0303
+#> 10     1     NA         NA    10 1.21   0.900 -0.0106        1.09 -0.0303
 #> # ℹ 240 more rows
 #> # ℹ 6 more variables: meta_c2_0_1 <dbl>, meta_c2_0_2 <dbl>, meta_c2_0_3 <dbl>,
 #> #   meta_c2_1_1 <dbl>, meta_c2_1_2 <dbl>, meta_c2_1_3 <dbl>
 
 # obtain model parameters (long format)
-linpred_draws_metad(m, newdata, pivot_longer = TRUE)
+linpred_draws_metad(example_model, newdata, pivot_longer = TRUE)
 #> # A tibble: 2,750 × 6
 #> # Groups:   .row, .variable [11]
-#>     .row .chain .iteration .draw .variable   .value
-#>    <int>  <int>      <int> <int> <chr>        <dbl>
-#>  1     1     NA         NA     1 M            0.777
-#>  2     1     NA         NA     1 dprime       1.18 
-#>  3     1     NA         NA     1 c           -0.109
-#>  4     1     NA         NA     1 meta_dprime  0.914
-#>  5     1     NA         NA     1 meta_c      -0.109
-#>  6     1     NA         NA     1 meta_c2_0_1 -0.342
-#>  7     1     NA         NA     1 meta_c2_0_2 -1.01 
-#>  8     1     NA         NA     1 meta_c2_0_3 -1.54 
-#>  9     1     NA         NA     1 meta_c2_1_1  0.382
-#> 10     1     NA         NA     1 meta_c2_1_2  1.03 
+#>     .row .chain .iteration .draw .variable    .value
+#>    <int>  <int>      <int> <int> <chr>         <dbl>
+#>  1     1     NA         NA     1 M            1.07  
+#>  2     1     NA         NA     1 dprime       1.03  
+#>  3     1     NA         NA     1 c           -0.0303
+#>  4     1     NA         NA     1 meta_dprime  1.11  
+#>  5     1     NA         NA     1 meta_c      -0.0303
+#>  6     1     NA         NA     1 meta_c2_0_1 -0.553 
+#>  7     1     NA         NA     1 meta_c2_0_2 -0.971 
+#>  8     1     NA         NA     1 meta_c2_0_3 -1.41  
+#>  9     1     NA         NA     1 meta_c2_1_1  0.477 
+#> 10     1     NA         NA     1 meta_c2_1_2  1.03  
 #> # ℹ 2,740 more rows
-add_linpred_draws_metad(newdata, m, pivot_longer = TRUE)
+add_linpred_draws_metad(newdata, example_model, pivot_longer = TRUE)
 #> # A tibble: 2,750 × 6
 #> # Groups:   .row, .variable [11]
-#>     .row .chain .iteration .draw .variable   .value
-#>    <int>  <int>      <int> <int> <chr>        <dbl>
-#>  1     1     NA         NA     1 M            0.777
-#>  2     1     NA         NA     1 dprime       1.18 
-#>  3     1     NA         NA     1 c           -0.109
-#>  4     1     NA         NA     1 meta_dprime  0.914
-#>  5     1     NA         NA     1 meta_c      -0.109
-#>  6     1     NA         NA     1 meta_c2_0_1 -0.342
-#>  7     1     NA         NA     1 meta_c2_0_2 -1.01 
-#>  8     1     NA         NA     1 meta_c2_0_3 -1.54 
-#>  9     1     NA         NA     1 meta_c2_1_1  0.382
-#> 10     1     NA         NA     1 meta_c2_1_2  1.03 
+#>     .row .chain .iteration .draw .variable    .value
+#>    <int>  <int>      <int> <int> <chr>         <dbl>
+#>  1     1     NA         NA     1 M            1.07  
+#>  2     1     NA         NA     1 dprime       1.03  
+#>  3     1     NA         NA     1 c           -0.0303
+#>  4     1     NA         NA     1 meta_dprime  1.11  
+#>  5     1     NA         NA     1 meta_c      -0.0303
+#>  6     1     NA         NA     1 meta_c2_0_1 -0.553 
+#>  7     1     NA         NA     1 meta_c2_0_2 -0.971 
+#>  8     1     NA         NA     1 meta_c2_0_3 -1.41  
+#>  9     1     NA         NA     1 meta_c2_1_1  0.477 
+#> 10     1     NA         NA     1 meta_c2_1_2  1.03  
 #> # ℹ 2,740 more rows
 
 # obtain model parameters (wide format, posterior::rvar)
-linpred_rvars_metad(m, newdata)
+linpred_rvars_metad(example_model, newdata)
 #> # A tibble: 1 × 12
 #> # Groups:   .row [1]
-#>    .row            M      dprime             c  meta_dprime        meta_c
-#>   <dbl>   <rvar[1d]>  <rvar[1d]>    <rvar[1d]>   <rvar[1d]>    <rvar[1d]>
-#> 1     1  0.52 ± 0.39  1.1 ± 0.24  -0.13 ± 0.13  0.52 ± 0.36  -0.13 ± 0.13
+#>    .row           M     dprime              c meta_dprime         meta_c
+#>   <dbl>  <rvar[1d]> <rvar[1d]>     <rvar[1d]>  <rvar[1d]>     <rvar[1d]>
+#> 1     1  1.1 ± 0.15  1 ± 0.082  0.013 ± 0.044  1.1 ± 0.12  0.013 ± 0.044
 #> # ℹ 6 more variables: meta_c2_0_1 <rvar[1d]>, meta_c2_0_2 <rvar[1d]>,
 #> #   meta_c2_0_3 <rvar[1d]>, meta_c2_1_1 <rvar[1d]>, meta_c2_1_2 <rvar[1d]>,
 #> #   meta_c2_1_3 <rvar[1d]>
-add_linpred_rvars_metad(newdata, m)
+add_linpred_rvars_metad(newdata, example_model)
 #> # A tibble: 1 × 12
 #> # Groups:   .row [1]
-#>    .row            M      dprime             c  meta_dprime        meta_c
-#>   <dbl>   <rvar[1d]>  <rvar[1d]>    <rvar[1d]>   <rvar[1d]>    <rvar[1d]>
-#> 1     1  0.52 ± 0.39  1.1 ± 0.24  -0.13 ± 0.13  0.52 ± 0.36  -0.13 ± 0.13
+#>    .row           M     dprime              c meta_dprime         meta_c
+#>   <dbl>  <rvar[1d]> <rvar[1d]>     <rvar[1d]>  <rvar[1d]>     <rvar[1d]>
+#> 1     1  1.1 ± 0.15  1 ± 0.082  0.013 ± 0.044  1.1 ± 0.12  0.013 ± 0.044
 #> # ℹ 6 more variables: meta_c2_0_1 <rvar[1d]>, meta_c2_0_2 <rvar[1d]>,
 #> #   meta_c2_0_3 <rvar[1d]>, meta_c2_1_1 <rvar[1d]>, meta_c2_1_2 <rvar[1d]>,
 #> #   meta_c2_1_3 <rvar[1d]>
 
 # obtain model parameters (long format, posterior::rvar)
-linpred_rvars_metad(m, newdata, pivot_longer = TRUE)
+linpred_rvars_metad(example_model, newdata, pivot_longer = TRUE)
 #> # A tibble: 11 × 3
 #> # Groups:   .row, .variable [11]
-#>     .row .variable          .value
-#>    <dbl> <chr>          <rvar[1d]>
-#>  1     1 M             0.52 ± 0.39
-#>  2     1 dprime        1.05 ± 0.24
-#>  3     1 c            -0.13 ± 0.13
-#>  4     1 meta_dprime   0.52 ± 0.36
-#>  5     1 meta_c       -0.13 ± 0.13
-#>  6     1 meta_c2_0_1  -0.43 ± 0.13
-#>  7     1 meta_c2_0_2  -1.04 ± 0.15
-#>  8     1 meta_c2_0_3  -1.61 ± 0.17
-#>  9     1 meta_c2_1_1   0.32 ± 0.13
-#> 10     1 meta_c2_1_2   0.79 ± 0.15
-#> 11     1 meta_c2_1_3   1.40 ± 0.18
-add_linpred_rvars_metad(newdata, m, pivot_longer = TRUE)
+#>     .row .variable            .value
+#>    <dbl> <chr>            <rvar[1d]>
+#>  1     1 M             1.119 ± 0.147
+#>  2     1 dprime        1.020 ± 0.082
+#>  3     1 c             0.013 ± 0.044
+#>  4     1 meta_dprime   1.134 ± 0.122
+#>  5     1 meta_c        0.013 ± 0.044
+#>  6     1 meta_c2_0_1  -0.492 ± 0.045
+#>  7     1 meta_c2_0_2  -0.967 ± 0.048
+#>  8     1 meta_c2_0_3  -1.433 ± 0.059
+#>  9     1 meta_c2_1_1   0.481 ± 0.045
+#> 10     1 meta_c2_1_2   1.036 ± 0.049
+#> 11     1 meta_c2_1_3   1.551 ± 0.064
+add_linpred_rvars_metad(newdata, example_model, pivot_longer = TRUE)
 #> # A tibble: 11 × 3
 #> # Groups:   .row, .variable [11]
-#>     .row .variable          .value
-#>    <dbl> <chr>          <rvar[1d]>
-#>  1     1 M             0.52 ± 0.39
-#>  2     1 dprime        1.05 ± 0.24
-#>  3     1 c            -0.13 ± 0.13
-#>  4     1 meta_dprime   0.52 ± 0.36
-#>  5     1 meta_c       -0.13 ± 0.13
-#>  6     1 meta_c2_0_1  -0.43 ± 0.13
-#>  7     1 meta_c2_0_2  -1.04 ± 0.15
-#>  8     1 meta_c2_0_3  -1.61 ± 0.17
-#>  9     1 meta_c2_1_1   0.32 ± 0.13
-#> 10     1 meta_c2_1_2   0.79 ± 0.15
-#> 11     1 meta_c2_1_3   1.40 ± 0.18
+#>     .row .variable            .value
+#>    <dbl> <chr>            <rvar[1d]>
+#>  1     1 M             1.119 ± 0.147
+#>  2     1 dprime        1.020 ± 0.082
+#>  3     1 c             0.013 ± 0.044
+#>  4     1 meta_dprime   1.134 ± 0.122
+#>  5     1 meta_c        0.013 ± 0.044
+#>  6     1 meta_c2_0_1  -0.492 ± 0.045
+#>  7     1 meta_c2_0_2  -0.967 ± 0.048
+#>  8     1 meta_c2_0_3  -1.433 ± 0.059
+#>  9     1 meta_c2_1_1   0.481 ± 0.045
+#> 10     1 meta_c2_1_2   1.036 ± 0.049
+#> 11     1 meta_c2_1_3   1.551 ± 0.064
 ```

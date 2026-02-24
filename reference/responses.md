@@ -44,6 +44,11 @@ type2_response(joint_response, K)
 
   A joint type 1/type 2 response
 
+## Value
+
+A joint response (for `joint_response`), type 1 response (for
+`type1_response`), or type 2 response (for `type2_response`)
+
 ## Examples
 
 ``` r

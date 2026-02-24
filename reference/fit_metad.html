@@ -148,71 +148,50 @@ aggregated data. If <code>TRUE</code>, use the categorical likelihood over indiv
 trials.</p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>A <code>brmsfit</code> object containing the fitted model</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p><code>fit_metad(formula, data, ...)</code> is approximately the same as
+<code>brm(formula, data=aggregate_metad(data, ...), family=metad(...), stanvars=stanvars_metad(...), ...)</code>. For some models,
+it may often be easier to use the more explicit version
+than using <code>fit_metad</code>.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># fit a basic model on simulated data</span></span></span>
-<span class="r-in"><span><span class="co"># running few iterations so example runs quickly, use more in practice</span></span></span>
-<span class="r-in"><span><span class="fu">fit_metad</span><span class="op">(</span><span class="va">N</span> <span class="op">~</span> <span class="fl">1</span>, <span class="fu"><a href="sim_metad.html">sim_metad</a></span><span class="op">(</span><span class="op">)</span>, chains <span class="op">=</span> <span class="fl">1</span>, iter <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Compiling Stan program...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Start sampling</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># check which parameters the model has</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="metad.html">metad</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Gradient evaluation took 1.8e-05 seconds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.18 seconds.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Adjust your expectations accordingly!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration:   1 / 500 [  0%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration:  50 / 500 [ 10%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 100 / 500 [ 20%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 150 / 500 [ 30%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 200 / 500 [ 40%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 250 / 500 [ 50%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 251 / 500 [ 50%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 300 / 500 [ 60%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 350 / 500 [ 70%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 400 / 500 [ 80%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 450 / 500 [ 90%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 500 / 500 [100%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:  Elapsed Time: 0.029 seconds (Warm-up)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:                0.032 seconds (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:                0.061 seconds (Total)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Running the chains for more iterations may help. See</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> https://mc-stan.org/misc/warnings.html#bulk-ess</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Running the chains for more iterations may help. See</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> https://mc-stan.org/misc/warnings.html#tail-ess</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Custom family: metad__3__normal__absolute__multinomial </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Link function: log </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Parameters: mu, dprime, c, metac2zero1diff, metac2zero2diff, metac2one1diff, metac2one2diff </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># fit a basic model on simulated data</span></span></span>
+<span class="r-in"><span><span class="co"># (use `empty=true` to bypass fitting, *do not use in real analysis*)</span></span></span>
+<span class="r-in"><span><span class="fu">fit_metad</span><span class="op">(</span><span class="va">N</span> <span class="op">~</span> <span class="fl">1</span>, <span class="fu"><a href="sim_metad.html">sim_metad</a></span><span class="op">(</span><span class="op">)</span>, empty<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Family: metad__4__normal__absolute__multinomial </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Links: mu = log </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Formula: N ~ 1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Data: data.aggregated (Number of observations: 1) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Draws: 1 chains, each with iter = 500; warmup = 250; thin = 1;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          total post-warmup draws = 250</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Regression Coefficients:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Intercept    -1.97      2.08    -7.37     0.52 1.00      123       96</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Further Distributional Parameters:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> dprime              0.76      0.26     0.27     1.24 1.02      309      104</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> c                  -0.03      0.13    -0.26     0.22 1.02      190      153</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2zero1diff     0.47      0.08     0.33     0.65 1.00      206      154</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2zero2diff     0.23      0.08     0.11     0.39 1.00      327      206</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2zero3diff     0.69      0.16     0.44     1.05 1.01      433      208</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2one1diff      0.58      0.10     0.42     0.80 1.02      133      186</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2one2diff      0.58      0.13     0.37     0.89 1.00      437      230</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2one3diff      0.52      0.17     0.21     0.89 1.00      286      153</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> and Tail_ESS are effective sample size measures, and Rhat is the potential</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale reduction factor on split chains (at convergence, Rhat = 1).</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The model does not contain posterior draws.</span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span>  <span class="co"># fit a basic model on simulated data</span></span></span>
+<span class="r-in"><span>  <span class="fu">fit_metad</span><span class="op">(</span><span class="va">N</span> <span class="op">~</span> <span class="fl">1</span>, <span class="fu"><a href="sim_metad.html">sim_metad</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># fit a model with condition-level effects</span></span></span>
+<span class="r-in"><span>  <span class="fu">fit_metad</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://paulbuerkner.com/brms/reference/brmsformula.html" class="external-link">bf</a></span><span class="op">(</span><span class="va">N</span> <span class="op">~</span> <span class="va">condition</span>,</span></span>
+<span class="r-in"><span>       <span class="va">dprime</span> <span class="op">+</span> <span class="va">c</span> <span class="op">+</span> <span class="va">metac2zero1diff</span> <span class="op">+</span> <span class="va">metac2zero2diff</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>         <span class="va">metac2one1diff</span> <span class="op">+</span> <span class="va">metac2one1diff</span> <span class="op">~</span> <span class="va">condition</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    data<span class="op">=</span><span class="fu"><a href="sim_metad_condition.html">sim_metad_condition</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

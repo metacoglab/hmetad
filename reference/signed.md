@@ -50,8 +50,8 @@ to_signed(10)
 to_unsigned(-10)
 #> [1] 0
 
-# neither function works with factors
-to_unsigned(factor(1))
-#> Warning: ‘>’ not meaningful for factors
-#> [1] NA
+if (FALSE) { # \dontrun{
+  # neither function works with factors
+  to_unsigned(factor(1))
+} # }
 ```

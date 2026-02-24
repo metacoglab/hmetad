@@ -64,119 +64,87 @@ following columns:
 ## Examples
 
 ``` r
-# running few iterations so example runs quickly, use more in practice
-m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
-#> Compiling Stan program...
-#> Start sampling
-#> 
-#> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
-#> Chain 1: 
-#> Chain 1: Gradient evaluation took 1.8e-05 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.18 seconds.
-#> Chain 1: Adjust your expectations accordingly!
-#> Chain 1: 
-#> Chain 1: 
-#> Chain 1: Iteration:   1 / 500 [  0%]  (Warmup)
-#> Chain 1: Iteration:  50 / 500 [ 10%]  (Warmup)
-#> Chain 1: Iteration: 100 / 500 [ 20%]  (Warmup)
-#> Chain 1: Iteration: 150 / 500 [ 30%]  (Warmup)
-#> Chain 1: Iteration: 200 / 500 [ 40%]  (Warmup)
-#> Chain 1: Iteration: 250 / 500 [ 50%]  (Warmup)
-#> Chain 1: Iteration: 251 / 500 [ 50%]  (Sampling)
-#> Chain 1: Iteration: 300 / 500 [ 60%]  (Sampling)
-#> Chain 1: Iteration: 350 / 500 [ 70%]  (Sampling)
-#> Chain 1: Iteration: 400 / 500 [ 80%]  (Sampling)
-#> Chain 1: Iteration: 450 / 500 [ 90%]  (Sampling)
-#> Chain 1: Iteration: 500 / 500 [100%]  (Sampling)
-#> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.034 seconds (Warm-up)
-#> Chain 1:                0.025 seconds (Sampling)
-#> Chain 1:                0.059 seconds (Total)
-#> Chain 1: 
-#> Warning: The largest R-hat is 1.06, indicating chains have not mixed.
-#> Running the chains for more iterations may help. See
-#> https://mc-stan.org/misc/warnings.html#r-hat
-#> Warning: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.
-#> Running the chains for more iterations may help. See
-#> https://mc-stan.org/misc/warnings.html#bulk-ess
-#> Warning: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.
-#> Running the chains for more iterations may help. See
-#> https://mc-stan.org/misc/warnings.html#tail-ess
+if (FALSE) { # \dontrun{
+  # running few iterations so example runs quickly, use more in practice
+  example_data <- sim_metad(N_trials=1000)
+  example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
+} # }
+example_model <- hmetad:::example_model
 newdata <- tidyr::tibble(.row = 1)
 
 # compute type 2 ROC curve
-roc2_draws(m, newdata)
+roc2_draws(example_model, newdata)
 #> # A tibble: 1,500 × 8
 #> # Groups:   .row, response, confidence [6]
 #>     .row response confidence .chain .iteration .draw p_hit2  p_fa2
 #>    <int>    <int>      <dbl>  <int>      <int> <int>  <dbl>  <dbl>
-#>  1     1        0          4     NA         NA     1  0.120 0.0304
-#>  2     1        0          4     NA         NA     2  0.183 0.0186
-#>  3     1        0          4     NA         NA     3  0.191 0.0911
-#>  4     1        0          4     NA         NA     4  0.151 0.0597
-#>  5     1        0          4     NA         NA     5  0.132 0.0363
-#>  6     1        0          4     NA         NA     6  0.163 0.0860
-#>  7     1        0          4     NA         NA     7  0.369 0.199 
-#>  8     1        0          4     NA         NA     8  0.282 0.0504
-#>  9     1        0          4     NA         NA     9  0.209 0.0710
-#> 10     1        0          4     NA         NA    10  0.223 0.0773
+#>  1     1        0          4     NA         NA     1  0.279 0.0877
+#>  2     1        0          4     NA         NA     2  0.302 0.0820
+#>  3     1        0          4     NA         NA     3  0.261 0.0706
+#>  4     1        0          4     NA         NA     4  0.233 0.0639
+#>  5     1        0          4     NA         NA     5  0.264 0.0722
+#>  6     1        0          4     NA         NA     6  0.260 0.0664
+#>  7     1        0          4     NA         NA     7  0.267 0.0781
+#>  8     1        0          4     NA         NA     8  0.264 0.0822
+#>  9     1        0          4     NA         NA     9  0.268 0.0627
+#> 10     1        0          4     NA         NA    10  0.256 0.0777
 #> # ℹ 1,490 more rows
-add_roc2_draws(newdata, m)
+add_roc2_draws(newdata, example_model)
 #> # A tibble: 1,500 × 8
 #> # Groups:   .row, response, confidence [6]
 #>     .row response confidence .chain .iteration .draw p_hit2  p_fa2
 #>    <int>    <int>      <dbl>  <int>      <int> <int>  <dbl>  <dbl>
-#>  1     1        0          4     NA         NA     1  0.120 0.0304
-#>  2     1        0          4     NA         NA     2  0.183 0.0186
-#>  3     1        0          4     NA         NA     3  0.191 0.0911
-#>  4     1        0          4     NA         NA     4  0.151 0.0597
-#>  5     1        0          4     NA         NA     5  0.132 0.0363
-#>  6     1        0          4     NA         NA     6  0.163 0.0860
-#>  7     1        0          4     NA         NA     7  0.369 0.199 
-#>  8     1        0          4     NA         NA     8  0.282 0.0504
-#>  9     1        0          4     NA         NA     9  0.209 0.0710
-#> 10     1        0          4     NA         NA    10  0.223 0.0773
+#>  1     1        0          4     NA         NA     1  0.279 0.0877
+#>  2     1        0          4     NA         NA     2  0.302 0.0820
+#>  3     1        0          4     NA         NA     3  0.261 0.0706
+#>  4     1        0          4     NA         NA     4  0.233 0.0639
+#>  5     1        0          4     NA         NA     5  0.264 0.0722
+#>  6     1        0          4     NA         NA     6  0.260 0.0664
+#>  7     1        0          4     NA         NA     7  0.267 0.0781
+#>  8     1        0          4     NA         NA     8  0.264 0.0822
+#>  9     1        0          4     NA         NA     9  0.268 0.0627
+#> 10     1        0          4     NA         NA    10  0.256 0.0777
 #> # ℹ 1,490 more rows
 
 # use posterior::rvar for additional efficiency
-roc2_rvars(m, newdata)
+roc2_rvars(example_model, newdata)
 #> # A tibble: 6 × 5
 #> # Groups:   .row, response, confidence [6]
 #>    .row response confidence        p_hit2          p_fa2
 #>   <int>    <int>      <dbl>    <rvar[1d]>     <rvar[1d]>
-#> 1     1        0          2  0.74 ± 0.064  0.525 ± 0.096
-#> 2     1        0          3  0.48 ± 0.078  0.243 ± 0.089
-#> 3     1        0          4  0.21 ± 0.067  0.068 ± 0.045
-#> 4     1        1          1  0.71 ± 0.065  0.488 ± 0.100
-#> 5     1        1          2  0.42 ± 0.075  0.190 ± 0.075
-#> 6     1        1          3  0.19 ± 0.063  0.055 ± 0.036
-add_roc2_rvars(newdata, m)
+#> 1     1        0          2  0.74 ± 0.020  0.500 ± 0.033
+#> 2     1        0          3  0.48 ± 0.024  0.217 ± 0.024
+#> 3     1        0          4  0.27 ± 0.023  0.080 ± 0.014
+#> 4     1        1          1  0.75 ± 0.019  0.525 ± 0.032
+#> 5     1        1          2  0.45 ± 0.023  0.195 ± 0.024
+#> 6     1        1          3  0.23 ± 0.021  0.062 ± 0.013
+add_roc2_rvars(newdata, example_model)
 #> # A tibble: 6 × 5
 #> # Groups:   .row, response, confidence [6]
 #>    .row response confidence        p_hit2          p_fa2
 #>   <int>    <int>      <dbl>    <rvar[1d]>     <rvar[1d]>
-#> 1     1        0          2  0.74 ± 0.064  0.525 ± 0.096
-#> 2     1        0          3  0.48 ± 0.078  0.243 ± 0.089
-#> 3     1        0          4  0.21 ± 0.067  0.068 ± 0.045
-#> 4     1        1          1  0.71 ± 0.065  0.488 ± 0.100
-#> 5     1        1          2  0.42 ± 0.075  0.190 ± 0.075
-#> 6     1        1          3  0.19 ± 0.063  0.055 ± 0.036
+#> 1     1        0          2  0.74 ± 0.020  0.500 ± 0.033
+#> 2     1        0          3  0.48 ± 0.024  0.217 ± 0.024
+#> 3     1        0          4  0.27 ± 0.023  0.080 ± 0.014
+#> 4     1        1          1  0.75 ± 0.019  0.525 ± 0.032
+#> 5     1        1          2  0.45 ± 0.023  0.195 ± 0.024
+#> 6     1        1          3  0.23 ± 0.021  0.062 ± 0.013
 
 # include the ROC bounds
-roc2_draws(m, newdata, bounds = TRUE)
+roc2_draws(example_model, newdata, bounds = TRUE)
 #> # A tibble: 2,500 × 8
 #> # Groups:   .row, response, confidence [10]
 #>     .row response confidence .chain .iteration .draw p_hit2  p_fa2
 #>    <int>    <dbl>      <dbl>  <int>      <int> <int>  <dbl>  <dbl>
-#>  1     1        0          4     NA         NA     1  0.120 0.0304
-#>  2     1        0          4     NA         NA     2  0.183 0.0186
-#>  3     1        0          4     NA         NA     3  0.191 0.0911
-#>  4     1        0          4     NA         NA     4  0.151 0.0597
-#>  5     1        0          4     NA         NA     5  0.132 0.0363
-#>  6     1        0          4     NA         NA     6  0.163 0.0860
-#>  7     1        0          4     NA         NA     7  0.369 0.199 
-#>  8     1        0          4     NA         NA     8  0.282 0.0504
-#>  9     1        0          4     NA         NA     9  0.209 0.0710
-#> 10     1        0          4     NA         NA    10  0.223 0.0773
+#>  1     1        0          4     NA         NA     1  0.279 0.0877
+#>  2     1        0          4     NA         NA     2  0.302 0.0820
+#>  3     1        0          4     NA         NA     3  0.261 0.0706
+#>  4     1        0          4     NA         NA     4  0.233 0.0639
+#>  5     1        0          4     NA         NA     5  0.264 0.0722
+#>  6     1        0          4     NA         NA     6  0.260 0.0664
+#>  7     1        0          4     NA         NA     7  0.267 0.0781
+#>  8     1        0          4     NA         NA     8  0.264 0.0822
+#>  9     1        0          4     NA         NA     9  0.268 0.0627
+#> 10     1        0          4     NA         NA    10  0.256 0.0777
 #> # ℹ 2,490 more rows
 ```

@@ -56,86 +56,64 @@ following columns:
 ## Examples
 
 ``` r
-# running few iterations so example runs quickly, use more in practice
-m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
-#> Compiling Stan program...
-#> Start sampling
-#> 
-#> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
-#> Chain 1: 
-#> Chain 1: Gradient evaluation took 1.8e-05 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.18 seconds.
-#> Chain 1: Adjust your expectations accordingly!
-#> Chain 1: 
-#> Chain 1: 
-#> Chain 1: Iteration:   1 / 500 [  0%]  (Warmup)
-#> Chain 1: Iteration:  50 / 500 [ 10%]  (Warmup)
-#> Chain 1: Iteration: 100 / 500 [ 20%]  (Warmup)
-#> Chain 1: Iteration: 150 / 500 [ 30%]  (Warmup)
-#> Chain 1: Iteration: 200 / 500 [ 40%]  (Warmup)
-#> Chain 1: Iteration: 250 / 500 [ 50%]  (Warmup)
-#> Chain 1: Iteration: 251 / 500 [ 50%]  (Sampling)
-#> Chain 1: Iteration: 300 / 500 [ 60%]  (Sampling)
-#> Chain 1: Iteration: 350 / 500 [ 70%]  (Sampling)
-#> Chain 1: Iteration: 400 / 500 [ 80%]  (Sampling)
-#> Chain 1: Iteration: 450 / 500 [ 90%]  (Sampling)
-#> Chain 1: Iteration: 500 / 500 [100%]  (Sampling)
-#> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.031 seconds (Warm-up)
-#> Chain 1:                0.026 seconds (Sampling)
-#> Chain 1:                0.057 seconds (Total)
-#> Chain 1: 
-#> Warning: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.
-#> Running the chains for more iterations may help. See
-#> https://mc-stan.org/misc/warnings.html#tail-ess
+if (FALSE) { # \dontrun{
+  # running few iterations so example runs quickly, use more in practice
+  example_data <- sim_metad(N_trials=1000)
+  example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
+} # }
+example_data <- hmetad:::example_data
+example_model <- hmetad:::example_model
+
 
 # obtain model predictions
-predicted_draws_metad(m, m$data)
-add_predicted_draws_metad(m$data, m)
+predicted_draws_metad(example_model, aggregate_metad(example_data))
+add_predicted_draws_metad(aggregate_metad(example_data), example_model)
 
 # obtain model predictions (posterior::rvar)
-predicted_rvars_metad(m, m$data)
-#> # A tibble: 16 × 7
-#> # Groups:   .row, N, stimulus, joint_response, response, confidence [16]
-#>     .row N[,"N_0_1"] stimulus joint_response response confidence  .prediction
-#>    <int>       <int>    <int>          <int>    <int>      <dbl>   <rvar[1d]>
-#>  1     1          11        0              1        0          4   9.87 ± 4.0
-#>  2     1          11        0              2        0          3   8.94 ± 3.6
-#>  3     1          11        0              3        0          2   8.37 ± 3.2
-#>  4     1          11        0              4        0          1  12.25 ± 4.2
-#>  5     1          11        0              5        1          1   4.24 ± 2.5
-#>  6     1          11        0              6        1          2   3.62 ± 2.4
-#>  7     1          11        0              7        1          3   1.74 ± 1.6
-#>  8     1          11        0              8        1          4   0.98 ± 1.1
-#>  9     1          11        1              1        0          4   2.76 ± 2.1
-#> 10     1          11        1              2        0          3   3.52 ± 2.1
-#> 11     1          11        1              3        0          2   4.47 ± 2.3
-#> 12     1          11        1              4        0          1   8.98 ± 3.7
-#> 13     1          11        1              5        1          1   8.75 ± 3.7
-#> 14     1          11        1              6        1          2   9.77 ± 3.7
-#> 15     1          11        1              7        1          3   6.17 ± 3.1
-#> 16     1          11        1              8        1          4   5.57 ± 2.9
-#> # ℹ 1 more variable: N[2:16] <int>
-add_predicted_rvars_metad(m$data, m)
-#> # A tibble: 16 × 7
-#> # Groups:   .row, N, stimulus, joint_response, response, confidence [16]
-#>     .row N[,"N_0_1"] stimulus joint_response response confidence .prediction
-#>    <int>       <int>    <int>          <int>    <int>      <dbl>  <rvar[1d]>
-#>  1     1          11        0              1        0          4   9.9 ± 3.8
-#>  2     1          11        0              2        0          3   9.2 ± 3.4
-#>  3     1          11        0              3        0          2   8.1 ± 3.3
-#>  4     1          11        0              4        0          1  11.7 ± 4.1
-#>  5     1          11        0              5        1          1   4.4 ± 2.5
-#>  6     1          11        0              6        1          2   3.7 ± 2.3
-#>  7     1          11        0              7        1          3   1.7 ± 1.5
-#>  8     1          11        0              8        1          4   1.1 ± 1.2
-#>  9     1          11        1              1        0          4   2.6 ± 2.1
-#> 10     1          11        1              2        0          3   3.6 ± 2.1
-#> 11     1          11        1              3        0          2   4.5 ± 2.6
-#> 12     1          11        1              4        0          1   8.9 ± 3.7
-#> 13     1          11        1              5        1          1   9.0 ± 3.6
-#> 14     1          11        1              6        1          2   9.8 ± 3.5
-#> 15     1          11        1              7        1          3   6.1 ± 3.0
-#> 16     1          11        1              8        1          4   5.6 ± 2.9
-#> # ℹ 1 more variable: N[2:16] <int>
+predicted_rvars_metad(example_model, aggregate_metad(example_data))
+#> # A tibble: 16 × 9
+#> # Groups:   .row, N_0, N_1, N, stimulus, joint_response, response, confidence
+#> #   [16]
+#>     .row   N_0   N_1 N[,"N_0_1"] stimulus joint_response response confidence
+#>    <int> <int> <int>       <int>    <int>          <int>    <int>      <dbl>
+#>  1     1   500   500          89        0              1        0          4
+#>  2     1   500   500          89        0              2        0          3
+#>  3     1   500   500          89        0              3        0          2
+#>  4     1   500   500          89        0              4        0          1
+#>  5     1   500   500          89        0              5        1          1
+#>  6     1   500   500          89        0              6        1          2
+#>  7     1   500   500          89        0              7        1          3
+#>  8     1   500   500          89        0              8        1          4
+#>  9     1   500   500          89        1              1        0          4
+#> 10     1   500   500          89        1              2        0          3
+#> 11     1   500   500          89        1              3        0          2
+#> 12     1   500   500          89        1              4        0          1
+#> 13     1   500   500          89        1              5        1          1
+#> 14     1   500   500          89        1              6        1          2
+#> 15     1   500   500          89        1              7        1          3
+#> 16     1   500   500          89        1              8        1          4
+#> # ℹ 2 more variables: N[2:16] <int>, .prediction <rvar[1d]>
+add_predicted_rvars_metad(aggregate_metad(example_data), example_model)
+#> # A tibble: 16 × 9
+#> # Groups:   .row, N_0, N_1, N, stimulus, joint_response, response, confidence
+#> #   [16]
+#>     .row   N_0   N_1 N[,"N_0_1"] stimulus joint_response response confidence
+#>    <int> <int> <int>       <int>    <int>          <int>    <int>      <dbl>
+#>  1     1   500   500          89        0              1        0          4
+#>  2     1   500   500          89        0              2        0          3
+#>  3     1   500   500          89        0              3        0          2
+#>  4     1   500   500          89        0              4        0          1
+#>  5     1   500   500          89        0              5        1          1
+#>  6     1   500   500          89        0              6        1          2
+#>  7     1   500   500          89        0              7        1          3
+#>  8     1   500   500          89        0              8        1          4
+#>  9     1   500   500          89        1              1        0          4
+#> 10     1   500   500          89        1              2        0          3
+#> 11     1   500   500          89        1              3        0          2
+#> 12     1   500   500          89        1              4        0          1
+#> 13     1   500   500          89        1              5        1          1
+#> 14     1   500   500          89        1              6        1          2
+#> 15     1   500   500          89        1              7        1          3
+#> 16     1   500   500          89        1              8        1          4
+#> # ℹ 2 more variables: N[2:16] <int>, .prediction <rvar[1d]>
 ```

@@ -56,120 +56,91 @@ following columns:
 ## Examples
 
 ``` r
-# running few iterations so example runs quickly, use more in practice
-m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
-#> Compiling Stan program...
-#> Start sampling
-#> 
-#> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
-#> Chain 1: Rejecting initial value:
-#> Chain 1:   Gradient evaluated at the initial value is not finite.
-#> Chain 1:   Stan can't start sampling from this initial value.
-#> Chain 1: 
-#> Chain 1: Gradient evaluation took 1e-05 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.1 seconds.
-#> Chain 1: Adjust your expectations accordingly!
-#> Chain 1: 
-#> Chain 1: 
-#> Chain 1: Iteration:   1 / 500 [  0%]  (Warmup)
-#> Chain 1: Iteration:  50 / 500 [ 10%]  (Warmup)
-#> Chain 1: Iteration: 100 / 500 [ 20%]  (Warmup)
-#> Chain 1: Iteration: 150 / 500 [ 30%]  (Warmup)
-#> Chain 1: Iteration: 200 / 500 [ 40%]  (Warmup)
-#> Chain 1: Iteration: 250 / 500 [ 50%]  (Warmup)
-#> Chain 1: Iteration: 251 / 500 [ 50%]  (Sampling)
-#> Chain 1: Iteration: 300 / 500 [ 60%]  (Sampling)
-#> Chain 1: Iteration: 350 / 500 [ 70%]  (Sampling)
-#> Chain 1: Iteration: 400 / 500 [ 80%]  (Sampling)
-#> Chain 1: Iteration: 450 / 500 [ 90%]  (Sampling)
-#> Chain 1: Iteration: 500 / 500 [100%]  (Sampling)
-#> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.03 seconds (Warm-up)
-#> Chain 1:                0.026 seconds (Sampling)
-#> Chain 1:                0.056 seconds (Total)
-#> Chain 1: 
-#> Warning: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.
-#> Running the chains for more iterations may help. See
-#> https://mc-stan.org/misc/warnings.html#tail-ess
+if (FALSE) { # \dontrun{
+  # running few iterations so example runs quickly, use more in practice
+  example_data <- sim_metad(N_trials=1000)
+  example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
+} # }
+example_model <- hmetad:::example_model
 newdata <- tidyr::tibble(.row = 1)
 
 # obtain model predictions
-epred_draws_metad(m, newdata)
+epred_draws_metad(example_model, newdata)
 #> # A tibble: 4,000 × 9
 #> # Groups:   .row, stimulus, joint_response, response, confidence [16]
 #>     .row stimulus joint_response response confidence .epred .chain .iteration
 #>    <int>    <int>          <int>    <int>      <dbl>  <dbl>  <int>      <int>
-#>  1     1        0              1        0          4 0.0863     NA         NA
-#>  2     1        0              1        0          4 0.173      NA         NA
-#>  3     1        0              1        0          4 0.103      NA         NA
-#>  4     1        0              1        0          4 0.148      NA         NA
-#>  5     1        0              1        0          4 0.127      NA         NA
-#>  6     1        0              1        0          4 0.198      NA         NA
-#>  7     1        0              1        0          4 0.143      NA         NA
-#>  8     1        0              1        0          4 0.151      NA         NA
-#>  9     1        0              1        0          4 0.122      NA         NA
-#> 10     1        0              1        0          4 0.0978     NA         NA
+#>  1     1        0              1        0          4  0.191     NA         NA
+#>  2     1        0              1        0          4  0.209     NA         NA
+#>  3     1        0              1        0          4  0.171     NA         NA
+#>  4     1        0              1        0          4  0.174     NA         NA
+#>  5     1        0              1        0          4  0.196     NA         NA
+#>  6     1        0              1        0          4  0.185     NA         NA
+#>  7     1        0              1        0          4  0.183     NA         NA
+#>  8     1        0              1        0          4  0.176     NA         NA
+#>  9     1        0              1        0          4  0.184     NA         NA
+#> 10     1        0              1        0          4  0.172     NA         NA
 #> # ℹ 3,990 more rows
 #> # ℹ 1 more variable: .draw <int>
-add_epred_draws_metad(newdata, m)
+add_epred_draws_metad(newdata, example_model)
 #> # A tibble: 4,000 × 9
 #> # Groups:   .row, stimulus, joint_response, response, confidence [16]
 #>     .row stimulus joint_response response confidence .epred .chain .iteration
 #>    <int>    <int>          <int>    <int>      <dbl>  <dbl>  <int>      <int>
-#>  1     1        0              1        0          4 0.0863     NA         NA
-#>  2     1        0              1        0          4 0.173      NA         NA
-#>  3     1        0              1        0          4 0.103      NA         NA
-#>  4     1        0              1        0          4 0.148      NA         NA
-#>  5     1        0              1        0          4 0.127      NA         NA
-#>  6     1        0              1        0          4 0.198      NA         NA
-#>  7     1        0              1        0          4 0.143      NA         NA
-#>  8     1        0              1        0          4 0.151      NA         NA
-#>  9     1        0              1        0          4 0.122      NA         NA
-#> 10     1        0              1        0          4 0.0978     NA         NA
+#>  1     1        0              1        0          4  0.191     NA         NA
+#>  2     1        0              1        0          4  0.209     NA         NA
+#>  3     1        0              1        0          4  0.171     NA         NA
+#>  4     1        0              1        0          4  0.174     NA         NA
+#>  5     1        0              1        0          4  0.196     NA         NA
+#>  6     1        0              1        0          4  0.185     NA         NA
+#>  7     1        0              1        0          4  0.183     NA         NA
+#>  8     1        0              1        0          4  0.176     NA         NA
+#>  9     1        0              1        0          4  0.184     NA         NA
+#> 10     1        0              1        0          4  0.172     NA         NA
 #> # ℹ 3,990 more rows
 #> # ℹ 1 more variable: .draw <int>
 
 # obtain model predictions (posterior::rvar)
-epred_rvars_metad(m, newdata)
+epred_rvars_metad(example_model, newdata)
 #> # A tibble: 16 × 6
 #> # Groups:   .row, stimulus, joint_response, response, confidence [16]
-#>     .row stimulus joint_response response confidence         .epred
-#>    <int>    <int>          <int>    <int>      <dbl>     <rvar[1d]>
-#>  1     1        0              1        0          4  0.140 ± 0.045
-#>  2     1        0              2        0          3  0.186 ± 0.048
-#>  3     1        0              3        0          2  0.278 ± 0.049
-#>  4     1        0              4        0          1  0.169 ± 0.046
-#>  5     1        0              5        1          1  0.118 ± 0.047
-#>  6     1        0              6        1          2  0.067 ± 0.023
-#>  7     1        0              7        1          3  0.021 ± 0.011
-#>  8     1        0              8        1          4  0.022 ± 0.015
-#>  9     1        1              1        0          4  0.020 ± 0.013
-#> 10     1        1              2        0          3  0.050 ± 0.020
-#> 11     1        1              3        0          2  0.133 ± 0.035
-#> 12     1        1              4        0          1  0.134 ± 0.041
-#> 13     1        1              5        1          1  0.213 ± 0.048
-#> 14     1        1              6        1          2  0.202 ± 0.048
-#> 15     1        1              7        1          3  0.093 ± 0.035
-#> 16     1        1              8        1          4  0.155 ± 0.046
-add_epred_rvars_metad(newdata, m)
+#>     .row stimulus joint_response response confidence          .epred
+#>    <int>    <int>          <int>    <int>      <dbl>      <rvar[1d]>
+#>  1     1        0              1        0          4  0.188 ± 0.0169
+#>  2     1        0              2        0          3  0.147 ± 0.0142
+#>  3     1        0              3        0          2  0.180 ± 0.0159
+#>  4     1        0              4        0          1  0.184 ± 0.0150
+#>  5     1        0              5        1          1  0.143 ± 0.0144
+#>  6     1        0              6        1          2  0.099 ± 0.0099
+#>  7     1        0              7        1          3  0.040 ± 0.0051
+#>  8     1        0              8        1          4  0.019 ± 0.0039
+#>  9     1        1              1        0          4  0.025 ± 0.0045
+#> 10     1        1              2        0          3  0.043 ± 0.0057
+#> 11     1        1              3        0          2  0.088 ± 0.0087
+#> 12     1        1              4        0          1  0.155 ± 0.0149
+#> 13     1        1              5        1          1  0.171 ± 0.0131
+#> 14     1        1              6        1          2  0.208 ± 0.0145
+#> 15     1        1              7        1          3  0.153 ± 0.0139
+#> 16     1        1              8        1          4  0.158 ± 0.0152
+add_epred_rvars_metad(newdata, example_model)
 #> # A tibble: 16 × 6
 #> # Groups:   .row, stimulus, joint_response, response, confidence [16]
-#>     .row stimulus joint_response response confidence         .epred
-#>    <int>    <int>          <int>    <int>      <dbl>     <rvar[1d]>
-#>  1     1        0              1        0          4  0.140 ± 0.045
-#>  2     1        0              2        0          3  0.186 ± 0.048
-#>  3     1        0              3        0          2  0.278 ± 0.049
-#>  4     1        0              4        0          1  0.169 ± 0.046
-#>  5     1        0              5        1          1  0.118 ± 0.047
-#>  6     1        0              6        1          2  0.067 ± 0.023
-#>  7     1        0              7        1          3  0.021 ± 0.011
-#>  8     1        0              8        1          4  0.022 ± 0.015
-#>  9     1        1              1        0          4  0.020 ± 0.013
-#> 10     1        1              2        0          3  0.050 ± 0.020
-#> 11     1        1              3        0          2  0.133 ± 0.035
-#> 12     1        1              4        0          1  0.134 ± 0.041
-#> 13     1        1              5        1          1  0.213 ± 0.048
-#> 14     1        1              6        1          2  0.202 ± 0.048
-#> 15     1        1              7        1          3  0.093 ± 0.035
-#> 16     1        1              8        1          4  0.155 ± 0.046
+#>     .row stimulus joint_response response confidence          .epred
+#>    <int>    <int>          <int>    <int>      <dbl>      <rvar[1d]>
+#>  1     1        0              1        0          4  0.188 ± 0.0169
+#>  2     1        0              2        0          3  0.147 ± 0.0142
+#>  3     1        0              3        0          2  0.180 ± 0.0159
+#>  4     1        0              4        0          1  0.184 ± 0.0150
+#>  5     1        0              5        1          1  0.143 ± 0.0144
+#>  6     1        0              6        1          2  0.099 ± 0.0099
+#>  7     1        0              7        1          3  0.040 ± 0.0051
+#>  8     1        0              8        1          4  0.019 ± 0.0039
+#>  9     1        1              1        0          4  0.025 ± 0.0045
+#> 10     1        1              2        0          3  0.043 ± 0.0057
+#> 11     1        1              3        0          2  0.088 ± 0.0087
+#> 12     1        1              4        0          1  0.155 ± 0.0149
+#> 13     1        1              5        1          1  0.171 ± 0.0131
+#> 14     1        1              6        1          2  0.208 ± 0.0145
+#> 15     1        1              7        1          3  0.153 ± 0.0139
+#> 16     1        1              8        1          4  0.158 ± 0.0152
 ```

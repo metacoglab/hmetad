@@ -69,112 +69,80 @@ following columns:
 ## Examples
 
 ``` r
-# running few iterations so example runs quickly, use more in practice
-m <- fit_metad(N ~ 1, sim_metad(), chains = 1, iter = 500)
-#> Compiling Stan program...
-#> Start sampling
-#> 
-#> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
-#> Chain 1: 
-#> Chain 1: Gradient evaluation took 1.8e-05 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.18 seconds.
-#> Chain 1: Adjust your expectations accordingly!
-#> Chain 1: 
-#> Chain 1: 
-#> Chain 1: Iteration:   1 / 500 [  0%]  (Warmup)
-#> Chain 1: Iteration:  50 / 500 [ 10%]  (Warmup)
-#> Chain 1: Iteration: 100 / 500 [ 20%]  (Warmup)
-#> Chain 1: Iteration: 150 / 500 [ 30%]  (Warmup)
-#> Chain 1: Iteration: 200 / 500 [ 40%]  (Warmup)
-#> Chain 1: Iteration: 250 / 500 [ 50%]  (Warmup)
-#> Chain 1: Iteration: 251 / 500 [ 50%]  (Sampling)
-#> Chain 1: Iteration: 300 / 500 [ 60%]  (Sampling)
-#> Chain 1: Iteration: 350 / 500 [ 70%]  (Sampling)
-#> Chain 1: Iteration: 400 / 500 [ 80%]  (Sampling)
-#> Chain 1: Iteration: 450 / 500 [ 90%]  (Sampling)
-#> Chain 1: Iteration: 500 / 500 [100%]  (Sampling)
-#> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.043 seconds (Warm-up)
-#> Chain 1:                0.045 seconds (Sampling)
-#> Chain 1:                0.088 seconds (Total)
-#> Chain 1: 
-#> Warning: The largest R-hat is 1.07, indicating chains have not mixed.
-#> Running the chains for more iterations may help. See
-#> https://mc-stan.org/misc/warnings.html#r-hat
-#> Warning: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.
-#> Running the chains for more iterations may help. See
-#> https://mc-stan.org/misc/warnings.html#bulk-ess
-#> Warning: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.
-#> Running the chains for more iterations may help. See
-#> https://mc-stan.org/misc/warnings.html#tail-ess
+if (FALSE) { # \dontrun{
+  # running few iterations so example runs quickly, use more in practice
+  example_data <- sim_metad(N_trials=1000)
+  example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
+} # }
+example_model <- hmetad:::example_model
 newdata <- tidyr::tibble(.row = 1)
 
 # compute pseudo-type 1 ROC curve
-roc1_draws(m, newdata)
+roc1_draws(example_model, newdata)
 #> # A tibble: 1,750 × 9
 #> # Groups:   .row, joint_response, response, confidence [7]
 #>     .row joint_response response confidence .chain .iteration .draw  p_fa p_hit
 #>    <int>          <int>    <int>      <dbl>  <int>      <int> <int> <dbl> <dbl>
-#>  1     1              1        0          4     NA         NA     1 0.784 0.976
-#>  2     1              1        0          4     NA         NA     2 0.767 0.956
-#>  3     1              1        0          4     NA         NA     3 0.765 0.957
-#>  4     1              1        0          4     NA         NA     4 0.865 0.985
-#>  5     1              1        0          4     NA         NA     5 0.770 0.915
-#>  6     1              1        0          4     NA         NA     6 0.798 0.964
-#>  7     1              1        0          4     NA         NA     7 0.888 0.971
-#>  8     1              1        0          4     NA         NA     8 0.730 0.947
-#>  9     1              1        0          4     NA         NA     9 0.851 0.962
-#> 10     1              1        0          4     NA         NA    10 0.728 0.981
+#>  1     1              1        0          4     NA         NA     1 0.809 0.974
+#>  2     1              1        0          4     NA         NA     2 0.791 0.976
+#>  3     1              1        0          4     NA         NA     3 0.829 0.979
+#>  4     1              1        0          4     NA         NA     4 0.826 0.980
+#>  5     1              1        0          4     NA         NA     5 0.804 0.975
+#>  6     1              1        0          4     NA         NA     6 0.815 0.978
+#>  7     1              1        0          4     NA         NA     7 0.817 0.978
+#>  8     1              1        0          4     NA         NA     8 0.824 0.976
+#>  9     1              1        0          4     NA         NA     9 0.816 0.981
+#> 10     1              1        0          4     NA         NA    10 0.828 0.975
 #> # ℹ 1,740 more rows
-add_roc1_draws(newdata, m)
+add_roc1_draws(newdata, example_model)
 #> # A tibble: 1,750 × 9
 #> # Groups:   .row, joint_response, response, confidence [7]
 #>     .row joint_response response confidence .chain .iteration .draw  p_fa p_hit
 #>    <int>          <int>    <int>      <dbl>  <int>      <int> <int> <dbl> <dbl>
-#>  1     1              1        0          4     NA         NA     1 0.784 0.976
-#>  2     1              1        0          4     NA         NA     2 0.767 0.956
-#>  3     1              1        0          4     NA         NA     3 0.765 0.957
-#>  4     1              1        0          4     NA         NA     4 0.865 0.985
-#>  5     1              1        0          4     NA         NA     5 0.770 0.915
-#>  6     1              1        0          4     NA         NA     6 0.798 0.964
-#>  7     1              1        0          4     NA         NA     7 0.888 0.971
-#>  8     1              1        0          4     NA         NA     8 0.730 0.947
-#>  9     1              1        0          4     NA         NA     9 0.851 0.962
-#> 10     1              1        0          4     NA         NA    10 0.728 0.981
+#>  1     1              1        0          4     NA         NA     1 0.809 0.974
+#>  2     1              1        0          4     NA         NA     2 0.791 0.976
+#>  3     1              1        0          4     NA         NA     3 0.829 0.979
+#>  4     1              1        0          4     NA         NA     4 0.826 0.980
+#>  5     1              1        0          4     NA         NA     5 0.804 0.975
+#>  6     1              1        0          4     NA         NA     6 0.815 0.978
+#>  7     1              1        0          4     NA         NA     7 0.817 0.978
+#>  8     1              1        0          4     NA         NA     8 0.824 0.976
+#>  9     1              1        0          4     NA         NA     9 0.816 0.981
+#> 10     1              1        0          4     NA         NA    10 0.828 0.975
 #> # ℹ 1,740 more rows
 
 # use posterior::rvar for additional efficiency
-roc1_rvars(m, newdata)
+roc1_rvars(example_model, newdata)
 #> # A tibble: 7 × 6
 #> # Groups:   .row, joint_response, response, confidence [7]
-#>    .row joint_response response confidence           p_fa         p_hit
-#>   <int>          <int>    <int>      <dbl>     <rvar[1d]>    <rvar[1d]>
-#> 1     1              1        0          4  0.804 ± 0.051  0.96 ± 0.016
-#> 2     1              2        0          3  0.657 ± 0.064  0.93 ± 0.025
-#> 3     1              3        0          2  0.447 ± 0.059  0.87 ± 0.042
-#> 4     1              4        0          1  0.237 ± 0.056  0.81 ± 0.057
-#> 5     1              5        1          1  0.135 ± 0.037  0.52 ± 0.067
-#> 6     1              6        1          2  0.066 ± 0.026  0.29 ± 0.063
-#> 7     1              7        1          3  0.025 ± 0.013  0.12 ± 0.041
-add_roc1_draws(newdata, m)
+#>    .row joint_response response confidence            p_fa          p_hit
+#>   <int>          <int>    <int>      <dbl>      <rvar[1d]>     <rvar[1d]>
+#> 1     1              1        0          4  0.812 ± 0.0169  0.98 ± 0.0045
+#> 2     1              2        0          3  0.665 ± 0.0194  0.93 ± 0.0085
+#> 3     1              3        0          2  0.485 ± 0.0219  0.85 ± 0.0135
+#> 4     1              4        0          1  0.301 ± 0.0215  0.69 ± 0.0202
+#> 5     1              5        1          1  0.158 ± 0.0142  0.52 ± 0.0212
+#> 6     1              6        1          2  0.059 ± 0.0078  0.31 ± 0.0188
+#> 7     1              7        1          3  0.019 ± 0.0039  0.16 ± 0.0152
+add_roc1_draws(newdata, example_model)
 #> # A tibble: 1,750 × 9
 #> # Groups:   .row, joint_response, response, confidence [7]
 #>     .row joint_response response confidence .chain .iteration .draw  p_fa p_hit
 #>    <int>          <int>    <int>      <dbl>  <int>      <int> <int> <dbl> <dbl>
-#>  1     1              1        0          4     NA         NA     1 0.784 0.976
-#>  2     1              1        0          4     NA         NA     2 0.767 0.956
-#>  3     1              1        0          4     NA         NA     3 0.765 0.957
-#>  4     1              1        0          4     NA         NA     4 0.865 0.985
-#>  5     1              1        0          4     NA         NA     5 0.770 0.915
-#>  6     1              1        0          4     NA         NA     6 0.798 0.964
-#>  7     1              1        0          4     NA         NA     7 0.888 0.971
-#>  8     1              1        0          4     NA         NA     8 0.730 0.947
-#>  9     1              1        0          4     NA         NA     9 0.851 0.962
-#> 10     1              1        0          4     NA         NA    10 0.728 0.981
+#>  1     1              1        0          4     NA         NA     1 0.809 0.974
+#>  2     1              1        0          4     NA         NA     2 0.791 0.976
+#>  3     1              1        0          4     NA         NA     3 0.829 0.979
+#>  4     1              1        0          4     NA         NA     4 0.826 0.980
+#>  5     1              1        0          4     NA         NA     5 0.804 0.975
+#>  6     1              1        0          4     NA         NA     6 0.815 0.978
+#>  7     1              1        0          4     NA         NA     7 0.817 0.978
+#>  8     1              1        0          4     NA         NA     8 0.824 0.976
+#>  9     1              1        0          4     NA         NA     9 0.816 0.981
+#> 10     1              1        0          4     NA         NA    10 0.828 0.975
 #> # ℹ 1,740 more rows
 
 # include the ROC bounds
-roc1_draws(m, newdata, bounds = TRUE)
+roc1_draws(example_model, newdata, bounds = TRUE)
 #> # A tibble: 2,250 × 9
 #> # Groups:   .row, joint_response, response, confidence [9]
 #>     .row joint_response response confidence .chain .iteration .draw  p_fa p_hit
