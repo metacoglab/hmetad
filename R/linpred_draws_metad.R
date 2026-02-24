@@ -21,9 +21,9 @@
 #'  * `M`, `dprime`, `c`, `meta_dprime`, `meta_c`, `meta_c2_0_<k>`, `meta_c2_1_<k>`: if `pivot_longer=FALSE`, posterior samples of all meta-d' model parameters
 #' @examples
 #' \dontrun{
-#'   # running few iterations so example runs quickly, use more in practice
-#'   example_data <- sim_metad(N_trials=1000)
-#'   example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
+#' # running few iterations so example runs quickly, use more in practice
+#' example_data <- sim_metad(N_trials = 1000)
+#' example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
 #' }
 #' example_model <- hmetad:::example_model
 #' newdata <- tidyr::tibble(.row = 1)

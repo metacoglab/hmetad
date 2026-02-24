@@ -24,9 +24,9 @@
 #' @rdname roc1_draws
 #' @examples
 #' \dontrun{
-#'   # running few iterations so example runs quickly, use more in practice
-#'   example_data <- sim_metad(N_trials=1000)
-#'   example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
+#' # running few iterations so example runs quickly, use more in practice
+#' example_data <- sim_metad(N_trials = 1000)
+#' example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
 #' }
 #' example_model <- hmetad:::example_model
 #' newdata <- tidyr::tibble(.row = 1)
@@ -181,9 +181,9 @@ add_roc1_rvars <- function(newdata, object, ...) {
 #' @rdname roc2_draws
 #' @examples
 #' \dontrun{
-#'   # running few iterations so example runs quickly, use more in practice
-#'   example_data <- sim_metad(N_trials=1000)
-#'   example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
+#' # running few iterations so example runs quickly, use more in practice
+#' example_data <- sim_metad(N_trials = 1000)
+#' example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
 #' }
 #' example_model <- hmetad:::example_model
 #' newdata <- tidyr::tibble(.row = 1)
