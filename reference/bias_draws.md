@@ -88,60 +88,19 @@ metacognitive_bias_draws(example_model, newdata)
 #>  9     1        0     NA         NA     9              0.969
 #> 10     1        0     NA         NA    10              1.01 
 #> # ℹ 490 more rows
+if (FALSE) { # \dontrun{
 add_metacognitive_bias_draws(newdata, example_model)
-#> # A tibble: 500 × 6
-#> # Groups:   .row, response [2]
-#>     .row response .chain .iteration .draw metacognitive_bias
-#>    <int>    <int>  <int>      <int> <int>              <dbl>
-#>  1     1        0     NA         NA     1              0.949
-#>  2     1        0     NA         NA     2              0.938
-#>  3     1        0     NA         NA     3              0.974
-#>  4     1        0     NA         NA     4              1.08 
-#>  5     1        0     NA         NA     5              1.03 
-#>  6     1        0     NA         NA     6              1.04 
-#>  7     1        0     NA         NA     7              0.948
-#>  8     1        0     NA         NA     8              0.941
-#>  9     1        0     NA         NA     9              0.969
-#> 10     1        0     NA         NA    10              1.01 
-#> # ℹ 490 more rows
+} # }
 
+if (FALSE) { # \dontrun{
 # use posterior::rvar for increased efficiency
 metacognitive_bias_rvars(example_model, newdata)
-#> # A tibble: 2 × 3
-#> # Groups:   .row, response [2]
-#>    .row response metacognitive_bias
-#>   <dbl>    <int>         <rvar[1d]>
-#> 1     1        0       0.98 ± 0.044
-#> 2     1        1       1.01 ± 0.047
 add_metacognitive_bias_rvars(newdata, example_model)
-#> # A tibble: 2 × 3
-#> # Groups:   .row, response [2]
-#>    .row response metacognitive_bias
-#>   <dbl>    <int>         <rvar[1d]>
-#> 1     1        0       0.98 ± 0.044
-#> 2     1        1       1.01 ± 0.047
+} # }
 
+if (FALSE) { # \dontrun{
 # average over the two type 1 responses
 metacognitive_bias_draws(example_model, newdata, by_response = FALSE)
-#> # A tibble: 250 × 5
-#> # Groups:   .row [1]
-#>     .row .chain .iteration .draw metacognitive_bias
-#>    <int>  <int>      <int> <int>              <dbl>
-#>  1     1     NA         NA     1              1.00 
-#>  2     1     NA         NA     2              1.01 
-#>  3     1     NA         NA     3              0.994
-#>  4     1     NA         NA     4              0.984
-#>  5     1     NA         NA     5              1.02 
-#>  6     1     NA         NA     6              0.996
-#>  7     1     NA         NA     7              0.996
-#>  8     1     NA         NA     8              1.00 
-#>  9     1     NA         NA     9              1.02 
-#> 10     1     NA         NA    10              1.01 
-#> # ℹ 240 more rows
 metacognitive_bias_rvars(example_model, newdata, by_response = FALSE)
-#> # A tibble: 1 × 2
-#> # Groups:   .row [1]
-#>    .row metacognitive_bias
-#>   <dbl>         <rvar[1d]>
-#> 1     1        0.99 ± 0.03
+} # }
 ```

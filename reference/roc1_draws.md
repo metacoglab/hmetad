@@ -94,22 +94,9 @@ roc1_draws(example_model, newdata)
 #>  9     1              1        0          4     NA         NA     9 0.816 0.981
 #> 10     1              1        0          4     NA         NA    10 0.828 0.975
 #> # ℹ 1,740 more rows
+if (FALSE) { # \dontrun{
 add_roc1_draws(newdata, example_model)
-#> # A tibble: 1,750 × 9
-#> # Groups:   .row, joint_response, response, confidence [7]
-#>     .row joint_response response confidence .chain .iteration .draw  p_fa p_hit
-#>    <int>          <int>    <int>      <dbl>  <int>      <int> <int> <dbl> <dbl>
-#>  1     1              1        0          4     NA         NA     1 0.809 0.974
-#>  2     1              1        0          4     NA         NA     2 0.791 0.976
-#>  3     1              1        0          4     NA         NA     3 0.829 0.979
-#>  4     1              1        0          4     NA         NA     4 0.826 0.980
-#>  5     1              1        0          4     NA         NA     5 0.804 0.975
-#>  6     1              1        0          4     NA         NA     6 0.815 0.978
-#>  7     1              1        0          4     NA         NA     7 0.817 0.978
-#>  8     1              1        0          4     NA         NA     8 0.824 0.976
-#>  9     1              1        0          4     NA         NA     9 0.816 0.981
-#> 10     1              1        0          4     NA         NA    10 0.828 0.975
-#> # ℹ 1,740 more rows
+} # }
 
 # use posterior::rvar for additional efficiency
 roc1_rvars(example_model, newdata)
@@ -124,38 +111,12 @@ roc1_rvars(example_model, newdata)
 #> 5     1              5        1          1  0.158 ± 0.0142  0.52 ± 0.0212
 #> 6     1              6        1          2  0.059 ± 0.0078  0.31 ± 0.0188
 #> 7     1              7        1          3  0.019 ± 0.0039  0.16 ± 0.0152
+if (FALSE) { # \dontrun{
 add_roc1_draws(newdata, example_model)
-#> # A tibble: 1,750 × 9
-#> # Groups:   .row, joint_response, response, confidence [7]
-#>     .row joint_response response confidence .chain .iteration .draw  p_fa p_hit
-#>    <int>          <int>    <int>      <dbl>  <int>      <int> <int> <dbl> <dbl>
-#>  1     1              1        0          4     NA         NA     1 0.809 0.974
-#>  2     1              1        0          4     NA         NA     2 0.791 0.976
-#>  3     1              1        0          4     NA         NA     3 0.829 0.979
-#>  4     1              1        0          4     NA         NA     4 0.826 0.980
-#>  5     1              1        0          4     NA         NA     5 0.804 0.975
-#>  6     1              1        0          4     NA         NA     6 0.815 0.978
-#>  7     1              1        0          4     NA         NA     7 0.817 0.978
-#>  8     1              1        0          4     NA         NA     8 0.824 0.976
-#>  9     1              1        0          4     NA         NA     9 0.816 0.981
-#> 10     1              1        0          4     NA         NA    10 0.828 0.975
-#> # ℹ 1,740 more rows
+} # }
 
+if (FALSE) { # \dontrun{
 # include the ROC bounds
 roc1_draws(example_model, newdata, bounds = TRUE)
-#> # A tibble: 2,250 × 9
-#> # Groups:   .row, joint_response, response, confidence [9]
-#>     .row joint_response response confidence .chain .iteration .draw  p_fa p_hit
-#>    <int>          <dbl>    <dbl>      <dbl>  <int>      <int> <int> <dbl> <dbl>
-#>  1     1              0        0          5     NA         NA     1     1     1
-#>  2     1              0        0          5     NA         NA     2     1     1
-#>  3     1              0        0          5     NA         NA     3     1     1
-#>  4     1              0        0          5     NA         NA     4     1     1
-#>  5     1              0        0          5     NA         NA     5     1     1
-#>  6     1              0        0          5     NA         NA     6     1     1
-#>  7     1              0        0          5     NA         NA     7     1     1
-#>  8     1              0        0          5     NA         NA     8     1     1
-#>  9     1              0        0          5     NA         NA     9     1     1
-#> 10     1              0        0          5     NA         NA    10     1     1
-#> # ℹ 2,240 more rows
+} # }
 ```

@@ -95,110 +95,25 @@ linpred_draws_metad(example_model, newdata)
 #> # ℹ 240 more rows
 #> # ℹ 6 more variables: meta_c2_0_1 <dbl>, meta_c2_0_2 <dbl>, meta_c2_0_3 <dbl>,
 #> #   meta_c2_1_1 <dbl>, meta_c2_1_2 <dbl>, meta_c2_1_3 <dbl>
+if (FALSE) { # \dontrun{
 add_linpred_draws_metad(newdata, example_model)
-#> # A tibble: 250 × 15
-#> # Groups:   .row [1]
-#>     .row .chain .iteration .draw     M dprime       c meta_dprime  meta_c
-#>    <int>  <int>      <int> <int> <dbl>  <dbl>   <dbl>       <dbl>   <dbl>
-#>  1     1     NA         NA     1 1.07   1.03  -0.0303        1.11 -0.0303
-#>  2     1     NA         NA     2 1.19   1.06  -0.0200        1.26 -0.0303
-#>  3     1     NA         NA     3 1.29   0.928 -0.0623        1.20 -0.0303
-#>  4     1     NA         NA     4 0.958  1.14   0.101         1.09 -0.0303
-#>  5     1     NA         NA     5 1.08   1.05   0.126         1.14 -0.0303
-#>  6     1     NA         NA     6 1.20   0.995  0.0572        1.20 -0.0303
-#>  7     1     NA         NA     7 1.07   1.08  -0.0559        1.15 -0.0303
-#>  8     1     NA         NA     8 1.12   0.984 -0.0592        1.10 -0.0303
-#>  9     1     NA         NA     9 1.28   1.01  -0.0244        1.30 -0.0303
-#> 10     1     NA         NA    10 1.21   0.900 -0.0106        1.09 -0.0303
-#> # ℹ 240 more rows
-#> # ℹ 6 more variables: meta_c2_0_1 <dbl>, meta_c2_0_2 <dbl>, meta_c2_0_3 <dbl>,
-#> #   meta_c2_1_1 <dbl>, meta_c2_1_2 <dbl>, meta_c2_1_3 <dbl>
+} # }
 
+if (FALSE) { # \dontrun{
 # obtain model parameters (long format)
 linpred_draws_metad(example_model, newdata, pivot_longer = TRUE)
-#> # A tibble: 2,750 × 6
-#> # Groups:   .row, .variable [11]
-#>     .row .chain .iteration .draw .variable    .value
-#>    <int>  <int>      <int> <int> <chr>         <dbl>
-#>  1     1     NA         NA     1 M            1.07  
-#>  2     1     NA         NA     1 dprime       1.03  
-#>  3     1     NA         NA     1 c           -0.0303
-#>  4     1     NA         NA     1 meta_dprime  1.11  
-#>  5     1     NA         NA     1 meta_c      -0.0303
-#>  6     1     NA         NA     1 meta_c2_0_1 -0.553 
-#>  7     1     NA         NA     1 meta_c2_0_2 -0.971 
-#>  8     1     NA         NA     1 meta_c2_0_3 -1.41  
-#>  9     1     NA         NA     1 meta_c2_1_1  0.477 
-#> 10     1     NA         NA     1 meta_c2_1_2  1.03  
-#> # ℹ 2,740 more rows
 add_linpred_draws_metad(newdata, example_model, pivot_longer = TRUE)
-#> # A tibble: 2,750 × 6
-#> # Groups:   .row, .variable [11]
-#>     .row .chain .iteration .draw .variable    .value
-#>    <int>  <int>      <int> <int> <chr>         <dbl>
-#>  1     1     NA         NA     1 M            1.07  
-#>  2     1     NA         NA     1 dprime       1.03  
-#>  3     1     NA         NA     1 c           -0.0303
-#>  4     1     NA         NA     1 meta_dprime  1.11  
-#>  5     1     NA         NA     1 meta_c      -0.0303
-#>  6     1     NA         NA     1 meta_c2_0_1 -0.553 
-#>  7     1     NA         NA     1 meta_c2_0_2 -0.971 
-#>  8     1     NA         NA     1 meta_c2_0_3 -1.41  
-#>  9     1     NA         NA     1 meta_c2_1_1  0.477 
-#> 10     1     NA         NA     1 meta_c2_1_2  1.03  
-#> # ℹ 2,740 more rows
+} # }
 
+if (FALSE) { # \dontrun{
 # obtain model parameters (wide format, posterior::rvar)
 linpred_rvars_metad(example_model, newdata)
-#> # A tibble: 1 × 12
-#> # Groups:   .row [1]
-#>    .row           M     dprime              c meta_dprime         meta_c
-#>   <dbl>  <rvar[1d]> <rvar[1d]>     <rvar[1d]>  <rvar[1d]>     <rvar[1d]>
-#> 1     1  1.1 ± 0.15  1 ± 0.082  0.013 ± 0.044  1.1 ± 0.12  0.013 ± 0.044
-#> # ℹ 6 more variables: meta_c2_0_1 <rvar[1d]>, meta_c2_0_2 <rvar[1d]>,
-#> #   meta_c2_0_3 <rvar[1d]>, meta_c2_1_1 <rvar[1d]>, meta_c2_1_2 <rvar[1d]>,
-#> #   meta_c2_1_3 <rvar[1d]>
 add_linpred_rvars_metad(newdata, example_model)
-#> # A tibble: 1 × 12
-#> # Groups:   .row [1]
-#>    .row           M     dprime              c meta_dprime         meta_c
-#>   <dbl>  <rvar[1d]> <rvar[1d]>     <rvar[1d]>  <rvar[1d]>     <rvar[1d]>
-#> 1     1  1.1 ± 0.15  1 ± 0.082  0.013 ± 0.044  1.1 ± 0.12  0.013 ± 0.044
-#> # ℹ 6 more variables: meta_c2_0_1 <rvar[1d]>, meta_c2_0_2 <rvar[1d]>,
-#> #   meta_c2_0_3 <rvar[1d]>, meta_c2_1_1 <rvar[1d]>, meta_c2_1_2 <rvar[1d]>,
-#> #   meta_c2_1_3 <rvar[1d]>
+} # }
 
+if (FALSE) { # \dontrun{
 # obtain model parameters (long format, posterior::rvar)
 linpred_rvars_metad(example_model, newdata, pivot_longer = TRUE)
-#> # A tibble: 11 × 3
-#> # Groups:   .row, .variable [11]
-#>     .row .variable            .value
-#>    <dbl> <chr>            <rvar[1d]>
-#>  1     1 M             1.119 ± 0.147
-#>  2     1 dprime        1.020 ± 0.082
-#>  3     1 c             0.013 ± 0.044
-#>  4     1 meta_dprime   1.134 ± 0.122
-#>  5     1 meta_c        0.013 ± 0.044
-#>  6     1 meta_c2_0_1  -0.492 ± 0.045
-#>  7     1 meta_c2_0_2  -0.967 ± 0.048
-#>  8     1 meta_c2_0_3  -1.433 ± 0.059
-#>  9     1 meta_c2_1_1   0.481 ± 0.045
-#> 10     1 meta_c2_1_2   1.036 ± 0.049
-#> 11     1 meta_c2_1_3   1.551 ± 0.064
 add_linpred_rvars_metad(newdata, example_model, pivot_longer = TRUE)
-#> # A tibble: 11 × 3
-#> # Groups:   .row, .variable [11]
-#>     .row .variable            .value
-#>    <dbl> <chr>            <rvar[1d]>
-#>  1     1 M             1.119 ± 0.147
-#>  2     1 dprime        1.020 ± 0.082
-#>  3     1 c             0.013 ± 0.044
-#>  4     1 meta_dprime   1.134 ± 0.122
-#>  5     1 meta_c        0.013 ± 0.044
-#>  6     1 meta_c2_0_1  -0.492 ± 0.045
-#>  7     1 meta_c2_0_2  -0.967 ± 0.048
-#>  8     1 meta_c2_0_3  -1.433 ± 0.059
-#>  9     1 meta_c2_1_1   0.481 ± 0.045
-#> 10     1 meta_c2_1_2   1.036 ± 0.049
-#> 11     1 meta_c2_1_3   1.551 ± 0.064
+} # }
 ```
