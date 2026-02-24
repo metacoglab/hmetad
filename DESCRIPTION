@@ -1,6 +1,6 @@
 Package: hmetad
 Title: Fit the Meta-D' Model of Confidence Ratings Using 'brms'
-Version: 0.0.1
+Version: 0.1.0
 Authors@R: 
     person(
       "Kevin", "O'Neill", 
