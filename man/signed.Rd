@@ -42,7 +42,7 @@ to_signed(10)
 to_unsigned(-10)
 
 \dontrun{
-  # neither function works with factors
-  to_unsigned(factor(1))
+# neither function works with factors
+to_unsigned(factor(1))
 }
 }
