@@ -57,12 +57,18 @@ newdata <- tidyr::tibble(.row = 1)
 
 # compute pseudo-type 1 ROC curve
 roc1_draws(example_model, newdata)
+\dontrun{
 add_roc1_draws(newdata, example_model)
+}
 
 # use posterior::rvar for additional efficiency
 roc1_rvars(example_model, newdata)
+\dontrun{
 add_roc1_draws(newdata, example_model)
+}
 
+\dontrun{
 # include the ROC bounds
 roc1_draws(example_model, newdata, bounds = TRUE)
+}
 }

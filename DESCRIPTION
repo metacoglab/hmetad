@@ -15,7 +15,7 @@ Description: Implementation of Bayesian regressions over the meta-d\' model of
     The package is a front-end to the 'brms' package, which facilitates a wide
     range of regression designs, as well as tools for efficiently extracting 
     posterior estimates, plotting, and significance testing. 
-License: GPL (>= 3) + file LICENSE
+License: GPL (>= 3)
 Depends: 
     R (>= 4.2.0),
     brms (>= 2.23.0)

@@ -1,5 +1,10 @@
-library(tidyr)
-library(tidybayes)
+## skip these tests on CRAN, as they require model fitting
+skip_on_cran()
+
+suppressWarnings(suppressPackageStartupMessages({
+  library(tidyr)
+  library(tidybayes)
+}))
 
 d <- sim_metad(
   N_trials = 1000000, dprime = .75, c = -.5, log_M = -1,

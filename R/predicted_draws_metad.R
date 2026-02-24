@@ -29,11 +29,15 @@
 #'
 #' # obtain model predictions
 #' predicted_draws_metad(example_model, aggregate_metad(example_data))
+#' \dontrun{
 #' add_predicted_draws_metad(aggregate_metad(example_data), example_model)
+#' }
 #'
 #' # obtain model predictions (posterior::rvar)
 #' predicted_rvars_metad(example_model, aggregate_metad(example_data))
+#' \dontrun{
 #' add_predicted_rvars_metad(aggregate_metad(example_data), example_model)
+#' }
 #'
 #' @rdname predicted_draws_metad
 #' @export
@@ -42,6 +46,9 @@ predicted_draws_metad <- function(object, newdata, ...) {
     !stringr::str_starts(object$family$name, "metad")) {
     stop("Model must use the `metad` family.")
   }
+
+  ## recover types of independent variables
+  object <- tidybayes::recover_types(object)
 
   ## grouping columns
   .stimulus <- get_stimulus(object)

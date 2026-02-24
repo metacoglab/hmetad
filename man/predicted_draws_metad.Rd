@@ -53,10 +53,14 @@ example_model <- hmetad:::example_model
 
 # obtain model predictions
 predicted_draws_metad(example_model, aggregate_metad(example_data))
+\dontrun{
 add_predicted_draws_metad(aggregate_metad(example_data), example_model)
+}
 
 # obtain model predictions (posterior::rvar)
 predicted_rvars_metad(example_model, aggregate_metad(example_data))
+\dontrun{
 add_predicted_rvars_metad(aggregate_metad(example_data), example_model)
+}
 
 }

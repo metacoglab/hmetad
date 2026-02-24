@@ -76,17 +76,27 @@ newdata <- tidyr::tibble(.row = 1)
 
 # compute mean confidence by stimulus and response
 mean_confidence_draws(example_model, newdata)
+\dontrun{
 add_mean_confidence_draws(newdata, example_model)
+}
 
+\dontrun{
 # compute mean confidence by stimulus
 mean_confidence_draws(example_model, newdata, by_response = FALSE)
+}
 
+\dontrun{
 # compute mean confidence by response
 mean_confidence_draws(example_model, newdata, by_stimulus = FALSE)
+}
 
+\dontrun{
 # compute mean confidence averaging over stimuli and responses
 mean_confidence_draws(example_model, newdata, by_stimulus = FALSE, by_response = FALSE)
+}
 
+\dontrun{
 # use posterior::rvar for increased efficiency
 mean_confidence_rvars(example_model, newdata)
+}
 }

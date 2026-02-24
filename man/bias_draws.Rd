@@ -58,13 +58,19 @@ newdata <- tidyr::tibble(.row = 1)
 
 # compute metacognitive bias
 metacognitive_bias_draws(example_model, newdata)
+\dontrun{
 add_metacognitive_bias_draws(newdata, example_model)
+}
 
+\dontrun{
 # use posterior::rvar for increased efficiency
 metacognitive_bias_rvars(example_model, newdata)
 add_metacognitive_bias_rvars(newdata, example_model)
+}
 
+\dontrun{
 # average over the two type 1 responses
 metacognitive_bias_draws(example_model, newdata, by_response = FALSE)
 metacognitive_bias_rvars(example_model, newdata, by_response = FALSE)
+}
 }

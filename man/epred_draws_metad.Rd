@@ -52,10 +52,14 @@ newdata <- tidyr::tibble(.row = 1)
 
 # obtain model predictions
 epred_draws_metad(example_model, newdata)
+\dontrun{
 add_epred_draws_metad(newdata, example_model)
+}
 
 # obtain model predictions (posterior::rvar)
 epred_rvars_metad(example_model, newdata)
+\dontrun{
 add_epred_rvars_metad(newdata, example_model)
+}
 
 }

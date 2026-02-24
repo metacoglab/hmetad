@@ -1,6 +1,5 @@
 ^hmetad\.Rproj$
 ^\.Rproj\.user$
-^LICENSE\.md$
 ^\.github$
 ^doc$
 ^Meta$
@@ -11,4 +10,6 @@
 ^README\.Rmd$
 ^cran-comments\.md$
 ^vignettes/models$
+^vignettes/*.Rmd.src$
 ^data-raw$
+^CRAN-SUBMISSION$

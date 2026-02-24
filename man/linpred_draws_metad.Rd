@@ -57,18 +57,25 @@ newdata <- tidyr::tibble(.row = 1)
 
 # obtain model parameters (wide format)
 linpred_draws_metad(example_model, newdata)
+\dontrun{
 add_linpred_draws_metad(newdata, example_model)
+}
 
+\dontrun{
 # obtain model parameters (long format)
 linpred_draws_metad(example_model, newdata, pivot_longer = TRUE)
 add_linpred_draws_metad(newdata, example_model, pivot_longer = TRUE)
+}
 
+\dontrun{
 # obtain model parameters (wide format, posterior::rvar)
 linpred_rvars_metad(example_model, newdata)
 add_linpred_rvars_metad(newdata, example_model)
+}
 
+\dontrun{
 # obtain model parameters (long format, posterior::rvar)
 linpred_rvars_metad(example_model, newdata, pivot_longer = TRUE)
 add_linpred_rvars_metad(newdata, example_model, pivot_longer = TRUE)
-
+}
 }

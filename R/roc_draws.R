@@ -33,14 +33,20 @@
 #'
 #' # compute pseudo-type 1 ROC curve
 #' roc1_draws(example_model, newdata)
+#' \dontrun{
 #' add_roc1_draws(newdata, example_model)
+#' }
 #'
 #' # use posterior::rvar for additional efficiency
 #' roc1_rvars(example_model, newdata)
+#' \dontrun{
 #' add_roc1_draws(newdata, example_model)
+#' }
 #'
+#' \dontrun{
 #' # include the ROC bounds
 #' roc1_draws(example_model, newdata, bounds = TRUE)
+#' }
 #' @export
 roc1_draws <- function(object, newdata, ..., bounds = FALSE) {
   draws <- epred_draws_metad(object, newdata, ...)
@@ -190,14 +196,20 @@ add_roc1_rvars <- function(newdata, object, ...) {
 #'
 #' # compute type 2 ROC curve
 #' roc2_draws(example_model, newdata)
+#' \dontrun{
 #' add_roc2_draws(newdata, example_model)
+#' }
 #'
 #' # use posterior::rvar for additional efficiency
 #' roc2_rvars(example_model, newdata)
+#' \dontrun{
 #' add_roc2_rvars(newdata, example_model)
+#' }
 #'
+#' \dontrun{
 #' # include the ROC bounds
 #' roc2_draws(example_model, newdata, bounds = TRUE)
+#' }
 #' @export
 roc2_draws <- function(object, newdata, ..., bounds = FALSE) {
   draws <- epred_draws_metad(object, newdata, ...)

@@ -30,20 +30,27 @@
 #'
 #' # obtain model parameters (wide format)
 #' linpred_draws_metad(example_model, newdata)
+#' \dontrun{
 #' add_linpred_draws_metad(newdata, example_model)
+#' }
 #'
+#' \dontrun{
 #' # obtain model parameters (long format)
 #' linpred_draws_metad(example_model, newdata, pivot_longer = TRUE)
 #' add_linpred_draws_metad(newdata, example_model, pivot_longer = TRUE)
+#' }
 #'
+#' \dontrun{
 #' # obtain model parameters (wide format, posterior::rvar)
 #' linpred_rvars_metad(example_model, newdata)
 #' add_linpred_rvars_metad(newdata, example_model)
+#' }
 #'
+#' \dontrun{
 #' # obtain model parameters (long format, posterior::rvar)
 #' linpred_rvars_metad(example_model, newdata, pivot_longer = TRUE)
 #' add_linpred_rvars_metad(newdata, example_model, pivot_longer = TRUE)
-#'
+#' }
 #' @rdname linpred_draws_metad
 #' @export
 linpred_draws_metad <- function(object, newdata, ..., pivot_longer = FALSE) {
@@ -51,6 +58,9 @@ linpred_draws_metad <- function(object, newdata, ..., pivot_longer = FALSE) {
     !stringr::str_starts(object$family$name, "metad")) {
     stop("Model must use the `metad` family.")
   }
+
+  ## recover types of independent variables
+  object <- tidybayes::recover_types(object)
 
   ## grouping columns
   .stimulus <- get_stimulus(object)
@@ -126,6 +136,9 @@ linpred_rvars_metad <- function(object, newdata, ..., pivot_longer = FALSE) {
     !stringr::str_starts(object$family$name, "metad")) {
     stop("Model must use the `metad` family.")
   }
+
+  ## recover types of independent variables
+  object <- tidybayes::recover_types(object)
 
   ## grouping columns
   .stimulus <- get_stimulus(object)

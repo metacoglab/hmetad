@@ -28,11 +28,15 @@
 #'
 #' # obtain model predictions
 #' epred_draws_metad(example_model, newdata)
+#' \dontrun{
 #' add_epred_draws_metad(newdata, example_model)
+#' }
 #'
 #' # obtain model predictions (posterior::rvar)
 #' epred_rvars_metad(example_model, newdata)
+#' \dontrun{
 #' add_epred_rvars_metad(newdata, example_model)
+#' }
 #'
 #' @rdname epred_draws_metad
 #' @export
@@ -41,6 +45,9 @@ epred_draws_metad <- function(object, newdata, ...) {
     !stringr::str_starts(object$family$name, "metad")) {
     stop("Model must use the `metad` family.")
   }
+
+  ## recover types of independent variables
+  object <- tidybayes::recover_types(object)
 
   ## grouping columns
   .stimulus <- get_stimulus(object)
@@ -112,6 +119,9 @@ epred_rvars_metad <- function(object, newdata, ...) {
     !stringr::str_starts(object$family$name, "metad")) {
     stop("Model must use the `metad` family.")
   }
+
+  ## recover types of independent variables
+  object <- tidybayes::recover_types(object)
 
   ## grouping columns
   .stimulus <- get_stimulus(object)
