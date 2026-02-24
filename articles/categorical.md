@@ -21,58 +21,69 @@ library(tidybayes)
 library(hmetad)
 
 ## average model parameters
-K <- 3   ## number of confidence levels
+K <- 3 ## number of confidence levels
 mu_log_M <- -0.5
 mu_dprime <- 1.5
 mu_c <- 0
-mu_c2_0 <- rep(-1, K-1)
-mu_c2_1 <- rep(-1, K-1)
+mu_c2_0 <- rep(-1, K - 1)
+mu_c2_1 <- rep(-1, K - 1)
 
 ## participant-level standard deviations
 sd_log_M_participant <- 0.25
 sd_dprime_participant <- 0.5
 sd_c_participant <- 0.33
-sd_c2_0_participant <- cov_matrix(rep(0.25, K-1), diag(K-1))
-sd_c2_1_participant <- cov_matrix(rep(0.25, K-1), diag(K-1))
+sd_c2_0_participant <- cov_matrix(rep(0.25, K - 1), diag(K - 1))
+sd_c2_1_participant <- cov_matrix(rep(0.25, K - 1), diag(K - 1))
 
 ## item-level standard deviations
 sd_log_M_item <- 0.1
 sd_dprime_item <- 0.5
 sd_c_item <- 0.75
-sd_c2_0_item <- cov_matrix(rep(0.1, K-1), diag(K-1))
-sd_c2_1_item <- cov_matrix(rep(0.1, K-1), diag(K-1))
-
+sd_c2_0_item <- cov_matrix(rep(0.1, K - 1), diag(K - 1))
+sd_c2_1_item <- cov_matrix(rep(0.1, K - 1), diag(K - 1))
 
 
 ## simulate data
-d <- expand_grid(participant=1:50,
-            item=1:10) |>
+d <- expand_grid(
+  participant = 1:50,
+  item = 1:10
+) |>
   ## simulate participant-level differences
   group_by(participant) |>
-  mutate(z_log_M_participant=rnorm(1, sd=sd_log_M_participant),
-         z_dprime_participant=rnorm(1, sd=sd_dprime_participant),
-         z_c_participant=rnorm(1, sd=sd_c_participant),
-         z_c2_0_participant=list(rmulti_normal(1, mu=rep(0,K-1), Sigma=sd_c2_0_participant)),
-         z_c2_1_participant=list(rmulti_normal(1, mu=rep(0,K-1), Sigma=sd_c2_1_participant)))|>
+  mutate(
+    z_log_M_participant = rnorm(1, sd = sd_log_M_participant),
+    z_dprime_participant = rnorm(1, sd = sd_dprime_participant),
+    z_c_participant = rnorm(1, sd = sd_c_participant),
+    z_c2_0_participant = list(rmulti_normal(1, mu = rep(0, K - 1), Sigma = sd_c2_0_participant)),
+    z_c2_1_participant = list(rmulti_normal(1, mu = rep(0, K - 1), Sigma = sd_c2_1_participant))
+  ) |>
   ## simulate item-level differences
   group_by(item) |>
-  mutate(z_log_M_item=rnorm(1, sd=sd_log_M_item),
-         z_dprime_item=rnorm(1, sd=sd_dprime_item),
-         z_c_item=rnorm(1, sd=sd_c_item),
-         z_c2_0_item=list(rmulti_normal(1, mu=rep(0,K-1), Sigma=sd_c2_0_item)),
-         z_c2_1_item=list(rmulti_normal(1, mu=rep(0,K-1), Sigma=sd_c2_1_item))) |>
+  mutate(
+    z_log_M_item = rnorm(1, sd = sd_log_M_item),
+    z_dprime_item = rnorm(1, sd = sd_dprime_item),
+    z_c_item = rnorm(1, sd = sd_c_item),
+    z_c2_0_item = list(rmulti_normal(1, mu = rep(0, K - 1), Sigma = sd_c2_0_item)),
+    z_c2_1_item = list(rmulti_normal(1, mu = rep(0, K - 1), Sigma = sd_c2_1_item))
+  ) |>
   ungroup() |>
   ## compute model parameters
-  mutate(log_M = mu_log_M + z_log_M_participant + z_log_M_item,
-         dprime = mu_dprime + z_dprime_participant + z_dprime_item,
-         c = mu_c + z_c_participant + z_c_item,
-         c2_0_diff = map2(z_c2_0_participant, z_c2_0_item, 
-                          ~ exp(mu_c2_0 + .x + .y)),
-         c2_1_diff = map2(z_c2_1_participant, z_c2_1_item,
-                          ~ exp(mu_c2_1 + .x + .y))) |>
+  mutate(
+    log_M = mu_log_M + z_log_M_participant + z_log_M_item,
+    dprime = mu_dprime + z_dprime_participant + z_dprime_item,
+    c = mu_c + z_c_participant + z_c_item,
+    c2_0_diff = map2(
+      z_c2_0_participant, z_c2_0_item,
+      ~ exp(mu_c2_0 + .x + .y)
+    ),
+    c2_1_diff = map2(
+      z_c2_1_participant, z_c2_1_item,
+      ~ exp(mu_c2_1 + .x + .y)
+    )
+  ) |>
   ## simulate two trials per participant/item (stimulus = 0 and stimulus = 1)
-  mutate(trial=pmap(list(dprime, c, log_M, c2_0_diff, c2_1_diff), sim_metad, N_trials=2)) |>
-  select(participant, item, trial) |> 
+  mutate(trial = pmap(list(dprime, c, log_M, c2_0_diff, c2_1_diff), sim_metad, N_trials = 2)) |>
+  select(participant, item, trial) |>
   unnest(trial)
 ```
 
@@ -176,7 +187,7 @@ m.multinomial <- fit_metad(
   ),
   data = d, init = 0,
   file = "models/multinomial.rds",
-  prior=prior(normal(0, .25), class = Intercept) +
+  prior = prior(normal(0, .25), class = Intercept) +
     prior(normal(0, .25), class = Intercept, dpar = dprime) +
     prior(normal(0, .25), class = Intercept, dpar = c) +
     prior(normal(0, .1), class = Intercept, dpar = metac2zero1diff) +
@@ -196,8 +207,8 @@ m.multinomial <- fit_metad(
     #> 
     #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
     #> Chain 1: 
-    #> Chain 1: Gradient evaluation took 6.8e-05 seconds
-    #> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.68 seconds.
+    #> Chain 1: Gradient evaluation took 7.9e-05 seconds
+    #> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.79 seconds.
     #> Chain 1: Adjust your expectations accordingly!
     #> Chain 1: 
     #> Chain 1: 
@@ -214,15 +225,15 @@ m.multinomial <- fit_metad(
     #> Chain 1: Iteration: 900 / 1000 [ 90%]  (Sampling)
     #> Chain 1: Iteration: 1000 / 1000 [100%]  (Sampling)
     #> Chain 1: 
-    #> Chain 1:  Elapsed Time: 0.49 seconds (Warm-up)
-    #> Chain 1:                0.269 seconds (Sampling)
-    #> Chain 1:                0.759 seconds (Total)
+    #> Chain 1:  Elapsed Time: 0.459 seconds (Warm-up)
+    #> Chain 1:                0.253 seconds (Sampling)
+    #> Chain 1:                0.712 seconds (Total)
     #> Chain 1: 
     #> 
     #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
     #> Chain 2: 
-    #> Chain 2: Gradient evaluation took 3e-05 seconds
-    #> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.3 seconds.
+    #> Chain 2: Gradient evaluation took 2.9e-05 seconds
+    #> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.29 seconds.
     #> Chain 2: Adjust your expectations accordingly!
     #> Chain 2: 
     #> Chain 2: 
@@ -239,15 +250,15 @@ m.multinomial <- fit_metad(
     #> Chain 2: Iteration: 900 / 1000 [ 90%]  (Sampling)
     #> Chain 2: Iteration: 1000 / 1000 [100%]  (Sampling)
     #> Chain 2: 
-    #> Chain 2:  Elapsed Time: 0.462 seconds (Warm-up)
-    #> Chain 2:                0.267 seconds (Sampling)
-    #> Chain 2:                0.729 seconds (Total)
+    #> Chain 2:  Elapsed Time: 0.437 seconds (Warm-up)
+    #> Chain 2:                0.26 seconds (Sampling)
+    #> Chain 2:                0.697 seconds (Total)
     #> Chain 2: 
     #> 
     #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
     #> Chain 3: 
-    #> Chain 3: Gradient evaluation took 2.9e-05 seconds
-    #> Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.29 seconds.
+    #> Chain 3: Gradient evaluation took 3e-05 seconds
+    #> Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.3 seconds.
     #> Chain 3: Adjust your expectations accordingly!
     #> Chain 3: 
     #> Chain 3: 
@@ -264,9 +275,9 @@ m.multinomial <- fit_metad(
     #> Chain 3: Iteration: 900 / 1000 [ 90%]  (Sampling)
     #> Chain 3: Iteration: 1000 / 1000 [100%]  (Sampling)
     #> Chain 3: 
-    #> Chain 3:  Elapsed Time: 0.506 seconds (Warm-up)
-    #> Chain 3:                0.269 seconds (Sampling)
-    #> Chain 3:                0.775 seconds (Total)
+    #> Chain 3:  Elapsed Time: 0.476 seconds (Warm-up)
+    #> Chain 3:                0.255 seconds (Sampling)
+    #> Chain 3:                0.731 seconds (Total)
     #> Chain 3: 
     #> 
     #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
@@ -289,9 +300,9 @@ m.multinomial <- fit_metad(
     #> Chain 4: Iteration: 900 / 1000 [ 90%]  (Sampling)
     #> Chain 4: Iteration: 1000 / 1000 [100%]  (Sampling)
     #> Chain 4: 
-    #> Chain 4:  Elapsed Time: 0.505 seconds (Warm-up)
-    #> Chain 4:                0.269 seconds (Sampling)
-    #> Chain 4:                0.774 seconds (Total)
+    #> Chain 4:  Elapsed Time: 0.476 seconds (Warm-up)
+    #> Chain 4:                0.259 seconds (Sampling)
+    #> Chain 4:                0.735 seconds (Total)
     #> Chain 4:
     #>  Family: metad__3__normal__absolute__multinomial 
     #>   Links: mu = log; dprime = identity; c = identity; metac2zero1diff = log; metac2zero2diff = log; metac2one1diff = log; metac2one2diff = log 
@@ -381,7 +392,7 @@ two responses. So, we can add in a joint response column now:
 ``` r
 d <- d |>
   mutate(joint_response = joint_response(response, confidence, K)) |>
-  relocate(joint_response, .after="stimulus")
+  relocate(joint_response, .after = "stimulus")
 ```
 
     #> # A tibble: 1,000 × 17
@@ -418,9 +429,9 @@ m.categorical <- fit_metad(
       metac2one1diff + metac2one2diff ~
       1 + (1 | participant) + (1 | item)
   ),
-  data = d, categorical=TRUE, init = 0,
+  data = d, categorical = TRUE, init = 0,
   file = "models/categorical.rds",
-  prior=prior(normal(0, .25), class = Intercept) +
+  prior = prior(normal(0, .25), class = Intercept) +
     prior(normal(0, .25), class = Intercept, dpar = dprime) +
     prior(normal(0, .25), class = Intercept, dpar = c) +
     prior(normal(0, .1), class = Intercept, dpar = metac2zero1diff) +
@@ -440,8 +451,8 @@ m.categorical <- fit_metad(
     #> 
     #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
     #> Chain 1: 
-    #> Chain 1: Gradient evaluation took 4e-05 seconds
-    #> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.4 seconds.
+    #> Chain 1: Gradient evaluation took 4.1e-05 seconds
+    #> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.41 seconds.
     #> Chain 1: Adjust your expectations accordingly!
     #> Chain 1: 
     #> Chain 1: 
@@ -458,15 +469,15 @@ m.categorical <- fit_metad(
     #> Chain 1: Iteration: 900 / 1000 [ 90%]  (Sampling)
     #> Chain 1: Iteration: 1000 / 1000 [100%]  (Sampling)
     #> Chain 1: 
-    #> Chain 1:  Elapsed Time: 0.467 seconds (Warm-up)
-    #> Chain 1:                0.324 seconds (Sampling)
-    #> Chain 1:                0.791 seconds (Total)
+    #> Chain 1:  Elapsed Time: 0.469 seconds (Warm-up)
+    #> Chain 1:                0.325 seconds (Sampling)
+    #> Chain 1:                0.794 seconds (Total)
     #> Chain 1: 
     #> 
     #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
     #> Chain 2: 
-    #> Chain 2: Gradient evaluation took 2.9e-05 seconds
-    #> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.29 seconds.
+    #> Chain 2: Gradient evaluation took 3e-05 seconds
+    #> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.3 seconds.
     #> Chain 2: Adjust your expectations accordingly!
     #> Chain 2: 
     #> Chain 2: 
@@ -483,15 +494,15 @@ m.categorical <- fit_metad(
     #> Chain 2: Iteration: 900 / 1000 [ 90%]  (Sampling)
     #> Chain 2: Iteration: 1000 / 1000 [100%]  (Sampling)
     #> Chain 2: 
-    #> Chain 2:  Elapsed Time: 0.463 seconds (Warm-up)
-    #> Chain 2:                0.263 seconds (Sampling)
-    #> Chain 2:                0.726 seconds (Total)
+    #> Chain 2:  Elapsed Time: 0.462 seconds (Warm-up)
+    #> Chain 2:                0.269 seconds (Sampling)
+    #> Chain 2:                0.731 seconds (Total)
     #> Chain 2: 
     #> 
     #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
     #> Chain 3: 
-    #> Chain 3: Gradient evaluation took 4.5e-05 seconds
-    #> Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.45 seconds.
+    #> Chain 3: Gradient evaluation took 2.9e-05 seconds
+    #> Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.29 seconds.
     #> Chain 3: Adjust your expectations accordingly!
     #> Chain 3: 
     #> Chain 3: 
@@ -508,15 +519,15 @@ m.categorical <- fit_metad(
     #> Chain 3: Iteration: 900 / 1000 [ 90%]  (Sampling)
     #> Chain 3: Iteration: 1000 / 1000 [100%]  (Sampling)
     #> Chain 3: 
-    #> Chain 3:  Elapsed Time: 0.464 seconds (Warm-up)
-    #> Chain 3:                0.266 seconds (Sampling)
-    #> Chain 3:                0.73 seconds (Total)
+    #> Chain 3:  Elapsed Time: 0.462 seconds (Warm-up)
+    #> Chain 3:                0.265 seconds (Sampling)
+    #> Chain 3:                0.727 seconds (Total)
     #> Chain 3: 
     #> 
     #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
     #> Chain 4: 
-    #> Chain 4: Gradient evaluation took 2.9e-05 seconds
-    #> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.29 seconds.
+    #> Chain 4: Gradient evaluation took 3e-05 seconds
+    #> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.3 seconds.
     #> Chain 4: Adjust your expectations accordingly!
     #> Chain 4: 
     #> Chain 4: 
@@ -533,9 +544,9 @@ m.categorical <- fit_metad(
     #> Chain 4: Iteration: 900 / 1000 [ 90%]  (Sampling)
     #> Chain 4: Iteration: 1000 / 1000 [100%]  (Sampling)
     #> Chain 4: 
-    #> Chain 4:  Elapsed Time: 0.456 seconds (Warm-up)
-    #> Chain 4:                0.264 seconds (Sampling)
-    #> Chain 4:                0.72 seconds (Total)
+    #> Chain 4:  Elapsed Time: 0.46 seconds (Warm-up)
+    #> Chain 4:                0.273 seconds (Sampling)
+    #> Chain 4:                0.733 seconds (Total)
     #> Chain 4:
     #>  Family: metad__3__normal__absolute__categorical 
     #>   Links: mu = log; dprime = identity; c = identity; metac2zero1diff = log; metac2zero2diff = log; metac2one1diff = log; metac2one2diff = log 
@@ -627,7 +638,7 @@ predictions. For example, to estimate a ROC averaging over participants
 and items, we can use an empty data set with `re_formula=NA`:
 
 ``` r
-roc1_rvars(m.multinomial, tibble(.row=1), re_formula=NA)
+roc1_rvars(m.multinomial, tibble(.row = 1), re_formula = NA)
 #> # A tibble: 5 × 6
 #> # Groups:   .row, joint_response, response, confidence [5]
 #>    .row joint_response response confidence           p_fa         p_hit
@@ -642,7 +653,7 @@ roc1_rvars(m.multinomial, tibble(.row=1), re_formula=NA)
 The process is exactly the same for the categorical model:
 
 ``` r
-roc1_rvars(m.categorical, tibble(.row=1), re_formula=NA)
+roc1_rvars(m.categorical, tibble(.row = 1), re_formula = NA)
 #> # A tibble: 5 × 6
 #> # Groups:   .row, joint_response, response, confidence [5]
 #>    .row joint_response response confidence           p_fa         p_hit
@@ -659,7 +670,7 @@ data set with one row per participant and only the participant-level
 random effects:
 
 ``` r
-roc1_rvars(m.categorical, distinct(d, participant), re_formula=~ (1 | participant))
+roc1_rvars(m.categorical, distinct(d, participant), re_formula = ~ (1 | participant))
 #> # A tibble: 250 × 7
 #> # Groups:   .row, participant, joint_response, response, confidence [250]
 #>     .row participant joint_response response confidence         p_fa
@@ -682,7 +693,7 @@ We can use a similar process to get item-level ROCs (averaging over
 participants):
 
 ``` r
-roc1_rvars(m.categorical, distinct(d, item), re_formula=~ (1 | item))
+roc1_rvars(m.categorical, distinct(d, item), re_formula = ~ (1 | item))
 #> # A tibble: 50 × 7
 #> # Groups:   .row, item, joint_response, response, confidence [50]
 #>     .row  item joint_response response confidence         p_fa        p_hit

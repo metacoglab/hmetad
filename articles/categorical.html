@@ -97,58 +97,69 @@ participant-level and item-level effects on their model parameters.</p>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://metacoglab.github.io/hmetad/">hmetad</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## average model parameters</span></span>
-<span><span class="va">K</span> <span class="op">&lt;-</span> <span class="fl">3</span>   <span class="co">## number of confidence levels</span></span>
+<span><span class="va">K</span> <span class="op">&lt;-</span> <span class="fl">3</span> <span class="co">## number of confidence levels</span></span>
 <span><span class="va">mu_log_M</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">0.5</span></span>
 <span><span class="va">mu_dprime</span> <span class="op">&lt;-</span> <span class="fl">1.5</span></span>
 <span><span class="va">mu_c</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
-<span><span class="va">mu_c2_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="va">K</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
-<span><span class="va">mu_c2_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="va">K</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">mu_c2_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="va">K</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">mu_c2_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="va">K</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## participant-level standard deviations</span></span>
 <span><span class="va">sd_log_M_participant</span> <span class="op">&lt;-</span> <span class="fl">0.25</span></span>
 <span><span class="va">sd_dprime_participant</span> <span class="op">&lt;-</span> <span class="fl">0.5</span></span>
 <span><span class="va">sd_c_participant</span> <span class="op">&lt;-</span> <span class="fl">0.33</span></span>
-<span><span class="va">sd_c2_0_participant</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cov_matrix.html">cov_matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="va">K</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">K</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">sd_c2_1_participant</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cov_matrix.html">cov_matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="va">K</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">K</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">sd_c2_0_participant</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cov_matrix.html">cov_matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="va">K</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">K</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">sd_c2_1_participant</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cov_matrix.html">cov_matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="va">K</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">K</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## item-level standard deviations</span></span>
 <span><span class="va">sd_log_M_item</span> <span class="op">&lt;-</span> <span class="fl">0.1</span></span>
 <span><span class="va">sd_dprime_item</span> <span class="op">&lt;-</span> <span class="fl">0.5</span></span>
 <span><span class="va">sd_c_item</span> <span class="op">&lt;-</span> <span class="fl">0.75</span></span>
-<span><span class="va">sd_c2_0_item</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cov_matrix.html">cov_matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="va">K</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">K</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">sd_c2_1_item</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cov_matrix.html">cov_matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="va">K</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">K</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
+<span><span class="va">sd_c2_0_item</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cov_matrix.html">cov_matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="va">K</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">K</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">sd_c2_1_item</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cov_matrix.html">cov_matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="va">K</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">K</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span></span>
 <span><span class="co">## simulate data</span></span>
-<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/expand_grid.html" class="external-link">expand_grid</a></span><span class="op">(</span>participant<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span>,</span>
-<span>            item<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/expand_grid.html" class="external-link">expand_grid</a></span><span class="op">(</span></span>
+<span>  participant <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">50</span>,</span>
+<span>  item <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span>
+<span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="co">## simulate participant-level differences</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">participant</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>z_log_M_participant<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, sd<span class="op">=</span><span class="va">sd_log_M_participant</span><span class="op">)</span>,</span>
-<span>         z_dprime_participant<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, sd<span class="op">=</span><span class="va">sd_dprime_participant</span><span class="op">)</span>,</span>
-<span>         z_c_participant<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, sd<span class="op">=</span><span class="va">sd_c_participant</span><span class="op">)</span>,</span>
-<span>         z_c2_0_participant<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://paulbuerkner.com/brms/reference/MultiNormal.html" class="external-link">rmulti_normal</a></span><span class="op">(</span><span class="fl">1</span>, mu<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>,<span class="va">K</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>, Sigma<span class="op">=</span><span class="va">sd_c2_0_participant</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>         z_c2_1_participant<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://paulbuerkner.com/brms/reference/MultiNormal.html" class="external-link">rmulti_normal</a></span><span class="op">(</span><span class="fl">1</span>, mu<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>,<span class="va">K</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>, Sigma<span class="op">=</span><span class="va">sd_c2_1_participant</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    z_log_M_participant <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, sd <span class="op">=</span> <span class="va">sd_log_M_participant</span><span class="op">)</span>,</span>
+<span>    z_dprime_participant <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, sd <span class="op">=</span> <span class="va">sd_dprime_participant</span><span class="op">)</span>,</span>
+<span>    z_c_participant <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, sd <span class="op">=</span> <span class="va">sd_c_participant</span><span class="op">)</span>,</span>
+<span>    z_c2_0_participant <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://paulbuerkner.com/brms/reference/MultiNormal.html" class="external-link">rmulti_normal</a></span><span class="op">(</span><span class="fl">1</span>, mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">K</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span>, Sigma <span class="op">=</span> <span class="va">sd_c2_0_participant</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    z_c2_1_participant <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://paulbuerkner.com/brms/reference/MultiNormal.html" class="external-link">rmulti_normal</a></span><span class="op">(</span><span class="fl">1</span>, mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">K</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span>, Sigma <span class="op">=</span> <span class="va">sd_c2_1_participant</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="co">## simulate item-level differences</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">item</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>z_log_M_item<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, sd<span class="op">=</span><span class="va">sd_log_M_item</span><span class="op">)</span>,</span>
-<span>         z_dprime_item<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, sd<span class="op">=</span><span class="va">sd_dprime_item</span><span class="op">)</span>,</span>
-<span>         z_c_item<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, sd<span class="op">=</span><span class="va">sd_c_item</span><span class="op">)</span>,</span>
-<span>         z_c2_0_item<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://paulbuerkner.com/brms/reference/MultiNormal.html" class="external-link">rmulti_normal</a></span><span class="op">(</span><span class="fl">1</span>, mu<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>,<span class="va">K</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>, Sigma<span class="op">=</span><span class="va">sd_c2_0_item</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>         z_c2_1_item<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://paulbuerkner.com/brms/reference/MultiNormal.html" class="external-link">rmulti_normal</a></span><span class="op">(</span><span class="fl">1</span>, mu<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>,<span class="va">K</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>, Sigma<span class="op">=</span><span class="va">sd_c2_1_item</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    z_log_M_item <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, sd <span class="op">=</span> <span class="va">sd_log_M_item</span><span class="op">)</span>,</span>
+<span>    z_dprime_item <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, sd <span class="op">=</span> <span class="va">sd_dprime_item</span><span class="op">)</span>,</span>
+<span>    z_c_item <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, sd <span class="op">=</span> <span class="va">sd_c_item</span><span class="op">)</span>,</span>
+<span>    z_c2_0_item <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://paulbuerkner.com/brms/reference/MultiNormal.html" class="external-link">rmulti_normal</a></span><span class="op">(</span><span class="fl">1</span>, mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">K</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span>, Sigma <span class="op">=</span> <span class="va">sd_c2_0_item</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    z_c2_1_item <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://paulbuerkner.com/brms/reference/MultiNormal.html" class="external-link">rmulti_normal</a></span><span class="op">(</span><span class="fl">1</span>, mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">K</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span>, Sigma <span class="op">=</span> <span class="va">sd_c2_1_item</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="co">## compute model parameters</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>log_M <span class="op">=</span> <span class="va">mu_log_M</span> <span class="op">+</span> <span class="va">z_log_M_participant</span> <span class="op">+</span> <span class="va">z_log_M_item</span>,</span>
-<span>         dprime <span class="op">=</span> <span class="va">mu_dprime</span> <span class="op">+</span> <span class="va">z_dprime_participant</span> <span class="op">+</span> <span class="va">z_dprime_item</span>,</span>
-<span>         c <span class="op">=</span> <span class="va">mu_c</span> <span class="op">+</span> <span class="va">z_c_participant</span> <span class="op">+</span> <span class="va">z_c_item</span>,</span>
-<span>         c2_0_diff <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html" class="external-link">map2</a></span><span class="op">(</span><span class="va">z_c2_0_participant</span>, <span class="va">z_c2_0_item</span>, </span>
-<span>                          <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">mu_c2_0</span> <span class="op">+</span> <span class="va">.x</span> <span class="op">+</span> <span class="va">.y</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>         c2_1_diff <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html" class="external-link">map2</a></span><span class="op">(</span><span class="va">z_c2_1_participant</span>, <span class="va">z_c2_1_item</span>,</span>
-<span>                          <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">mu_c2_1</span> <span class="op">+</span> <span class="va">.x</span> <span class="op">+</span> <span class="va">.y</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    log_M <span class="op">=</span> <span class="va">mu_log_M</span> <span class="op">+</span> <span class="va">z_log_M_participant</span> <span class="op">+</span> <span class="va">z_log_M_item</span>,</span>
+<span>    dprime <span class="op">=</span> <span class="va">mu_dprime</span> <span class="op">+</span> <span class="va">z_dprime_participant</span> <span class="op">+</span> <span class="va">z_dprime_item</span>,</span>
+<span>    c <span class="op">=</span> <span class="va">mu_c</span> <span class="op">+</span> <span class="va">z_c_participant</span> <span class="op">+</span> <span class="va">z_c_item</span>,</span>
+<span>    c2_0_diff <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html" class="external-link">map2</a></span><span class="op">(</span></span>
+<span>      <span class="va">z_c2_0_participant</span>, <span class="va">z_c2_0_item</span>,</span>
+<span>      <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">mu_c2_0</span> <span class="op">+</span> <span class="va">.x</span> <span class="op">+</span> <span class="va">.y</span><span class="op">)</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    c2_1_diff <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html" class="external-link">map2</a></span><span class="op">(</span></span>
+<span>      <span class="va">z_c2_1_participant</span>, <span class="va">z_c2_1_item</span>,</span>
+<span>      <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">mu_c2_1</span> <span class="op">+</span> <span class="va">.x</span> <span class="op">+</span> <span class="va">.y</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="co">## simulate two trials per participant/item (stimulus = 0 and stimulus = 1)</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>trial<span class="op">=</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/pmap.html" class="external-link">pmap</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">dprime</span>, <span class="va">c</span>, <span class="va">log_M</span>, <span class="va">c2_0_diff</span>, <span class="va">c2_1_diff</span><span class="op">)</span>, <span class="va">sim_metad</span>, N_trials<span class="op">=</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">participant</span>, <span class="va">item</span>, <span class="va">trial</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>trial <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/pmap.html" class="external-link">pmap</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">dprime</span>, <span class="va">c</span>, <span class="va">log_M</span>, <span class="va">c2_0_diff</span>, <span class="va">c2_1_diff</span><span class="op">)</span>, <span class="va">sim_metad</span>, N_trials <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">participant</span>, <span class="va">item</span>, <span class="va">trial</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">trial</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,000 × 16</span></span></span>
 <span><span class="co">#&gt;    participant  item trial stimulus response correct confidence dprime        c</span></span>
@@ -245,7 +256,7 @@ informed priors and adjusting the Stan sampler settings.&lt;/p&gt;'><sup>1</sup>
 <span>  <span class="op">)</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">d</span>, init <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  file <span class="op">=</span> <span class="st">"models/multinomial.rds"</span>,</span>
-<span>  prior<span class="op">=</span><span class="fu"><a href="https://paulbuerkner.com/brms/reference/set_prior.html" class="external-link">prior</a></span><span class="op">(</span><span class="fu">normal</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.25</span><span class="op">)</span>, class <span class="op">=</span> <span class="va">Intercept</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  prior <span class="op">=</span> <span class="fu"><a href="https://paulbuerkner.com/brms/reference/set_prior.html" class="external-link">prior</a></span><span class="op">(</span><span class="fu">normal</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.25</span><span class="op">)</span>, class <span class="op">=</span> <span class="va">Intercept</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://paulbuerkner.com/brms/reference/set_prior.html" class="external-link">prior</a></span><span class="op">(</span><span class="fu">normal</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.25</span><span class="op">)</span>, class <span class="op">=</span> <span class="va">Intercept</span>, dpar <span class="op">=</span> <span class="va">dprime</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://paulbuerkner.com/brms/reference/set_prior.html" class="external-link">prior</a></span><span class="op">(</span><span class="fu">normal</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.25</span><span class="op">)</span>, class <span class="op">=</span> <span class="va">Intercept</span>, dpar <span class="op">=</span> <span class="va">c</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://paulbuerkner.com/brms/reference/set_prior.html" class="external-link">prior</a></span><span class="op">(</span><span class="fu">normal</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.1</span><span class="op">)</span>, class <span class="op">=</span> <span class="va">Intercept</span>, dpar <span class="op">=</span> <span class="va">metac2zero1diff</span><span class="op">)</span> <span class="op">+</span></span>
@@ -263,8 +274,8 @@ informed priors and adjusting the Stan sampler settings.&lt;/p&gt;'><sup>1</sup>
 <pre><code><span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).</span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
-<span><span class="co">#&gt; Chain 1: Gradient evaluation took 6.8e-05 seconds</span></span>
-<span><span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.68 seconds.</span></span>
+<span><span class="co">#&gt; Chain 1: Gradient evaluation took 7.9e-05 seconds</span></span>
+<span><span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.79 seconds.</span></span>
 <span><span class="co">#&gt; Chain 1: Adjust your expectations accordingly!</span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
@@ -281,15 +292,15 @@ informed priors and adjusting the Stan sampler settings.&lt;/p&gt;'><sup>1</sup>
 <span><span class="co">#&gt; Chain 1: Iteration: 900 / 1000 [ 90%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 1: Iteration: 1000 / 1000 [100%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
-<span><span class="co">#&gt; Chain 1:  Elapsed Time: 0.49 seconds (Warm-up)</span></span>
-<span><span class="co">#&gt; Chain 1:                0.269 seconds (Sampling)</span></span>
-<span><span class="co">#&gt; Chain 1:                0.759 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 1:  Elapsed Time: 0.459 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 1:                0.253 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 1:                0.712 seconds (Total)</span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).</span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
-<span><span class="co">#&gt; Chain 2: Gradient evaluation took 3e-05 seconds</span></span>
-<span><span class="co">#&gt; Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.3 seconds.</span></span>
+<span><span class="co">#&gt; Chain 2: Gradient evaluation took 2.9e-05 seconds</span></span>
+<span><span class="co">#&gt; Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.29 seconds.</span></span>
 <span><span class="co">#&gt; Chain 2: Adjust your expectations accordingly!</span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
@@ -306,15 +317,15 @@ informed priors and adjusting the Stan sampler settings.&lt;/p&gt;'><sup>1</sup>
 <span><span class="co">#&gt; Chain 2: Iteration: 900 / 1000 [ 90%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 2: Iteration: 1000 / 1000 [100%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
-<span><span class="co">#&gt; Chain 2:  Elapsed Time: 0.462 seconds (Warm-up)</span></span>
-<span><span class="co">#&gt; Chain 2:                0.267 seconds (Sampling)</span></span>
-<span><span class="co">#&gt; Chain 2:                0.729 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 2:  Elapsed Time: 0.437 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 2:                0.26 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 2:                0.697 seconds (Total)</span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).</span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
-<span><span class="co">#&gt; Chain 3: Gradient evaluation took 2.9e-05 seconds</span></span>
-<span><span class="co">#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.29 seconds.</span></span>
+<span><span class="co">#&gt; Chain 3: Gradient evaluation took 3e-05 seconds</span></span>
+<span><span class="co">#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.3 seconds.</span></span>
 <span><span class="co">#&gt; Chain 3: Adjust your expectations accordingly!</span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
@@ -331,9 +342,9 @@ informed priors and adjusting the Stan sampler settings.&lt;/p&gt;'><sup>1</sup>
 <span><span class="co">#&gt; Chain 3: Iteration: 900 / 1000 [ 90%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 3: Iteration: 1000 / 1000 [100%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
-<span><span class="co">#&gt; Chain 3:  Elapsed Time: 0.506 seconds (Warm-up)</span></span>
-<span><span class="co">#&gt; Chain 3:                0.269 seconds (Sampling)</span></span>
-<span><span class="co">#&gt; Chain 3:                0.775 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 3:  Elapsed Time: 0.476 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 3:                0.255 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 3:                0.731 seconds (Total)</span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).</span></span>
@@ -356,9 +367,9 @@ informed priors and adjusting the Stan sampler settings.&lt;/p&gt;'><sup>1</sup>
 <span><span class="co">#&gt; Chain 4: Iteration: 900 / 1000 [ 90%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 4: Iteration: 1000 / 1000 [100%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 4: </span></span>
-<span><span class="co">#&gt; Chain 4:  Elapsed Time: 0.505 seconds (Warm-up)</span></span>
-<span><span class="co">#&gt; Chain 4:                0.269 seconds (Sampling)</span></span>
-<span><span class="co">#&gt; Chain 4:                0.774 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 4:  Elapsed Time: 0.476 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 4:                0.259 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 4:                0.735 seconds (Total)</span></span>
 <span><span class="co">#&gt; Chain 4:</span></span>
 <span><span class="co">#&gt;  Family: metad__3__normal__absolute__multinomial </span></span>
 <span><span class="co">#&gt;   Links: mu = log; dprime = identity; c = identity; metac2zero1diff = log; metac2zero2diff = log; metac2one1diff = log; metac2one2diff = log </span></span>
@@ -450,7 +461,7 @@ now:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>joint_response <span class="op">=</span> <span class="fu"><a href="../reference/responses.html">joint_response</a></span><span class="op">(</span><span class="va">response</span>, <span class="va">confidence</span>, <span class="va">K</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/relocate.html" class="external-link">relocate</a></span><span class="op">(</span><span class="va">joint_response</span>, .after<span class="op">=</span><span class="st">"stimulus"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/relocate.html" class="external-link">relocate</a></span><span class="op">(</span><span class="va">joint_response</span>, .after <span class="op">=</span> <span class="st">"stimulus"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,000 × 17</span></span></span>
 <span><span class="co">#&gt;    participant  item trial stimulus joint_response response correct confidence</span></span>
 <span><span class="co">#&gt;          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
@@ -486,9 +497,9 @@ and the argument <code>categorical=TRUE</code> to tell
 <span>      <span class="va">metac2one1diff</span> <span class="op">+</span> <span class="va">metac2one2diff</span> <span class="op">~</span></span>
 <span>      <span class="fl">1</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">participant</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">item</span><span class="op">)</span></span>
 <span>  <span class="op">)</span>,</span>
-<span>  data <span class="op">=</span> <span class="va">d</span>, categorical<span class="op">=</span><span class="cn">TRUE</span>, init <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">d</span>, categorical <span class="op">=</span> <span class="cn">TRUE</span>, init <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  file <span class="op">=</span> <span class="st">"models/categorical.rds"</span>,</span>
-<span>  prior<span class="op">=</span><span class="fu"><a href="https://paulbuerkner.com/brms/reference/set_prior.html" class="external-link">prior</a></span><span class="op">(</span><span class="fu">normal</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.25</span><span class="op">)</span>, class <span class="op">=</span> <span class="va">Intercept</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  prior <span class="op">=</span> <span class="fu"><a href="https://paulbuerkner.com/brms/reference/set_prior.html" class="external-link">prior</a></span><span class="op">(</span><span class="fu">normal</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.25</span><span class="op">)</span>, class <span class="op">=</span> <span class="va">Intercept</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://paulbuerkner.com/brms/reference/set_prior.html" class="external-link">prior</a></span><span class="op">(</span><span class="fu">normal</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.25</span><span class="op">)</span>, class <span class="op">=</span> <span class="va">Intercept</span>, dpar <span class="op">=</span> <span class="va">dprime</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://paulbuerkner.com/brms/reference/set_prior.html" class="external-link">prior</a></span><span class="op">(</span><span class="fu">normal</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.25</span><span class="op">)</span>, class <span class="op">=</span> <span class="va">Intercept</span>, dpar <span class="op">=</span> <span class="va">c</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://paulbuerkner.com/brms/reference/set_prior.html" class="external-link">prior</a></span><span class="op">(</span><span class="fu">normal</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.1</span><span class="op">)</span>, class <span class="op">=</span> <span class="va">Intercept</span>, dpar <span class="op">=</span> <span class="va">metac2zero1diff</span><span class="op">)</span> <span class="op">+</span></span>
@@ -506,8 +517,8 @@ and the argument <code>categorical=TRUE</code> to tell
 <pre><code><span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).</span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
-<span><span class="co">#&gt; Chain 1: Gradient evaluation took 4e-05 seconds</span></span>
-<span><span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.4 seconds.</span></span>
+<span><span class="co">#&gt; Chain 1: Gradient evaluation took 4.1e-05 seconds</span></span>
+<span><span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.41 seconds.</span></span>
 <span><span class="co">#&gt; Chain 1: Adjust your expectations accordingly!</span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
@@ -524,15 +535,15 @@ and the argument <code>categorical=TRUE</code> to tell
 <span><span class="co">#&gt; Chain 1: Iteration: 900 / 1000 [ 90%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 1: Iteration: 1000 / 1000 [100%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
-<span><span class="co">#&gt; Chain 1:  Elapsed Time: 0.467 seconds (Warm-up)</span></span>
-<span><span class="co">#&gt; Chain 1:                0.324 seconds (Sampling)</span></span>
-<span><span class="co">#&gt; Chain 1:                0.791 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 1:  Elapsed Time: 0.469 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 1:                0.325 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 1:                0.794 seconds (Total)</span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).</span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
-<span><span class="co">#&gt; Chain 2: Gradient evaluation took 2.9e-05 seconds</span></span>
-<span><span class="co">#&gt; Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.29 seconds.</span></span>
+<span><span class="co">#&gt; Chain 2: Gradient evaluation took 3e-05 seconds</span></span>
+<span><span class="co">#&gt; Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.3 seconds.</span></span>
 <span><span class="co">#&gt; Chain 2: Adjust your expectations accordingly!</span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
@@ -549,15 +560,15 @@ and the argument <code>categorical=TRUE</code> to tell
 <span><span class="co">#&gt; Chain 2: Iteration: 900 / 1000 [ 90%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 2: Iteration: 1000 / 1000 [100%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
-<span><span class="co">#&gt; Chain 2:  Elapsed Time: 0.463 seconds (Warm-up)</span></span>
-<span><span class="co">#&gt; Chain 2:                0.263 seconds (Sampling)</span></span>
-<span><span class="co">#&gt; Chain 2:                0.726 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 2:  Elapsed Time: 0.462 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 2:                0.269 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 2:                0.731 seconds (Total)</span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).</span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
-<span><span class="co">#&gt; Chain 3: Gradient evaluation took 4.5e-05 seconds</span></span>
-<span><span class="co">#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.45 seconds.</span></span>
+<span><span class="co">#&gt; Chain 3: Gradient evaluation took 2.9e-05 seconds</span></span>
+<span><span class="co">#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.29 seconds.</span></span>
 <span><span class="co">#&gt; Chain 3: Adjust your expectations accordingly!</span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
@@ -574,15 +585,15 @@ and the argument <code>categorical=TRUE</code> to tell
 <span><span class="co">#&gt; Chain 3: Iteration: 900 / 1000 [ 90%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 3: Iteration: 1000 / 1000 [100%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
-<span><span class="co">#&gt; Chain 3:  Elapsed Time: 0.464 seconds (Warm-up)</span></span>
-<span><span class="co">#&gt; Chain 3:                0.266 seconds (Sampling)</span></span>
-<span><span class="co">#&gt; Chain 3:                0.73 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 3:  Elapsed Time: 0.462 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 3:                0.265 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 3:                0.727 seconds (Total)</span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).</span></span>
 <span><span class="co">#&gt; Chain 4: </span></span>
-<span><span class="co">#&gt; Chain 4: Gradient evaluation took 2.9e-05 seconds</span></span>
-<span><span class="co">#&gt; Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.29 seconds.</span></span>
+<span><span class="co">#&gt; Chain 4: Gradient evaluation took 3e-05 seconds</span></span>
+<span><span class="co">#&gt; Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.3 seconds.</span></span>
 <span><span class="co">#&gt; Chain 4: Adjust your expectations accordingly!</span></span>
 <span><span class="co">#&gt; Chain 4: </span></span>
 <span><span class="co">#&gt; Chain 4: </span></span>
@@ -599,9 +610,9 @@ and the argument <code>categorical=TRUE</code> to tell
 <span><span class="co">#&gt; Chain 4: Iteration: 900 / 1000 [ 90%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 4: Iteration: 1000 / 1000 [100%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 4: </span></span>
-<span><span class="co">#&gt; Chain 4:  Elapsed Time: 0.456 seconds (Warm-up)</span></span>
-<span><span class="co">#&gt; Chain 4:                0.264 seconds (Sampling)</span></span>
-<span><span class="co">#&gt; Chain 4:                0.72 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 4:  Elapsed Time: 0.46 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 4:                0.273 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 4:                0.733 seconds (Total)</span></span>
 <span><span class="co">#&gt; Chain 4:</span></span>
 <span><span class="co">#&gt;  Family: metad__3__normal__absolute__categorical </span></span>
 <span><span class="co">#&gt;   Links: mu = log; dprime = identity; c = identity; metac2zero1diff = log; metac2zero2diff = log; metac2one1diff = log; metac2one2diff = log </span></span>
@@ -691,7 +702,7 @@ predictions. For example, to estimate a ROC averaging over participants
 and items, we can use an empty data set with
 <code>re_formula=NA</code>:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/roc1_draws.html">roc1_rvars</a></span><span class="op">(</span><span class="va">m.multinomial</span>, <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row<span class="op">=</span><span class="fl">1</span><span class="op">)</span>, re_formula<span class="op">=</span><span class="cn">NA</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/roc1_draws.html">roc1_rvars</a></span><span class="op">(</span><span class="va">m.multinomial</span>, <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, re_formula <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 6</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   .row, joint_response, response, confidence [5]</span></span></span>
 <span><span class="co">#&gt;    .row joint_response response confidence           p_fa         p_hit</span></span>
@@ -703,7 +714,7 @@ and items, we can use an empty data set with
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     1              5        1          2  0.089 <span style="color: #949494;">± 0.046</span>  0.45 <span style="color: #949494;">± 0.104</span></span></span></code></pre></div>
 <p>The process is exactly the same for the categorical model:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/roc1_draws.html">roc1_rvars</a></span><span class="op">(</span><span class="va">m.categorical</span>, <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row<span class="op">=</span><span class="fl">1</span><span class="op">)</span>, re_formula<span class="op">=</span><span class="cn">NA</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/roc1_draws.html">roc1_rvars</a></span><span class="op">(</span><span class="va">m.categorical</span>, <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, re_formula <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 6</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   .row, joint_response, response, confidence [5]</span></span></span>
 <span><span class="co">#&gt;    .row joint_response response confidence           p_fa         p_hit</span></span>
@@ -717,7 +728,7 @@ and items, we can use an empty data set with
 use a data set with one row per participant and only the
 participant-level random effects:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/roc1_draws.html">roc1_rvars</a></span><span class="op">(</span><span class="va">m.categorical</span>, <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">participant</span><span class="op">)</span>, re_formula<span class="op">=</span><span class="op">~</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">participant</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/roc1_draws.html">roc1_rvars</a></span><span class="op">(</span><span class="va">m.categorical</span>, <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">participant</span><span class="op">)</span>, re_formula <span class="op">=</span> <span class="op">~</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">participant</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 250 × 7</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   .row, participant, joint_response, response, confidence [250]</span></span></span>
 <span><span class="co">#&gt;     .row participant joint_response response confidence         p_fa</span></span>
@@ -737,7 +748,7 @@ participant-level random effects:</p>
 <p>We can use a similar process to get item-level ROCs (averaging over
 participants):</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/roc1_draws.html">roc1_rvars</a></span><span class="op">(</span><span class="va">m.categorical</span>, <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">item</span><span class="op">)</span>, re_formula<span class="op">=</span><span class="op">~</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">item</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/roc1_draws.html">roc1_rvars</a></span><span class="op">(</span><span class="va">m.categorical</span>, <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">item</span><span class="op">)</span>, re_formula <span class="op">=</span> <span class="op">~</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">item</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 50 × 7</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   .row, item, joint_response, response, confidence [50]</span></span></span>
 <span><span class="co">#&gt;     .row  item joint_response response confidence         p_fa        p_hit</span></span>
