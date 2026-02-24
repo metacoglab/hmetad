@@ -6,3 +6,9 @@
 
 ## Test environments
 
+* Mac-OS (github), R-release
+* Windows (github), R-release
+* Windows (win-builder), R-devel
+* Ubuntu (github), R-release
+* Ubuntu (github), R-devel
+* Ubuntu (github), R-oldrelease-1
