@@ -30,6 +30,7 @@ Imports:
     tidybayes (>= 3.0.7),
     tidyr (>= 1.3.2)
 Suggests: 
+    colorspace,
     knitr,
     purrr (>= 1.2.1),
     rmarkdown,
