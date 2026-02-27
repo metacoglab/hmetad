@@ -106,15 +106,15 @@ F\_{\mathcal{D}\_s(\textrm{meta-}d')}\left(\textrm{meta-}c\_{2,k+1}^0\right)}
 \frac{F\_{\mathcal{D}\_s(\textrm{meta-}d')}\left(\textrm{meta-}c\_{2,K}^0\right)}
 {F\_{\mathcal{D}\_s(\textrm{meta-}d')}\left(\textrm{meta-}c\right)} &
 \textrm{if } r=0, c = K \\
-\frac{F\_{\mathcal{D}\_s(\textrm{meta-}d')}\left(\textrm{meta-}c\_{2,1}^0\right) -
-F\_{\mathcal{D}\_s}\left(\textrm{meta-}c \right)} {1 -
+\frac{F\_{\mathcal{D}\_s(\textrm{meta-}d')}\left(\textrm{meta-}c\_{2,1}^1\right) -
+F\_{\mathcal{D}\_s(\textrm{meta-}d')}\left(\textrm{meta-}c \right)} {1 -
 F\_{\mathcal{D}\_s(\textrm{meta-}d')}\left(\textrm{meta-}c\right)} &
 \textrm{if } r=1, c=1 \\
-\frac{F\_{\mathcal{D}\_s(\textrm{meta-}d')}\left(\textrm{meta-}c\_{2,k+1}^0\right) -
-F\_{\mathcal{D}\_s(\textrm{meta-}d')}\left(\textrm{meta-}c\_{2,k}^0\right)}
+\frac{F\_{\mathcal{D}\_s(\textrm{meta-}d')}\left(\textrm{meta-}c\_{2,k+1}^1\right) -
+F\_{\mathcal{D}\_s(\textrm{meta-}d')}\left(\textrm{meta-}c\_{2,k}^1\right)}
 {1 - F\_{\mathcal{D}\_s(\textrm{meta-}d')}\left(\textrm{meta-}c\right)}
 & \textrm{if } r=1, 1 \le c \le K \\ \frac{1 -
-F\_{\mathcal{D}\_s(\textrm{meta-}d')}\left(\textrm{meta-}c\_{2,K}^0
+F\_{\mathcal{D}\_s(\textrm{meta-}d')}\left(\textrm{meta-}c\_{2,K}^1
 \right)} {1 -
 F\_{\mathcal{D}\_s(\textrm{meta-}d')}\left(\textrm{meta-}c\right)} &
 \textrm{if } r=1, c = K \end{cases} \end{align\*}
@@ -216,7 +216,7 @@ successive confidence criteria:
 \textrm{meta-}c\_{2,1}^0 & \textrm{if } k = 1 \\
 \textrm{meta-}c\_{2,k-1}^0 - \textrm{meta-}c\_{2,k}^0 & \textrm{if } 2
 \le k \le K \end{cases} \textrm{dmeta-}c\_{2,k}^1 = \begin{cases}
-\textrm{meta-}c\_{2,1}^0 - \textrm{meta-}c & \textrm{if } k = 1 \\
+\textrm{meta-}c\_{2,1}^1 - \textrm{meta-}c & \textrm{if } k = 1 \\
 \textrm{meta-}c\_{2,k}^1 - \textrm{meta-}c\_{2,k-1}^1 & \textrm{if } 2
 \le k \le K \end{cases}
 
