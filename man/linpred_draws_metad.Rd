@@ -13,7 +13,7 @@ add_linpred_draws_metad(newdata, object, ..., pivot_longer = FALSE)
 
 linpred_rvars_metad(object, newdata, ..., pivot_longer = FALSE)
 
-add_linpred_rvars_metad(newdata, object, pivot_longer = FALSE)
+add_linpred_rvars_metad(newdata, object, ..., pivot_longer = FALSE)
 }
 \arguments{
 \item{object}{The \code{brms} model with the \code{metad} family}

@@ -95,17 +95,17 @@ This generative model implies that, conditional on the stimulus and the type 1 r
     {F_{\mathcal{D}_s(\textrm{meta-}d')}\left(\textrm{meta-}c\right)}
     & \textrm{if } r=0, c = K \\
     
-    \frac{F_{\mathcal{D}_s(\textrm{meta-}d')}\left(\textrm{meta-}c_{2,1}^0\right) -
-    F_{\mathcal{D}_s}\left(\textrm{meta-}c \right)}
+    \frac{F_{\mathcal{D}_s(\textrm{meta-}d')}\left(\textrm{meta-}c_{2,1}^1\right) -
+    F_{\mathcal{D}_s(\textrm{meta-}d')}\left(\textrm{meta-}c \right)}
     {1 - F_{\mathcal{D}_s(\textrm{meta-}d')}\left(\textrm{meta-}c\right)}
     & \textrm{if } r=1, c=1 \\
     
-    \frac{F_{\mathcal{D}_s(\textrm{meta-}d')}\left(\textrm{meta-}c_{2,k+1}^0\right) -
-    F_{\mathcal{D}_s(\textrm{meta-}d')}\left(\textrm{meta-}c_{2,k}^0\right)}
+    \frac{F_{\mathcal{D}_s(\textrm{meta-}d')}\left(\textrm{meta-}c_{2,k+1}^1\right) -
+    F_{\mathcal{D}_s(\textrm{meta-}d')}\left(\textrm{meta-}c_{2,k}^1\right)}
     {1 - F_{\mathcal{D}_s(\textrm{meta-}d')}\left(\textrm{meta-}c\right)}
     & \textrm{if } r=1, 1 \le c \le K \\
     
-    \frac{1 - F_{\mathcal{D}_s(\textrm{meta-}d')}\left(\textrm{meta-}c_{2,K}^0 \right)}
+    \frac{1 - F_{\mathcal{D}_s(\textrm{meta-}d')}\left(\textrm{meta-}c_{2,K}^1 \right)}
     {1 - F_{\mathcal{D}_s(\textrm{meta-}d')}\left(\textrm{meta-}c\right)}
     & \textrm{if } r=1, c = K
     \end{cases}
@@ -164,7 +164,7 @@ $$
 $$
 $$
 \textrm{dmeta-}c_{2,k}^1 = \begin{cases}
-  \textrm{meta-}c_{2,1}^0 - \textrm{meta-}c & \textrm{if } k = 1 \\
+  \textrm{meta-}c_{2,1}^1 - \textrm{meta-}c & \textrm{if } k = 1 \\
   \textrm{meta-}c_{2,k}^1  - \textrm{meta-}c_{2,k-1}^1 & \textrm{if } 2 \le k \le K
 \end{cases}
 $$

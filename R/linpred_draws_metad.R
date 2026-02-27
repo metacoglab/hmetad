@@ -163,10 +163,7 @@ linpred_rvars_metad <- function(object, newdata, ..., pivot_longer = FALSE) {
       values_to = "diff"
     ) |>
     mutate(response = as.numeric(.data$response == "one")) |>
-    group_by(
-      .data$.row, ## !!!syms(.cols),
-      .data$response
-    ) |>
+    group_by(!!!syms(.cols), .data$response) |>
     mutate(c2 = posterior::rvar_ifelse(
       .data$response == 1,
       .data$meta_c + cumsum(.data$diff),
@@ -193,15 +190,15 @@ linpred_rvars_metad <- function(object, newdata, ..., pivot_longer = FALSE) {
         ),
         names_to = ".variable", values_to = ".value"
       ) |>
-      group_by(.data$.row, !!!syms(.cols), .data$.variable)
+      group_by(!!!syms(.cols), .data$.variable)
   } else {
     draws |>
-      group_by(.data$.row, !!!syms(.cols))
+      group_by(!!!syms(.cols))
   }
 }
 
 #' @rdname linpred_draws_metad
 #' @export
-add_linpred_rvars_metad <- function(newdata, object, pivot_longer = FALSE) {
-  linpred_rvars_metad(object, newdata, pivot_longer = pivot_longer)
+add_linpred_rvars_metad <- function(newdata, object, ..., pivot_longer = FALSE) {
+  linpred_rvars_metad(object, newdata, ..., pivot_longer = pivot_longer)
 }
