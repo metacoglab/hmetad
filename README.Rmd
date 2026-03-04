@@ -22,15 +22,19 @@ knitr::opts_chunk$set(
   [![R-CMD-check](https://github.com/metacoglab/hmetad/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/metacoglab/hmetad/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The `hmetad` package is designed to fit the meta-d’ model for confidence
-ratings [@maniscalco2012; @maniscalco2014]. Like the [Hmeta-d toolbox](https://github.com/metacoglab/HMeta-d) [@fleming2017], the `hmetad` package uses a Bayesian modeling approach. The `hmetad` package builds on the Hmeta-d toolbox through implementation as a custom family in the [brms](https://paulbuerkner.com/brms/) package, which itself provides a friendly interface to the probabilistic programming language [Stan](https://mc-stan.org). 
+The `hmetad` package is designed to fit the meta-d’ model for confidence ratings [@maniscalco2012; @maniscalco2014]. The `hmetad` package uses a Bayesian modeling approach, building on and superseding previous development of the [Hmeta-d toolbox](https://github.com/metacoglab/HMeta-d) [@fleming2017]. A key advance is implementation as a custom family in the [brms](https://paulbuerkner.com/brms/) package, which itself provides a friendly interface to the probabilistic programming language [Stan](https://mc-stan.org).
 
 This provides major benefits:
 
   - Model designs can be specified as simple `R` formulas
-  - Support for complex model designs (e.g., multilevel models, distributional models, multivariate models)
-  - Interfaces to other packages surrounding `brms` (e.g., `tidybayes`, `ggdist`, `bayesplot`, `loo`, `posterior`, `bridgesampling`, `bayestestR`)
-  - Computation of model-implied quantities (e.g., mean confidence, type 1 and type 2 receiver operating characteristic curves, metacognitive bias)
+  - Support for complex model designs (e.g., multilevel models,
+    distributional models, multivariate models)
+  - Interfaces to other packages surrounding `brms` (e.g., `tidybayes`,
+    `ggdist`, `bayesplot`, `loo`, `posterior`, `bridgesampling`,
+    `bayestestR`)
+  - Computation of model-implied quantities (e.g., mean confidence, type 1
+    and type 2 receiver operating characteristic curves)
+  - Derivation of novel metacognitive bias metrics, and well as established metrics of metacognitive efficiency
   - Increased sampling efficiency and better convergence diagnostics
 
 

@@ -10,10 +10,10 @@
 
 The `hmetad` package is designed to fit the meta-d’ model for confidence
 ratings ([Maniscalco & Lau, 2012](#ref-maniscalco2012),
-[2014](#ref-maniscalco2014)). Like the [Hmeta-d
+[2014](#ref-maniscalco2014)). The `hmetad` package uses a Bayesian modeling
+approach, building on and superseding previous development of the [Hmeta-d
 toolbox](https://github.com/metacoglab/HMeta-d) ([Fleming,
-2017](#ref-fleming2017)), the `hmetad` package uses a Bayesian modeling
-approach. The `hmetad` package builds on the Hmeta-d toolbox through
+2017](#ref-fleming2017)). A key advance is
 implementation as a custom family in the
 [brms](https://paulbuerkner.com/brms/) package, which itself provides a
 friendly interface to the probabilistic programming language
@@ -28,8 +28,8 @@ This provides major benefits:
   `ggdist`, `bayesplot`, `loo`, `posterior`, `bridgesampling`,
   `bayestestR`)
 - Computation of model-implied quantities (e.g., mean confidence, type 1
-  and type 2 receiver operating characteristic curves, metacognitive
-  bias)
+  and type 2 receiver operating characteristic curves)
+- Derivation of novel metacognitive bias metrics, and well as established metrics of metacognitive efficiency
 - Increased sampling efficiency and better convergence diagnostics
 
 ## Installation

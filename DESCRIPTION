@@ -1,14 +1,13 @@
 Package: hmetad
 Title: Fit the Meta-D' Model of Confidence Ratings Using 'brms'
 Version: 0.1.0
-Authors@R: 
-    person(
-      "Kevin", "O'Neill", 
-      email = "kevin.o'neill@ucl.ac.uk", 
-      role = c("aut", "cre", "cph"),
-      comment = c(ORCID = "https://orcid.org/0000-0001-7401-9802")
-    )
-Description: Implementation of Bayesian regressions over the meta-d\' model of 
+Authors@R: c(
+    person("Kevin", "O'Neill", email="kevin.o'neill@ucl.ac.uk", role = c("aut", "cre", "cph"),
+           comment = c(ORCID = "https://orcid.org/0000-0001-7401-9802")),
+    person("Stephen", "Fleming", role = c("aut", "cph"),
+           comment = c(ORCID = "https://orcid.org/0000-0003-0233-4891"))
+  )
+Description: Implementation of Bayesian regressions over the meta-d' model of 
     psychological data from two alternative forced choice tasks with 
     ordinal confidence ratings. For more information, see 
     Maniscalco & Lau (2012) <doi:10.1016/j.concog.2011.09.021>.
