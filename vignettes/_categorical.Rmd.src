@@ -158,7 +158,7 @@ m.multinomial
 
 
 ## Data preparation
-Fitting the trial-level model does not require data aggregation, however it still requires a small amount of data preparation. To fit the model, we will need to things:
+Fitting the trial-level model does not require data aggregation, however it still requires a small amount of data preparation. To fit the model, we will need two things:
 
   * a column with the stimulus per trial (`0` or `1`), and
   * a column containing the joint type 1/type 2 responses per trial (between `1` and `2*K`).
@@ -218,7 +218,7 @@ As you can see, aside from the way that the data is formatted, this model is exa
 ## Extracting model estimates
 Obtaining posterior estimates over model parameters, predictions, and other estimates is very similar to the multinomial model (for details, see `vignette("hmetad")`). So, here we will focus on the type 1 ROC curves, this time using `roc1_rvars` instead of `roc1_draws` for increased efficiency.
 
-To get the posterior estimates, we need to specify a data set to make predictions for, as well as a random effects formula to use in model predictions. For example, to estimate a ROC averaging over participants and items, we can use an empty data set with `re_formula=NA`:
+To get the posterior estimates, we need to specify a dataset to make predictions for, as well as a random effects formula to use in model predictions. For example, to estimate a ROC averaging over participants and items, we can use an empty data set with `re_formula=NA`:
 ```{r roc_group}
 roc1_rvars(m.multinomial, tibble(.row = 1), re_formula = NA)
 ```
@@ -228,7 +228,7 @@ The process is exactly the same for the categorical model:
 roc1_rvars(m.categorical, tibble(.row = 1), re_formula = NA)
 ```
 
-Next, to get participant-level ROCs (averaging over items), we can use a data set with one row per participant and only the participant-level random effects:
+Next, to get participant-level ROCs (averaging over items), we can use a dataset with one row per participant and only the participant-level random effects:
 ```{r roc_participant}
 roc1_rvars(m.categorical, distinct(d, participant), re_formula = ~ (1 | participant))
 ```
