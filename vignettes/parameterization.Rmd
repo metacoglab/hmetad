@@ -38,7 +38,7 @@ Under SDT, the observer is presented with a noisy signal dependent on the underl
 
 $$\mathcal{D}_0(d') = \mathcal{N}\left(-\frac{d'}{2}, 1\right)$$ and $$\mathcal{D}_1(d') = \mathcal{N}\left(\frac{d'}{2}, 1\right)$$ 
 
-However, this decision is not arbitrary and other options are available.
+However, this choice is arbitrary and other options are available.
 
 Given the noisy encoding $x_1$, the observer is tasked with determining the true value of $S$. To do so, they simply threshold $x_1$ such that their response is 
 

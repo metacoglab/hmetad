@@ -265,7 +265,7 @@ tibble(.row = 1) |>
 ```
 
 ### Metacognitive bias
-While mean confidence is often empirically informative, it is not recommended as a measure of metacognitive bias because it is known to be confounded by type 1 response characteristics (i.e., $d'$ and $c$) and by metacognitive sensitivity (i.e., $\textrm{meta-}d'$). Instead, we recommend a new measure of metacognitive bias, $\textrm{meta-}\Delta$, which is the distance between the average of the confidence criteria and $\textrm{meta-}c$. 
+While mean confidence is often empirically informative, it is not recommended as a measure of metacognitive bias because it is known to be confounded by type 1 response characteristics (i.e., $d'$ and $c$) and by metacognitive sensitivity [i.e., $\textrm{meta-}d'$, @sherman2018]. Instead, we recommend a new measure of metacognitive bias, $\textrm{meta-}\Delta$, which is the distance between the average of the confidence criteria and $\textrm{meta-}c$. 
 
 $\textrm{meta-}\Delta$ can be interpreted as lying between two extremes: when $\textrm{meta-}\Delta = 0$, the observer only uses the highest confidence rating, and when $\textrm{meta-}\Delta = \infty$, the observer only uses the lowest confidence rating. 
 
