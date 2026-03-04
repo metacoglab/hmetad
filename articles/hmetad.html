@@ -83,7 +83,8 @@
 </h2>
 <p>This vignette demonstrates how to use the <code>hmetad</code> package
 to fit the meta-d’ model <span class="citation">(<a href="#ref-maniscalco2012">Maniscalco and Lau 2012</a>)</span> to a
-dataset including a binary decision with confidence ratings.</p>
+canonical metacognition experiment which requires a binary decision
+together with a confidence rating on each trial.</p>
 </div>
 <div class="section level2">
 <h2 id="data-preparation">Data preparation<a class="anchor" aria-label="anchor" href="#data-preparation"></a>
@@ -124,11 +125,11 @@ response (confidence; <code>1:K</code>). The trials in this dataset are
 sorted by <code>stimulus</code>, <code>response</code>, and
 <code>confidence</code> because this data set is simulated, but
 otherwise this should look very similar to the kind of data that you
-would immediately get from running an experiment.</p>
+would get from running your own experiment.</p>
 <div class="section level3">
 <h3 id="type-1-type-2-and-joint-responses">Type 1, type 2, and joint responses<a class="anchor" aria-label="anchor" href="#type-1-type-2-and-joint-responses"></a>
 </h3>
-<p>One hiccup is that some paradigms do not collect a separate decision
+<p>One wrinkle is that some paradigms do not collect a separate decision
 (i.e., type 1 response) and confidence rating (i.e., type 2
 response)—rather, they collect a single rating reflecting both the
 primary decision and confidence. For example, instead of a binary type 1
@@ -142,7 +143,7 @@ uncertain <code>"1"</code> response, and <code>2*K</code> represents a
 confident <code>"1"</code> response. We will refer to this as a
 <em>joint response</em>, as it is a combination of the type 1 response
 and the type 2 response.</p>
-<p>If you would like to convert the joint response into separate type 1
+<p>If you would like to convert joint response data into separate type 1
 and type 2 responses, you can use the corresponding functions
 <code>type1_response</code> and <code>type2_response</code>. For
 example, if instead we had a dataset that looked like this:</p>
@@ -574,9 +575,8 @@ stimuli:</p>
 </h3>
 <p>While mean confidence is often empirically informative, it is not
 recommended as a measure of metacognitive bias because it is known to be
-confounded by type 1 response characteristics (i.e., <span class="math inline">d'</span> and <span class="math inline">c</span>) and by metacognitive sensitivity (i.e.,
-<span class="math inline">\textrm{meta-}d'</span>). Instead, we
-recommend a new measure of metacognitive bias, <span class="math inline">\textrm{meta-}\Delta</span>, which is the distance
+confounded by type 1 response characteristics (i.e., <span class="math inline">d'</span> and <span class="math inline">c</span>) and by metacognitive sensitivity <span class="citation">(i.e., <span class="math inline">\textrm{meta-}d'</span>, <a href="#ref-sherman2018">Sherman, Seth, and Barrett 2018</a>)</span>.
+Instead, we recommend a new measure of metacognitive bias, <span class="math inline">\textrm{meta-}\Delta</span>, which is the distance
 between the average of the confidence criteria and <span class="math inline">\textrm{meta-}c</span>.</p>
 <p><span class="math inline">\textrm{meta-}\Delta</span> can be
 interpreted as lying between two extremes: when <span class="math inline">\textrm{meta-}\Delta = 0</span>, the observer only
@@ -710,6 +710,11 @@ Theoretic Approach for Estimating Metacognitive Sensitivity from
 Confidence Ratings.”</span> <em>Consciousness and Cognition</em> 21 (1):
 422–30.
 </div>
+<div id="ref-sherman2018" class="csl-entry">
+Sherman, Maxine T, Anil K Seth, and Adam B Barrett. 2018.
+<span>“Quantifying Metacognitive Thresholds Using Signal-Detection
+Theory.”</span> <em>BioRxiv</em>, 361543.
+</div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -719,7 +724,7 @@ Confidence Ratings.”</span> <em>Consciousness and Cognition</em> 21 (1):
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Kevin O’Neill.</p>
+  <p>Developed by Kevin O’Neill, Stephen Fleming.</p>
 </div>
 
 <div class="pkgdown-footer-right">

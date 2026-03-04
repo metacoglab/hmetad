@@ -1,15 +1,15 @@
 # History of the hmetad package
 
 The `hmetad` package is the most recent implementation of the meta-d’
-model. However, this model has had several implementations since its
-creation.
+model, developed by Brian Maniscalco and Hakwan Lau ([Maniscalco & Lau,
+2012](#ref-maniscalco2012)). This model has had several implementations
+since its creation.
 
 The first implementation of the model used maximum likelihood estimation
 for single participant data ([Maniscalco & Lau,
 2012](#ref-maniscalco2012)), and is still available for download
 [here](https://www.columbia.edu/~bsm2105/type2sdt/). The original code
-is written in MATLAB, however an updated version is also available in
-Python.
+is written in MATLAB and a version is also available in Python.
 
 The model was later implemented by ([Fleming, 2017](#ref-fleming2017))
 in a hierarchical Bayesian framework, which has been shown to provide
@@ -20,12 +20,14 @@ implemented in the probabilistic programming language JAGS, which in
 turn has interfaces in both MATLAB and in R.
 
 The `hmetad` package builds on these previous versions through
-implementation in the `brms` package in R, allowing for estimation with
-complex regression designs. Additionally, `brms` uses the probabilistic
-programming language Stan, which permits much more efficient sampling
-with more reliable model convergence warnings. Because of its increased
-efficiency and flexibility, the `hmetad` package is now the recommended
-approach to fitting the meta-d’ model.
+implementation in the `brms` package in R, retaining the hierarchical
+Bayesian approach of the Hmeta-d toolbox while also allowing for
+flexible estimation of parameters within arbitrarily complex regression
+designs. Additionally, `brms` uses the probabilistic programming
+language Stan, which permits much more efficient sampling with more
+reliable model convergence warnings and extensive diagnostics. Because
+of its increased efficiency and flexibility, the `hmetad` package is our
+recommended approach to fitting the meta-d’ model.
 
 ## References
 

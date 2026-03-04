@@ -12,8 +12,8 @@
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Fit the Meta-D Model of Confidence Ratings Using brms'">
-<meta name="description" content="Implementation of Bayesian regressions over the meta-d\ model of psychological data from two alternative forced choice tasks with ordinal confidence ratings. For more information, see Maniscalco &amp; Lau (2012) &lt;doi:10.1016/j.concog.2011.09.021&gt;. The package is a front-end to the brms' package, which facilitates a wide range of regression designs, as well as tools for efficiently extracting posterior estimates, plotting, and significance testing.">
-<meta property="og:description" content="Implementation of Bayesian regressions over the meta-d\ model of psychological data from two alternative forced choice tasks with ordinal confidence ratings. For more information, see Maniscalco &amp; Lau (2012) &lt;doi:10.1016/j.concog.2011.09.021&gt;. The package is a front-end to the brms' package, which facilitates a wide range of regression designs, as well as tools for efficiently extracting posterior estimates, plotting, and significance testing.">
+<meta name="description" content="Implementation of Bayesian regressions over the meta-d model of psychological data from two alternative forced choice tasks with ordinal confidence ratings. For more information, see Maniscalco &amp; Lau (2012) &lt;doi:10.1016/j.concog.2011.09.021&gt;. The package is a front-end to the brms' package, which facilitates a wide range of regression designs, as well as tools for efficiently extracting posterior estimates, plotting, and significance testing.">
+<meta property="og:description" content="Implementation of Bayesian regressions over the meta-d model of psychological data from two alternative forced choice tasks with ordinal confidence ratings. For more information, see Maniscalco &amp; Lau (2012) &lt;doi:10.1016/j.concog.2011.09.021&gt;. The package is a front-end to the brms' package, which facilitates a wide range of regression designs, as well as tools for efficiently extracting posterior estimates, plotting, and significance testing.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -70,13 +70,14 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>The <code>hmetad</code> package is designed to fit the meta-d’ model for confidence ratings (<a href="#ref-maniscalco2012">Maniscalco &amp; Lau, 2012</a>, <a href="#ref-maniscalco2014">2014</a>). Like the <a href="https://github.com/metacoglab/HMeta-d" class="external-link">Hmeta-d toolbox</a> (<a href="#ref-fleming2017">Fleming, 2017</a>), the <code>hmetad</code> package uses a Bayesian modeling approach. The <code>hmetad</code> package builds on the Hmeta-d toolbox through implementation as a custom family in the <a href="https://paulbuerkner.com/brms/" class="external-link">brms</a> package, which itself provides a friendly interface to the probabilistic programming language <a href="https://mc-stan.org" class="external-link">Stan</a>.</p>
+<p>The <code>hmetad</code> package is designed to fit the meta-d’ model for confidence ratings (<a href="#ref-maniscalco2012">Maniscalco &amp; Lau, 2012</a>, <a href="#ref-maniscalco2014">2014</a>). The <code>hmetad</code> package uses a Bayesian modeling approach, building on and superseding previous development of the <a href="https://github.com/metacoglab/HMeta-d" class="external-link">Hmeta-d toolbox</a> (<a href="#ref-fleming2017">Fleming, 2017</a>). A key advance is implementation as a custom family in the <a href="https://paulbuerkner.com/brms/" class="external-link">brms</a> package, which itself provides a friendly interface to the probabilistic programming language <a href="https://mc-stan.org" class="external-link">Stan</a>.</p>
 <p>This provides major benefits:</p>
 <ul>
 <li>Model designs can be specified as simple <code>R</code> formulas</li>
 <li>Support for complex model designs (e.g., multilevel models, distributional models, multivariate models)</li>
 <li>Interfaces to other packages surrounding <code>brms</code> (e.g., <code>tidybayes</code>, <code>ggdist</code>, <code>bayesplot</code>, <code>loo</code>, <code>posterior</code>, <code>bridgesampling</code>, <code>bayestestR</code>)</li>
-<li>Computation of model-implied quantities (e.g., mean confidence, type 1 and type 2 receiver operating characteristic curves, metacognitive bias)</li>
+<li>Computation of model-implied quantities (e.g., mean confidence, type 1 and type 2 receiver operating characteristic curves)</li>
+<li>Derivation of novel metacognitive bias metrics, and well as established metrics of metacognitive efficiency</li>
 <li>Increased sampling efficiency and better convergence diagnostics</li>
 </ul>
 <div class="section level2">
@@ -392,6 +393,7 @@ Maniscalco, B., &amp; Lau, H. (2014). Signal detection theory analysis of type 1
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Kevin O'Neill <br><small class="roles"> Author, maintainer, copyright holder </small> <a href="https://orcid.org/https://orcid.org/0000-0001-7401-9802" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
+<li>Stephen Fleming <br><small class="roles"> Author, copyright holder </small> <a href="https://orcid.org/https://orcid.org/0000-0003-0233-4891" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
 </ul>
 </div>
 
@@ -407,7 +409,7 @@ Maniscalco, B., &amp; Lau, H. (2014). Signal detection theory analysis of type 1
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Kevin O’Neill.</p>
+  <p>Developed by Kevin O’Neill, Stephen Fleming.</p>
 </div>
 
 <div class="pkgdown-footer-right">

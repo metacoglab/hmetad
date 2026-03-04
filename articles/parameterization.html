@@ -108,7 +108,7 @@ decisions.</p>
 <div class="section level2">
 <h2 id="model-for-type-1-decisions">Model for type 1 decisions<a class="anchor" aria-label="anchor" href="#model-for-type-1-decisions"></a>
 </h2>
-<p>Under SDT, the observer is presented with a noisy signal depending on
+<p>Under SDT, the observer is presented with a noisy signal dependent on
 the underlying stimulus <span class="math inline">x_1 \sim
 \mathcal{D}_S(d')</span> following a distribution <span class="math inline">\mathcal{D}</span> dependent on a stimulus <span class="math inline">S \in \{0, 1\}</span> and the observer’s sensitivity
 <span class="math inline">d'</span>. Typically, <span class="math inline">\mathcal{D}</span> is chosen to be an equal-variance
@@ -116,7 +116,7 @@ normal distribution, such that</p>
 <p><span class="math display">\mathcal{D}_0(d') =
 \mathcal{N}\left(-\frac{d'}{2}, 1\right)</span> and <span class="math display">\mathcal{D}_1(d') =
 \mathcal{N}\left(\frac{d'}{2}, 1\right)</span></p>
-<p>However, this decision is not arbitrary and other options are
+<p>However, this choice is arbitrary and other options are
 available.</p>
 <p>Given the noisy encoding <span class="math inline">x_1</span>, the
 observer is tasked with determining the true value of <span class="math inline">S</span>. To do so, they simply threshold <span class="math inline">x_1</span> such that their response is</p>
@@ -139,11 +139,12 @@ F_{\mathcal{D}_s(d')}\left(c\right) &amp; \textrm{if } r=0
 <h2 id="model-for-type-2-decisions">Model for type 2 decisions<a class="anchor" aria-label="anchor" href="#model-for-type-2-decisions"></a>
 </h2>
 <p>In classical SDT, type 2 decisions are treated just like type 1
-decisions but with more stringent or more liberal response criteria.
-However, this assumes that observers have access to the same information
-when making type 1 and type 2 decisions. Relaxing this assumption, the
-meta-d’ model assumes that type 2 decisions are derived from a separate
-decision variable:</p>
+decisions but with more stringent or more liberal response criteria –
+when the signal passes a more stringent criterion, this is treated as a
+higher confidence choice. However, this assumes that observers have
+access to the same information when making type 1 and type 2 decisions.
+Relaxing this assumption, the meta-d’ model assumes that type 2
+decisions are derived from a separate decision variable:</p>
 <p><span class="math display">
 x_2 \sim \begin{cases}
 \mathcal{D}_S^{(-\infty,
@@ -158,8 +159,8 @@ for the type 1 decision, with two differences. First, the distribution
 is truncated either above or below at the type 1 criterion <span class="math inline">\textrm{meta-}c</span> depending on the initial type
 1 response. This is so that the type 2 decision cannot contradict the
 type 1 decision (i.e., the meta-d’ model does not allow for changes of
-mind). Second, the sensitivity for the type 2 decision is <span class="math inline">\textrm{meta-}d'</span> rather than <span class="math inline">d'</span> to allow for task-level sensitivity
-and metacognitive sensitivity to differ.</p>
+mind). Second, the sensitivity for the type 2 decision is <span class="math inline">\textrm{meta-}d'</span> rather than <span class="math inline">d'</span> to allow task-level sensitivity and
+metacognitive sensitivity to differ.</p>
 <p>Then, to determine the confidence level <span class="math inline">C
 \in \{ 1 \ldots K\}</span>, the observer rates confidence using one of
 two sets of <span class="math inline">K-1</span> ordered confidence
@@ -258,9 +259,9 @@ LL \;&amp;=\; \textrm{multinomial}\_\textrm{lpmf}\left(N_{0,r,c}
 <p>This formulation only requires the model likelihood to be evaluated
 twice (once per stimulus), dramatically increasing the efficiency of
 model fitting. Because of the increase in efficiency, the multinomial
-likelihood is the default in the <code>hmetad</code> package. If the
-categorical likelihood is desired (e.g., for trial-level effects or
-crossed random effects), it can be used with the argument
+likelihood is the default in the <code>hmetad</code> package. If a
+categorical likelihood is desired (e.g., for estimating trial-level
+effects or crossed random effects), it can be used with the argument
 <code>categorical=TRUE</code>.</p>
 </div>
 <div class="section level2">
@@ -272,7 +273,8 @@ discussed by <span class="citation">(<a href="#ref-maniscalco2014">Maniscalco &a
 are multiple ways of fixing <span class="math inline">\textrm{meta-}c</span>. The <code>hmetad</code>
 package implements two:</p>
 <p>Under the fixed parameterization, <span class="math inline">\textrm{meta-}c = c</span>. This parameterization is
-used as the default, since it was also used in the <a href="https://github.com/metacoglab/HMeta-d" class="external-link">Hmeta-d toolbox</a> (see
+used as the default, since it was also used in previous versions of the
+<a href="https://github.com/metacoglab/HMeta-d" class="external-link">Hmeta-d toolbox</a> (see
 also <span class="citation">Fleming (<a href="#ref-fleming2017">2017</a>)</span>).</p>
 <p>Alternatively, under the relative parameterization, <span class="math inline">\frac{\textrm{meta-}c}{\textrm{meta-}d'} =
 \frac{c}{d'}</span>, which is achieved by setting <span class="math inline">\textrm{meta-}c = M c</span>. This parameterization
@@ -287,13 +289,12 @@ default. To use the relative parameterization, simply set
 <h2 id="model-parameterization">Model parameterization<a class="anchor" aria-label="anchor" href="#model-parameterization"></a>
 </h2>
 <p>To further increase the efficiency model fitting and help with
-convergence, the <code>hmetad</code> parameterizes the meta-d’ model so
-that all parameters are unconstrained variables (i.e., they fall in the
-range <span class="math inline">(-\infty, \infty)</span>). The
-parameters for type 1 responses (<span class="math inline">d'</span>
-and <span class="math inline">c</span>) are already unconstrained, so
-they are estimated normally. However, the parameters for the type 2
-parameters are bounded.</p>
+convergence, the <code>hmetad</code> package parameterizes the meta-d’
+model so that all parameters are unconstrained variables (i.e., they
+fall in the range <span class="math inline">(-\infty, \infty)</span>).
+The parameters for type 1 responses (<span class="math inline">d'</span> and <span class="math inline">c</span>) are already unconstrained, so they are
+estimated normally. However, the parameters for the type 2 parameters
+are bounded.</p>
 <p>First, instead of fitting <span class="math inline">\textrm{meta-}d'</span> directly, the
 <code>hmetad</code> package models the <span class="math inline">M</span>-ratio <span class="math inline">M =
 \frac{\textrm{meta-}d'}{d'}</span>. While this parameterization
@@ -366,7 +367,7 @@ metacognition</em> (pp. 25–66). Springer.
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Kevin O’Neill.</p>
+  <p>Developed by Kevin O’Neill, Stephen Fleming.</p>
 </div>
 
 <div class="pkgdown-footer-right">

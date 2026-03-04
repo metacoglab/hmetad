@@ -4,7 +4,8 @@
 
 This vignette demonstrates how to use the `hmetad` package to fit the
 meta-d’ model ([Maniscalco and Lau 2012](#ref-maniscalco2012)) to a
-dataset including a binary decision with confidence ratings.
+canonical metacognition experiment which requires a binary decision
+together with a confidence rating on each trial.
 
 ## Data preparation
 
@@ -46,11 +47,11 @@ presented `stimulus` on each trial (`0` or `1`), the participant’s type
 (confidence; `1:K`). The trials in this dataset are sorted by
 `stimulus`, `response`, and `confidence` because this data set is
 simulated, but otherwise this should look very similar to the kind of
-data that you would immediately get from running an experiment.
+data that you would get from running your own experiment.
 
 ### Type 1, type 2, and joint responses
 
-One hiccup is that some paradigms do not collect a separate decision
+One wrinkle is that some paradigms do not collect a separate decision
 (i.e., type 1 response) and confidence rating (i.e., type 2
 response)—rather, they collect a single rating reflecting both the
 primary decision and confidence. For example, instead of a binary type 1
@@ -62,8 +63,8 @@ represents an uncertain `"1"` response, and `2*K` represents a confident
 `"1"` response. We will refer to this as a *joint response*, as it is a
 combination of the type 1 response and the type 2 response.
 
-If you would like to convert the joint response into separate type 1 and
-type 2 responses, you can use the corresponding functions
+If you would like to convert joint response data into separate type 1
+and type 2 responses, you can use the corresponding functions
 `type1_response` and `type2_response`. For example, if instead we had a
 dataset that looked like this:
 
@@ -537,10 +538,10 @@ tibble(.row = 1) |>
 While mean confidence is often empirically informative, it is not
 recommended as a measure of metacognitive bias because it is known to be
 confounded by type 1 response characteristics (i.e., d' and c) and by
-metacognitive sensitivity (i.e., \textrm{meta-}d'). Instead, we
-recommend a new measure of metacognitive bias, \textrm{meta-}\Delta,
-which is the distance between the average of the confidence criteria and
-\textrm{meta-}c.
+metacognitive sensitivity (i.e., \textrm{meta-}d', [Sherman, Seth, and
+Barrett 2018](#ref-sherman2018)). Instead, we recommend a new measure of
+metacognitive bias, \textrm{meta-}\Delta, which is the distance between
+the average of the confidence criteria and \textrm{meta-}c.
 
 \textrm{meta-}\Delta can be interpreted as lying between two extremes:
 when \textrm{meta-}\Delta = 0, the observer only uses the highest
@@ -682,3 +683,7 @@ draws.roc2 |>
 Maniscalco, Brian, and Hakwan Lau. 2012. “A Signal Detection Theoretic
 Approach for Estimating Metacognitive Sensitivity from Confidence
 Ratings.” *Consciousness and Cognition* 21 (1): 422–30.
+
+Sherman, Maxine T, Anil K Seth, and Adam B Barrett. 2018. “Quantifying
+Metacognitive Thresholds Using Signal-Detection Theory.” *BioRxiv*,
+361543.

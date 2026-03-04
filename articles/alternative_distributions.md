@@ -173,7 +173,7 @@ levels and \textrm{meta-}c = c.
 Once the model is fit, it can be post-processed like any other model
 from the `hmetad` package. Because alternative distributions are often
 understood in terms of their effects on the ROC, here we will focus on
-plotting them.
+plotting both pseudo-type 1 and type 2 ROCs.
 
 Looking at the pseudo-type 1 ROC, we can see that the `gumbel_min`
 distribution exhibits an asymmetry:

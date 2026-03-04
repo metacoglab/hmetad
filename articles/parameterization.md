@@ -32,7 +32,7 @@ decisions.
 
 ## Model for type 1 decisions
 
-Under SDT, the observer is presented with a noisy signal depending on
+Under SDT, the observer is presented with a noisy signal dependent on
 the underlying stimulus x_1 \sim \mathcal{D}\_S(d') following a
 distribution \mathcal{D} dependent on a stimulus S \in \\0, 1\\ and the
 observer’s sensitivity d'. Typically, \mathcal{D} is chosen to be an
@@ -41,7 +41,7 @@ equal-variance normal distribution, such that
 \mathcal{D}\_0(d') = \mathcal{N}\left(-\frac{d'}{2}, 1\right) and
 \mathcal{D}\_1(d') = \mathcal{N}\left(\frac{d'}{2}, 1\right)
 
-However, this decision is not arbitrary and other options are available.
+However, this choice is arbitrary and other options are available.
 
 Given the noisy encoding x_1, the observer is tasked with determining
 the true value of S. To do so, they simply threshold x_1 such that their
@@ -62,11 +62,12 @@ F\_{\mathcal{D}\_s(d')}\left(c\right) & \textrm{if } r=0 \end{cases}
 ## Model for type 2 decisions
 
 In classical SDT, type 2 decisions are treated just like type 1
-decisions but with more stringent or more liberal response criteria.
-However, this assumes that observers have access to the same information
-when making type 1 and type 2 decisions. Relaxing this assumption, the
-meta-d’ model assumes that type 2 decisions are derived from a separate
-decision variable:
+decisions but with more stringent or more liberal response criteria –
+when the signal passes a more stringent criterion, this is treated as a
+higher confidence choice. However, this assumes that observers have
+access to the same information when making type 1 and type 2 decisions.
+Relaxing this assumption, the meta-d’ model assumes that type 2
+decisions are derived from a separate decision variable:
 
 x_2 \sim \begin{cases} \mathcal{D}\_S^{(-\infty,
 \textrm{meta-}c\]}\left(\textrm{meta-}d'\right) & \textrm{if } R=0 \\
@@ -79,8 +80,8 @@ truncated either above or below at the type 1 criterion \textrm{meta-}c
 depending on the initial type 1 response. This is so that the type 2
 decision cannot contradict the type 1 decision (i.e., the meta-d’ model
 does not allow for changes of mind). Second, the sensitivity for the
-type 2 decision is \textrm{meta-}d' rather than d' to allow for
-task-level sensitivity and metacognitive sensitivity to differ.
+type 2 decision is \textrm{meta-}d' rather than d' to allow task-level
+sensitivity and metacognitive sensitivity to differ.
 
 Then, to determine the confidence level C \in \\ 1 \ldots K\\, the
 observer rates confidence using one of two sets of K-1 ordered
@@ -159,9 +160,10 @@ and C=c:
 This formulation only requires the model likelihood to be evaluated
 twice (once per stimulus), dramatically increasing the efficiency of
 model fitting. Because of the increase in efficiency, the multinomial
-likelihood is the default in the `hmetad` package. If the categorical
-likelihood is desired (e.g., for trial-level effects or crossed random
-effects), it can be used with the argument `categorical=TRUE`.
+likelihood is the default in the `hmetad` package. If a categorical
+likelihood is desired (e.g., for estimating trial-level effects or
+crossed random effects), it can be used with the argument
+`categorical=TRUE`.
 
 ## Fixing the type 1 threshold for type 2 responses
 
@@ -171,9 +173,10 @@ be equal with respect to the type 1 criterion c. As discussed by
 of fixing \textrm{meta-}c. The `hmetad` package implements two:
 
 Under the fixed parameterization, \textrm{meta-}c = c. This
-parameterization is used as the default, since it was also used in the
-[Hmeta-d toolbox](https://github.com/metacoglab/HMeta-d) (see also
-Fleming ([2017](#ref-fleming2017))).
+parameterization is used as the default, since it was also used in
+previous versions of the [Hmeta-d
+toolbox](https://github.com/metacoglab/HMeta-d) (see also Fleming
+([2017](#ref-fleming2017))).
 
 Alternatively, under the relative parameterization,
 \frac{\textrm{meta-}c}{\textrm{meta-}d'} = \frac{c}{d'}, which is
@@ -189,10 +192,10 @@ by default. To use the relative parameterization, simply set
 ## Model parameterization
 
 To further increase the efficiency model fitting and help with
-convergence, the `hmetad` parameterizes the meta-d’ model so that all
-parameters are unconstrained variables (i.e., they fall in the range
-(-\infty, \infty)). The parameters for type 1 responses (d' and c) are
-already unconstrained, so they are estimated normally. However, the
+convergence, the `hmetad` package parameterizes the meta-d’ model so
+that all parameters are unconstrained variables (i.e., they fall in the
+range (-\infty, \infty)). The parameters for type 1 responses (d' and c)
+are already unconstrained, so they are estimated normally. However, the
 parameters for the type 2 parameters are bounded.
 
 First, instead of fitting \textrm{meta-}d' directly, the `hmetad`

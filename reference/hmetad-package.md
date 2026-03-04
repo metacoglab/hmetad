@@ -1,6 +1,6 @@
 # hmetad: Fit the Meta-D' Model of Confidence Ratings Using 'brms'
 
-Implementation of Bayesian regressions over the meta-d\\ model of
+Implementation of Bayesian regressions over the meta-d' model of
 psychological data from two alternative forced choice tasks with ordinal
 confidence ratings. For more information, see Maniscalco & Lau (2012)
 [doi:10.1016/j.concog.2011.09.021](https://doi.org/10.1016/j.concog.2011.09.021)
@@ -22,3 +22,8 @@ Useful links:
 
 **Maintainer**: Kevin O'Neill [kevin.o'neill@ucl.ac.uk](mailto:kevin.o)
 ([ORCID](https://orcid.org/0000-0001-7401-9802)) \[copyright holder\]
+
+Authors:
+
+- Stephen Fleming ([ORCID](https://orcid.org/0000-0003-0233-4891))
+  \[copyright holder\]
