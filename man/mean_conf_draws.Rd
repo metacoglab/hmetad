@@ -12,7 +12,8 @@ mean_confidence_draws(
   newdata,
   ...,
   by_stimulus = TRUE,
-  by_response = TRUE
+  by_response = TRUE,
+  by_correct = FALSE
 )
 
 add_mean_confidence_draws(newdata, object, ...)
@@ -22,7 +23,8 @@ mean_confidence_rvars(
   newdata,
   ...,
   by_stimulus = TRUE,
-  by_response = TRUE
+  by_response = TRUE,
+  by_correct = FALSE
 )
 
 add_mean_confidence_rvars(newdata, object, ...)
@@ -32,13 +34,19 @@ add_mean_confidence_rvars(newdata, object, ...)
 
 \item{newdata}{A data frame from which to generate posterior predictions}
 
-\item{...}{Additional arguments to \link[tidybayes:add_predicted_draws]{tidybayes::epred_draws} or \link[tidybayes:add_predicted_rvars]{tidybayes::epred_rvars}}
+\item{...}{Additional arguments to \link[tidybayes:add_predicted_draws]{tidybayes::epred_draws} or
+\link[tidybayes:add_predicted_rvars]{tidybayes::epred_rvars}}
 
 \item{by_stimulus}{If TRUE, predict mean confidence separately by stimulus.
-Otherwise, predict mean confidence averaging over stimuli.}
+Otherwise, predict mean confidence averaging over stimuli. Ignored if
+\code{by_correct==TRUE}.}
 
 \item{by_response}{If TRUE, predict mean confidence separately by response
-Otherwise, predict mean confidence averaging over responses.}
+Otherwise, predict mean confidence averaging over responses. Ignored if
+\code{by_correct==TRUE}.}
+
+\item{by_correct}{If TRUE, predict mean confidence separately for correct and
+incorrect responses.}
 }
 \value{
 a tibble containing posterior draws of mean confidence with the
@@ -46,8 +54,9 @@ following columns:
 \itemize{
 \item \code{.row}: the row of \code{newdata}
 \item \code{.chain}, \code{.iteration}, \code{.draw}: for \code{mean_confidence_draws} and \code{add_mean_confidence_draws}, identifiers for the posterior sample
-\item \code{stimulus}: indicator for stimulus presence (if \code{by_stimulus==TRUE})
-\item \code{response}: indicator for type 1 response (if \code{by_response==TRUE})
+\item \code{stimulus}: indicator for stimulus presence (if \code{by_stimulus==TRUE & by_correct==FALSE})
+\item \code{response}: indicator for type 1 response (if \code{by_response==TRUE & by_correct==FALSE})
+\item \code{correct}: indicator for the accuracy of the type 1 response (if \code{by_correct==TRUE})
 \item \code{.epred}: the predicted mean confidence
 }
 }
@@ -55,10 +64,11 @@ following columns:
 Computes posterior mean confidence conditional on stimulus and
 response (\eqn{\mathbb{E}[C \;\vert\; S=s,R=r]}), stimulus (averaging over
 responses, \eqn{\mathbb{E}[C \;\vert\; S=s]}), response (averaging over
-stimuli, \eqn{\mathbb{E}[C \;\vert\; R=r]}), or neither (averaging over
-stimuli and responses, \eqn{\mathbb{E}[C]}). For \code{mean_confidence_draws}
-and \code{add_mean_confidence_draws}, estimates are returned in a tidy tibble
-with one row per posterior draw, stimulus, and response. For
+stimuli, \eqn{\mathbb{E}[C \;\vert\; R=r]}), neither (averaging over
+stimuli and responses, \eqn{\mathbb{E}[C]}), or accuracy (\eqn{\mathbb{E}[C
+  \;\vert\; A=(r=s)]}). For \code{mean_confidence_draws} and
+\code{add_mean_confidence_draws}, estimates are returned in a tidy tibble with
+one row per posterior draw, stimulus, and response. For
 \code{mean_confidence_rvars} and \code{add_mean_confidence_rvars}, estimates are
 returned as \link[posterior:rvar]{posterior::rvar}s, with one row per row in \code{newdata}.
 
@@ -66,37 +76,33 @@ returned as \link[posterior:rvar]{posterior::rvar}s, with one row per row in \co
 argument order swapped.
 }
 \examples{
-\dontrun{
-# running few iterations so example runs quickly, use more in practice
-example_data <- sim_metad(N_trials = 1000)
-example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
-}
-example_model <- hmetad:::example_model
 newdata <- tidyr::tibble(.row = 1)
 
 # compute mean confidence by stimulus and response
+# equivalent to `add_mean_confidence_draws(newdata, example_model)`
 mean_confidence_draws(example_model, newdata)
-\dontrun{
-add_mean_confidence_draws(newdata, example_model)
-}
 
-\dontrun{
 # compute mean confidence by stimulus
+# equivalent to `add_mean_confidence_draws(newdata, example_model, by_response = FALSE)`
 mean_confidence_draws(example_model, newdata, by_response = FALSE)
-}
 
-\dontrun{
 # compute mean confidence by response
+# equivalent to `add_mean_confidence_draws(newdata, example_model, by_stimulus = FALSE)`
 mean_confidence_draws(example_model, newdata, by_stimulus = FALSE)
-}
 
-\dontrun{
+# compute mean confidence by accuracy
+# equivalent to `add_mean_confidence_draws(newdata, example_model, by_correct = TRUE)`
+mean_confidence_draws(example_model, newdata, by_correct = TRUE)
+
 # compute mean confidence averaging over stimuli and responses
+# equivalent to `add_mean_confidence_draws(newdata, example_model, ...)`
 mean_confidence_draws(example_model, newdata, by_stimulus = FALSE, by_response = FALSE)
-}
 
-\dontrun{
-# use posterior::rvar for increased efficiency
+# use `posterior::rvar` for increased efficiency
+# equivalent to `add_mean_confidence_rvars(newdata, example_model)`
 mean_confidence_rvars(example_model, newdata)
+
 }
+\seealso{
+\code{\link[tidybayes:add_predicted_draws]{tidybayes::epred_draws()}}, \code{\link[tidybayes:add_predicted_rvars]{tidybayes::epred_rvars()}}
 }

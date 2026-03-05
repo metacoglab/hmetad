@@ -43,3 +43,4 @@ RoxygenNote: 7.3.3
 Config/testthat/edition: 3
 URL: https://metacoglab.github.io/hmetad/, https://github.com/metacoglab/hmetad
 BugReports: https://github.com/metacoglab/hmetad/issues
+LazyData: true

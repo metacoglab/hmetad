@@ -316,7 +316,7 @@ sim_metad_condition <- function(N_trials = 100, dprime = rep(1, 2), c = rep(0, 2
 #'   possible value.
 #' @examples
 #' sim_metad_participant(N_participants = 10, N_trials = 10)
-#' sim_metad_participant(mu_dprime = 2, mu_log_M = -1)
+#' sim_metad_participant(N_participants = 25, mu_dprime = 2, mu_log_M = -1)
 #' @export
 sim_metad_participant <- function(N_participants = 100, N_trials = 100,
                                   mu_dprime = 1, sd_dprime = .5, mu_c = 0, sd_c = .5,

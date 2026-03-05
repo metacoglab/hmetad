@@ -18,28 +18,18 @@
 #'  * `stimulus`, `joint_response`, `response`, `confidence`: identifiers for the response type
 #'  * `.prediction`: predicted type 1 and type 2 responses given the stimulus
 #' @examples
-#' \dontrun{
-#' # running few iterations so example runs quickly, use more in practice
-#' example_data <- sim_metad(N_trials = 1000)
-#' example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
-#' }
-#' example_data <- hmetad:::example_data
-#' example_model <- hmetad:::example_model
-#'
+#' newdata <- aggregate_metad(example_data)
 #'
 #' # obtain model predictions
-#' predicted_draws_metad(example_model, aggregate_metad(example_data))
-#' \dontrun{
-#' add_predicted_draws_metad(aggregate_metad(example_data), example_model)
-#' }
+#' # equivalent to `add_predicted_draws_metad(newdata, example_model)`
+#' predicted_draws_metad(example_model, newdata)
 #'
 #' # obtain model predictions (posterior::rvar)
-#' predicted_rvars_metad(example_model, aggregate_metad(example_data))
-#' \dontrun{
-#' add_predicted_rvars_metad(aggregate_metad(example_data), example_model)
-#' }
+#' # equivalent to `add_predicted_rvars_metad(newdata, example_model)`
+#' predicted_rvars_metad(example_model, newdata)
 #'
 #' @rdname predicted_draws_metad
+#' @seealso [tidybayes::predicted_draws()], [tidybayes::predicted_rvars()]
 #' @export
 predicted_draws_metad <- function(object, newdata, ...) {
   if (object$family$family != "custom" ||

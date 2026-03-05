@@ -29,11 +29,8 @@ This provides major benefits:
   - Model designs can be specified as simple `R` formulas
   - Support for complex model designs (e.g., multilevel models,
     distributional models, multivariate models)
-  - Interfaces to other packages surrounding `brms` (e.g., `tidybayes`,
-    `ggdist`, `bayesplot`, `loo`, `posterior`, `bridgesampling`,
-    `bayestestR`)
-  - Computation of model-implied quantities (e.g., mean confidence, type 1
-    and type 2 receiver operating characteristic curves)
+  - Interfaces to other packages surrounding `brms` (e.g., `tidybayes`, `ggdist`, `bayesplot`, `loo`, `posterior`, `bridgesampling`, `bayestestR`)
+  - Computation of model-implied quantities (e.g., mean confidence, type 1 and type 2 receiver operating characteristic curves)
   - Derivation of novel metacognitive bias metrics, and well as established metrics of metacognitive efficiency
   - Increased sampling efficiency and better convergence diagnostics
 
@@ -69,7 +66,7 @@ You can fit an intercepts-only meta-d' model using `fit_metad`:
 ```{r example, results=FALSE, warning=FALSE, message=FALSE}
 library(hmetad)
 
-m <- fit_metad(N ~ 1, data = d, file = "vignettes/models/readme1.rds")
+m <- fit_metad(N ~ 1, data = d)
 ```
 
 ```{r summary, echo=FALSE, warning=FALSE, message=FALSE}
@@ -97,7 +94,7 @@ m <- fit_metad(
       metac2one1diff + metac2one2diff + metac2one3diff ~
       condition + (condition | participant)
   ),
-  data = d, init = "0", file = "vignettes/models/readme2.rds",
+  data = d, init = "0",
   prior = prior(normal(0, 1)) +
     prior(normal(0, 1), dpar = dprime) +
     prior(normal(0, 1), dpar = c) +

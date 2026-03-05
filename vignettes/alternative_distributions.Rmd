@@ -19,10 +19,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r models_dir, include = FALSE}
-dir.create("models", showWarnings = FALSE)
-```
-
 ## Introduction
 The standard meta-d' model assumes that the evidence for making type 1 decisions follows an equal-variance normal distribution and that the evidence for making type 2 decisions follows a truncated equal-variance normal distribution. However, there has been recent interest in using other distributions in signal detection theory. While not all distributions will be identifiable with the meta-d' model (e.g., one cannot simultaneously estimate unequal variances and $\textrm{meta-}d'$), the `hmetad` package allows one to specify any distribution that takes a single parameter defining the location (i.e., mean, median, or mode) of the distribution.
 
@@ -103,7 +99,7 @@ m <- fit_metad(N ~ 1,
     prior(lognormal(-1, 1), class = metac2one1diff) +
     prior(lognormal(-1, 1), class = metac2one2diff) +
     prior(lognormal(-1, 1), class = metac2one3diff),
-  distribution = "gumbel_min", stanvars = gumbel_min, file = "models/gumbel.rds"
+  distribution = "gumbel_min", stanvars = gumbel_min,
 )
 ```
 

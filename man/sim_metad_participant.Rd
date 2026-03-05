@@ -91,5 +91,5 @@ and \code{c2_1_diff} (for the two responses).
 }
 \examples{
 sim_metad_participant(N_participants = 10, N_trials = 10)
-sim_metad_participant(mu_dprime = 2, mu_log_M = -1)
+sim_metad_participant(N_participants = 25, mu_dprime = 2, mu_log_M = -1)
 }

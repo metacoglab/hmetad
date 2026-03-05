@@ -47,35 +47,25 @@ returned in a tidy tibble with one row per posterior draw. For
 \link[posterior:rvar]{posterior::rvar}s, with one row per row in \code{newdata}.
 }
 \examples{
-\dontrun{
-# running few iterations so example runs quickly, use more in practice
-example_data <- sim_metad(N_trials = 1000)
-example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
-}
-example_model <- hmetad:::example_model
 newdata <- tidyr::tibble(.row = 1)
 
 # obtain model parameters (wide format)
+# equivalent to `add_linpred_draws_metad(newdata, example_model)`
 linpred_draws_metad(example_model, newdata)
-\dontrun{
-add_linpred_draws_metad(newdata, example_model)
-}
-
-\dontrun{
+\donttest{
 # obtain model parameters (long format)
+# equivalent to `add_linpred_draws_metad(newdata, example_model, pivot_longer = TRUE)`
 linpred_draws_metad(example_model, newdata, pivot_longer = TRUE)
-add_linpred_draws_metad(newdata, example_model, pivot_longer = TRUE)
-}
 
-\dontrun{
 # obtain model parameters (wide format, posterior::rvar)
+# equivalent to `add_linpred_rvars_metad(newdata, example_model)`
 linpred_rvars_metad(example_model, newdata)
-add_linpred_rvars_metad(newdata, example_model)
-}
 
-\dontrun{
 # obtain model parameters (long format, posterior::rvar)
+# equivalent to `add_linpred_rvars_metad(newdata, example_model, pivot_longer = TRUE)`
 linpred_rvars_metad(example_model, newdata, pivot_longer = TRUE)
-add_linpred_rvars_metad(newdata, example_model, pivot_longer = TRUE)
 }
+}
+\seealso{
+\code{\link[tidybayes:add_predicted_draws]{tidybayes::linpred_draws()}}, \code{\link[tidybayes:add_predicted_rvars]{tidybayes::linpred_rvars()}}
 }

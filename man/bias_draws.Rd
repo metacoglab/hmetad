@@ -48,29 +48,20 @@ response. For \code{metacognitive_bias_rvars} and
 \link[posterior:rvar]{posterior::rvar}s, with one row per row in \code{newdata} and per response.
 }
 \examples{
-\dontrun{
-# running few iterations so example runs quickly, use more in practice
-example_data <- sim_metad(N_trials = 1000)
-example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
-}
-example_model <- hmetad:::example_model
 newdata <- tidyr::tibble(.row = 1)
 
 # compute metacognitive bias
+# equivalent to `add_metacognitive_bias_draws(newdata, example_model)`
 metacognitive_bias_draws(example_model, newdata)
-\dontrun{
-add_metacognitive_bias_draws(newdata, example_model)
-}
-
-\dontrun{
-# use posterior::rvar for increased efficiency
+\donttest{
+# use `posterior::rvar` for increased efficiency
+# equivalent to `add_metacognitive_bias_rvars(newdata, example_model)`
 metacognitive_bias_rvars(example_model, newdata)
-add_metacognitive_bias_rvars(newdata, example_model)
-}
 
-\dontrun{
 # average over the two type 1 responses
-metacognitive_bias_draws(example_model, newdata, by_response = FALSE)
 metacognitive_bias_rvars(example_model, newdata, by_response = FALSE)
 }
+}
+\seealso{
+\code{\link[tidybayes:add_predicted_draws]{tidybayes::linpred_draws()}}, \code{\link[tidybayes:add_predicted_rvars]{tidybayes::linpred_rvars()}}
 }
