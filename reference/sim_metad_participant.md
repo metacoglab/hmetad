@@ -130,34 +130,34 @@ sim_metad_participant(N_participants = 10, N_trials = 10)
 #> # A tibble: 100 × 15
 #>    participant trial stimulus response correct confidence dprime      c
 #>          <int> <int>    <int>    <int>   <int>      <int>  <dbl>  <dbl>
-#>  1           1     1        0        0       1          4  0.428 -0.934
-#>  2           1     2        0        1       0          1  0.428 -0.934
-#>  3           1     3        0        1       0          1  0.428 -0.934
-#>  4           1     4        0        1       0          2  0.428 -0.934
-#>  5           1     5        0        1       0          4  0.428 -0.934
-#>  6           1     1        1        0       0          2  0.428 -0.934
-#>  7           1     2        1        1       1          2  0.428 -0.934
-#>  8           1     3        1        1       1          3  0.428 -0.934
-#>  9           1     4        1        1       1          3  0.428 -0.934
-#> 10           1     5        1        1       1          4  0.428 -0.934
+#>  1           1     1        0        0       1          2  0.711 -0.172
+#>  2           1     2        0        1       0          3  0.711 -0.172
+#>  3           1     3        0        1       0          4  0.711 -0.172
+#>  4           1     4        0        1       0          4  0.711 -0.172
+#>  5           1     5        0        1       0          4  0.711 -0.172
+#>  6           1     1        1        0       0          2  0.711 -0.172
+#>  7           1     2        1        1       1          3  0.711 -0.172
+#>  8           1     3        1        1       1          3  0.711 -0.172
+#>  9           1     4        1        1       1          4  0.711 -0.172
+#> 10           1     5        1        1       1          4  0.711 -0.172
 #> # ℹ 90 more rows
 #> # ℹ 7 more variables: meta_dprime <dbl>, M <dbl>, meta_c2_0 <list>,
 #> #   meta_c2_1 <list>, theta <dbl>, theta_1 <dbl>, theta_2 <dbl>
-sim_metad_participant(mu_dprime = 2, mu_log_M = -1)
-#> # A tibble: 10,000 × 15
-#>    participant trial stimulus response correct confidence dprime        c
-#>          <int> <int>    <int>    <int>   <int>      <int>  <dbl>    <dbl>
-#>  1           1     1        0        0       1          1   1.81 -0.00556
-#>  2           1     2        0        0       1          1   1.81 -0.00556
-#>  3           1     3        0        0       1          1   1.81 -0.00556
-#>  4           1     4        0        0       1          1   1.81 -0.00556
-#>  5           1     5        0        0       1          1   1.81 -0.00556
-#>  6           1     6        0        0       1          1   1.81 -0.00556
-#>  7           1     7        0        0       1          2   1.81 -0.00556
-#>  8           1     8        0        0       1          2   1.81 -0.00556
-#>  9           1     9        0        0       1          2   1.81 -0.00556
-#> 10           1    10        0        0       1          2   1.81 -0.00556
-#> # ℹ 9,990 more rows
+sim_metad_participant(N_participants = 25, mu_dprime = 2, mu_log_M = -1)
+#> # A tibble: 2,500 × 15
+#>    participant trial stimulus response correct confidence dprime      c
+#>          <int> <int>    <int>    <int>   <int>      <int>  <dbl>  <dbl>
+#>  1           1     1        0        0       1          1   2.10 -0.456
+#>  2           1     2        0        0       1          1   2.10 -0.456
+#>  3           1     3        0        0       1          1   2.10 -0.456
+#>  4           1     4        0        0       1          1   2.10 -0.456
+#>  5           1     5        0        0       1          1   2.10 -0.456
+#>  6           1     6        0        0       1          1   2.10 -0.456
+#>  7           1     7        0        0       1          2   2.10 -0.456
+#>  8           1     8        0        0       1          2   2.10 -0.456
+#>  9           1     9        0        0       1          2   2.10 -0.456
+#> 10           1    10        0        0       1          2   2.10 -0.456
+#> # ℹ 2,490 more rows
 #> # ℹ 7 more variables: meta_dprime <dbl>, M <dbl>, meta_c2_0 <list>,
 #> #   meta_c2_1 <list>, theta <dbl>, theta_1 <dbl>, theta_2 <dbl>
 ```

@@ -132,7 +132,7 @@ m <- fit_metad(N ~ 1,
     prior(lognormal(-1, 1), class = metac2one1diff) +
     prior(lognormal(-1, 1), class = metac2one2diff) +
     prior(lognormal(-1, 1), class = metac2one3diff),
-  distribution = "gumbel_min", stanvars = gumbel_min, file = "models/gumbel.rds"
+  distribution = "gumbel_min", stanvars = gumbel_min,
 )
 ```
 

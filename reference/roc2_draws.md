@@ -61,20 +61,20 @@ following columns:
 - `p_hit2`: the cumulative probability of a correct response (\\P(C\ge c
   \\\vert\\ R = S)\\)
 
+## See also
+
+[`tidybayes::epred_draws()`](https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html),
+[`tidybayes::epred_rvars()`](https://mjskay.github.io/tidybayes/reference/add_predicted_rvars.html)
+
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-# running few iterations so example runs quickly, use more in practice
-example_data <- sim_metad(N_trials = 1000)
-example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
-} # }
-example_model <- hmetad:::example_model
 newdata <- tidyr::tibble(.row = 1)
 
 # compute type 2 ROC curve
+# equivalent to `add_roc2_draws(newdata, example_model)`
 roc2_draws(example_model, newdata)
-#> # A tibble: 1,500 × 8
+#> # A tibble: 6,000 × 8
 #> # Groups:   .row, response, confidence [6]
 #>     .row response confidence .chain .iteration .draw p_hit2  p_fa2
 #>    <int>    <int>      <dbl>  <int>      <int> <int>  <dbl>  <dbl>
@@ -88,29 +88,38 @@ roc2_draws(example_model, newdata)
 #>  8     1        0          4     NA         NA     8  0.264 0.0822
 #>  9     1        0          4     NA         NA     9  0.268 0.0627
 #> 10     1        0          4     NA         NA    10  0.256 0.0777
-#> # ℹ 1,490 more rows
-if (FALSE) { # \dontrun{
-add_roc2_draws(newdata, example_model)
-} # }
+#> # ℹ 5,990 more rows
 
 # use posterior::rvar for additional efficiency
+# equivalent to `add_roc2_rvars(newdata, example_model)`
 roc2_rvars(example_model, newdata)
 #> # A tibble: 6 × 5
 #> # Groups:   .row, response, confidence [6]
 #>    .row response confidence        p_hit2          p_fa2
 #>   <int>    <int>      <dbl>    <rvar[1d]>     <rvar[1d]>
-#> 1     1        0          2  0.74 ± 0.020  0.500 ± 0.033
-#> 2     1        0          3  0.48 ± 0.024  0.217 ± 0.024
-#> 3     1        0          4  0.27 ± 0.023  0.080 ± 0.014
-#> 4     1        1          1  0.75 ± 0.019  0.525 ± 0.032
-#> 5     1        1          2  0.45 ± 0.023  0.195 ± 0.024
-#> 6     1        1          3  0.23 ± 0.021  0.062 ± 0.013
-if (FALSE) { # \dontrun{
-add_roc2_rvars(newdata, example_model)
-} # }
+#> 1     1        0          2  0.74 ± 0.020  0.501 ± 0.031
+#> 2     1        0          3  0.48 ± 0.025  0.217 ± 0.024
+#> 3     1        0          4  0.27 ± 0.022  0.080 ± 0.014
+#> 4     1        1          1  0.75 ± 0.019  0.526 ± 0.031
+#> 5     1        1          2  0.45 ± 0.024  0.197 ± 0.025
+#> 6     1        1          3  0.23 ± 0.022  0.063 ± 0.013
 
-if (FALSE) { # \dontrun{
 # include the ROC bounds
+# equivalent to `roc2_draws(newdata, example_model, bounds = TRUE)`
 roc2_draws(example_model, newdata, bounds = TRUE)
-} # }
+#> # A tibble: 10,000 × 8
+#> # Groups:   .row, response, confidence [10]
+#>     .row response confidence .chain .iteration .draw p_hit2  p_fa2
+#>    <int>    <dbl>      <dbl>  <int>      <int> <int>  <dbl>  <dbl>
+#>  1     1        0          4     NA         NA     1  0.279 0.0877
+#>  2     1        0          4     NA         NA     2  0.302 0.0820
+#>  3     1        0          4     NA         NA     3  0.261 0.0706
+#>  4     1        0          4     NA         NA     4  0.233 0.0639
+#>  5     1        0          4     NA         NA     5  0.264 0.0722
+#>  6     1        0          4     NA         NA     6  0.260 0.0664
+#>  7     1        0          4     NA         NA     7  0.267 0.0781
+#>  8     1        0          4     NA         NA     8  0.264 0.0822
+#>  9     1        0          4     NA         NA     9  0.268 0.0627
+#> 10     1        0          4     NA         NA    10  0.256 0.0777
+#> # ℹ 9,990 more rows
 ```

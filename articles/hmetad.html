@@ -267,7 +267,8 @@ function call:</p>
 <p>To fit the model, we can use the <code>fit_metad</code> function.
 This function is simply a wrapper around <code><a href="https://paulbuerkner.com/brms/reference/brm.html" class="external-link">brms::brm</a></code>, so
 users are <strong>strongly</strong> encouraged to become familiar with
-<code>brms</code> before model fitting.</p>
+<a href="https://paulbuerkner.com/brms/" class="external-link">the <code>brms</code>
+package</a> before model fitting.</p>
 <p>Since <code>aggregate_metad</code> will place our dataset has our
 trial counts into a column named <code>N</code> by default, we can use
 <code>N</code> as our response variable even if our data is not yet
@@ -276,7 +277,6 @@ we can use the formula <code>N ~ 1</code>:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_metad.html">fit_metad</a></span><span class="op">(</span><span class="va">N</span> <span class="op">~</span> <span class="fl">1</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">d</span>,</span>
-<span>  file <span class="op">=</span> <span class="st">"models/metad.rds"</span>,</span>
 <span>  prior <span class="op">=</span> <span class="fu"><a href="https://paulbuerkner.com/brms/reference/set_prior.html" class="external-link">prior</a></span><span class="op">(</span><span class="fu">normal</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, class <span class="op">=</span> <span class="va">Intercept</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://paulbuerkner.com/brms/reference/set_prior.html" class="external-link">prior</a></span><span class="op">(</span><span class="fu">normal</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, class <span class="op">=</span> <span class="va">dprime</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://paulbuerkner.com/brms/reference/set_prior.html" class="external-link">prior</a></span><span class="op">(</span><span class="fu">normal</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, class <span class="op">=</span> <span class="va">c</span><span class="op">)</span> <span class="op">+</span></span>
@@ -328,6 +328,24 @@ means (<code>Estimate</code>), posterior standard deviations
 (<code>l-95% CI</code> and <code>u-95% CI</code>), as well as some
 convergence metrics (<code>Rhat</code>, <code>Bulk_ESS</code>, and
 <code>Tail_ESS</code>).</p>
+<div class="section level3">
+<h3 id="manual-model-fitting">Manual model fitting<a class="anchor" aria-label="anchor" href="#manual-model-fitting"></a>
+</h3>
+<p>Most users can use <code>fit_metad</code> as above to fit their
+models. But in some cases, it might be preferable to call
+<code><a href="https://paulbuerkner.com/brms/reference/brm.html" class="external-link">brms::brm</a></code> directly. In such cases, the
+<code>fit_metad</code> function is roughly analogous to the following
+code:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">K</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/n_distinct.html" class="external-link">n_distinct</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">confidence</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://paulbuerkner.com/brms/reference/brm.html" class="external-link">brm</a></span><span class="op">(</span><span class="fu"><a href="https://paulbuerkner.com/brms/reference/brmsformula.html" class="external-link">bf</a></span><span class="op">(</span><span class="va">...</span><span class="op">)</span>,</span>
+<span>  data <span class="op">=</span> <span class="fu"><a href="../reference/aggregate_metad.html">aggregate_metad</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">...</span><span class="op">)</span>,</span>
+<span>  family <span class="op">=</span> <span class="fu"><a href="../reference/metad.html">metad</a></span><span class="op">(</span>K <span class="op">=</span> <span class="va">K</span>, <span class="va">...</span><span class="op">)</span>,</span>
+<span>  stanvars <span class="op">=</span> <span class="fu"><a href="../reference/stanvars_metad.html">stanvars_metad</a></span><span class="op">(</span>K <span class="op">=</span> <span class="va">K</span>, <span class="va">...</span><span class="op">)</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="extract-model-estimates">Extract model estimates<a class="anchor" aria-label="anchor" href="#extract-model-estimates"></a>
@@ -343,7 +361,7 @@ make it easier to work with model posterior samples.</p>
 <p>First, it is often useful to extract the posterior draws of the model
 parameters, which we can do with <code>linpred_draws_metad</code> (which
 is a wrapper around <code><a href="https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html" class="external-link">tidybayes::linpred_draws</a></code>):</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">draws.metad</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/linpred_draws_metad.html">add_linpred_draws_metad</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4,000 × 15</span></span></span>
@@ -368,7 +386,7 @@ sample and a separate column for every model parameter. This format is
 useful for some purposes, but it will often be useful to pivot it so
 that we have a separate row for each model parameter and posterior
 sample:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">draws.metad</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/linpred_draws_metad.html">add_linpred_draws_metad</a></span><span class="op">(</span><span class="va">m</span>, pivot_longer <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 44,000 × 6</span></span></span>
@@ -389,7 +407,7 @@ sample:</p>
 <p>Now that all of the posterior samples are stored in a single column
 <code>.value</code>, it is easy to get posterior summaries using
 e.g. <code><a href="https://mjskay.github.io/ggdist/reference/point_interval.html" class="external-link">tidybayes::median_qi</a></code>:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">draws.metad</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://mjskay.github.io/ggdist/reference/point_interval.html" class="external-link">median_qi</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 11 × 8</span></span></span>
@@ -415,7 +433,7 @@ predictive check</em>: to simulate data from the model’s posterior and
 compare our simulated and actual data. We can do this using the function
 <code>predicted_draws_metad</code> (which is a wrapper around
 <code><a href="https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html" class="external-link">tidybayes::predicted_draws</a></code>):</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">draws.predicted</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predicted_draws_metad.html">predicted_draws_metad</a></span><span class="op">(</span><span class="va">m</span>, <span class="va">d.summary</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 64,000 × 12</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   .row, N_0, N_1, N, stimulus, joint_response, response, confidence</span></span></span>
@@ -442,7 +460,7 @@ data <code>d.summary</code> as well as <code>stimulus</code>,
 as <code>.prediction</code> (indicating the number of simulated trials
 per trial type). From here, we can plot the posterior predictions
 (points and error-bars) against the actual data (bars):</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">draws.predicted</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">.row</span>, <span class="va">stimulus</span>, <span class="va">joint_response</span>, <span class="va">response</span>, <span class="va">confidence</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://mjskay.github.io/ggdist/reference/point_interval.html" class="external-link">median_qi</a></span><span class="op">(</span><span class="va">.prediction</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -455,7 +473,7 @@ per trial type). From here, we can plot the posterior predictions
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="fl">18</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in `[&lt;-.data.frame`(`*tmp*`, , y_vars, value = list(y = c(3, 59, :</span></span>
 <span><span class="co">#&gt; replacement element 1 has 256 rows to replace 16 rows</span></span></code></pre></div>
-<p><img src="hmetad_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" alt="" width="75%" style="display: block; margin: auto;"></p>
+<p><img src="hmetad_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" alt="" width="75%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="posterior-expectations">Posterior expectations<a class="anchor" aria-label="anchor" href="#posterior-expectations"></a>
@@ -464,7 +482,7 @@ per trial type). From here, we can plot the posterior predictions
 than raw response counts. To do this, we can use the same workflow as
 above but using <code>epred_draws_metad</code> (which is a wrapper
 around <code><a href="https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html" class="external-link">tidybayes::epred_draws</a></code>):</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">draws.epred</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/epred_draws_metad.html">epred_draws_metad</a></span><span class="op">(</span><span class="va">m</span>, newdata <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 64,000 × 9</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   .row, stimulus, joint_response, response, confidence [16]</span></span></span>
@@ -482,7 +500,7 @@ around <code><a href="https://mjskay.github.io/tidybayes/reference/add_predicted
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     1        0              1        0          4 0.006<span style="text-decoration: underline;">37</span>     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 63,990 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: .draw &lt;int&gt;</span></span></span></code></pre>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">draws.epred</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">.row</span>, <span class="va">stimulus</span>, <span class="va">joint_response</span>, <span class="va">response</span>, <span class="va">confidence</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://mjskay.github.io/ggdist/reference/point_interval.html" class="external-link">median_qi</a></span><span class="op">(</span><span class="va">.epred</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -504,7 +522,7 @@ around <code><a href="https://mjskay.github.io/tidybayes/reference/add_predicted
 </h3>
 <p>One can also compute implied values of mean confidence from the
 meta-d’ model using <code>mean_confidence_draws</code>:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/mean_conf_draws.html">add_mean_confidence_draws</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://mjskay.github.io/ggdist/reference/point_interval.html" class="external-link">median_qi</a></span><span class="op">(</span><span class="va">.epred</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -530,7 +548,7 @@ confidence per stimulus and response, and <code>.true</code> is the
 empirical mean confidence.</p>
 <p>In addition, we can compute mean confidence marginalizing over
 stimuli:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/mean_conf_draws.html">add_mean_confidence_draws</a></span><span class="op">(</span><span class="va">m</span>, by_stimulus <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://mjskay.github.io/ggdist/reference/point_interval.html" class="external-link">median_qi</a></span><span class="op">(</span><span class="va">.epred</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -544,7 +562,7 @@ stimuli:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1        0   2.03   1.95   2.11   0.95 median qi         2.03</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1        1   2.01   1.96   2.07   0.95 median qi         2.01</span></span></code></pre></div>
 <p>over responses:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/mean_conf_draws.html">add_mean_confidence_draws</a></span><span class="op">(</span><span class="va">m</span>, by_response <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://mjskay.github.io/ggdist/reference/point_interval.html" class="external-link">median_qi</a></span><span class="op">(</span><span class="va">.epred</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -558,7 +576,7 @@ stimuli:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1        0   1.98   1.93   2.03   0.95 median qi         2   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1        1   2.06   2.01   2.11   0.95 median qi         2.04</span></span></code></pre></div>
 <p>or both over stimuli and responses:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/mean_conf_draws.html">add_mean_confidence_draws</a></span><span class="op">(</span><span class="va">m</span>, by_stimulus <span class="op">=</span> <span class="cn">FALSE</span>, by_response <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://mjskay.github.io/ggdist/reference/point_interval.html" class="external-link">median_qi</a></span><span class="op">(</span><span class="va">.epred</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -584,7 +602,7 @@ uses the highest confidence rating, and when <span class="math inline">\textrm{m
 only uses the lowest confidence rating.</p>
 <p>To obtain estimates of <span class="math inline">\textrm{meta-}\Delta</span>, one can use the
 function <code>metacognitive_bias_draws</code>:</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/bias_draws.html">add_metacognitive_bias_draws</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://mjskay.github.io/ggdist/reference/point_interval.html" class="external-link">median_qi</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -599,7 +617,7 @@ function <code>metacognitive_bias_draws</code>:</p>
 </h3>
 <p>To obtain type 1 performance as a pseudo-type 1 ROC, we can use
 <code>add_roc1_draws</code>:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">draws.roc1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/roc1_draws.html">add_roc1_draws</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 28,000 × 9</span></span></span>
@@ -631,7 +649,7 @@ probability of a <code>"1"</code> response with
 <code>confidence &gt;= c</code> given <code>stimulus==0</code>).</p>
 <p>For visualization, we can get posterior summaries of the ROC using
 <code><a href="https://mjskay.github.io/ggdist/reference/point_interval.html" class="external-link">tidybayes::median_qi</a></code> and then simply plot as a line:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">draws.roc1</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://mjskay.github.io/ggdist/reference/point_interval.html" class="external-link">median_qi</a></span><span class="op">(</span><span class="va">p_fa</span>, <span class="va">p_hit</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
@@ -653,7 +671,7 @@ probability of a <code>"1"</code> response with
 </h3>
 <p>Finally, to plot type 2 performance as a type 2 ROC, we can use
 <code>add_roc2_draws</code>:</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">draws.roc2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/roc2_draws.html">add_roc2_draws</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 24,000 × 8</span></span></span>
@@ -680,7 +698,7 @@ with <code>confidence &gt;= c</code> given <code>response</code>). Note
 that this is the response-specific type 2 ROC, so there are two separate
 curves for the two type 1 responses.</p>
 <p>We can also plot the type 2 ROC similarly:</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">draws.roc2</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://mjskay.github.io/ggdist/reference/point_interval.html" class="external-link">median_qi</a></span><span class="op">(</span><span class="va">p_hit2</span>, <span class="va">p_fa2</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>response <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">response</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -697,7 +715,7 @@ curves for the two type 1 responses.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"P(Type 2 False Alarm)"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"P(Type 2 Hit)"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="fl">18</span><span class="op">)</span></span></code></pre></div>
-<p><img src="hmetad_files/figure-html/unnamed-chunk-13-1.png" class="r-plt" alt="" width="75%" style="display: block; margin: auto;"></p>
+<p><img src="hmetad_files/figure-html/unnamed-chunk-14-1.png" class="r-plt" alt="" width="75%" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level2 unnumbered">

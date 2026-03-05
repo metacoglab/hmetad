@@ -53,26 +53,23 @@ following columns:
 - `.prediction`: predicted type 1 and type 2 responses given the
   stimulus
 
+## See also
+
+[`tidybayes::predicted_draws()`](https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html),
+[`tidybayes::predicted_rvars()`](https://mjskay.github.io/tidybayes/reference/add_predicted_rvars.html)
+
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-# running few iterations so example runs quickly, use more in practice
-example_data <- sim_metad(N_trials = 1000)
-example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
-} # }
-example_data <- hmetad:::example_data
-example_model <- hmetad:::example_model
-
+newdata <- aggregate_metad(example_data)
 
 # obtain model predictions
-predicted_draws_metad(example_model, aggregate_metad(example_data))
-if (FALSE) { # \dontrun{
-add_predicted_draws_metad(aggregate_metad(example_data), example_model)
-} # }
+# equivalent to `add_predicted_draws_metad(newdata, example_model)`
+predicted_draws_metad(example_model, newdata)
 
 # obtain model predictions (posterior::rvar)
-predicted_rvars_metad(example_model, aggregate_metad(example_data))
+# equivalent to `add_predicted_rvars_metad(newdata, example_model)`
+predicted_rvars_metad(example_model, newdata)
 #> # A tibble: 16 × 9
 #> # Groups:   .row, N_0, N_1, N, stimulus, joint_response, response, confidence
 #> #   [16]
@@ -95,7 +92,4 @@ predicted_rvars_metad(example_model, aggregate_metad(example_data))
 #> 15     1   500   500          89        1              7        1          3
 #> 16     1   500   500          89        1              8        1          4
 #> # ℹ 2 more variables: N[2:16] <int>, .prediction <rvar[1d]>
-if (FALSE) { # \dontrun{
-add_predicted_rvars_metad(aggregate_metad(example_data), example_model)
-} # }
 ```

@@ -53,20 +53,20 @@ following columns:
 - `.epred`: probability of the type 1 and type 2 response given the
   stimulus, \\P(R, C \\\vert\\ S)\\
 
+## See also
+
+[`tidybayes::epred_draws()`](https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html),
+[`tidybayes::epred_rvars()`](https://mjskay.github.io/tidybayes/reference/add_predicted_rvars.html)
+
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-# running few iterations so example runs quickly, use more in practice
-example_data <- sim_metad(N_trials = 1000)
-example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
-} # }
-example_model <- hmetad:::example_model
 newdata <- tidyr::tibble(.row = 1)
 
 # obtain model predictions
+# equivalent to `add_epred_draws_metad(newdata, example_model)`
 epred_draws_metad(example_model, newdata)
-#> # A tibble: 4,000 × 9
+#> # A tibble: 16,000 × 9
 #> # Groups:   .row, stimulus, joint_response, response, confidence [16]
 #>     .row stimulus joint_response response confidence .epred .chain .iteration
 #>    <int>    <int>          <int>    <int>      <dbl>  <dbl>  <int>      <int>
@@ -80,35 +80,30 @@ epred_draws_metad(example_model, newdata)
 #>  8     1        0              1        0          4  0.176     NA         NA
 #>  9     1        0              1        0          4  0.184     NA         NA
 #> 10     1        0              1        0          4  0.172     NA         NA
-#> # ℹ 3,990 more rows
+#> # ℹ 15,990 more rows
 #> # ℹ 1 more variable: .draw <int>
-if (FALSE) { # \dontrun{
-add_epred_draws_metad(newdata, example_model)
-} # }
 
-# obtain model predictions (posterior::rvar)
+# obtain model predictions (`posterior::rvar`)
+# equivalent to `add_epred_rvars_metad(newdata, example_model)`
 epred_rvars_metad(example_model, newdata)
 #> # A tibble: 16 × 6
 #> # Groups:   .row, stimulus, joint_response, response, confidence [16]
 #>     .row stimulus joint_response response confidence          .epred
 #>    <int>    <int>          <int>    <int>      <dbl>      <rvar[1d]>
-#>  1     1        0              1        0          4  0.188 ± 0.0169
+#>  1     1        0              1        0          4  0.188 ± 0.0165
 #>  2     1        0              2        0          3  0.147 ± 0.0142
-#>  3     1        0              3        0          2  0.180 ± 0.0159
-#>  4     1        0              4        0          1  0.184 ± 0.0150
-#>  5     1        0              5        1          1  0.143 ± 0.0144
-#>  6     1        0              6        1          2  0.099 ± 0.0099
-#>  7     1        0              7        1          3  0.040 ± 0.0051
+#>  3     1        0              3        0          2  0.180 ± 0.0150
+#>  4     1        0              4        0          1  0.185 ± 0.0150
+#>  5     1        0              5        1          1  0.142 ± 0.0142
+#>  6     1        0              6        1          2  0.098 ± 0.0095
+#>  7     1        0              7        1          3  0.040 ± 0.0053
 #>  8     1        0              8        1          4  0.019 ± 0.0039
-#>  9     1        1              1        0          4  0.025 ± 0.0045
-#> 10     1        1              2        0          3  0.043 ± 0.0057
-#> 11     1        1              3        0          2  0.088 ± 0.0087
-#> 12     1        1              4        0          1  0.155 ± 0.0149
-#> 13     1        1              5        1          1  0.171 ± 0.0131
-#> 14     1        1              6        1          2  0.208 ± 0.0145
-#> 15     1        1              7        1          3  0.153 ± 0.0139
-#> 16     1        1              8        1          4  0.158 ± 0.0152
-if (FALSE) { # \dontrun{
-add_epred_rvars_metad(newdata, example_model)
-} # }
+#>  9     1        1              1        0          4  0.025 ± 0.0044
+#> 10     1        1              2        0          3  0.043 ± 0.0058
+#> 11     1        1              3        0          2  0.088 ± 0.0091
+#> 12     1        1              4        0          1  0.155 ± 0.0142
+#> 13     1        1              5        1          1  0.171 ± 0.0135
+#> 14     1        1              6        1          2  0.207 ± 0.0150
+#> 15     1        1              7        1          3  0.153 ± 0.0140
+#> 16     1        1              8        1          4  0.159 ± 0.0160
 ```

@@ -200,8 +200,8 @@ aggregate_metad(d, participant, condition)
 To fit the model, we can use the `fit_metad` function. This function is
 simply a wrapper around
 [`brms::brm`](https://paulbuerkner.com/brms/reference/brm.html), so
-users are **strongly** encouraged to become familiar with `brms` before
-model fitting.
+users are **strongly** encouraged to become familiar with [the `brms`
+package](https://paulbuerkner.com/brms/) before model fitting.
 
 Since `aggregate_metad` will place our dataset has our trial counts into
 a column named `N` by default, we can use `N` as our response variable
@@ -211,7 +211,6 @@ for each parameter, then, we can use the formula `N ~ 1`:
 ``` r
 m <- fit_metad(N ~ 1,
   data = d,
-  file = "models/metad.rds",
   prior = prior(normal(0, 1), class = Intercept) +
     prior(normal(0, 1), class = dprime) +
     prior(normal(0, 1), class = c) +
@@ -263,6 +262,25 @@ parameter, `brms` shows you the posterior means (`Estimate`), posterior
 standard deviations (`Est. Error`), upper- and lower-95% posterior
 quantiles (`l-95% CI` and `u-95% CI`), as well as some convergence
 metrics (`Rhat`, `Bulk_ESS`, and `Tail_ESS`).
+
+### Manual model fitting
+
+Most users can use `fit_metad` as above to fit their models. But in some
+cases, it might be preferable to call
+[`brms::brm`](https://paulbuerkner.com/brms/reference/brm.html)
+directly. In such cases, the `fit_metad` function is roughly analogous
+to the following code:
+
+``` r
+K <- n_distinct(d$confidence)
+
+m <- brm(bf(...),
+  data = aggregate_metad(d, ...),
+  family = metad(K = K, ...),
+  stanvars = stanvars_metad(K = K, ...),
+  ...
+)
+```
 
 ## Extract model estimates
 
@@ -404,7 +422,7 @@ draws.predicted |>
 #> replacement element 1 has 256 rows to replace 16 rows
 ```
 
-![](hmetad_files/figure-html/unnamed-chunk-9-1.png)
+![](hmetad_files/figure-html/unnamed-chunk-10-1.png)
 
 ### Posterior expectations
 
@@ -676,7 +694,7 @@ draws.roc2 |>
   theme_bw(18)
 ```
 
-![](hmetad_files/figure-html/unnamed-chunk-13-1.png)
+![](hmetad_files/figure-html/unnamed-chunk-14-1.png)
 
 ## References
 

@@ -65,20 +65,20 @@ following columns:
   `meta_c2_1_<k>`: if `pivot_longer=FALSE`, posterior samples of all
   meta-d' model parameters
 
+## See also
+
+[`tidybayes::linpred_draws()`](https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html),
+[`tidybayes::linpred_rvars()`](https://mjskay.github.io/tidybayes/reference/add_predicted_rvars.html)
+
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-# running few iterations so example runs quickly, use more in practice
-example_data <- sim_metad(N_trials = 1000)
-example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
-} # }
-example_model <- hmetad:::example_model
 newdata <- tidyr::tibble(.row = 1)
 
 # obtain model parameters (wide format)
+# equivalent to `add_linpred_draws_metad(newdata, example_model)`
 linpred_draws_metad(example_model, newdata)
-#> # A tibble: 250 × 15
+#> # A tibble: 1,000 × 15
 #> # Groups:   .row [1]
 #>     .row .chain .iteration .draw     M dprime       c meta_dprime  meta_c
 #>    <int>  <int>      <int> <int> <dbl>  <dbl>   <dbl>       <dbl>   <dbl>
@@ -92,28 +92,57 @@ linpred_draws_metad(example_model, newdata)
 #>  8     1     NA         NA     8 1.12   0.984 -0.0592        1.10 -0.0303
 #>  9     1     NA         NA     9 1.28   1.01  -0.0244        1.30 -0.0303
 #> 10     1     NA         NA    10 1.21   0.900 -0.0106        1.09 -0.0303
-#> # ℹ 240 more rows
+#> # ℹ 990 more rows
 #> # ℹ 6 more variables: meta_c2_0_1 <dbl>, meta_c2_0_2 <dbl>, meta_c2_0_3 <dbl>,
 #> #   meta_c2_1_1 <dbl>, meta_c2_1_2 <dbl>, meta_c2_1_3 <dbl>
-if (FALSE) { # \dontrun{
-add_linpred_draws_metad(newdata, example_model)
-} # }
-
-if (FALSE) { # \dontrun{
+# \donttest{
 # obtain model parameters (long format)
+# equivalent to `add_linpred_draws_metad(newdata, example_model, pivot_longer = TRUE)`
 linpred_draws_metad(example_model, newdata, pivot_longer = TRUE)
-add_linpred_draws_metad(newdata, example_model, pivot_longer = TRUE)
-} # }
+#> # A tibble: 11,000 × 6
+#> # Groups:   .row, .variable [11]
+#>     .row .chain .iteration .draw .variable    .value
+#>    <int>  <int>      <int> <int> <chr>         <dbl>
+#>  1     1     NA         NA     1 M            1.07  
+#>  2     1     NA         NA     1 dprime       1.03  
+#>  3     1     NA         NA     1 c           -0.0303
+#>  4     1     NA         NA     1 meta_dprime  1.11  
+#>  5     1     NA         NA     1 meta_c      -0.0303
+#>  6     1     NA         NA     1 meta_c2_0_1 -0.553 
+#>  7     1     NA         NA     1 meta_c2_0_2 -0.971 
+#>  8     1     NA         NA     1 meta_c2_0_3 -1.41  
+#>  9     1     NA         NA     1 meta_c2_1_1  0.477 
+#> 10     1     NA         NA     1 meta_c2_1_2  1.03  
+#> # ℹ 10,990 more rows
 
-if (FALSE) { # \dontrun{
 # obtain model parameters (wide format, posterior::rvar)
+# equivalent to `add_linpred_rvars_metad(newdata, example_model)`
 linpred_rvars_metad(example_model, newdata)
-add_linpred_rvars_metad(newdata, example_model)
-} # }
+#> # A tibble: 1 × 12
+#>    .row           M     dprime              c meta_dprime         meta_c
+#>   <dbl>  <rvar[1d]> <rvar[1d]>     <rvar[1d]>  <rvar[1d]>     <rvar[1d]>
+#> 1     1  1.1 ± 0.15  1 ± 0.082  0.015 ± 0.043  1.1 ± 0.12  0.015 ± 0.043
+#> # ℹ 6 more variables: meta_c2_0_1 <rvar[1d]>, meta_c2_0_2 <rvar[1d]>,
+#> #   meta_c2_0_3 <rvar[1d]>, meta_c2_1_1 <rvar[1d]>, meta_c2_1_2 <rvar[1d]>,
+#> #   meta_c2_1_3 <rvar[1d]>
 
-if (FALSE) { # \dontrun{
 # obtain model parameters (long format, posterior::rvar)
+# equivalent to `add_linpred_rvars_metad(newdata, example_model, pivot_longer = TRUE)`
 linpred_rvars_metad(example_model, newdata, pivot_longer = TRUE)
-add_linpred_rvars_metad(newdata, example_model, pivot_longer = TRUE)
-} # }
+#> # A tibble: 11 × 3
+#> # Groups:   .variable [11]
+#>     .row .variable            .value
+#>    <dbl> <chr>            <rvar[1d]>
+#>  1     1 M             1.108 ± 0.150
+#>  2     1 dprime        1.024 ± 0.082
+#>  3     1 c             0.015 ± 0.043
+#>  4     1 meta_dprime   1.127 ± 0.122
+#>  5     1 meta_c        0.015 ± 0.043
+#>  6     1 meta_c2_0_1  -0.491 ± 0.045
+#>  7     1 meta_c2_0_2  -0.966 ± 0.050
+#>  8     1 meta_c2_0_3  -1.432 ± 0.058
+#>  9     1 meta_c2_1_1   0.482 ± 0.043
+#> 10     1 meta_c2_1_2   1.033 ± 0.051
+#> 11     1 meta_c2_1_3   1.547 ± 0.067
+# }
 ```

@@ -119,3 +119,12 @@ distributions
 
 - [`rmatrixnorm()`](https://metacoglab.github.io/hmetad/reference/rmatrixnorm.md)
   : Sample from a matrix-normal distribution
+
+## Example data and model
+
+Inspect an example dataset and fitted meta-d’ model
+
+- [`example_data`](https://metacoglab.github.io/hmetad/reference/example_data.md)
+  : Simulated data for example model fitting
+- [`example_model`](https://metacoglab.github.io/hmetad/reference/example_model.md)
+  : Example meta-d' model for model post-processing

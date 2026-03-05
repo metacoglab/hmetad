@@ -142,19 +142,19 @@ columns:
 ``` r
 sim_metad_participant_condition(10, 10)
 #> # A tibble: 200 × 16
-#>    participant condition trial stimulus response correct confidence dprime     c
-#>          <int>     <int> <int>    <int>    <int>   <int>      <int>  <dbl> <dbl>
-#>  1           1         1     1        0        0       1          2   1.43 0.687
-#>  2           1         1     2        0        0       1          4   1.43 0.687
-#>  3           1         1     3        0        0       1          4   1.43 0.687
-#>  4           1         1     4        0        0       1          4   1.43 0.687
-#>  5           1         1     5        0        0       1          4   1.43 0.687
-#>  6           1         1     1        1        0       0          2   1.43 0.687
-#>  7           1         1     2        1        0       0          3   1.43 0.687
-#>  8           1         1     3        1        0       0          3   1.43 0.687
-#>  9           1         1     4        1        0       0          4   1.43 0.687
-#> 10           1         1     5        1        1       1          4   1.43 0.687
+#>    participant condition trial stimulus response correct confidence dprime
+#>          <int>     <int> <int>    <int>    <int>   <int>      <int>  <dbl>
+#>  1           1         1     1        0        0       1          2   1.69
+#>  2           1         1     2        0        0       1          2   1.69
+#>  3           1         1     3        0        1       0          1   1.69
+#>  4           1         1     4        0        1       0          2   1.69
+#>  5           1         1     5        0        1       0          4   1.69
+#>  6           1         1     1        1        1       1          3   1.69
+#>  7           1         1     2        1        1       1          3   1.69
+#>  8           1         1     3        1        1       1          4   1.69
+#>  9           1         1     4        1        1       1          4   1.69
+#> 10           1         1     5        1        1       1          4   1.69
 #> # ℹ 190 more rows
-#> # ℹ 7 more variables: meta_dprime <dbl>, M <dbl>, meta_c2_0 <list>,
+#> # ℹ 8 more variables: c <dbl>, meta_dprime <dbl>, M <dbl>, meta_c2_0 <list>,
 #> #   meta_c2_1 <list>, theta <dbl>, theta_1 <dbl>, theta_2 <dbl>
 ```

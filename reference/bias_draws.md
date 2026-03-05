@@ -60,20 +60,20 @@ following columns:
 - `metacognitive_bias`: the distance between `meta_c` and the average of
   the confidence criteria `meta_c2_{response}`.
 
+## See also
+
+[`tidybayes::linpred_draws()`](https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html),
+[`tidybayes::linpred_rvars()`](https://mjskay.github.io/tidybayes/reference/add_predicted_rvars.html)
+
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-# running few iterations so example runs quickly, use more in practice
-example_data <- sim_metad(N_trials = 1000)
-example_model <- fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
-} # }
-example_model <- hmetad:::example_model
 newdata <- tidyr::tibble(.row = 1)
 
 # compute metacognitive bias
+# equivalent to `add_metacognitive_bias_draws(newdata, example_model)`
 metacognitive_bias_draws(example_model, newdata)
-#> # A tibble: 500 × 6
+#> # A tibble: 2,000 × 6
 #> # Groups:   .row, response [2]
 #>     .row response .chain .iteration .draw metacognitive_bias
 #>    <int>    <int>  <int>      <int> <int>              <dbl>
@@ -87,20 +87,24 @@ metacognitive_bias_draws(example_model, newdata)
 #>  8     1        0     NA         NA     8              0.941
 #>  9     1        0     NA         NA     9              0.969
 #> 10     1        0     NA         NA    10              1.01 
-#> # ℹ 490 more rows
-if (FALSE) { # \dontrun{
-add_metacognitive_bias_draws(newdata, example_model)
-} # }
-
-if (FALSE) { # \dontrun{
-# use posterior::rvar for increased efficiency
+#> # ℹ 1,990 more rows
+# \donttest{
+# use `posterior::rvar` for increased efficiency
+# equivalent to `add_metacognitive_bias_rvars(newdata, example_model)`
 metacognitive_bias_rvars(example_model, newdata)
-add_metacognitive_bias_rvars(newdata, example_model)
-} # }
+#> # A tibble: 2 × 3
+#> # Groups:   .row, response [2]
+#>    .row response metacognitive_bias
+#>   <dbl>    <int>         <rvar[1d]>
+#> 1     1        0       0.98 ± 0.042
+#> 2     1        1       1.01 ± 0.047
 
-if (FALSE) { # \dontrun{
 # average over the two type 1 responses
-metacognitive_bias_draws(example_model, newdata, by_response = FALSE)
 metacognitive_bias_rvars(example_model, newdata, by_response = FALSE)
-} # }
+#> # A tibble: 1 × 2
+#> # Groups:   .row [1]
+#>    .row metacognitive_bias
+#>   <dbl>         <rvar[1d]>
+#> 1     1       0.99 ± 0.029
+# }
 ```
