@@ -83,3 +83,10 @@ reference:
     - cor_matrix
     - rmatrixnorm
 
+  - title: Example data and model
+    desc: >
+      Inspect an example dataset and fitted meta-d' model
+    contents:
+    - example_data
+    - example_model
+
