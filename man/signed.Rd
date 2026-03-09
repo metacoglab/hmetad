@@ -41,8 +41,7 @@ to_signed(10)
 # `to_unsigned` also works with any signed integer
 to_unsigned(-10)
 
-\dontrun{
 # neither function works with factors
-to_unsigned(factor(1))
-}
+try(to_signed(factor(1)))
+tryCatch(to_unsigned(factor(1)), warning=function(w) w)
 }

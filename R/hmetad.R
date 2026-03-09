@@ -24,10 +24,9 @@
 #' # `to_unsigned` also works with any signed integer
 #' to_unsigned(-10)
 #'
-#' \dontrun{
 #' # neither function works with factors
-#' to_unsigned(factor(1))
-#' }
+#' try(to_signed(factor(1)))
+#' tryCatch(to_unsigned(factor(1)), warning=function(w) w)
 #' @rdname signed
 #' @export
 to_signed <- function(x) ifelse(x, 1, -1)
@@ -405,8 +404,7 @@ aggregate_metad <- function(
 #' # fit a basic model on simulated data
 #' # (use `empty=true` to bypass fitting, *do not use in real analysis*)
 #' fit_metad(N ~ 1, sim_metad(), empty = TRUE)
-#'
-#' \dontrun{
+#' \donttest{
 #' # fit a basic model on simulated data
 #' fit_metad(N ~ 1, sim_metad())
 #'

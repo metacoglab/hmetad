@@ -88,8 +88,7 @@ metad(3)
 # fit a basic model on simulated data
 # (use `empty=true` to bypass fitting, *do not use in real analysis*)
 fit_metad(N ~ 1, sim_metad(), empty = TRUE)
-
-\dontrun{
+\donttest{
 # fit a basic model on simulated data
 fit_metad(N ~ 1, sim_metad())
 
