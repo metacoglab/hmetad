@@ -75,7 +75,7 @@ predicted_draws_metad <- function(object, newdata, ...) {
         "response", "confidence"
       ) |>
       group_by(
-        .row, !!!syms(.cols), .data$stimulus, .data$joint_response,
+        .data$.row, !!!syms(.cols), .data$stimulus, .data$joint_response,
         .data$response, .data$confidence
       )
   } else {
@@ -105,7 +105,7 @@ predicted_draws_metad <- function(object, newdata, ...) {
         ".row", !!!syms(.cols), !!sym(.stimulus), "joint_response",
         "response", "confidence"
       ) |>
-      group_by(.row, !!!syms(.cols), !!sym(.stimulus))
+      group_by(.data$.row, !!!syms(.cols), !!sym(.stimulus))
   }
 }
 
@@ -122,6 +122,9 @@ predicted_rvars_metad <- function(object, newdata, ...) {
     !stringr::str_starts(object$family$name, "metad")) {
     stop("Model must use the `metad` family.")
   }
+
+  ## recover types of independent variables
+  object <- tidybayes::recover_types(object)
 
   ## grouping columns
   .stimulus <- get_stimulus(object)

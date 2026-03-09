@@ -92,7 +92,7 @@ epred_draws_metad <- function(object, newdata, ...) {
       "response", "confidence", ".epred"
     ) |>
     group_by(
-      .row, !!!syms(.cols), !!sym(.stimulus), .data$joint_response,
+      .data$.row, !!!syms(.cols), !!sym(.stimulus), .data$joint_response,
       .data$response, .data$confidence
     )
 }
@@ -168,7 +168,7 @@ epred_rvars_metad <- function(object, newdata, ...) {
       "response", "confidence", ".epred"
     ) |>
     group_by(
-      .row, !!!syms(.cols), !!sym(.stimulus), .data$joint_response,
+      .data$.row, !!!syms(.cols), !!sym(.stimulus), .data$joint_response,
       .data$response, .data$confidence
     )
 }

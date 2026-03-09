@@ -129,6 +129,16 @@ metacognitive_bias_rvars <- function(object, newdata, ..., by_response = TRUE) {
     stop("Model must use the `metad` family.")
   }
 
+  ## recover types of independent variables
+  object <- tidybayes::recover_types(object)
+
+  # ensure newdata has .row column
+  if (!(".row" %in% names(newdata))) {
+    newdata <- newdata |>
+      ungroup() |>
+      mutate(.row=row_number())
+  }
+
   ## grouping columns
   .stimulus <- get_stimulus(object)
   .cols <- names(newdata)

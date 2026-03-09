@@ -128,6 +128,13 @@ linpred_rvars_metad <- function(object, newdata, ..., pivot_longer = FALSE) {
   ## recover types of independent variables
   object <- tidybayes::recover_types(object)
 
+  # ensure newdata has .row column
+  if (!(".row" %in% names(newdata))) {
+    newdata <- newdata |>
+      ungroup() |>
+      mutate(.row=row_number())
+  }
+
   ## grouping columns
   .stimulus <- get_stimulus(object)
   .cols <- names(newdata)
@@ -178,10 +185,10 @@ linpred_rvars_metad <- function(object, newdata, ..., pivot_longer = FALSE) {
         ),
         names_to = ".variable", values_to = ".value"
       ) |>
-      group_by(!!!syms(.cols), .data$.variable)
+      group_by(.data$.row, !!!syms(.cols), .data$.variable)
   } else {
     draws |>
-      group_by(!!!syms(.cols))
+      group_by(.data$.row, !!!syms(.cols))
   }
 }
 
