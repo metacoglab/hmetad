@@ -50,8 +50,10 @@ to_signed(10)
 to_unsigned(-10)
 #> [1] 0
 
-if (FALSE) { # \dontrun{
 # neither function works with factors
-to_unsigned(factor(1))
-} # }
+try(to_signed(factor(1)))
+#> Error in storage.mode(test) <- "logical" : 
+#>   invalid to change the storage mode of a factor
+tryCatch(to_unsigned(factor(1)), warning=function(w) w)
+#> <simpleWarning in Ops.factor(x, 0): ‘>’ not meaningful for factors>
 ```
