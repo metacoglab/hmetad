@@ -46,15 +46,9 @@ fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
 #> Start sampling
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
-#> Chain 1: Rejecting initial value:
-#> Chain 1:   Gradient evaluated at the initial value is not finite.
-#> Chain 1:   Stan can't start sampling from this initial value.
-#> Chain 1: Rejecting initial value:
-#> Chain 1:   Gradient evaluated at the initial value is not finite.
-#> Chain 1:   Stan can't start sampling from this initial value.
 #> Chain 1: 
-#> Chain 1: Gradient evaluation took 9e-06 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.09 seconds.
+#> Chain 1: Gradient evaluation took 4.5e-05 seconds
+#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.45 seconds.
 #> Chain 1: Adjust your expectations accordingly!
 #> Chain 1: 
 #> Chain 1: 
@@ -71,10 +65,16 @@ fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
 #> Chain 1: Iteration: 450 / 500 [ 90%]  (Sampling)
 #> Chain 1: Iteration: 500 / 500 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.025 seconds (Warm-up)
-#> Chain 1:                0.019 seconds (Sampling)
+#> Chain 1:  Elapsed Time: 0.023 seconds (Warm-up)
+#> Chain 1:                0.021 seconds (Sampling)
 #> Chain 1:                0.044 seconds (Total)
 #> Chain 1: 
+#> Warning: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.
+#> Running the chains for more iterations may help. See
+#> https://mc-stan.org/misc/warnings.html#bulk-ess
+#> Warning: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.
+#> Running the chains for more iterations may help. See
+#> https://mc-stan.org/misc/warnings.html#tail-ess
 #>  Family: metad__4__normal__absolute__multinomial 
 #>   Links: mu = log 
 #> Formula: N ~ 1 
@@ -84,18 +84,18 @@ fit_metad(N ~ 1, example_data, chains = 1, iter = 500)
 #> 
 #> Regression Coefficients:
 #>           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-#> Intercept     0.10      0.15    -0.18     0.38 1.01      165      141
+#> Intercept     0.09      0.14    -0.22     0.33 1.02      208       83
 #> 
 #> Further Distributional Parameters:
 #>                 Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-#> dprime              1.03      0.09     0.85     1.19 1.00      143      173
-#> c                   0.02      0.04    -0.07     0.10 1.01      193      190
-#> metac2zero1diff     0.51      0.03     0.44     0.58 1.01      199      184
-#> metac2zero2diff     0.48      0.04     0.41     0.55 1.00      320      191
-#> metac2zero3diff     0.46      0.04     0.39     0.54 1.01      515      195
-#> metac2one1diff      0.47      0.04     0.40     0.54 1.00      171      115
-#> metac2one2diff      0.55      0.05     0.47     0.64 1.00      446      219
-#> metac2one3diff      0.51      0.05     0.42     0.61 1.00      204      207
+#> dprime              1.03      0.09     0.87     1.21 1.01      221      209
+#> c                   0.01      0.04    -0.06     0.10 1.00      190      206
+#> metac2zero1diff     0.51      0.04     0.44     0.58 1.01      232      170
+#> metac2zero2diff     0.47      0.04     0.41     0.55 1.00      313      222
+#> metac2zero3diff     0.47      0.05     0.38     0.57 1.00      397      160
+#> metac2one1diff      0.47      0.03     0.41     0.53 1.00      272      195
+#> metac2one2diff      0.55      0.05     0.47     0.65 1.04      372       85
+#> metac2one3diff      0.51      0.05     0.41     0.61 1.00      203      178
 #> 
 #> Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
 #> and Tail_ESS are effective sample size measures, and Rhat is the potential

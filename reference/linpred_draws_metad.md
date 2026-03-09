@@ -119,6 +119,7 @@ linpred_draws_metad(example_model, newdata, pivot_longer = TRUE)
 # equivalent to `add_linpred_rvars_metad(newdata, example_model)`
 linpred_rvars_metad(example_model, newdata)
 #> # A tibble: 1 × 12
+#> # Groups:   .row [1]
 #>    .row           M     dprime              c meta_dprime         meta_c
 #>   <dbl>  <rvar[1d]> <rvar[1d]>     <rvar[1d]>  <rvar[1d]>     <rvar[1d]>
 #> 1     1  1.1 ± 0.15  1 ± 0.082  0.015 ± 0.043  1.1 ± 0.12  0.015 ± 0.043
@@ -130,7 +131,7 @@ linpred_rvars_metad(example_model, newdata)
 # equivalent to `add_linpred_rvars_metad(newdata, example_model, pivot_longer = TRUE)`
 linpred_rvars_metad(example_model, newdata, pivot_longer = TRUE)
 #> # A tibble: 11 × 3
-#> # Groups:   .variable [11]
+#> # Groups:   .row, .variable [11]
 #>     .row .variable            .value
 #>    <dbl> <chr>            <rvar[1d]>
 #>  1     1 M             1.108 ± 0.150

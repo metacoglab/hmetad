@@ -86,7 +86,7 @@ aggregate_metad(d)
 #> # A tibble: 1 × 3
 #>     N_0   N_1 N[,"N_0_1"] [,"N_0_2"] [,"N_0_3"] [,"N_0_4"] [,"N_0_5"] [,"N_0_6"]
 #>   <int> <int>       <int>      <int>      <int>      <int>      <int>      <int>
-#> 1    50    50           8          5          4         12         10          7
+#> 1    50    50           4         11         10          7          4          8
 #> # ℹ 1 more variable: N[7:16] <int>
 
 # aggregate a dataset with grouping factors
@@ -95,8 +95,8 @@ aggregate_metad(d2, condition)
 #> # A tibble: 2 × 4
 #>   condition   N_0   N_1 N[,"N_0_1"] [,"N_0_2"] [,"N_0_3"] [,"N_0_4"] [,"N_0_5"]
 #>   <fct>     <int> <int>       <int>      <int>      <int>      <int>      <int>
-#> 1 1            50    50           7          4         10         16          5
-#> 2 2            50    50           3          6         10         13          9
+#> 1 1            50    50           7          5         10          7         10
+#> 2 2            50    50           9          8          5          9          8
 #> # ℹ 1 more variable: N[6:16] <int>
 
 # can also aggregate ignoring grouping factors
@@ -104,7 +104,7 @@ aggregate_metad(d2)
 #> # A tibble: 1 × 3
 #>     N_0   N_1 N[,"N_0_1"] [,"N_0_2"] [,"N_0_3"] [,"N_0_4"] [,"N_0_5"] [,"N_0_6"]
 #>   <int> <int>       <int>      <int>      <int>      <int>      <int>      <int>
-#> 1   100   100          10         10         20         29         14          9
+#> 1   100   100          16         13         15         16         18          9
 #> # ℹ 1 more variable: N[7:16] <int>
 
 # aggregate data with only `joint_response` column
@@ -128,6 +128,6 @@ d |>
 #> # A tibble: 1 × 3
 #>     N_0   N_1 N[,"N_0_1"] [,"N_0_2"] [,"N_0_3"] [,"N_0_4"] [,"N_0_5"] [,"N_0_6"]
 #>   <int> <int>       <int>      <int>      <int>      <int>      <int>      <int>
-#> 1    50    50           8          5          4         12         10          7
+#> 1    50    50           4         11         10          7          4          8
 #> # ℹ 1 more variable: N[7:16] <int>
 ```

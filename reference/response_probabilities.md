@@ -44,9 +44,9 @@ d <- sim_metad() |> aggregate_metad()
 # Compute conditional response probabilities
 response_probabilities(d$N)
 #>      N_0_1 N_0_2 N_0_3 N_0_4 N_0_5 N_0_6 N_0_7 N_0_8 N_1_1 N_1_2 N_1_3 N_1_4
-#> [1,]  0.12  0.22  0.24  0.08  0.16  0.14     0  0.04  0.06  0.02  0.14  0.04
+#> [1,]  0.22  0.14   0.2  0.14  0.12  0.12  0.02  0.04     0     0  0.08  0.18
 #>      N_1_5 N_1_6 N_1_7 N_1_8
-#> [1,]  0.28  0.16   0.1   0.2
+#> [1,]  0.18  0.14  0.24  0.18
 
 # Also works on matrices
 matrix(rep(1, 16), nrow = 2) |> response_probabilities()
