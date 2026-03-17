@@ -25,5 +25,5 @@ Useful links:
 
 Authors:
 
-- Stephen Fleming ([ORCID](https://orcid.org/0000-0003-0233-4891))
-  \[copyright holder\]
+- Stephen Fleming <stephen.fleming@ucl.ac.uk>
+  ([ORCID](https://orcid.org/0000-0003-0233-4891)) \[copyright holder\]
