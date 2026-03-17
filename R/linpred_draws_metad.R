@@ -132,7 +132,7 @@ linpred_rvars_metad <- function(object, newdata, ..., pivot_longer = FALSE) {
   if (!(".row" %in% names(newdata))) {
     newdata <- newdata |>
       ungroup() |>
-      mutate(.row=row_number())
+      mutate(.row = row_number())
   }
 
   ## grouping columns

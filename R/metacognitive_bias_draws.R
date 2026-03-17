@@ -136,7 +136,7 @@ metacognitive_bias_rvars <- function(object, newdata, ..., by_response = TRUE) {
   if (!(".row" %in% names(newdata))) {
     newdata <- newdata |>
       ungroup() |>
-      mutate(.row=row_number())
+      mutate(.row = row_number())
   }
 
   ## grouping columns

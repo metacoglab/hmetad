@@ -37,13 +37,12 @@ This provides major benefits:
 
 
 ## Installation
-`hmetad` is currently under submission to CRAN, which means soon you will be able to install it using:
+`hmetad` is available via CRAN and can be installed using:
 ``` {r install, eval=FALSE}
 install.packages("hmetad")
 ```
 
-
-For now, you can install the development version of `hmetad` from [GitHub](https://github.com/metacoglab/hmetad) with:
+Alternatively, you can install the development version of `hmetad` from [GitHub](https://github.com/metacoglab/hmetad) with:
 ``` {r install_dev, eval=FALSE}
 # install.packages("pak")
 pak::pak("metacoglab/hmetad")

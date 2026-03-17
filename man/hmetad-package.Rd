@@ -22,7 +22,7 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Stephen Fleming (\href{https://orcid.org/0000-0003-0233-4891}{ORCID}) [copyright holder]
+  \item Stephen Fleming \email{stephen.fleming@ucl.ac.uk} (\href{https://orcid.org/0000-0003-0233-4891}{ORCID}) [copyright holder]
 }
 
 }
