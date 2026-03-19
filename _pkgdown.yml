@@ -5,6 +5,15 @@ template:
   math-rendering: katex
   bootswatch: simplex
 
+home:
+  title: "hmetad: an R package for hierarchical Bayesian modeling of confidence ratings"
+  description: >
+    Implementation of Bayesian regressions over the meta-d' model of
+    psychological data from two alternative forced choice tasks with
+    ordinal confidence ratings. For more information, see Maniscalco & Lau (2012).
+    The package is a front-end to the 'brms' package, which facilitates a wide
+    range of regression designs, as well as tools for efficiently extracting
+    posterior estimates, plotting, and significance testing.
 
 reference:
   - title: Fitting the meta-d' model
