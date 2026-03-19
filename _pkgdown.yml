@@ -90,3 +90,18 @@ reference:
     - example_data
     - example_model
 
+articles:
+  - title: Package essentials
+    navbar: ~
+    contents:
+    - history
+    - parameterization
+  - title: Additional features
+    navbar: Additional features
+    contents:
+    - categorical
+    - alternative_distributions
+
+
+
+

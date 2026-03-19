@@ -16,10 +16,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-# hmetad
+# hmetad <a href="https://metacoglab.github.io/hmetad/"><img src="man/figures/logo.svg" align="right" height="138" alt="hmetad website" /></a>
 
 <!-- badges: start -->
-  [![R-CMD-check](https://github.com/metacoglab/hmetad/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/metacoglab/hmetad/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/metacoglab/hmetad/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/metacoglab/hmetad/actions/workflows/R-CMD-check.yaml)
+[![CRAN status](https://www.r-pkg.org/badges/version/hmetad)](https://CRAN.R-project.org/package=hmetad)
+[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/grand-total/hmetad?color=blue)](https://r-pkg.org/pkg/hmetad)
 <!-- badges: end -->
 
 The `hmetad` package is designed to fit the meta-d’ model for confidence ratings [@maniscalco2012; @maniscalco2014]. The `hmetad` package uses a Bayesian modeling approach, building on and superseding previous development of the [Hmeta-d toolbox](https://github.com/metacoglab/HMeta-d) [@fleming2017]. A key advance is implementation as a custom family in the [brms](https://paulbuerkner.com/brms/) package, which itself provides a friendly interface to the probabilistic programming language [Stan](https://mc-stan.org).
