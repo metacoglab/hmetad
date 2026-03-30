@@ -54,6 +54,6 @@ to_unsigned(-10)
 try(to_signed(factor(1)))
 #> Error in storage.mode(test) <- "logical" : 
 #>   invalid to change the storage mode of a factor
-tryCatch(to_unsigned(factor(1)), warning=function(w) w)
+tryCatch(to_unsigned(factor(1)), warning = function(w) w)
 #> <simpleWarning in Ops.factor(x, 0): ‘>’ not meaningful for factors>
 ```
