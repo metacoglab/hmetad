@@ -472,7 +472,7 @@ fit_metad <- function(formula, data, ..., aggregate = TRUE,
       data, !!!terms,
       .stimulus = .stimulus, .response = .response,
       .confidence = .confidence, .joint_response = .joint_response,
-      .name = .name,
+      .name = .name, K = K
     )
   }
 

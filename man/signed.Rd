@@ -43,5 +43,5 @@ to_unsigned(-10)
 
 # neither function works with factors
 try(to_signed(factor(1)))
-tryCatch(to_unsigned(factor(1)), warning=function(w) w)
+tryCatch(to_unsigned(factor(1)), warning = function(w) w)
 }
