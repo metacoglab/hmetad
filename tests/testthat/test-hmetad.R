@@ -67,6 +67,12 @@ test_that("aggregate_metad works", {
       )
     )
   )
+
+  a <- aggregate_metad(sim_metad_condition(N_trials = 100), condition)
+  expect_equal(nrow(a), 2)
+  expect_all_equal(a$N_0, 50)
+  expect_all_equal(a$N_1, 50)
+  expect_all_equal(rowSums(a$N), 100)
 })
 
 test_that("aggregate_metad fails for invalid K", {

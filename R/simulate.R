@@ -165,10 +165,11 @@ sim_metad <- function(N_trials = 100, dprime = 1, c = 0, log_M = 0,
         meta_dprime, meta_c, meta_c2_0, meta_c2_1,
         lcdf = lcdf, lccdf = lccdf
       ),
-      theta_1 = ifelse(.data$response, exp(lccdf(c, to_signed(.data$stimulus) * dprime / 2)),
+      theta_1 = ifelse(
+        .data$response,
+        exp(lccdf(c, to_signed(.data$stimulus) * dprime / 2)),
         exp(lcdf(c, to_signed(.data$stimulus) * dprime / 2))
       ),
-      # theta_1=sdt_type1_pmf(first(stimulus), response=response, dprime, c),
       theta_2 = .data$theta / .data$theta_1,
       n = as.vector(rmultinom(1, N_trials / 2, .data$theta))
     ) |>

@@ -107,14 +107,21 @@ aggregate_metad(d, .name = "y")
 ```
 
 
-Finally, if you have other columns in your dataset (e.g., `participant` or `condition` columns) that you would like to be aggregated separately, you can simply add them to the function call:
+If you have other columns in your dataset (e.g., `participant` or `condition` columns) that you would like to be aggregated separately, you can simply add them to the function call:
 ```{r aggregate_condition, eval=FALSE}
 aggregate_metad(d, participant, condition)
 ```
 
 
+Finally, note that `aggregate_metad` automatically estimates the number of confidence levels based on the maximum value of the confidence or joint response column in your data. This usually works fine, but may fail in cases with missing data (e.g., no participant gives a confidence rating of `3` on a `4`-point scale). The number of confidence levels can be specified manually using the argument `K`:
+```{r aggregate_condition_K, eval=FALSE}
+aggregate_metad(d, participant, condition, K = 4)
+```
+
+
+
 ## Model fitting
-To fit the model, we can use the `fit_metad` function. This function is simply a wrapper around `brms::brm`, so users are **strongly** encouraged to become familiar with [the `brms` package](https://paulbuerkner.com/brms/) before model fitting. 
+To fit the model, we can use the `fit_metad` function. This function is simply a wrapper around `brms::brm`, so users are **strongly** encouraged to become familiar with [the `brms` package](https://paulbuerkner.com/brms/) before model fitting. In particular, users are likely to run into convergence errors using the default (flat) priors for model parameters, so we recommend doing careful prior predictive checks to set weakly informed priors [see @schad2021toward for more information].
 
 Since `aggregate_metad` will place our dataset has our trial counts into a column named `N` by default, we can use `N` as our response variable even if our data is not yet aggregated. To fit a model with fixed values for each parameter, then, we can use the formula `N ~ 1`:
 ```{r model_fitting, results=FALSE, message=FALSE, warning=FALSE}
@@ -142,6 +149,7 @@ In this model, `Intercept` is our estimate of $\textrm{log}(M) = \textrm{log}\fr
 Most users can use `fit_metad` as above to fit their models. But in some cases, it might be preferable to call `brms::brm` directly. In such cases, the `fit_metad` function is roughly analogous to the following code:
 
 ```{r eval=FALSE}
+# calculate number of confidence levels
 K <- n_distinct(d$confidence)
 
 m <- brm(bf(...),

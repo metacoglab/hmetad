@@ -21,7 +21,7 @@ single participant data [@maniscalco2012], and is still available for download
 [here](https://www.columbia.edu/~bsm2105/type2sdt/). The original code is 
 written in MATLAB and a version is also available in Python.
 
-The model was later implemented by [@fleming2017] in a hierarchical 
+The model was later implemented by @fleming2017 in a hierarchical 
 Bayesian framework, which has been shown to provide much more reliable estimates
 in the relatively small sample sizes commonly used in psychological experiments.
 This version, known as the 

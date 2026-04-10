@@ -67,7 +67,18 @@ You can fit an intercepts-only meta-d' model using `fit_metad`:
 ```{r example, results=FALSE, warning=FALSE, message=FALSE}
 library(hmetad)
 
-m <- fit_metad(N ~ 1, data = d)
+m <- fit_metad(N ~ 1,
+  data = d,
+  prior = prior(normal(0, 1), class = Intercept) +
+    set_prior(
+      "normal(0, 1)",
+      class = c(
+        "dprime", "c",
+        "metac2zero1diff", "metac2zero2diff", "metac2zero3diff",
+        "metac2one1diff", "metac2one2diff", "metac2one3diff"
+      )
+    )
+)
 ```
 
 ```{r summary, echo=FALSE, warning=FALSE, message=FALSE}
@@ -97,14 +108,13 @@ m <- fit_metad(
   ),
   data = d, init = "0",
   prior = prior(normal(0, 1)) +
-    prior(normal(0, 1), dpar = dprime) +
-    prior(normal(0, 1), dpar = c) +
-    prior(normal(0, 1), dpar = metac2zero1diff) +
-    prior(normal(0, 1), dpar = metac2zero2diff) +
-    prior(normal(0, 1), dpar = metac2zero3diff) +
-    prior(normal(0, 1), dpar = metac2one1diff) +
-    prior(normal(0, 1), dpar = metac2one2diff) +
-    prior(normal(0, 1), dpar = metac2one3diff)
+    set_prior("normal(0, 1)",
+      dpar = c(
+        "dprime", "c",
+        "metac2zero1diff", "metac2zero2diff", "metac2zero3diff",
+        "metac2one1diff", "metac2one2diff", "metac2one3diff"
+      )
+    )
 )
 ```
 

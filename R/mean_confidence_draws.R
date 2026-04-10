@@ -110,9 +110,7 @@ mean_confidence_draws <- function(object, newdata, ...,
             .data$.row, !!!syms(.cols),
             .data$.chain, .data$.iteration, .data$.draw, .data$response
           ) |>
-          summarize(
-            .epred = sum(.data$.epred) / 2 # , .groups = "keep"
-          ) |>
+          summarize(.epred = sum(.data$.epred) / 2) |>
           group_by(.data$.row, !!!syms(.cols), .data$response)
       } else {
         draws |>

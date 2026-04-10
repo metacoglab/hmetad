@@ -26,7 +26,7 @@ metad_pmf(
 
 \item{meta_dprime}{the type 2 sensitivity}
 
-\item{meta_c}{the type 1 criteriom for generating confidence ratings}
+\item{meta_c}{the type 1 criterion for generating confidence ratings}
 
 \item{meta_c2_0}{the type 2 response criteria for \code{"0"} responses, indexed by
 increasing confidence levels}

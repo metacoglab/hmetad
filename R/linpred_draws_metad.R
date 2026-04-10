@@ -63,13 +63,17 @@ linpred_draws_metad <- function(object, newdata, ..., pivot_longer = FALSE) {
   draws <- object |>
     tidybayes::linpred_draws(newdata, ..., value = "M", dpar = TRUE, transform = TRUE) |>
     select(-"mu") |>
-    mutate(
-      meta_dprime = .data$M * .data$dprime,
-      meta_c = ifelse(get_metac(object) == "absolute",
-        .data$c,
-        .data$M * .data$c
-      )
-    ) |>
+    mutate(meta_dprime = .data$M * .data$dprime)
+
+  if (get_metac(object) == "absolute") {
+    draws <- draws |>
+      mutate(meta_c = .data$c)
+  } else {
+    draws <- draws |>
+      mutate(meta_c = .data$M * .data$c)
+  }
+
+  draws <- draws |>
     tidyr::pivot_longer(starts_with("metac2"),
       names_pattern = "metac2(zero|one)([[:digit:]*])diff",
       names_to = c("response", "k"),
@@ -148,10 +152,17 @@ linpred_rvars_metad <- function(object, newdata, ..., pivot_longer = FALSE) {
   draws <- object |>
     tidybayes::linpred_rvars(newdata, ..., value = "M", dpar = TRUE, transform = TRUE) |>
     select(-"mu") |>
-    mutate(
-      meta_dprime = .data$M * .data$dprime,
-      meta_c = .data$c
-    ) |>
+    mutate(meta_dprime = .data$M * .data$dprime)
+
+  if (get_metac(object) == "absolute") {
+    draws <- draws |>
+      mutate(meta_c = .data$c)
+  } else {
+    draws <- draws |>
+      mutate(meta_c = .data$M * .data$c)
+  }
+
+  draws <- draws |>
     tidyr::pivot_longer(starts_with("metac2"),
       names_pattern = "metac2(zero|one)([[:digit:]*])diff",
       names_to = c("response", "k"),

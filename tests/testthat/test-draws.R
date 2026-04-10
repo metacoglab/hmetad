@@ -128,7 +128,8 @@ test_that("mean_confidence_draws works", {
     median_qi() |>
     pull(.epred) |>
     near(
-      d |> group_by(stimulus, response) |>
+      d |>
+        group_by(stimulus, response) |>
         summarize(m = mean(confidence), .groups = "keep") |>
         pull(m),
       tol = .01
@@ -140,7 +141,8 @@ test_that("mean_confidence_draws works", {
     median_qi() |>
     pull(.epred) |>
     near(
-      d |> group_by(response) |>
+      d |>
+        group_by(response) |>
         summarize(m = mean(confidence), .groups = "keep") |>
         pull(m),
       tol = .01
@@ -152,7 +154,8 @@ test_that("mean_confidence_draws works", {
     median_qi() |>
     pull(.epred) |>
     near(
-      d |> group_by(stimulus) |>
+      d |>
+        group_by(stimulus) |>
         summarize(m = mean(confidence), .groups = "keep") |>
         pull(m),
       tol = .01
@@ -164,7 +167,8 @@ test_that("mean_confidence_draws works", {
     median_qi() |>
     pull(.epred) |>
     near(
-      d |> group_by() |>
+      d |>
+        group_by() |>
         summarize(m = mean(confidence), .groups = "keep") |>
         pull(m),
       tol = .01
@@ -182,7 +186,8 @@ test_that("mean_confidence_draws works", {
     median_qi() |>
     pull(.epred) |>
     near(
-      d |> group_by(stimulus, response) |>
+      d |>
+        group_by(stimulus, response) |>
         summarize(m = mean(confidence), .groups = "keep") |>
         pull(m),
       tol = .01
@@ -194,7 +199,8 @@ test_that("mean_confidence_draws works", {
     median_qi() |>
     pull(.epred) |>
     near(
-      d |> group_by(response) |>
+      d |>
+        group_by(response) |>
         summarize(m = mean(confidence), .groups = "keep") |>
         pull(m),
       tol = .01
@@ -206,7 +212,8 @@ test_that("mean_confidence_draws works", {
     median_qi() |>
     pull(.epred) |>
     near(
-      d |> group_by(stimulus) |>
+      d |>
+        group_by(stimulus) |>
         summarize(m = mean(confidence), .groups = "keep") |>
         pull(m),
       tol = .01
@@ -218,7 +225,8 @@ test_that("mean_confidence_draws works", {
     median_qi() |>
     pull(.epred) |>
     near(
-      d |> group_by() |>
+      d |>
+        group_by() |>
         summarize(m = mean(confidence), .groups = "keep") |>
         pull(m),
       tol = .01

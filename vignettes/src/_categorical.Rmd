@@ -10,7 +10,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-<!-- categorical.Rmd is generated from src/categorical.Rmd. Please edit that file -->
+<!-- categorical.Rmd is generated from _categorical.Rmd.src Please edit that file -->
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -19,10 +19,6 @@ knitr::opts_chunk$set(
   dpi = 150, fig.width = 8, fig.height = 6,
   fig.align = "center", out.width = "75%"
 )
-```
-
-```{r models_dir, include = FALSE}
-dir.create("models", showWarnings = FALSE)
 ```
 
 
@@ -125,8 +121,33 @@ If we would like, we can use the `fit_metad` function on this data with particip
 aggregate_metad(d, participant, item)
 ```
 
-As you can see, the aggregated data set has `500` rows (with two observations per row), which is not much smaller than the trial-level data that we started with! So, in this case, it will probably be easier *not* to aggregate our data. Nevertheless, there is nothing stopping us from fitting the model like normal:^[Note that in practice, fitting hierarchical models will usually require setting informed priors and adjusting the Stan sampler settings.]
-```{r multinomial_model, eval=FALSE}
+As you can see, the aggregated data set has `r nrow(aggregate_metad(d, participant, item))` rows (with two observations per row), which is not much smaller than the trial-level data that we started with! So, in this case, it will probably be easier *not* to aggregate our data. Nevertheless, there is nothing stopping us from fitting the model like normal:^[Note that in practice, fitting hierarchical models will usually require setting informed priors and adjusting the Stan sampler settings.]
+```{r multinomial_model}
+# Priors are chosen arbitrarily for this example.
+# Please choose your own wisely!
+priors <- prior(normal(0, .25), class = Intercept) +
+  set_prior(
+    "normal(0, .25)",
+    class = "Intercept",
+    dpar = c("dprime", "c")
+  ) +
+  set_prior("normal(-0.5, .1)",
+    class = "Intercept",
+    dpar = c(
+      "metac2zero1diff", "metac2zero2diff",
+      "metac2one1diff", "metac2one2diff"
+    )
+  ) +
+  prior(normal(0, 1), class = sd) +
+  set_prior("normal(0, 1)",
+    class = "sd",
+    dpar = c(
+      "dprime", "c",
+      "metac2zero1diff", "metac2zero2diff",
+      "metac2one1diff", "metac2one2diff"
+    )
+  )
+
 m.multinomial <- fit_metad(
   bf(
     N ~ 1 + (1 | participant) + (1 | item),
@@ -135,22 +156,7 @@ m.multinomial <- fit_metad(
       metac2one1diff + metac2one2diff ~
       1 + (1 | participant) + (1 | item)
   ),
-  data = d, init = 0, cores = 4,
-  file = "models/multinomial.rds",
-  prior = prior(normal(0, .25), class = Intercept) +
-    prior(normal(0, .25), class = Intercept, dpar = dprime) +
-    prior(normal(0, .25), class = Intercept, dpar = c) +
-    prior(normal(0, .1), class = Intercept, dpar = metac2zero1diff) +
-    prior(normal(0, .1), class = Intercept, dpar = metac2zero2diff) +
-    prior(normal(0, .1), class = Intercept, dpar = metac2one1diff) +
-    prior(normal(0, .1), class = Intercept, dpar = metac2one2diff) +
-    prior(normal(0, 1), class = sd) +
-    prior(normal(0, 1), class = sd, dpar = dprime) +
-    prior(normal(0, 1), class = sd, dpar = c) +
-    prior(normal(0, 1), class = sd, dpar = metac2zero1diff) +
-    prior(normal(0, 1), class = sd, dpar = metac2zero2diff) +
-    prior(normal(0, 1), class = sd, dpar = metac2one1diff) +
-    prior(normal(0, 1), class = sd, dpar = metac2one2diff)
+  data = d, init = 0, cores = 4, prior = priors
 )
 ```
 
@@ -179,7 +185,7 @@ d
 
 ## Model fitting
 Now that we have our data, we can fit the trial-level model using `joint_response` as our response variable, `stimulus` as an extra variable passed to `brms`, and the argument `categorical=TRUE` to tell `fit_metad` not to aggregate the data:
-```{r model_fitting,eval=FALSE}
+```{r model_fitting}
 m.categorical <- fit_metad(
   bf(
     joint_response | vint(stimulus) ~ 1 + (1 | participant) + (1 | item),
@@ -188,22 +194,7 @@ m.categorical <- fit_metad(
       metac2one1diff + metac2one2diff ~
       1 + (1 | participant) + (1 | item)
   ),
-  data = d, categorical = TRUE, init = 0, cores = 4,
-  file = "models/categorical.rds",
-  prior = prior(normal(0, .25), class = Intercept) +
-    prior(normal(0, .25), class = Intercept, dpar = dprime) +
-    prior(normal(0, .25), class = Intercept, dpar = c) +
-    prior(normal(0, .1), class = Intercept, dpar = metac2zero1diff) +
-    prior(normal(0, .1), class = Intercept, dpar = metac2zero2diff) +
-    prior(normal(0, .1), class = Intercept, dpar = metac2one1diff) +
-    prior(normal(0, .1), class = Intercept, dpar = metac2one2diff) +
-    prior(normal(0, 1), class = sd) +
-    prior(normal(0, 1), class = sd, dpar = dprime) +
-    prior(normal(0, 1), class = sd, dpar = c) +
-    prior(normal(0, 1), class = sd, dpar = metac2zero1diff) +
-    prior(normal(0, 1), class = sd, dpar = metac2zero2diff) +
-    prior(normal(0, 1), class = sd, dpar = metac2one1diff) +
-    prior(normal(0, 1), class = sd, dpar = metac2one2diff)
+  data = d, categorical = TRUE, init = 0, cores = 4, prior = priors
 )
 ```
 

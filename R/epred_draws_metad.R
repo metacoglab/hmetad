@@ -69,7 +69,8 @@ epred_draws_metad <- function(object, newdata, ...) {
       draws <- newdata |>
         mutate("{.stimulus}" := 0L) |>
         tidybayes::add_epred_draws(object, ...) |>
-        bind_rows(newdata |> mutate("{.stimulus}" := 1L) |>
+        bind_rows(newdata |>
+          mutate("{.stimulus}" := 1L) |>
           tidybayes::add_epred_draws(object, ...))
     }
 
@@ -146,7 +147,8 @@ epred_rvars_metad <- function(object, newdata, ...) {
       draws <- newdata |>
         mutate("{.stimulus}" := 0L) |>
         tidybayes::add_epred_rvars(object, ..., columns_to = ".category") |>
-        bind_rows(newdata |> mutate("{.stimulus}" := 1L) |>
+        bind_rows(newdata |>
+          mutate("{.stimulus}" := 1L) |>
           tidybayes::add_epred_rvars(object, ..., columns_to = ".category"))
     }
 

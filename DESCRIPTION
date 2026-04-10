@@ -1,6 +1,6 @@
 Package: hmetad
 Title: Fit the Meta-D' Model of Confidence Ratings Using 'brms'
-Version: 0.1.0.9000
+Version: 0.1.1
 Authors@R: c(
     person("Kevin", "O'Neill", email="kevin.o'neill@ucl.ac.uk", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "https://orcid.org/0000-0001-7401-9802")),

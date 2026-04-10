@@ -86,7 +86,8 @@ predicted_draws_metad <- function(object, newdata, ...) {
       draws <- newdata |>
         mutate("{.stimulus}" := 0L) |>
         tidybayes::add_predicted_draws(object, ...) |>
-        bind_rows(newdata |> mutate("{.stimulus}" := 1L) |>
+        bind_rows(newdata |>
+          mutate("{.stimulus}" := 1L) |>
           tidybayes::add_predicted_draws(object, ...))
     }
 
@@ -175,7 +176,8 @@ predicted_rvars_metad <- function(object, newdata, ...) {
       draws <- newdata |>
         mutate("{.stimulus}" := 0L) |>
         tidybayes::add_predicted_rvars(object, ...) |>
-        bind_rows(newdata |> mutate("{.stimulus}" := 1L) |>
+        bind_rows(newdata |>
+          mutate("{.stimulus}" := 1L) |>
           tidybayes::add_predicted_rvars(object, ...))
     }
 
