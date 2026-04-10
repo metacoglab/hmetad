@@ -142,7 +142,7 @@ This formulation only requires the model likelihood to be evaluated twice (once 
 ## Fixing the type 1 threshold for type 2 responses
 The meta-d' model requires the parameter $\textrm{meta-}c$ to be fixed to be equal with respect to the type 1 criterion $c$. As discussed by [@maniscalco2014], there are multiple ways of fixing $\textrm{meta-}c$. The `hmetad` package implements two:
 
-Under the fixed parameterization, $\textrm{meta-}c = c$. This parameterization is used as the default, since it was also used in previous versions of the [Hmeta-d toolbox](https://github.com/metacoglab/HMeta-d) (see also @fleming2017).
+Under the absolute parameterization, $\textrm{meta-}c = c$. This parameterization is used as the default, since it was also used in previous versions of the [Hmeta-d toolbox](https://github.com/metacoglab/HMeta-d) (see also @fleming2017).
 
 Alternatively, under the relative parameterization, $\frac{\textrm{meta-}c}{\textrm{meta-}d'} = \frac{c}{d'}$, which is achieved by setting $\textrm{meta-}c = M c$. This parameterization was used in [@maniscalco2012; @maniscalco2014].
 

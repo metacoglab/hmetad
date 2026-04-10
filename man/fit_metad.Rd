@@ -17,7 +17,8 @@ fit_metad(
   distribution = "normal",
   metac_absolute = TRUE,
   stanvars = NULL,
-  categorical = FALSE
+  categorical = FALSE,
+  logit = TRUE
 )
 }
 \arguments{
@@ -49,8 +50,9 @@ already be aggregated.}
 
 \item{.joint_response}{The name of "joint_response" column}
 
-\item{K}{The number of confidence levels. By default, this is estimated from
-the data.}
+\item{K}{The number of confidence levels in \code{data}. If \code{NULL}, this is
+estimated from \code{data} using the maximum level of either the confidence
+column or joint response column.}
 
 \item{distribution}{The noise distribution to use for the signal detection
 model. By default, uses a normal distribution with a mean parameterized by
@@ -67,6 +69,13 @@ to define an alternative distribution or a custom model prior (see
 \item{categorical}{If \code{FALSE} (default), use the multinomial likelihood over
 aggregated data. If \code{TRUE}, use the categorical likelihood over individual
 trials.}
+
+\item{logit}{If \code{TRUE} (default), use the logit parameterization of the
+likelihood over the log joint response probabilities. If \code{FALSE}, use the
+standard parameterization of the likelihood over the actual joint response
+probabilities. In most cases, the logit parameterization should provide
+more stable numerical computations, but the standard parameterization might
+be preferable in some settings.}
 }
 \value{
 A \code{brmsfit} object containing the fitted model
@@ -77,9 +86,8 @@ meta-d' model.
 }
 \details{
 \code{fit_metad(formula, data, ...)} is approximately the same as
-\code{brm(formula, data=aggregate_metad(data, ...), family=metad(...), stanvars=stanvars_metad(...), ...)}. For some models,
-it may often be easier to use the more explicit version
-than using \code{fit_metad}.
+\code{brm(formula, data=aggregate_metad(data, ...), family=metad(...), stanvars=stanvars_metad(...), ...)}. For some models, it may often be
+easier to use the more explicit version than using \code{fit_metad}.
 }
 \examples{
 # check which parameters the model has

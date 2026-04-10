@@ -14,6 +14,12 @@
 #' @param categorical If `FALSE` (default), use the multinomial likelihood over
 #'   aggregated data. If `TRUE`, use the categorical likelihood over individual
 #'   trials.
+#' @param logit If `TRUE` (default), use the logit parameterization of the
+#'   likelihood over the log joint response probabilities. If `FALSE`, use the
+#'   standard parameterization of the likelihood over the actual joint response
+#'   probabilities. In most cases, the logit parameterization should provide
+#'   more stable numerical computations, but the standard parameterization might
+#'   be preferable in some settings.
 #' @returns A string containing Stan code defining the likelihood for the metad'
 #'   model with `K` confidence levels, signal distributed according to the
 #'   distribution `distribution`, and where `metac = c` if
@@ -22,7 +28,7 @@
 #' @noRd
 stancode_metad <- function(
   K, distribution = "normal", metac_absolute = TRUE,
-  categorical = FALSE
+  categorical = FALSE, logit = TRUE
 ) {
   if (!is.numeric(K) || K <= 1) {
     stop("Number of confidence levels must be an integer greater than 1")
@@ -76,9 +82,10 @@ stancode_metad <- function(
     // weight by P(response|stimulus) and normalize
     log_theta[1:K] += lp_0 - lp2_0[1];
     log_theta[(K+1):(2*K)] += lp_1 - lp2_1[1];
-
-    return exp(log_theta);
-  }
+",
+    ifelse(logit, "    return log_theta;", "    return exp(log_theta);"),
+    "
+}
 
   real metad__", K, "__", distribution, "__",
     ifelse(metac_absolute, "absolute", "relative"),
@@ -102,18 +109,24 @@ stancode_metad <- function(
     "]');
 ",
     ifelse(categorical,
-      paste0("
+      paste0(
+        "
   // use categorical likelihood
-  return categorical_lpmf(y | metad_", distribution, "_pmf(", "stimulus, dprime, c, meta_dprime,
+  return categorical", ifelse(logit, "_logit", ""),
+        "_lpmf(y | metad_", distribution, "_pmf(", "stimulus, dprime, c, meta_dprime,
                           meta_c, meta_c2_0, meta_c2_1));
-"),
-      paste0("
+"
+      ),
+      paste0(
+        "
   // use multinomial likelihood
-  return multinomial_lpmf(Y[1:(2*K)] | metad_", distribution, "_pmf(0, dprime, c,
+  return multinomial", ifelse(logit, "_logit", ""),
+        "_lpmf(Y[1:(2*K)] | metad_", distribution, "_pmf(0, dprime, c,
                           meta_dprime, meta_c, meta_c2_0, meta_c2_1)) +
-    multinomial_lpmf(Y[(2*K+1):(4*K)] |  metad_", distribution, "_pmf(1, dprime, c,
+    multinomial", ifelse(logit, "_logit", ""), "_lpmf(Y[(2*K+1):(4*K)] |  metad_", distribution, "_pmf(1, dprime, c,
                       meta_dprime, meta_c, meta_c2_0, meta_c2_1));
-")
+"
+      )
     ),
     "}"
   )
@@ -135,6 +148,12 @@ stancode_metad <- function(
 #' @param categorical If `FALSE` (default), use the multinomial likelihood over
 #'   aggregated data. If `TRUE`, use the categorical likelihood over individual
 #'   trials.
+#' @param logit If `TRUE` (default), use the logit parameterization of the
+#'   likelihood over the log joint response probabilities. If `FALSE`, use the
+#'   standard parameterization of the likelihood over the actual joint response
+#'   probabilities. In most cases, the logit parameterization should provide
+#'   more stable numerical computations, but the standard parameterization might
+#'   be preferable in some settings.
 #' @returns A [brms::stanvar] object containing Stan code defining the
 #'   likelihood for the metad' model with `K` confidence levels, signal
 #'   distributed according to the distribution `distribution`, and where `metac
@@ -156,13 +175,14 @@ stancode_metad <- function(
 #' @export
 stanvars_metad <- function(
   K, distribution = "normal",
-  metac_absolute = TRUE, categorical = FALSE
+  metac_absolute = TRUE, categorical = FALSE, logit = TRUE
 ) {
   stanvar(
     scode = stancode_metad(K,
       distribution = distribution,
       metac_absolute = metac_absolute,
-      categorical = categorical
+      categorical = categorical,
+      logit = logit
     ),
     block = "functions"
   )
@@ -260,7 +280,7 @@ normal_lccdf <- function(x, mu) pnorm(x, mean = mu, log.p = TRUE, lower.tail = F
 #' @param dprime the type 1 sensitivity
 #' @param c the type 1 response criterion
 #' @param meta_dprime the type 2 sensitivity
-#' @param meta_c the type 1 criteriom for generating confidence ratings
+#' @param meta_c the type 1 criterion for generating confidence ratings
 #' @param meta_c2_0 the type 2 response criteria for `"0"` responses, indexed by
 #' increasing confidence levels
 #' @param meta_c2_1 the type 2 response criteria for `"1"` responses, indexed by
@@ -426,8 +446,8 @@ posterior_epred_metad <- function(prep) {
   p <- NULL
   if (ll == "multinomial") {
     p <- array(dim = c(dim(dprime), 4 * K))
-    for (s in 1:first(dim(dprime))) {
-      for (i in 1:last(dim(dprime))) {
+    for (s in seq_len(first(dim(dprime)))) {
+      for (i in seq_len(last(dim(dprime)))) {
         p[s, i, 1:(2 * K)] <-
           metad_pmf(0, dprime[s, i], c1[s, i], meta_dprime[s, i],
             meta_c[s, i], meta_c2_0[s, i, ], meta_c2_1[s, i, ],
@@ -442,8 +462,8 @@ posterior_epred_metad <- function(prep) {
     }
   } else if (ll == "categorical") {
     p <- array(dim = c(dim(dprime), 2 * K))
-    for (s in 1:first(dim(dprime))) {
-      for (i in 1:last(dim(dprime))) {
+    for (s in seq_len(first(dim(dprime)))) {
+      for (i in seq_len(last(dim(dprime)))) {
         p[s, i, ] <-
           metad_pmf(prep$data$vint1[i], dprime[s, i], c1[s, i], meta_dprime[s, i],
             meta_c[s, i], meta_c2_0[s, i, ], meta_c2_1[s, i, ],

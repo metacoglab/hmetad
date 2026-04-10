@@ -18,8 +18,8 @@ aggregate_metad(
 \arguments{
 \item{data}{The data frame to aggregate}
 
-\item{...}{Grouping columns in \code{data}.
-These columns will be converted to factors.}
+\item{...}{Grouping columns in \code{data}. These columns will be converted to
+factors.}
 
 \item{.stimulus}{The name of "stimulus" column}
 
@@ -31,15 +31,16 @@ These columns will be converted to factors.}
 
 \item{.name}{The name of the resulting column containing trial counts}
 
-\item{K}{The number of confidence levels in \code{data}.
-If \code{NULL}, this is estimated from \code{data}.}
+\item{K}{The number of confidence levels in \code{data}. If \code{NULL}, this is
+estimated from \code{data} using the maximum value of either the confidence
+column or joint response column.}
 }
 \value{
-A tibble with one row per combination of the variables in \code{...},
-and another column named by the value of \code{.response} containing trial counts.
-For \eqn{K} confidence levels, this will be an \eqn{N \times K*4} matrix, such that the
-columns represent (for stimulus \eqn{S}, type 1 response \eqn{R}, and
-type 2 response \eqn{C}):
+A tibble with one row per combination of the variables in \code{...}, and
+another column named by the value of \code{.response} containing trial counts.
+For \eqn{K} confidence levels, this will be an \eqn{N \times K*4} matrix,
+such that the columns represent (for stimulus \eqn{S}, type 1 response
+\eqn{R}, and type 2 response \eqn{C}):
 \deqn{
  [N_{S=0, R=0, C=K}, \ldots, N_{S=0, R=0, C=1}, \\
  N_{S=0, R=1, C=1}, \ldots, N_{S=0, R=1, C=K}, \\
@@ -57,8 +58,8 @@ Counts number of rows in \code{data} with unique combinations values in the
 columns \code{response}, \code{confidence}, and any other columns in \code{...}.
 }
 \details{
-The data frame \code{data} must have one column with the name given by \code{.stimulus}.
-Additionally, it must have either:
+The data frame \code{data} must have one column with the name given by
+\code{.stimulus}. Additionally, it must have either:
 \itemize{
 \item Two columns with names given by \code{.response} and \code{.confidence}
 \item One column with the name given by \code{.joint_response}
@@ -84,7 +85,7 @@ d |>
   ungroup() |>
   mutate(joint_response = joint_response(
     response, confidence,
-    n_distinct(confidence)
+    max(as.integer(confidence))
   )) |>
   select(-response, -confidence) |>
   aggregate_metad()

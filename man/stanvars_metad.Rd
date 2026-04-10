@@ -8,7 +8,8 @@ stanvars_metad(
   K,
   distribution = "normal",
   metac_absolute = TRUE,
-  categorical = FALSE
+  categorical = FALSE,
+  logit = TRUE
 )
 }
 \arguments{
@@ -28,6 +29,13 @@ Otherwise, it will set \code{metac = M * c}, such that the type 2 criterion is
 \item{categorical}{If \code{FALSE} (default), use the multinomial likelihood over
 aggregated data. If \code{TRUE}, use the categorical likelihood over individual
 trials.}
+
+\item{logit}{If \code{TRUE} (default), use the logit parameterization of the
+likelihood over the log joint response probabilities. If \code{FALSE}, use the
+standard parameterization of the likelihood over the actual joint response
+probabilities. In most cases, the logit parameterization should provide
+more stable numerical computations, but the standard parameterization might
+be preferable in some settings.}
 }
 \value{
 A \link[brms:stanvar]{brms::stanvar} object containing Stan code defining the
