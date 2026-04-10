@@ -11,13 +11,13 @@ for single participant data ([Maniscalco & Lau,
 [here](https://www.columbia.edu/~bsm2105/type2sdt/). The original code
 is written in MATLAB and a version is also available in Python.
 
-The model was later implemented by ([Fleming, 2017](#ref-fleming2017))
-in a hierarchical Bayesian framework, which has been shown to provide
-much more reliable estimates in the relatively small sample sizes
-commonly used in psychological experiments. This version, known as the
-[Hmeta-d toolbox](https://github.com/metacoglab/HMeta-d), was
-implemented in the probabilistic programming language JAGS, which in
-turn has interfaces in both MATLAB and in R.
+The model was later implemented by Fleming ([2017](#ref-fleming2017)) in
+a hierarchical Bayesian framework, which has been shown to provide much
+more reliable estimates in the relatively small sample sizes commonly
+used in psychological experiments. This version, known as the [Hmeta-d
+toolbox](https://github.com/metacoglab/HMeta-d), was implemented in the
+probabilistic programming language JAGS, which in turn has interfaces in
+both MATLAB and in R.
 
 The `hmetad` package builds on these previous versions through
 implementation in the `brms` package in R, retaining the hierarchical

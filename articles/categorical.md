@@ -88,22 +88,22 @@ d <- expand_grid(
 ```
 
     #> # A tibble: 2,500 × 16
-    #>    participant  item trial stimulus response correct confidence dprime
-    #>          <int> <int> <int>    <int>    <int>   <int>      <int>  <dbl>
-    #>  1           1     1     1        0        0       1          3   1.67
-    #>  2           1     1     1        1        1       1          2   1.67
-    #>  3           1     2     1        0        0       1          1   1.78
-    #>  4           1     2     1        1        1       1          3   1.78
-    #>  5           1     3     1        0        0       1          3   1.21
-    #>  6           1     3     1        1        0       0          2   1.21
-    #>  7           1     4     1        0        0       1          3   1.27
-    #>  8           1     4     1        1        1       1          3   1.27
-    #>  9           1     5     1        0        0       1          2   1.90
-    #> 10           1     5     1        1        0       0          1   1.90
+    #>    participant  item trial stimulus response correct confidence
+    #>          <int> <int> <int>    <int>    <int>   <int>      <int>
+    #>  1           1     1     1        0        1       0          1
+    #>  2           1     1     1        1        1       1          2
+    #>  3           1     2     1        0        0       1          3
+    #>  4           1     2     1        1        1       1          1
+    #>  5           1     3     1        0        0       1          3
+    #>  6           1     3     1        1        0       0          1
+    #>  7           1     4     1        0        0       1          2
+    #>  8           1     4     1        1        1       1          3
+    #>  9           1     5     1        0        0       1          1
+    #> 10           1     5     1        1        1       1          3
     #> # ℹ 2,490 more rows
-    #> # ℹ 8 more variables: c <dbl>, meta_dprime <dbl>, M <dbl>,
-    #> #   meta_c2_0 <list>, meta_c2_1 <list>, theta <dbl>, theta_1 <dbl>,
-    #> #   theta_2 <dbl>
+    #> # ℹ 9 more variables: dprime <dbl>, c <dbl>, meta_dprime <dbl>,
+    #> #   M <dbl>, meta_c2_0 <list>, meta_c2_1 <list>, theta <dbl>,
+    #> #   theta_1 <dbl>, theta_2 <dbl>
 
 Don’t worry about the details of the simulation code- what matters is
 that we have a data set with repeated measures for participants:
@@ -156,29 +156,54 @@ here:
 ``` r
 aggregate_metad(d, participant, item)
 #> # A tibble: 1,250 × 5
-#>    participant item    N_0   N_1 N[,"N_0_1"] [,"N_0_2"] [,"N_0_3"]
-#>    <fct>       <fct> <int> <int>       <int>      <int>      <int>
-#>  1 1           1         1     1           1          0          0
-#>  2 1           2         1     1           0          0          1
-#>  3 1           3         1     1           1          0          0
-#>  4 1           4         1     1           1          0          0
-#>  5 1           5         1     1           0          1          0
-#>  6 1           6         1     1           0          0          0
-#>  7 1           7         1     1           1          0          0
-#>  8 1           8         1     1           1          0          0
-#>  9 1           9         1     1           0          0          1
-#> 10 1           10        1     1           1          0          0
+#>    participant  item   N_0   N_1 N[,"N_0_1"] [,"N_0_2"] [,"N_0_3"]
+#>          <int> <int> <int> <int>       <int>      <int>      <int>
+#>  1           1     1     1     1           0          0          0
+#>  2           1     2     1     1           1          0          0
+#>  3           1     3     1     1           1          0          0
+#>  4           1     4     1     1           0          1          0
+#>  5           1     5     1     1           0          0          1
+#>  6           1     6     1     1           1          0          0
+#>  7           1     7     1     1           0          0          0
+#>  8           1     8     1     1           1          0          0
+#>  9           1     9     1     1           0          0          1
+#> 10           1    10     1     1           1          0          0
 #> # ℹ 1,240 more rows
 #> # ℹ 1 more variable: N[4:12] <int>
 ```
 
-As you can see, the aggregated data set has `500` rows (with two
+As you can see, the aggregated data set has 1250 rows (with two
 observations per row), which is not much smaller than the trial-level
 data that we started with! So, in this case, it will probably be easier
 *not* to aggregate our data. Nevertheless, there is nothing stopping us
 from fitting the model like normal:[¹](#fn1)
 
 ``` r
+# Priors are chosen arbitrarily for this example.
+# Please choose your own wisely!
+priors <- prior(normal(0, .25), class = Intercept) +
+  set_prior(
+    "normal(0, .25)",
+    class = "Intercept",
+    dpar = c("dprime", "c")
+  ) +
+  set_prior("normal(-0.5, .1)",
+    class = "Intercept",
+    dpar = c(
+      "metac2zero1diff", "metac2zero2diff",
+      "metac2one1diff", "metac2one2diff"
+    )
+  ) +
+  prior(normal(0, 1), class = sd) +
+  set_prior("normal(0, 1)",
+    class = "sd",
+    dpar = c(
+      "dprime", "c",
+      "metac2zero1diff", "metac2zero2diff",
+      "metac2one1diff", "metac2one2diff"
+    )
+  )
+
 m.multinomial <- fit_metad(
   bf(
     N ~ 1 + (1 | participant) + (1 | item),
@@ -187,23 +212,10 @@ m.multinomial <- fit_metad(
       metac2one1diff + metac2one2diff ~
       1 + (1 | participant) + (1 | item)
   ),
-  data = d, init = 0, cores = 4,
-  file = "models/multinomial.rds",
-  prior = prior(normal(0, .25), class = Intercept) +
-    prior(normal(0, .25), class = Intercept, dpar = dprime) +
-    prior(normal(0, .25), class = Intercept, dpar = c) +
-    prior(normal(0, .1), class = Intercept, dpar = metac2zero1diff) +
-    prior(normal(0, .1), class = Intercept, dpar = metac2zero2diff) +
-    prior(normal(0, .1), class = Intercept, dpar = metac2one1diff) +
-    prior(normal(0, .1), class = Intercept, dpar = metac2one2diff) +
-    prior(normal(0, 1), class = sd) +
-    prior(normal(0, 1), class = sd, dpar = dprime) +
-    prior(normal(0, 1), class = sd, dpar = c) +
-    prior(normal(0, 1), class = sd, dpar = metac2zero1diff) +
-    prior(normal(0, 1), class = sd, dpar = metac2zero2diff) +
-    prior(normal(0, 1), class = sd, dpar = metac2one1diff) +
-    prior(normal(0, 1), class = sd, dpar = metac2one2diff)
+  data = d, init = 0, cores = 4, prior = priors
 )
+#> Compiling Stan program...
+#> Start sampling
 ```
 
     #>  Family: metad__3__normal__absolute__multinomial 
@@ -221,58 +233,58 @@ m.multinomial <- fit_metad(
     #> 
     #> Multilevel Hyperparameters:
     #> ~item (Number of levels: 25) 
-    #>                               Estimate Est.Error l-95% CI u-95% CI Rhat
-    #> sd(Intercept)                     0.14      0.11     0.01     0.40 1.00
-    #> sd(dprime_Intercept)              0.52      0.13     0.32     0.83 1.00
-    #> sd(c_Intercept)                   0.64      0.10     0.47     0.88 1.00
-    #> sd(metac2zero1diff_Intercept)     0.80      0.24     0.12     1.24 1.03
-    #> sd(metac2zero2diff_Intercept)     0.72      0.23     0.23     1.17 1.01
-    #> sd(metac2one1diff_Intercept)      0.58      0.26     0.05     1.06 1.02
-    #> sd(metac2one2diff_Intercept)      0.79      0.19     0.46     1.21 1.00
-    #>                               Bulk_ESS Tail_ESS
-    #> sd(Intercept)                     1614     2237
-    #> sd(dprime_Intercept)              1384     2087
-    #> sd(c_Intercept)                   1257     2043
-    #> sd(metac2zero1diff_Intercept)      140       27
-    #> sd(metac2zero2diff_Intercept)      405      368
-    #> sd(metac2one1diff_Intercept)       204      227
-    #> sd(metac2one2diff_Intercept)      1059     1874
+    #>                               Estimate Est.Error l-95% CI
+    #> sd(Intercept)                     0.12      0.09     0.00
+    #> sd(dprime_Intercept)              0.63      0.16     0.39
+    #> sd(c_Intercept)                   0.71      0.11     0.53
+    #> sd(metac2zero1diff_Intercept)     0.10      0.07     0.00
+    #> sd(metac2zero2diff_Intercept)     0.25      0.12     0.03
+    #> sd(metac2one1diff_Intercept)      0.13      0.10     0.01
+    #> sd(metac2one2diff_Intercept)      0.14      0.09     0.01
+    #>                               u-95% CI Rhat Bulk_ESS Tail_ESS
+    #> sd(Intercept)                     0.34 1.00     1530     1820
+    #> sd(dprime_Intercept)              1.02 1.00      765     1402
+    #> sd(c_Intercept)                   0.97 1.00      854     1733
+    #> sd(metac2zero1diff_Intercept)     0.27 1.00     1371     1515
+    #> sd(metac2zero2diff_Intercept)     0.49 1.02      701      866
+    #> sd(metac2one1diff_Intercept)      0.38 1.00      984     1708
+    #> sd(metac2one2diff_Intercept)      0.34 1.00     1030     1356
     #> 
     #> ~participant (Number of levels: 50) 
-    #>                               Estimate Est.Error l-95% CI u-95% CI Rhat
-    #> sd(Intercept)                     0.32      0.15     0.04     0.62 1.00
-    #> sd(dprime_Intercept)              0.50      0.09     0.35     0.69 1.00
-    #> sd(c_Intercept)                   0.31      0.04     0.24     0.41 1.00
-    #> sd(metac2zero1diff_Intercept)     0.13      0.11     0.00     0.36 1.02
-    #> sd(metac2zero2diff_Intercept)     0.34      0.12     0.14     0.60 1.00
-    #> sd(metac2one1diff_Intercept)      0.35      0.15     0.10     0.70 1.01
-    #> sd(metac2one2diff_Intercept)      0.17      0.10     0.01     0.39 1.01
-    #>                               Bulk_ESS Tail_ESS
-    #> sd(Intercept)                      865     1116
-    #> sd(dprime_Intercept)              1670     2770
-    #> sd(c_Intercept)                   1486     2138
-    #> sd(metac2zero1diff_Intercept)      196      110
-    #> sd(metac2zero2diff_Intercept)      608      547
-    #> sd(metac2one1diff_Intercept)       275      318
-    #> sd(metac2one2diff_Intercept)       836     1817
+    #>                               Estimate Est.Error l-95% CI
+    #> sd(Intercept)                     0.14      0.10     0.01
+    #> sd(dprime_Intercept)              0.46      0.09     0.29
+    #> sd(c_Intercept)                   0.29      0.04     0.21
+    #> sd(metac2zero1diff_Intercept)     0.30      0.10     0.10
+    #> sd(metac2zero2diff_Intercept)     0.20      0.10     0.02
+    #> sd(metac2one1diff_Intercept)      0.30      0.11     0.06
+    #> sd(metac2one2diff_Intercept)      0.35      0.10     0.16
+    #>                               u-95% CI Rhat Bulk_ESS Tail_ESS
+    #> sd(Intercept)                     0.36 1.01     1221     1493
+    #> sd(dprime_Intercept)              0.65 1.00     1151     1723
+    #> sd(c_Intercept)                   0.38 1.00     1341     2619
+    #> sd(metac2zero1diff_Intercept)     0.50 1.00      900     1052
+    #> sd(metac2zero2diff_Intercept)     0.40 1.00      803      886
+    #> sd(metac2one1diff_Intercept)      0.53 1.01      527      555
+    #> sd(metac2one2diff_Intercept)      0.57 1.01     1060     1230
     #> 
     #> Regression Coefficients:
-    #>                           Estimate Est.Error l-95% CI u-95% CI Rhat
-    #> Intercept                    -0.32      0.12    -0.55    -0.10 1.00
-    #> dprime_Intercept              1.04      0.14     0.74     1.29 1.00
-    #> c_Intercept                   0.26      0.12     0.02     0.49 1.01
-    #> metac2zero1diff_Intercept    -0.30      0.14    -0.65    -0.06 1.02
-    #> metac2zero2diff_Intercept    -0.32      0.13    -0.58    -0.07 1.01
-    #> metac2one1diff_Intercept     -0.37      0.14    -0.65    -0.09 1.01
-    #> metac2one2diff_Intercept     -0.27      0.11    -0.49    -0.04 1.00
-    #>                           Bulk_ESS Tail_ESS
-    #> Intercept                     4558     2762
-    #> dprime_Intercept              1544     2244
-    #> c_Intercept                    665     1556
-    #> metac2zero1diff_Intercept      201       51
-    #> metac2zero2diff_Intercept      759     1241
-    #> metac2one1diff_Intercept       377      679
-    #> metac2one2diff_Intercept      1771     1925
+    #>                           Estimate Est.Error l-95% CI u-95% CI
+    #> Intercept                    -0.30      0.09    -0.48    -0.14
+    #> dprime_Intercept              1.16      0.17     0.76     1.44
+    #> c_Intercept                  -0.02      0.13    -0.28     0.23
+    #> metac2zero1diff_Intercept    -0.85      0.06    -0.97    -0.72
+    #> metac2zero2diff_Intercept    -0.80      0.07    -0.93    -0.66
+    #> metac2one1diff_Intercept     -0.91      0.07    -1.04    -0.75
+    #> metac2one2diff_Intercept     -0.80      0.07    -0.93    -0.67
+    #>                           Rhat Bulk_ESS Tail_ESS
+    #> Intercept                 1.00     3800     3038
+    #> dprime_Intercept          1.01      963     1385
+    #> c_Intercept               1.01      578     1071
+    #> metac2zero1diff_Intercept 1.00     2515     2824
+    #> metac2zero2diff_Intercept 1.00     2177     2606
+    #> metac2one1diff_Intercept  1.00     1825     2413
+    #> metac2one2diff_Intercept  1.00     2306     2375
     #> 
     #> Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
     #> and Tail_ESS are effective sample size measures, and Rhat is the potential
@@ -298,22 +310,23 @@ d <- d |>
 ```
 
     #> # A tibble: 2,500 × 17
-    #>    participant  item trial stimulus joint_response response correct
-    #>          <int> <int> <int>    <int>          <dbl>    <int>   <int>
-    #>  1           1     1     1        0              1        0       1
-    #>  2           1     1     1        1              5        1       1
-    #>  3           1     2     1        0              3        0       1
-    #>  4           1     2     1        1              6        1       1
-    #>  5           1     3     1        0              1        0       1
-    #>  6           1     3     1        1              2        0       0
-    #>  7           1     4     1        0              1        0       1
-    #>  8           1     4     1        1              6        1       1
-    #>  9           1     5     1        0              2        0       1
-    #> 10           1     5     1        1              3        0       0
+    #>    participant  item trial stimulus joint_response response
+    #>          <int> <int> <int>    <int>          <int>    <int>
+    #>  1           1     1     1        0              4        1
+    #>  2           1     1     1        1              5        1
+    #>  3           1     2     1        0              1        0
+    #>  4           1     2     1        1              4        1
+    #>  5           1     3     1        0              1        0
+    #>  6           1     3     1        1              3        0
+    #>  7           1     4     1        0              2        0
+    #>  8           1     4     1        1              6        1
+    #>  9           1     5     1        0              3        0
+    #> 10           1     5     1        1              6        1
     #> # ℹ 2,490 more rows
-    #> # ℹ 10 more variables: confidence <int>, dprime <dbl>, c <dbl>,
-    #> #   meta_dprime <dbl>, M <dbl>, meta_c2_0 <list>, meta_c2_1 <list>,
-    #> #   theta <dbl>, theta_1 <dbl>, theta_2 <dbl>
+    #> # ℹ 11 more variables: correct <int>, confidence <int>,
+    #> #   dprime <dbl>, c <dbl>, meta_dprime <dbl>, M <dbl>,
+    #> #   meta_c2_0 <list>, meta_c2_1 <list>, theta <dbl>,
+    #> #   theta_1 <dbl>, theta_2 <dbl>
 
 ## Model fitting
 
@@ -331,23 +344,10 @@ m.categorical <- fit_metad(
       metac2one1diff + metac2one2diff ~
       1 + (1 | participant) + (1 | item)
   ),
-  data = d, categorical = TRUE, init = 0, cores = 4,
-  file = "models/categorical.rds",
-  prior = prior(normal(0, .25), class = Intercept) +
-    prior(normal(0, .25), class = Intercept, dpar = dprime) +
-    prior(normal(0, .25), class = Intercept, dpar = c) +
-    prior(normal(0, .1), class = Intercept, dpar = metac2zero1diff) +
-    prior(normal(0, .1), class = Intercept, dpar = metac2zero2diff) +
-    prior(normal(0, .1), class = Intercept, dpar = metac2one1diff) +
-    prior(normal(0, .1), class = Intercept, dpar = metac2one2diff) +
-    prior(normal(0, 1), class = sd) +
-    prior(normal(0, 1), class = sd, dpar = dprime) +
-    prior(normal(0, 1), class = sd, dpar = c) +
-    prior(normal(0, 1), class = sd, dpar = metac2zero1diff) +
-    prior(normal(0, 1), class = sd, dpar = metac2zero2diff) +
-    prior(normal(0, 1), class = sd, dpar = metac2one1diff) +
-    prior(normal(0, 1), class = sd, dpar = metac2one2diff)
+  data = d, categorical = TRUE, init = 0, cores = 4, prior = priors
 )
+#> Compiling Stan program...
+#> Start sampling
 ```
 
     #>  Family: metad__3__normal__absolute__categorical 
@@ -365,58 +365,58 @@ m.categorical <- fit_metad(
     #> 
     #> Multilevel Hyperparameters:
     #> ~item (Number of levels: 25) 
-    #>                               Estimate Est.Error l-95% CI u-95% CI Rhat
-    #> sd(Intercept)                     0.15      0.11     0.01     0.40 1.00
-    #> sd(dprime_Intercept)              0.51      0.12     0.32     0.80 1.00
-    #> sd(c_Intercept)                   0.64      0.10     0.47     0.87 1.00
-    #> sd(metac2zero1diff_Intercept)     0.85      0.20     0.50     1.26 1.00
-    #> sd(metac2zero2diff_Intercept)     0.70      0.24     0.14     1.16 1.00
-    #> sd(metac2one1diff_Intercept)      0.58      0.27     0.05     1.06 1.01
-    #> sd(metac2one2diff_Intercept)      0.79      0.19     0.46     1.20 1.00
-    #>                               Bulk_ESS Tail_ESS
-    #> sd(Intercept)                     1675     2246
-    #> sd(dprime_Intercept)              1244     2394
-    #> sd(c_Intercept)                   1832     2722
-    #> sd(metac2zero1diff_Intercept)     1372     1765
-    #> sd(metac2zero2diff_Intercept)      402      239
-    #> sd(metac2one1diff_Intercept)       257      379
-    #> sd(metac2one2diff_Intercept)      1453     2325
+    #>                               Estimate Est.Error l-95% CI
+    #> sd(Intercept)                     0.13      0.09     0.01
+    #> sd(dprime_Intercept)              0.63      0.15     0.40
+    #> sd(c_Intercept)                   0.71      0.11     0.53
+    #> sd(metac2zero1diff_Intercept)     0.09      0.07     0.00
+    #> sd(metac2zero2diff_Intercept)     0.25      0.11     0.05
+    #> sd(metac2one1diff_Intercept)      0.13      0.10     0.01
+    #> sd(metac2one2diff_Intercept)      0.15      0.10     0.01
+    #>                               u-95% CI Rhat Bulk_ESS Tail_ESS
+    #> sd(Intercept)                     0.35 1.00     1101     1894
+    #> sd(dprime_Intercept)              0.97 1.00      848     1588
+    #> sd(c_Intercept)                   0.95 1.00      782     1424
+    #> sd(metac2zero1diff_Intercept)     0.27 1.00     1422     1889
+    #> sd(metac2zero2diff_Intercept)     0.49 1.00      927      963
+    #> sd(metac2one1diff_Intercept)      0.38 1.01      878     1201
+    #> sd(metac2one2diff_Intercept)      0.37 1.00      898     1365
     #> 
     #> ~participant (Number of levels: 50) 
-    #>                               Estimate Est.Error l-95% CI u-95% CI Rhat
-    #> sd(Intercept)                     0.32      0.14     0.04     0.61 1.01
-    #> sd(dprime_Intercept)              0.51      0.09     0.35     0.68 1.00
-    #> sd(c_Intercept)                   0.31      0.04     0.24     0.41 1.00
-    #> sd(metac2zero1diff_Intercept)     0.12      0.08     0.00     0.29 1.00
-    #> sd(metac2zero2diff_Intercept)     0.34      0.12     0.14     0.64 1.01
-    #> sd(metac2one1diff_Intercept)      0.35      0.15     0.07     0.74 1.00
-    #> sd(metac2one2diff_Intercept)      0.16      0.10     0.01     0.38 1.00
-    #>                               Bulk_ESS Tail_ESS
-    #> sd(Intercept)                      777     1074
-    #> sd(dprime_Intercept)              1547     2407
-    #> sd(c_Intercept)                   1663     2537
-    #> sd(metac2zero1diff_Intercept)     1421     2084
-    #> sd(metac2zero2diff_Intercept)      496      335
-    #> sd(metac2one1diff_Intercept)       349      520
-    #> sd(metac2one2diff_Intercept)      1197     1815
+    #>                               Estimate Est.Error l-95% CI
+    #> sd(Intercept)                     0.14      0.10     0.01
+    #> sd(dprime_Intercept)              0.45      0.09     0.30
+    #> sd(c_Intercept)                   0.29      0.04     0.21
+    #> sd(metac2zero1diff_Intercept)     0.31      0.10     0.12
+    #> sd(metac2zero2diff_Intercept)     0.21      0.10     0.02
+    #> sd(metac2one1diff_Intercept)      0.31      0.12     0.06
+    #> sd(metac2one2diff_Intercept)      0.34      0.11     0.12
+    #>                               u-95% CI Rhat Bulk_ESS Tail_ESS
+    #> sd(Intercept)                     0.36 1.00      947     1467
+    #> sd(dprime_Intercept)              0.63 1.00     1649     2279
+    #> sd(c_Intercept)                   0.38 1.00     1505     2375
+    #> sd(metac2zero1diff_Intercept)     0.51 1.00     1124     1142
+    #> sd(metac2zero2diff_Intercept)     0.41 1.00      786      839
+    #> sd(metac2one1diff_Intercept)      0.54 1.00      685      609
+    #> sd(metac2one2diff_Intercept)      0.55 1.00      894      817
     #> 
     #> Regression Coefficients:
-    #>                           Estimate Est.Error l-95% CI u-95% CI Rhat
-    #> Intercept                    -0.32      0.11    -0.55    -0.11 1.00
-    #> dprime_Intercept              1.04      0.14     0.74     1.29 1.00
-    #> c_Intercept                   0.25      0.12    -0.00     0.49 1.00
-    #> metac2zero1diff_Intercept    -0.28      0.12    -0.53    -0.05 1.00
-    #> metac2zero2diff_Intercept    -0.32      0.13    -0.60    -0.07 1.00
-    #> metac2one1diff_Intercept     -0.37      0.14    -0.65    -0.10 1.00
-    #> metac2one2diff_Intercept     -0.27      0.11    -0.50    -0.05 1.00
-    #>                           Bulk_ESS Tail_ESS
-    #> Intercept                     4309     3080
-    #> dprime_Intercept              2057     2154
-    #> c_Intercept                   1040     1931
-    #> metac2zero1diff_Intercept     2206     1900
-    #> metac2zero2diff_Intercept      675      604
-    #> metac2one1diff_Intercept       446      944
-    #> metac2one2diff_Intercept      2391     2490
+    #>                           Estimate Est.Error l-95% CI u-95% CI
+    #> Intercept                    -0.30      0.09    -0.48    -0.14
+    #> dprime_Intercept              1.16      0.17     0.79     1.45
+    #> c_Intercept                  -0.02      0.13    -0.27     0.25
+    #> metac2zero1diff_Intercept    -0.85      0.06    -0.97    -0.72
+    #> metac2zero2diff_Intercept    -0.80      0.07    -0.94    -0.65
+    #> metac2one1diff_Intercept     -0.91      0.07    -1.05    -0.75
+    #> metac2one2diff_Intercept     -0.80      0.07    -0.93    -0.66
+    #>                           Rhat Bulk_ESS Tail_ESS
+    #> Intercept                 1.00     3517     3090
+    #> dprime_Intercept          1.00      963     1829
+    #> c_Intercept               1.00      424      912
+    #> metac2zero1diff_Intercept 1.00     3253     3034
+    #> metac2zero2diff_Intercept 1.00     2152     2509
+    #> metac2one1diff_Intercept  1.00     2037     2299
+    #> metac2one2diff_Intercept  1.00     2434     2963
     #> 
     #> Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
     #> and Tail_ESS are effective sample size measures, and Rhat is the potential
@@ -443,13 +443,14 @@ and items, we can use an empty data set with `re_formula=NA`:
 roc1_rvars(m.multinomial, tibble(.row = 1), re_formula = NA)
 #> # A tibble: 5 × 6
 #> # Groups:   .row, joint_response, response, confidence [5]
-#>    .row joint_response response confidence            p_fa         p_hit
-#>   <int>          <int>    <int>      <dbl>      <rvar[1d]>    <rvar[1d]>
-#> 1     1              1        0          3  0.785 ± 0.0568  0.95 ± 0.020
-#> 2     1              2        0          2  0.517 ± 0.0690  0.83 ± 0.043
-#> 3     1              3        0          1  0.221 ± 0.0421  0.60 ± 0.052
-#> 4     1              4        1          1  0.079 ± 0.0249  0.31 ± 0.060
-#> 5     1              5        1          2  0.016 ± 0.0077  0.10 ± 0.034
+#>    .row joint_response response confidence           p_fa
+#>   <int>          <int>    <int>      <dbl>     <rvar[1d]>
+#> 1     1              1        0          3  0.654 ± 0.055
+#> 2     1              2        0          2  0.470 ± 0.060
+#> 3     1              3        0          1  0.291 ± 0.053
+#> 4     1              4        1          1  0.179 ± 0.041
+#> 5     1              5        1          2  0.091 ± 0.027
+#> # ℹ 1 more variable: p_hit <rvar[1d]>
 ```
 
 The process is exactly the same for the categorical model:
@@ -458,13 +459,14 @@ The process is exactly the same for the categorical model:
 roc1_rvars(m.categorical, tibble(.row = 1), re_formula = NA)
 #> # A tibble: 5 × 6
 #> # Groups:   .row, joint_response, response, confidence [5]
-#>    .row joint_response response confidence            p_fa         p_hit
-#>   <int>          <int>    <int>      <dbl>      <rvar[1d]>    <rvar[1d]>
-#> 1     1              1        0          3  0.790 ± 0.0553  0.95 ± 0.020
-#> 2     1              2        0          2  0.526 ± 0.0664  0.83 ± 0.041
-#> 3     1              3        0          1  0.224 ± 0.0433  0.60 ± 0.053
-#> 4     1              4        1          1  0.080 ± 0.0261  0.31 ± 0.061
-#> 5     1              5        1          2  0.017 ± 0.0082  0.10 ± 0.034
+#>    .row joint_response response confidence          p_fa
+#>   <int>          <int>    <int>      <dbl>    <rvar[1d]>
+#> 1     1              1        0          3  0.65 ± 0.056
+#> 2     1              2        0          2  0.47 ± 0.060
+#> 3     1              3        0          1  0.29 ± 0.054
+#> 4     1              4        1          1  0.18 ± 0.042
+#> 5     1              5        1          2  0.09 ± 0.026
+#> # ℹ 1 more variable: p_hit <rvar[1d]>
 ```
 
 Next, to get participant-level ROCs (averaging over items), we can use a
@@ -474,21 +476,22 @@ random effects:
 ``` r
 roc1_rvars(m.categorical, distinct(d, participant), re_formula = ~ (1 | participant))
 #> # A tibble: 250 × 7
-#> # Groups:   .row, participant, joint_response, response, confidence [250]
-#>     .row participant joint_response response confidence          p_fa
-#>    <int>       <int>          <int>    <int>      <dbl>    <rvar[1d]>
-#>  1     1           1              1        0          3  0.84 ± 0.075
-#>  2     2           2              1        0          3  0.89 ± 0.061
-#>  3     3           3              1        0          3  0.68 ± 0.106
-#>  4     4           4              1        0          3  0.73 ± 0.105
-#>  5     5           5              1        0          3  0.76 ± 0.096
-#>  6     6           6              1        0          3  0.86 ± 0.079
-#>  7     7           7              1        0          3  0.83 ± 0.082
-#>  8     8           8              1        0          3  0.68 ± 0.111
-#>  9     9           9              1        0          3  0.75 ± 0.099
-#> 10    10          10              1        0          3  0.87 ± 0.067
+#> # Groups:   .row, participant, joint_response, response,
+#> #   confidence [250]
+#>     .row participant joint_response response confidence
+#>    <int>       <int>          <int>    <int>      <dbl>
+#>  1     1           1              1        0          3
+#>  2     2           2              1        0          3
+#>  3     3           3              1        0          3
+#>  4     4           4              1        0          3
+#>  5     5           5              1        0          3
+#>  6     6           6              1        0          3
+#>  7     7           7              1        0          3
+#>  8     8           8              1        0          3
+#>  9     9           9              1        0          3
+#> 10    10          10              1        0          3
 #> # ℹ 240 more rows
-#> # ℹ 1 more variable: p_hit <rvar[1d]>
+#> # ℹ 2 more variables: p_fa <rvar[1d]>, p_hit <rvar[1d]>
 ```
 
 We can use a similar process to get item-level ROCs (averaging over
@@ -497,19 +500,20 @@ participants):
 ``` r
 roc1_rvars(m.categorical, distinct(d, item), re_formula = ~ (1 | item))
 #> # A tibble: 125 × 7
-#> # Groups:   .row, item, joint_response, response, confidence [125]
+#> # Groups:   .row, item, joint_response, response, confidence
+#> #   [125]
 #>     .row  item joint_response response confidence          p_fa
 #>    <int> <int>          <int>    <int>      <dbl>    <rvar[1d]>
-#>  1     1     1              1        0          3  0.23 ± 0.057
-#>  2     2     2              1        0          3  0.26 ± 0.063
-#>  3     3     3              1        0          3  0.32 ± 0.065
-#>  4     4     4              1        0          3  0.62 ± 0.067
-#>  5     5     5              1        0          3  0.74 ± 0.062
-#>  6     6     6              1        0          3  0.36 ± 0.069
-#>  7     7     7              1        0          3  0.79 ± 0.057
-#>  8     8     8              1        0          3  0.31 ± 0.064
-#>  9     9     9              1        0          3  0.79 ± 0.057
-#> 10    10    10              1        0          3  0.57 ± 0.069
+#>  1     1     1              1        0          3  0.82 ± 0.044
+#>  2     2     2              1        0          3  0.38 ± 0.066
+#>  3     3     3              1        0          3  0.33 ± 0.063
+#>  4     4     4              1        0          3  0.71 ± 0.057
+#>  5     5     5              1        0          3  0.76 ± 0.051
+#>  6     6     6              1        0          3  0.57 ± 0.066
+#>  7     7     7              1        0          3  0.73 ± 0.056
+#>  8     8     8              1        0          3  0.54 ± 0.067
+#>  9     9     9              1        0          3  0.59 ± 0.064
+#> 10    10    10              1        0          3  0.74 ± 0.053
 #> # ℹ 115 more rows
 #> # ℹ 1 more variable: p_hit <rvar[1d]>
 ```

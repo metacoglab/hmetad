@@ -172,7 +172,7 @@ be equal with respect to the type 1 criterion c. As discussed by
 ([Maniscalco & Lau, 2014](#ref-maniscalco2014)), there are multiple ways
 of fixing \textrm{meta-}c. The `hmetad` package implements two:
 
-Under the fixed parameterization, \textrm{meta-}c = c. This
+Under the absolute parameterization, \textrm{meta-}c = c. This
 parameterization is used as the default, since it was also used in
 previous versions of the [Hmeta-d
 toolbox](https://github.com/metacoglab/HMeta-d) (see also Fleming

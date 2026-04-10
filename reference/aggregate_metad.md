@@ -52,7 +52,8 @@ aggregate_metad(
 - K:
 
   The number of confidence levels in `data`. If `NULL`, this is
-  estimated from `data`.
+  estimated from `data` using the maximum value of either the confidence
+  column or joint response column.
 
 ## Value
 
@@ -94,9 +95,9 @@ d2 <- sim_metad_condition()
 aggregate_metad(d2, condition)
 #> # A tibble: 2 × 4
 #>   condition   N_0   N_1 N[,"N_0_1"] [,"N_0_2"] [,"N_0_3"] [,"N_0_4"] [,"N_0_5"]
-#>   <fct>     <int> <int>       <int>      <int>      <int>      <int>      <int>
-#> 1 1            50    50           7          5         10          7         10
-#> 2 2            50    50           9          8          5          9          8
+#>       <int> <int> <int>       <int>      <int>      <int>      <int>      <int>
+#> 1         1    50    50           7          5         10          7         10
+#> 2         2    50    50           9          8          5          9          8
 #> # ℹ 1 more variable: N[6:16] <int>
 
 # can also aggregate ignoring grouping factors
@@ -121,7 +122,7 @@ d |>
   ungroup() |>
   mutate(joint_response = joint_response(
     response, confidence,
-    n_distinct(confidence)
+    max(as.integer(confidence))
   )) |>
   select(-response, -confidence) |>
   aggregate_metad()

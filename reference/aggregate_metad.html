@@ -9,7 +9,7 @@ columns response, confidence, and any other columns in ...."><meta property="og:
 
     <a class="navbar-brand me-2" href="../index.html">hmetad</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,8 +78,8 @@ columns <code>response</code>, <code>confidence</code>, and any other columns in
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Grouping columns in <code>data</code>.
-These columns will be converted to factors.</p></dd>
+<dd><p>Grouping columns in <code>data</code>. These columns will be converted to
+factors.</p></dd>
 
 
 <dt id="arg--stimulus">.stimulus<a class="anchor" aria-label="anchor" href="#arg--stimulus"></a></dt>
@@ -103,17 +103,18 @@ These columns will be converted to factors.</p></dd>
 
 
 <dt id="arg-k">K<a class="anchor" aria-label="anchor" href="#arg-k"></a></dt>
-<dd><p>The number of confidence levels in <code>data</code>.
-If <code>NULL</code>, this is estimated from <code>data</code>.</p></dd>
+<dd><p>The number of confidence levels in <code>data</code>. If <code>NULL</code>, this is
+estimated from <code>data</code> using the maximum value of either the confidence
+column or joint response column.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A tibble with one row per combination of the variables in <code>...</code>,
-and another column named by the value of <code>.response</code> containing trial counts.
-For \(K\) confidence levels, this will be an \(N \times K*4\) matrix, such that the
-columns represent (for stimulus \(S\), type 1 response \(R\), and
-type 2 response \(C\)):
+    <p>A tibble with one row per combination of the variables in <code>...</code>, and
+another column named by the value of <code>.response</code> containing trial counts.
+For \(K\) confidence levels, this will be an \(N \times K*4\) matrix,
+such that the columns represent (for stimulus \(S\), type 1 response
+\(R\), and type 2 response \(C\)):
 $$
  [N_{S=0, R=0, C=K}, \ldots, N_{S=0, R=0, C=1}, \\
  N_{S=0, R=1, C=1}, \ldots, N_{S=0, R=1, C=K}, \\
@@ -123,8 +124,8 @@ $$</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The data frame <code>data</code> must have one column with the name given by <code>.stimulus</code>.
-Additionally, it must have either:</p><ul><li><p>Two columns with names given by <code>.response</code> and <code>.confidence</code></p></li>
+    <p>The data frame <code>data</code> must have one column with the name given by
+<code>.stimulus</code>. Additionally, it must have either:</p><ul><li><p>Two columns with names given by <code>.response</code> and <code>.confidence</code></p></li>
 <li><p>One column with the name given by <code>.joint_response</code></p></li>
 </ul><p>Finally, it must also have columns for any additional variables in <code>...</code>.</p>
     </div>
@@ -145,9 +146,9 @@ Additionally, it must have either:</p><ul><li><p>Two columns with names given by
 <span class="r-in"><span><span class="fu">aggregate_metad</span><span class="op">(</span><span class="va">d2</span>, <span class="va">condition</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   condition   N_0   N_1 N[,"N_0_1"] [,"N_0_2"] [,"N_0_3"] [,"N_0_4"] [,"N_0_5"]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 1            50    50           7          5         10          7         10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2            50    50           9          8          5          9          8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>         1    50    50           7          5         10          7         10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>         2    50    50           9          8          5          9          8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: N[6:16] &lt;int&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># can also aggregate ignoring grouping factors</span></span></span>
@@ -172,7 +173,7 @@ Additionally, it must have either:</p><ul><li><p>Two columns with names given by
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>joint_response <span class="op">=</span> <span class="fu"><a href="responses.html">joint_response</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="va">response</span>, <span class="va">confidence</span>,</span></span>
-<span class="r-in"><span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/n_distinct.html" class="external-link">n_distinct</a></span><span class="op">(</span><span class="va">confidence</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">confidence</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">response</span>, <span class="op">-</span><span class="va">confidence</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">aggregate_metad</span><span class="op">(</span><span class="op">)</span></span></span>

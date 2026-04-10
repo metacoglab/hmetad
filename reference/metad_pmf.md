@@ -40,7 +40,7 @@ metad_pmf(
 
 - meta_c:
 
-  the type 1 criteriom for generating confidence ratings
+  the type 1 criterion for generating confidence ratings
 
 - meta_c2_0:
 

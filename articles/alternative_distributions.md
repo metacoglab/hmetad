@@ -145,18 +145,18 @@ m <- fit_metad(N ~ 1,
     #> 
     #> Regression Coefficients:
     #>           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-    #> Intercept    -0.61      0.06    -0.73    -0.49 1.00     3591     3343
+    #> Intercept    -0.61      0.06    -0.73    -0.49 1.00     3435     3084
     #> 
     #> Further Distributional Parameters:
     #>                 Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-    #> dprime              1.55      0.03     1.49     1.61 1.00     5722     3474
-    #> c                   0.11      0.01     0.08     0.14 1.00     3812     2821
-    #> metac2zero1diff     0.24      0.01     0.22     0.26 1.00     5298     3297
-    #> metac2zero2diff     0.49      0.01     0.46     0.51 1.00     5293     3210
-    #> metac2zero3diff     0.25      0.01     0.23     0.27 1.00     6152     2811
-    #> metac2one1diff      0.10      0.01     0.09     0.11 1.00     4581     2940
-    #> metac2one2diff      0.48      0.01     0.45     0.50 1.00     4205     3027
-    #> metac2one3diff      0.25      0.01     0.23     0.27 1.00     4670     2731
+    #> dprime              1.55      0.03     1.49     1.60 1.00     4395     3285
+    #> c                   0.11      0.01     0.09     0.14 1.00     3571     3330
+    #> metac2zero1diff     0.24      0.01     0.22     0.26 1.00     5494     3111
+    #> metac2zero2diff     0.49      0.01     0.46     0.51 1.00     5245     3309
+    #> metac2zero3diff     0.25      0.01     0.23     0.27 1.00     5431     3329
+    #> metac2one1diff      0.10      0.01     0.09     0.11 1.00     5013     2667
+    #> metac2one2diff      0.48      0.01     0.45     0.51 1.00     3758     2796
+    #> metac2one3diff      0.25      0.01     0.23     0.27 1.00     5682     3080
     #> 
     #> Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
     #> and Tail_ESS are effective sample size measures, and Rhat is the potential

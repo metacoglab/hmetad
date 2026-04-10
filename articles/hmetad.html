@@ -27,7 +27,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">hmetad</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -156,7 +156,7 @@ and type 2 responses, you can use the corresponding functions
 example, if instead we had a dataset that looked like this:</p>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,000 × 2</span></span></span>
 <span><span class="co">#&gt;    trial joint_response</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1              4</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     2              4</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     3              4</span></span>
@@ -177,7 +177,7 @@ example, if instead we had a dataset that looked like this:</p>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,000 × 4</span></span></span>
 <span><span class="co">#&gt;    trial joint_response response confidence</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1              4        0          1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     2              4        0          1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     3              4        0          1</span></span>
@@ -197,7 +197,7 @@ response:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,000 × 5</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   stimulus, response, confidence [16]</span></span></span>
 <span><span class="co">#&gt;    trial stimulus response confidence joint_response</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1        0        0          1              4</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     2        0        0          1              4</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     3        0        0          1              4</span></span>
@@ -260,12 +260,21 @@ argument:</p>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   500   500           3         59        117         44         83        135</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: y[7:16] &lt;int&gt;</span></span></span></code></pre></div>
-<p>Finally, if you have other columns in your dataset (e.g.,
+<p>If you have other columns in your dataset (e.g.,
 <code>participant</code> or <code>condition</code> columns) that you
 would like to be aggregated separately, you can simply add them to the
 function call:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/aggregate_metad.html">aggregate_metad</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">participant</span>, <span class="va">condition</span><span class="op">)</span></span></code></pre></div>
+<p>Finally, note that <code>aggregate_metad</code> automatically
+estimates the number of confidence levels based on the maximum value of
+the confidence or joint response column in your data. This usually works
+fine, but may fail in cases with missing data (e.g., no participant
+gives a confidence rating of <code>3</code> on a <code>4</code>-point
+scale). The number of confidence levels can be specified manually using
+the argument <code>K</code>:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/aggregate_metad.html">aggregate_metad</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">participant</span>, <span class="va">condition</span>, K <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -275,13 +284,17 @@ function call:</p>
 This function is simply a wrapper around <code><a href="https://paulbuerkner.com/brms/reference/brm.html" class="external-link">brms::brm</a></code>, so
 users are <strong>strongly</strong> encouraged to become familiar with
 <a href="https://paulbuerkner.com/brms/" class="external-link">the <code>brms</code>
-package</a> before model fitting.</p>
+package</a> before model fitting. In particular, users are likely to run
+into convergence errors using the default (flat) priors for model
+parameters, so we recommend doing careful prior predictive checks to set
+weakly informed priors <span class="citation">(see <a href="#ref-schad2021toward">Schad, Betancourt, and Vasishth 2021</a> for
+more information)</span>.</p>
 <p>Since <code>aggregate_metad</code> will place our dataset has our
 trial counts into a column named <code>N</code> by default, we can use
 <code>N</code> as our response variable even if our data is not yet
 aggregated. To fit a model with fixed values for each parameter, then,
 we can use the formula <code>N ~ 1</code>:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_metad.html">fit_metad</a></span><span class="op">(</span><span class="va">N</span> <span class="op">~</span> <span class="fl">1</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">d</span>,</span>
 <span>  prior <span class="op">=</span> <span class="fu"><a href="https://paulbuerkner.com/brms/reference/set_prior.html" class="external-link">prior</a></span><span class="op">(</span><span class="fu">normal</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, class <span class="op">=</span> <span class="va">Intercept</span><span class="op">)</span> <span class="op">+</span></span>
@@ -301,18 +314,18 @@ we can use the formula <code>N ~ 1</code>:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Regression Coefficients:</span></span>
 <span><span class="co">#&gt;           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS</span></span>
-<span><span class="co">#&gt; Intercept    -0.69      0.32    -1.43    -0.15 1.00     4865     3047</span></span>
+<span><span class="co">#&gt; Intercept    -0.69      0.34    -1.45    -0.13 1.00     4631     2650</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Further Distributional Parameters:</span></span>
 <span><span class="co">#&gt;                 Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS</span></span>
-<span><span class="co">#&gt; dprime              0.71      0.08     0.54     0.87 1.00     6299     2751</span></span>
-<span><span class="co">#&gt; c                  -0.49      0.04    -0.57    -0.41 1.00     4208     2761</span></span>
-<span><span class="co">#&gt; metac2zero1diff     0.21      0.02     0.17     0.26 1.00     6164     2998</span></span>
-<span><span class="co">#&gt; metac2zero2diff     0.78      0.05     0.68     0.89 1.00     5144     2949</span></span>
-<span><span class="co">#&gt; metac2zero3diff     1.27      0.17     0.97     1.63 1.00     5911     3002</span></span>
-<span><span class="co">#&gt; metac2one1diff      0.47      0.03     0.41     0.54 1.00     5660     3143</span></span>
-<span><span class="co">#&gt; metac2one2diff      1.00      0.05     0.91     1.09 1.00     5878     2975</span></span>
-<span><span class="co">#&gt; metac2one3diff      1.30      0.11     1.10     1.52 1.00     8763     3453</span></span>
+<span><span class="co">#&gt; dprime              0.71      0.08     0.54     0.87 1.00     5629     3331</span></span>
+<span><span class="co">#&gt; c                  -0.49      0.04    -0.57    -0.41 1.00     3635     3018</span></span>
+<span><span class="co">#&gt; metac2zero1diff     0.21      0.02     0.17     0.26 1.00     6021     3170</span></span>
+<span><span class="co">#&gt; metac2zero2diff     0.78      0.06     0.67     0.89 1.00     4866     2703</span></span>
+<span><span class="co">#&gt; metac2zero3diff     1.28      0.18     0.98     1.65 1.00     7047     3234</span></span>
+<span><span class="co">#&gt; metac2one1diff      0.47      0.03     0.41     0.54 1.00     4783     3192</span></span>
+<span><span class="co">#&gt; metac2one2diff      1.00      0.05     0.91     1.09 1.00     4766     3126</span></span>
+<span><span class="co">#&gt; metac2one3diff      1.30      0.11     1.10     1.52 1.00     6856     2845</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS</span></span>
 <span><span class="co">#&gt; and Tail_ESS are effective sample size measures, and Rhat is the potential</span></span>
@@ -343,8 +356,9 @@ models. But in some cases, it might be preferable to call
 <code><a href="https://paulbuerkner.com/brms/reference/brm.html" class="external-link">brms::brm</a></code> directly. In such cases, the
 <code>fit_metad</code> function is roughly analogous to the following
 code:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">K</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/n_distinct.html" class="external-link">n_distinct</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">confidence</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># calculate number of confidence levels</span></span>
+<span><span class="va">K</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/n_distinct.html" class="external-link">n_distinct</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">confidence</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://paulbuerkner.com/brms/reference/brm.html" class="external-link">brm</a></span><span class="op">(</span><span class="fu"><a href="https://paulbuerkner.com/brms/reference/brmsformula.html" class="external-link">bf</a></span><span class="op">(</span><span class="va">...</span><span class="op">)</span>,</span>
 <span>  data <span class="op">=</span> <span class="fu"><a href="../reference/aggregate_metad.html">aggregate_metad</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">...</span><span class="op">)</span>,</span>
@@ -368,23 +382,23 @@ make it easier to work with model posterior samples.</p>
 <p>First, it is often useful to extract the posterior draws of the model
 parameters, which we can do with <code>linpred_draws_metad</code> (which
 is a wrapper around <code><a href="https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html" class="external-link">tidybayes::linpred_draws</a></code>):</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">draws.metad</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/linpred_draws_metad.html">add_linpred_draws_metad</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4,000 × 15</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   .row [1]</span></span></span>
 <span><span class="co">#&gt;     .row .chain .iteration .draw     M dprime      c meta_dprime meta_c</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 0.635  0.756 -<span style="color: #BB0000;">0.505</span>       0.480 -<span style="color: #BB0000;">0.505</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     2 0.419  0.723 -<span style="color: #BB0000;">0.503</span>       0.303 -<span style="color: #BB0000;">0.505</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     3 0.358  0.775 -<span style="color: #BB0000;">0.499</span>       0.277 -<span style="color: #BB0000;">0.505</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     4 0.571  0.687 -<span style="color: #BB0000;">0.463</span>       0.392 -<span style="color: #BB0000;">0.505</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     5 0.499  0.803 -<span style="color: #BB0000;">0.540</span>       0.401 -<span style="color: #BB0000;">0.505</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     6 0.398  0.735 -<span style="color: #BB0000;">0.557</span>       0.293 -<span style="color: #BB0000;">0.505</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     7 0.574  0.605 -<span style="color: #BB0000;">0.475</span>       0.347 -<span style="color: #BB0000;">0.505</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     8 0.456  0.716 -<span style="color: #BB0000;">0.501</span>       0.326 -<span style="color: #BB0000;">0.505</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     9 0.693  0.476 -<span style="color: #BB0000;">0.482</span>       0.330 -<span style="color: #BB0000;">0.505</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>    10 0.596  0.777 -<span style="color: #BB0000;">0.481</span>       0.463 -<span style="color: #BB0000;">0.505</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 0.644  0.708 -<span style="color: #BB0000;">0.507</span>       0.456 -<span style="color: #BB0000;">0.507</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     2 0.591  0.650 -<span style="color: #BB0000;">0.423</span>       0.384 -<span style="color: #BB0000;">0.423</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     3 0.926  0.587 -<span style="color: #BB0000;">0.474</span>       0.544 -<span style="color: #BB0000;">0.474</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     4 0.644  0.608 -<span style="color: #BB0000;">0.520</span>       0.392 -<span style="color: #BB0000;">0.520</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     5 0.655  0.686 -<span style="color: #BB0000;">0.537</span>       0.449 -<span style="color: #BB0000;">0.537</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     6 0.519  0.754 -<span style="color: #BB0000;">0.493</span>       0.392 -<span style="color: #BB0000;">0.493</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     7 0.324  0.824 -<span style="color: #BB0000;">0.460</span>       0.267 -<span style="color: #BB0000;">0.460</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     8 0.344  0.778 -<span style="color: #BB0000;">0.418</span>       0.268 -<span style="color: #BB0000;">0.418</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     9 0.543  0.688 -<span style="color: #BB0000;">0.446</span>       0.373 -<span style="color: #BB0000;">0.446</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>    10 0.468  0.679 -<span style="color: #BB0000;">0.494</span>       0.318 -<span style="color: #BB0000;">0.494</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3,990 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6 more variables: meta_c2_0_1 &lt;dbl&gt;, meta_c2_0_2 &lt;dbl&gt;, meta_c2_0_3 &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   meta_c2_1_1 &lt;dbl&gt;, meta_c2_1_2 &lt;dbl&gt;, meta_c2_1_3 &lt;dbl&gt;</span></span></span></code></pre>
@@ -393,44 +407,44 @@ sample and a separate column for every model parameter. This format is
 useful for some purposes, but it will often be useful to pivot it so
 that we have a separate row for each model parameter and posterior
 sample:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">draws.metad</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/linpred_draws_metad.html">add_linpred_draws_metad</a></span><span class="op">(</span><span class="va">m</span>, pivot_longer <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 44,000 × 6</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   .row, .variable [11]</span></span></span>
 <span><span class="co">#&gt;     .row .chain .iteration .draw .variable    .value</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 M            0.635 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 dprime       0.756 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 c           -<span style="color: #BB0000;">0.505</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 meta_dprime  0.480 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 meta_c      -<span style="color: #BB0000;">0.505</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 meta_c2_0_1 -<span style="color: #BB0000;">0.706</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 meta_c2_0_2 -<span style="color: #BB0000;">1.46</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 meta_c2_0_3 -<span style="color: #BB0000;">3.03</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 meta_c2_1_1 -<span style="color: #BB0000;">0.020</span><span style="color: #BB0000; text-decoration: underline;">6</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 meta_c2_1_2  1.01  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 M            0.644 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 dprime       0.708 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 c           -<span style="color: #BB0000;">0.507</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 meta_dprime  0.456 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 meta_c      -<span style="color: #BB0000;">0.507</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 meta_c2_0_1 -<span style="color: #BB0000;">0.702</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 meta_c2_0_2 -<span style="color: #BB0000;">1.52</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 meta_c2_0_3 -<span style="color: #BB0000;">2.93</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 meta_c2_1_1 -<span style="color: #BB0000;">0.074</span><span style="color: #BB0000; text-decoration: underline;">0</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 meta_c2_1_2  0.975 </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 43,990 more rows</span></span></span></code></pre>
 <p>Now that all of the posterior samples are stored in a single column
 <code>.value</code>, it is easy to get posterior summaries using
 e.g. <code><a href="https://mjskay.github.io/ggdist/reference/point_interval.html" class="external-link">tidybayes::median_qi</a></code>:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">draws.metad</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://mjskay.github.io/ggdist/reference/point_interval.html" class="external-link">median_qi</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 11 × 8</span></span></span>
 <span><span class="co">#&gt;     .row .variable    .value  .lower  .upper .width .point .interval</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1 c           -<span style="color: #BB0000;">0.493</span>  -<span style="color: #BB0000;">0.574</span>  -<span style="color: #BB0000;">0.409</span>    0.95 median qi       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     1 dprime       0.707   0.543   0.871    0.95 median qi       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     1 M            0.518   0.240   0.865    0.95 median qi       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     1 meta_c      -<span style="color: #BB0000;">0.505</span>  -<span style="color: #BB0000;">0.505</span>  -<span style="color: #BB0000;">0.505</span>    0.95 median qi       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     1 meta_c2_0_1 -<span style="color: #BB0000;">0.718</span>  -<span style="color: #BB0000;">0.769</span>  -<span style="color: #BB0000;">0.673</span>    0.95 median qi       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     1 meta_c2_0_2 -<span style="color: #BB0000;">1.50</span>   -<span style="color: #BB0000;">1.62</span>   -<span style="color: #BB0000;">1.39</span>     0.95 median qi       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     1 meta_c2_0_3 -<span style="color: #BB0000;">2.76</span>   -<span style="color: #BB0000;">3.14</span>   -<span style="color: #BB0000;">2.45</span>     0.95 median qi       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     1 meta_c2_1_1 -<span style="color: #BB0000;">0.033</span><span style="color: #BB0000; text-decoration: underline;">9</span> -<span style="color: #BB0000;">0.096</span><span style="color: #BB0000; text-decoration: underline;">8</span>  0.033<span style="text-decoration: underline;">4</span>   0.95 median qi       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     1 meta_c2_1_2  0.965   0.862   1.07     0.95 median qi       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     1 meta_c2_1_3  2.26    2.05    2.50     0.95 median qi       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>     1 meta_dprime  0.367   0.171   0.573    0.95 median qi</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1 c           -<span style="color: #BB0000;">0.492</span>  -<span style="color: #BB0000;">0.574</span>  -<span style="color: #BB0000;">0.409</span>    0.95 median qi       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     1 dprime       0.708   0.543   0.874    0.95 median qi       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     1 M            0.516   0.234   0.878    0.95 median qi       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     1 meta_c      -<span style="color: #BB0000;">0.492</span>  -<span style="color: #BB0000;">0.574</span>  -<span style="color: #BB0000;">0.409</span>    0.95 median qi       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     1 meta_c2_0_1 -<span style="color: #BB0000;">0.705</span>  -<span style="color: #BB0000;">0.793</span>  -<span style="color: #BB0000;">0.618</span>    0.95 median qi       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     1 meta_c2_0_2 -<span style="color: #BB0000;">1.49</span>   -<span style="color: #BB0000;">1.60</span>   -<span style="color: #BB0000;">1.37</span>     0.95 median qi       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     1 meta_c2_0_3 -<span style="color: #BB0000;">2.75</span>   -<span style="color: #BB0000;">3.14</span>   -<span style="color: #BB0000;">2.46</span>     0.95 median qi       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     1 meta_c2_1_1 -<span style="color: #BB0000;">0.021</span><span style="color: #BB0000; text-decoration: underline;">1</span> -<span style="color: #BB0000;">0.096</span><span style="color: #BB0000; text-decoration: underline;">9</span>  0.056<span style="text-decoration: underline;">6</span>   0.95 median qi       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     1 meta_c2_1_2  0.978   0.884   1.07     0.95 median qi       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     1 meta_c2_1_3  2.28    2.07    2.51     0.95 median qi       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>     1 meta_dprime  0.365   0.168   0.578    0.95 median qi</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="posterior-predictions">Posterior predictions<a class="anchor" aria-label="anchor" href="#posterior-predictions"></a>
@@ -440,7 +454,7 @@ predictive check</em>: to simulate data from the model’s posterior and
 compare our simulated and actual data. We can do this using the function
 <code>predicted_draws_metad</code> (which is a wrapper around
 <code><a href="https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html" class="external-link">tidybayes::predicted_draws</a></code>):</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">draws.predicted</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predicted_draws_metad.html">predicted_draws_metad</a></span><span class="op">(</span><span class="va">m</span>, <span class="va">d.summary</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 64,000 × 12</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   .row, N_0, N_1, N, stimulus, joint_response, response, confidence</span></span></span>
@@ -467,7 +481,7 @@ data <code>d.summary</code> as well as <code>stimulus</code>,
 as <code>.prediction</code> (indicating the number of simulated trials
 per trial type). From here, we can plot the posterior predictions
 (points and error-bars) against the actual data (bars):</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">draws.predicted</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">.row</span>, <span class="va">stimulus</span>, <span class="va">joint_response</span>, <span class="va">response</span>, <span class="va">confidence</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://mjskay.github.io/ggdist/reference/point_interval.html" class="external-link">median_qi</a></span><span class="op">(</span><span class="va">.prediction</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -489,25 +503,25 @@ per trial type). From here, we can plot the posterior predictions
 than raw response counts. To do this, we can use the same workflow as
 above but using <code>epred_draws_metad</code> (which is a wrapper
 around <code><a href="https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html" class="external-link">tidybayes::epred_draws</a></code>):</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">draws.epred</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/epred_draws_metad.html">epred_draws_metad</a></span><span class="op">(</span><span class="va">m</span>, newdata <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 64,000 × 9</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   .row, stimulus, joint_response, response, confidence [16]</span></span></span>
 <span><span class="co">#&gt;     .row stimulus joint_response response confidence  .epred .chain .iteration</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1        0              1        0          4 0.002<span style="text-decoration: underline;">96</span>     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     1        0              1        0          4 0.010<span style="text-decoration: underline;">0</span>      <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     1        0              1        0          4 0.003<span style="text-decoration: underline;">75</span>     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     1        0              1        0          4 0.012<span style="text-decoration: underline;">2</span>      <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     1        0              1        0          4 0.005<span style="text-decoration: underline;">35</span>     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     1        0              1        0          4 0.005<span style="text-decoration: underline;">04</span>     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     1        0              1        0          4 0.003<span style="text-decoration: underline;">63</span>     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     1        0              1        0          4 0.005<span style="text-decoration: underline;">09</span>     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     1        0              1        0          4 0.008<span style="text-decoration: underline;">28</span>     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     1        0              1        0          4 0.006<span style="text-decoration: underline;">37</span>     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1        0              1        0          4 0.003<span style="text-decoration: underline;">82</span>     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     1        0              1        0          4 0.006<span style="text-decoration: underline;">68</span>     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     1        0              1        0          4 0.004<span style="text-decoration: underline;">36</span>     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     1        0              1        0          4 0.002<span style="text-decoration: underline;">76</span>     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     1        0              1        0          4 0.002<span style="text-decoration: underline;">82</span>     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     1        0              1        0          4 0.002<span style="text-decoration: underline;">87</span>     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     1        0              1        0          4 0.010<span style="text-decoration: underline;">3</span>      <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     1        0              1        0          4 0.006<span style="text-decoration: underline;">28</span>     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     1        0              1        0          4 0.004<span style="text-decoration: underline;">50</span>     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     1        0              1        0          4 0.009<span style="text-decoration: underline;">22</span>     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 63,990 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: .draw &lt;int&gt;</span></span></span></code></pre>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">draws.epred</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">.row</span>, <span class="va">stimulus</span>, <span class="va">joint_response</span>, <span class="va">response</span>, <span class="va">confidence</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://mjskay.github.io/ggdist/reference/point_interval.html" class="external-link">median_qi</a></span><span class="op">(</span><span class="va">.epred</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -529,7 +543,7 @@ around <code><a href="https://mjskay.github.io/tidybayes/reference/add_predicted
 </h3>
 <p>One can also compute implied values of mean confidence from the
 meta-d’ model using <code>mean_confidence_draws</code>:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/mean_conf_draws.html">add_mean_confidence_draws</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://mjskay.github.io/ggdist/reference/point_interval.html" class="external-link">median_qi</a></span><span class="op">(</span><span class="va">.epred</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -546,7 +560,7 @@ meta-d’ model using <code>mean_confidence_draws</code>:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 10</span></span></span>
 <span><span class="co">#&gt;    .row stimulus response .epred .lower .upper .width .point .interval .true</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1        0        0   2.07   1.99   2.15   0.95 median qi         2.09</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1        0        0   2.06   1.99   2.15   0.95 median qi         2.09</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1        0        1   1.91   1.83   1.99   0.95 median qi         1.92</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1        1        0   1.95   1.86   2.04   0.95 median qi         1.90</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     1        1        1   2.08   2.02   2.15   0.95 median qi         2.07</span></span></code></pre></div>
@@ -555,7 +569,7 @@ confidence per stimulus and response, and <code>.true</code> is the
 empirical mean confidence.</p>
 <p>In addition, we can compute mean confidence marginalizing over
 stimuli:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/mean_conf_draws.html">add_mean_confidence_draws</a></span><span class="op">(</span><span class="va">m</span>, by_stimulus <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://mjskay.github.io/ggdist/reference/point_interval.html" class="external-link">median_qi</a></span><span class="op">(</span><span class="va">.epred</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -569,7 +583,7 @@ stimuli:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1        0   2.03   1.95   2.11   0.95 median qi         2.03</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1        1   2.01   1.96   2.07   0.95 median qi         2.01</span></span></code></pre></div>
 <p>over responses:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/mean_conf_draws.html">add_mean_confidence_draws</a></span><span class="op">(</span><span class="va">m</span>, by_response <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://mjskay.github.io/ggdist/reference/point_interval.html" class="external-link">median_qi</a></span><span class="op">(</span><span class="va">.epred</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -583,7 +597,7 @@ stimuli:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1        0   1.98   1.93   2.03   0.95 median qi         2   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1        1   2.06   2.01   2.11   0.95 median qi         2.04</span></span></code></pre></div>
 <p>or both over stimuli and responses:</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/mean_conf_draws.html">add_mean_confidence_draws</a></span><span class="op">(</span><span class="va">m</span>, by_stimulus <span class="op">=</span> <span class="cn">FALSE</span>, by_response <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://mjskay.github.io/ggdist/reference/point_interval.html" class="external-link">median_qi</a></span><span class="op">(</span><span class="va">.epred</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -609,14 +623,14 @@ uses the highest confidence rating, and when <span class="math inline">\textrm{m
 only uses the lowest confidence rating.</p>
 <p>To obtain estimates of <span class="math inline">\textrm{meta-}\Delta</span>, one can use the
 function <code>metacognitive_bias_draws</code>:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/bias_draws.html">add_metacognitive_bias_draws</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://mjskay.github.io/ggdist/reference/point_interval.html" class="external-link">median_qi</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 8</span></span></span>
 <span><span class="co">#&gt;    .row response metacognitive_bias .lower .upper .width .point .interval</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1        0               1.16   1.03   1.30   0.95 median qi       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1        0               1.16   1.03   1.31   0.95 median qi       </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1        1               1.57   1.47   1.67   0.95 median qi</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -624,23 +638,23 @@ function <code>metacognitive_bias_draws</code>:</p>
 </h3>
 <p>To obtain type 1 performance as a pseudo-type 1 ROC, we can use
 <code>add_roc1_draws</code>:</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">draws.roc1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/roc1_draws.html">add_roc1_draws</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 28,000 × 9</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   .row, joint_response, response, confidence [7]</span></span></span>
 <span><span class="co">#&gt;     .row joint_response response confidence .chain .iteration .draw  p_fa p_hit</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1              1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 0.997 1.000</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     1              1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     2 0.990 0.997</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1              1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 0.996 0.999</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     1              1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     2 0.993 0.998</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     1              1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     3 0.996 0.999</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     1              1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     4 0.988 0.997</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     1              1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     5 0.995 0.999</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     1              1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     6 0.995 0.999</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     1              1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     7 0.996 0.999</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     1              1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     8 0.995 0.999</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     1              1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     9 0.992 0.997</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     1              1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>    10 0.994 0.999</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     1              1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     4 0.997 0.999</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     1              1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     5 0.997 1.000</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     1              1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     6 0.997 0.999</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     1              1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     7 0.990 0.997</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     1              1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     8 0.994 0.998</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     1              1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     9 0.996 0.999</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     1              1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>    10 0.991 0.998</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 27,990 more rows</span></span></span></code></pre>
 <p>Again, we have a tidy tibble with columns <code>.chain</code>,
 <code>.iteration</code>, and <code>.draw</code> identifying individual
@@ -656,7 +670,7 @@ probability of a <code>"1"</code> response with
 <code>confidence &gt;= c</code> given <code>stimulus==0</code>).</p>
 <p>For visualization, we can get posterior summaries of the ROC using
 <code><a href="https://mjskay.github.io/ggdist/reference/point_interval.html" class="external-link">tidybayes::median_qi</a></code> and then simply plot as a line:</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">draws.roc1</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://mjskay.github.io/ggdist/reference/point_interval.html" class="external-link">median_qi</a></span><span class="op">(</span><span class="va">p_fa</span>, <span class="va">p_hit</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
@@ -678,23 +692,23 @@ probability of a <code>"1"</code> response with
 </h3>
 <p>Finally, to plot type 2 performance as a type 2 ROC, we can use
 <code>add_roc2_draws</code>:</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">draws.roc2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/roc2_draws.html">add_roc2_draws</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 24,000 × 8</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   .row, response, confidence [6]</span></span></span>
 <span><span class="co">#&gt;     .row response confidence .chain .iteration .draw  p_hit2   p_fa2</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 0.006<span style="text-decoration: underline;">59</span> 0.002<span style="text-decoration: underline;">33</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     2 0.022<span style="text-decoration: underline;">6</span>  0.013<span style="text-decoration: underline;">4</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     3 0.008<span style="text-decoration: underline;">24</span> 0.004<span style="text-decoration: underline;">68</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     4 0.027<span style="text-decoration: underline;">0</span>  0.013<span style="text-decoration: underline;">8</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     5 0.012<span style="text-decoration: underline;">0</span>  0.005<span style="text-decoration: underline;">52</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     6 0.011<span style="text-decoration: underline;">9</span>  0.006<span style="text-decoration: underline;">78</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     7 0.008<span style="text-decoration: underline;">41</span> 0.004<span style="text-decoration: underline;">10</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     8 0.011<span style="text-decoration: underline;">5</span>  0.006<span style="text-decoration: underline;">08</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     9 0.020<span style="text-decoration: underline;">5</span>  0.011<span style="text-decoration: underline;">4</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>    10 0.013<span style="text-decoration: underline;">8</span>  0.005<span style="text-decoration: underline;">59</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 0.008<span style="text-decoration: underline;">70</span> 0.003<span style="text-decoration: underline;">38</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     2 0.014<span style="text-decoration: underline;">5</span>  0.006<span style="text-decoration: underline;">91</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     3 0.010<span style="text-decoration: underline;">2</span>  0.003<span style="text-decoration: underline;">31</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     4 0.006<span style="text-decoration: underline;">67</span> 0.002<span style="text-decoration: underline;">89</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     5 0.006<span style="text-decoration: underline;">66</span> 0.002<span style="text-decoration: underline;">55</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     6 0.006<span style="text-decoration: underline;">32</span> 0.002<span style="text-decoration: underline;">71</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     7 0.021<span style="text-decoration: underline;">4</span>  0.013<span style="text-decoration: underline;">4</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     8 0.012<span style="text-decoration: underline;">9</span>  0.007<span style="text-decoration: underline;">66</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     9 0.009<span style="text-decoration: underline;">78</span> 0.004<span style="text-decoration: underline;">57</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>    10 0.021<span style="text-decoration: underline;">0</span>  0.012<span style="text-decoration: underline;">0</span> </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 23,990 more rows</span></span></span></code></pre>
 <p>This tibble looks the same as for <code>roc1_draws</code>, except now
 there are columns for <code>p_hit2</code> representing the type 2 hit
@@ -705,7 +719,7 @@ with <code>confidence &gt;= c</code> given <code>response</code>). Note
 that this is the response-specific type 2 ROC, so there are two separate
 curves for the two type 1 responses.</p>
 <p>We can also plot the type 2 ROC similarly:</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">draws.roc2</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://mjskay.github.io/ggdist/reference/point_interval.html" class="external-link">median_qi</a></span><span class="op">(</span><span class="va">p_hit2</span>, <span class="va">p_fa2</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>response <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">response</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -734,6 +748,11 @@ Maniscalco, Brian, and Hakwan Lau. 2012. <span>“A Signal Detection
 Theoretic Approach for Estimating Metacognitive Sensitivity from
 Confidence Ratings.”</span> <em>Consciousness and Cognition</em> 21 (1):
 422–30.
+</div>
+<div id="ref-schad2021toward" class="csl-entry">
+Schad, Daniel J, Michael Betancourt, and Shravan Vasishth. 2021.
+<span>“Toward a Principled Bayesian Workflow in Cognitive
+Science.”</span> <em>Psychological Methods</em> 26 (1): 103.
 </div>
 <div id="ref-sherman2018" class="csl-entry">
 Sherman, Maxine T, Anil K Seth, and Adam B Barrett. 2018.
