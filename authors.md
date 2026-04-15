@@ -3,10 +3,10 @@
 ## Authors
 
 - **Kevin O'Neill**. Author, maintainer, copyright holder.
-  [](https://orcid.org/https://orcid.org/0000-0001-7401-9802)
+  [](https://orcid.org/0000-0001-7401-9802)
 
 - **Stephen Fleming**. Author, copyright holder.
-  [](https://orcid.org/https://orcid.org/0000-0003-0233-4891)
+  [](https://orcid.org/0000-0003-0233-4891)
 
 ## Citation
 
