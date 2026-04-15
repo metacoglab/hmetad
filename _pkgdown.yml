@@ -4,6 +4,9 @@ template:
   light-switch: true
   math-rendering: katex
   bootswatch: simplex
+  includes:
+    in_header: |
+      <meta name="google-site-verification" content="iiir4yUeAhnMJ1Li5Q7z796I_3JkBmSfwAaipMRMSOo" />
 
 home:
   title: "hmetad: an R package for hierarchical Bayesian modeling of confidence ratings"
