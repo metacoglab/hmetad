@@ -166,6 +166,124 @@ response_probabilities <- function(counts) {
   }
 }
 
+#' Infer the number of confidence levels in aggregated or non-aggregated data
+#'
+#' @param data A tibble containing the data to fit the model.
+#' * If `aggregate`==TRUE, `data` should have one row per observation with
+#'   columns `stimulus`, `response`, `confidence`, and any other variables in
+#'   `formula`
+#' * If `aggregate`==FALSE, it should be aggregated to have one row per cell of
+#'   the design matrix, with joint type 1/type 2 response counts in a matrix
+#'   column (see [aggregate_metad()]).
+#' @param aggregate If `TRUE`, automatically aggregate `data` by the variables
+#'   included in `formula` using [aggregate_metad()]. Otherwise, `data` should
+#'   already be aggregated.
+#' @param .stimulus The name of "stimulus" column
+#' @param .response The name of "response" column
+#' @param .confidence The name of "confidence" column
+#' @param .joint_response The name of "joint_response" column
+#' @param categorical If `FALSE` (default), use the multinomial likelihood over
+#'   aggregated data. If `TRUE`, use the categorical likelihood over individual
+#'   trials.
+#' @returns An integer describing the number of confidence levels in `data`
+#' @keywords internal
+#' @noRd
+infer_confidence_levels <- function(
+  data, aggregate = TRUE, .stimulus = "stimulus", .response = "response",
+  .confidence = "confidence", .joint_response = "joint_response",
+  .name = "N", categorical = FALSE
+) {
+  # check validity of stimulus column
+  if (aggregate || categorical) {
+    if (!(.stimulus %in% names(data))) {
+      stop(paste0('Data must have a column called "', .stimulus, '".'))
+    }
+    if (!all(as.integer(as.character(unique(pull(data, .stimulus)))) %in% c(0, 1))) {
+      stop(
+        'Stimulus column "', .stimulus, '" should only have values 0 or 1, but has values: ',
+        setdiff(as.integer(as.character(unique(pull(data, .stimulus)))), c(0, 1))
+      )
+    }
+  }
+
+  K <- NULL
+  if (categorical) {
+    # for categorical models, use joint_response column
+    K <- max(as.integer(pull(data, .name)))
+
+    if (K %% 2 != 0) {
+      stop(paste0(
+        "Joint response column `", .name,
+        "` must have an even number of levels, but has ", K, " levels."
+      ))
+    }
+
+    K <- as.integer(K / 2)
+  } else if (!aggregate) {
+    if (!(.name %in% names(data))) {
+      stop(paste0("Aggregated data must have a column called `", .name, "`."))
+    }
+
+    # if data is already aggregated, count number of columns
+    K <- ncol(pull(data, .name))
+    if (K %% 4 != 0) {
+      stop(paste0(
+        "Joint response count matrix `", .name,
+        "` in aggregated data must have a number of columns divisible by 4, but has ",
+        K, " columns."
+      ))
+    }
+    K <- as.integer(K / 4)
+  } else if (.confidence %in% names(data) && .response %in% names(data)) {
+    K <- max(as.integer(pull(data, .confidence)))
+
+    ## validate .confidence and .response columns
+    if (!all(as.integer(as.character(unique(pull(data, .response)))) %in% c(0, 1))) {
+      stop(
+        "Response column `", .response, "` should only have values 0 or 1, but has values: ",
+        as.integer(as.character(unique(pull(data, .response))))
+      )
+    } else if (!all(as.integer(unique(pull(data, .confidence))) %in% seq_len(K))) {
+      stop(
+        "Confidence column `", .confidence, "` should only have values 1:", K, ", but has values: ",
+        as.integer(as.character(unique(pull(data, .confidence))))
+      )
+    }
+  } else if (.joint_response %in% names(data)) {
+    K <- max(as.integer(pull(data, .joint_response)))
+
+    # validate joint response column
+    if ((K %% 2) != 0) {
+      stop(paste0(
+        "Joint response column `", .joint_response,
+        "` must have an even number of levels, but has ", K, " levels"
+      ))
+    } else if (!all(as.integer(unique(pull(data, .joint_response))) %in% seq_len(K))) {
+      stop(
+        "Joint response column `", .joint_response,
+        "` should only have values 1:", K, ", but has values: ",
+        as.integer(as.character(unique(pull(data, .joint_response))))
+      )
+    }
+
+    K <- as.integer(K / 2)
+  } else {
+    stop(paste0(
+      "Data must have a column called `", .joint_response,
+      "`, or two columns called `", .response, "` and `", .confidence, "`."
+    ))
+  }
+
+  # check validity of K
+  if (K <= 1) {
+    stop("Number of confidence levels (`K`) must be greater than 1.")
+  }
+
+  message(paste0("`hmetad` has inferred that there are K=", K, " confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`"))
+
+  K
+}
+
 #' Aggregate `data` by `response`, `confidence`, and other columns
 #'
 #' Counts number of rows in `data` with unique combinations values in the
@@ -244,62 +362,35 @@ aggregate_metad <- function(
 
     data <- tidyr::expand_grid(..., "{.stimulus}" := 0:1, "{.response}" := 0:1, "{.confidence}" := 1:K) |>
       mutate(
-        "{.joint_response}" := factor(joint_response(!!sym(.response), !!sym(.confidence), K)),
+        "{.joint_response}" := joint_response(!!sym(.response), !!sym(.confidence), K),
         n = 0
       ) |>
       select(-!!sym(.response), -!!sym(.confidence)) |>
       arrange(..., !!sym(.stimulus), !!sym(.joint_response))
   } else {
-    ## aggregate data if non-empty
+    # aggregate data if non-empty
 
-    ## fill in missing columns
+    # infer number of confidence levels
+    if (is.null(K)) {
+      K <- infer_confidence_levels(
+        data,
+        aggregate = TRUE, categorical = FALSE,
+        .stimulus = .stimulus, .response = .response, .confidence = .confidence,
+        .joint_response = .joint_response, .name = .name
+      )
+    }
+
+    # create joint response column if it doesn't exist
     if (!(.joint_response %in% names(data))) {
-      if (!(.response %in% names(data) && .confidence %in% names(data))) {
+      if (!(.confidence %in% names(data) && .response %in% names(data))) {
         stop(paste0(
-          'Data must have a column called "', .joint_response,
-          '", or two columns called "', .response, '" and "', .confidence, '".'
+          "Data must have a column called `", .joint_response,
+          "`, or two columns called `", .response, "` and `", .confidence, "`."
         ))
       }
 
-      # number of confidence levels
-      if (is.null(K)) {
-        K <- data |>
-          pull(!!sym(.confidence)) |>
-          as.integer() |>
-          max()
-      }
-
-      ## add joint_response column
       data <- data |>
-        mutate("{.joint_response}" := factor(
-          joint_response(!!sym(.response), !!sym(.confidence), K),
-          levels = 1:(2 * K)
-        ))
-    } else {
-      # number of confidence levels
-      if (is.null(K)) {
-        K <- as.integer((data |> pull(!!sym(.joint_response)) |> as.integer() |> max()) / 2)
-      }
-
-      if (!(.response %in% names(data))) {
-        ## add response column
-        data <- data |>
-          mutate("{.response}" := factor(type1_response(!!sym(.joint_response), K)))
-      }
-
-      if (!(.confidence %in% names(data))) {
-        ## add confidence column
-        data <- data |>
-          mutate("{.confidence}" := factor(type2_response(!!sym(.joint_response), K)))
-      }
-    }
-
-    if (K <= 1) {
-      stop("Number of confidence levels (`K`) must be greater than 1.")
-    }
-
-    if (!(.stimulus %in% names(data))) {
-      stop(paste0('Data must have a column called "', .stimulus, '".'))
+        mutate("{.joint_response}" := joint_response(!!sym(.response), !!sym(.confidence), K))
     }
 
     if (!all(names(enquos(..., .named = TRUE)) %in% names(data))) {
@@ -321,8 +412,8 @@ aggregate_metad <- function(
         data |>
           ungroup() |>
           tidyr::expand(
-            !!sym(.stimulus),
-            !!sym(.joint_response),
+            "{.stimulus}" := c(0L, 1L),
+            "{.joint_response}" := seq_len(2 * K),
             ...
           ),
         fill = list(n = 0)
@@ -352,8 +443,8 @@ aggregate_metad <- function(
     !all(data[, glue::glue("{.name}_1")] == 0)) {
     data <- data |>
       filter(
-        !!sym(glue::glue("{.name}_0")) > 0,
-        !!sym(glue::glue("{.name}_1")) > 0
+        !!sym(glue::glue("{.name}_0")) > 0 |
+          !!sym(glue::glue("{.name}_1")) > 0
       )
   }
 
@@ -463,35 +554,32 @@ fit_metad <- function(formula, data, ..., aggregate = TRUE,
 
   # determine response variable
   .name <- all.vars(formula$formula)[attr(terms(formula$formula), "response")]
-
-  # determine number of confidence levels
-  if (is.null(K)) {
-    if (categorical) {
-      # for categorical models, use joint_response column
-      K <- max(as.integer(pull(data, .name))) / 2
-    } else {
-      if (!aggregate) {
-        # if data is already aggregated, count number of columns
-        K <- ncol(pull(data, .name)) / 4
-      } else if (.confidence %in% names(data) && .response %in% names(data)) {
-        K <- max(as.integer(pull(data, .confidence)))
-      } else if (.joint_response %in% names(data)) {
-        K <- max(as.integer(pull(data, .joint_response))) / 2
-      } else {
-        stop(paste0(
-          'Data must have a column called "', .joint_response,
-          '", or two columns called "', .response, '" and "', .confidence, '".'
-        ))
-      }
+  if (categorical) {
+    # use vint variable as stimulus column for categorical models
+    .stimulus <- stringr::str_extract(
+      deparse1(formula$formula), 
+      "^.* \\| vint\\((.*)\\) ~ .*$", 
+      group=1
+    )
+    
+    # ensure that the stimulus column exists in the model formula
+    if (is.na(.stimulus)) {
+      stop("Categorical models require a `vint` term in the response of the model formula. See `help('brmsformula')` for more information")
     }
-
-    K <- as.integer(K)
   }
-
-  if (K <= 1) {
-    stop("Number of confidence levels (`K`) must be greater than 1.")
+  
+  # determine number of confidence levels
+  # (run whether K is specified or not to validate data columns)
+  K_inferred <- infer_confidence_levels(
+    data,
+    aggregate = aggregate, categorical = categorical,
+    .stimulus = .stimulus, .response = .response, .confidence = .confidence,
+    .joint_response = .joint_response, .name = .name
+  )
+  if (is.null(K)) {
+   K <- K_inferred
   }
-
+  
   ## convert the formula to use the metad family
   formula <- bf(formula,
     family = metad(K,
@@ -518,7 +606,8 @@ fit_metad <- function(formula, data, ..., aggregate = TRUE,
   sv <- stanvars_metad(K,
     distribution = distribution,
     metac_absolute = metac_absolute,
-    categorical = categorical
+    categorical = categorical,
+    logit = logit
   )
   if (!is.null(stanvars)) {
     sv <- sv + stanvars

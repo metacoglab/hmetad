@@ -81,6 +81,47 @@ test_that("aggregate_metad fails for invalid K", {
   expect_error(aggregate_metad(tibble(), K = 1))
 })
 
+test_that("aggregate_metad fails for missing columns", {
+  d <- sim_metad() |> 
+    ungroup()
+  d |>
+    select(-stimulus) |>
+    aggregate_metad() |>
+    expect_error()
+  d |>
+    select(-response) |>
+    aggregate_metad() |>
+    expect_error()
+  d |>
+    select(-confidence) |>
+    aggregate_metad() |>
+    expect_error()
+  
+})
+
+test_that("aggregate_metad fails for invalid columns", {
+  d <- sim_metad() |> 
+    ungroup()
+  
+  d |>
+    mutate(stimulus=stimulus-1) |>
+    aggregate_metad() |>
+    expect_error()
+  d |>
+    mutate(response=response-1) |>
+    aggregate_metad() |>
+    expect_error()
+  d |>
+    mutate(confidence=confidence-1) |>
+    aggregate_metad() |>
+    expect_error()
+  d |>
+    mutate(joint_response=joint_response(response, confidence, K=4)-1) |>
+    select(-response, -confidence) |>
+    aggregate_metad() |>
+    expect_error()
+})
+
 test_that("fit_metad works", {
   expect_s3_class(fit_metad(N ~ 1, sim_metad(), empty = TRUE), "brmsfit")
 })
