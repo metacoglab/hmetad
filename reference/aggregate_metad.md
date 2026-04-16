@@ -84,6 +84,7 @@ Finally, it must also have columns for any additional variables in
 # aggregate a dataset without grouping factors
 d <- sim_metad()
 aggregate_metad(d)
+#> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`
 #> # A tibble: 1 × 3
 #>     N_0   N_1 N[,"N_0_1"] [,"N_0_2"] [,"N_0_3"] [,"N_0_4"] [,"N_0_5"] [,"N_0_6"]
 #>   <int> <int>       <int>      <int>      <int>      <int>      <int>      <int>
@@ -93,6 +94,7 @@ aggregate_metad(d)
 # aggregate a dataset with grouping factors
 d2 <- sim_metad_condition()
 aggregate_metad(d2, condition)
+#> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`
 #> # A tibble: 2 × 4
 #>   condition   N_0   N_1 N[,"N_0_1"] [,"N_0_2"] [,"N_0_3"] [,"N_0_4"] [,"N_0_5"]
 #>       <int> <int> <int>       <int>      <int>      <int>      <int>      <int>
@@ -102,6 +104,7 @@ aggregate_metad(d2, condition)
 
 # can also aggregate ignoring grouping factors
 aggregate_metad(d2)
+#> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`
 #> # A tibble: 1 × 3
 #>     N_0   N_1 N[,"N_0_1"] [,"N_0_2"] [,"N_0_3"] [,"N_0_4"] [,"N_0_5"] [,"N_0_6"]
 #>   <int> <int>       <int>      <int>      <int>      <int>      <int>      <int>
@@ -126,6 +129,7 @@ d |>
   )) |>
   select(-response, -confidence) |>
   aggregate_metad()
+#> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`
 #> # A tibble: 1 × 3
 #>     N_0   N_1 N[,"N_0_1"] [,"N_0_2"] [,"N_0_3"] [,"N_0_4"] [,"N_0_5"] [,"N_0_6"]
 #>   <int> <int>       <int>      <int>      <int>      <int>      <int>      <int>

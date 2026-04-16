@@ -62,6 +62,7 @@ following columns:
 
 ``` r
 newdata <- aggregate_metad(example_data)
+#> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`
 
 # obtain model predictions
 # equivalent to `add_predicted_draws_metad(newdata, example_model)`

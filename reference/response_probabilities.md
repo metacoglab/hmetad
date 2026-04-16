@@ -40,6 +40,7 @@ P(R=0, C=1 \\\vert\\ S=1), \\ P(R=1, C=1 \\\vert\\ S=1), ..., P(R=1, C=K
 ``` r
 # Aggregate responses from simulated data
 d <- sim_metad() |> aggregate_metad()
+#> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`
 
 # Compute conditional response probabilities
 response_probabilities(d$N)

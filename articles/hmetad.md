@@ -161,6 +161,7 @@ analyses), the `aggregate_metad` function can do this for you:
 
 ``` r
 d.summary <- aggregate_metad(d)
+#> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`
 ```
 
     #> # A tibble: 1 × 3
@@ -180,6 +181,7 @@ you can change the name with the `.name` argument:
 
 ``` r
 aggregate_metad(d, .name = "y")
+#> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`
 #> # A tibble: 1 × 3
 #>     y_0   y_1 y[,"y_0_1"] [,"y_0_2"] [,"y_0_3"] [,"y_0_4"] [,"y_0_5"] [,"y_0_6"]
 #>   <int> <int>       <int>      <int>      <int>      <int>      <int>      <int>
