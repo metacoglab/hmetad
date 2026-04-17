@@ -34,7 +34,6 @@
 
 CRAN release: 2026-03-16
 
-`hmetad` is now on
-[CRAN](https://cran.r-project.org/web/packages/hmetad/index.html)!
+`hmetad` is now on [CRAN](https://cran.r-project.org/package=hmetad)!
 
 ## hmetad 0.0.1
