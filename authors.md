@@ -11,7 +11,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/metacoglab/hmetad/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/metacoglab/hmetad/blob/v0.1.1/DESCRIPTION)
 
 O'Neill K, Fleming S (2026). *hmetad: Fit the Meta-D' Model of
 Confidence Ratings Using 'brms'*. R package version 0.1.1,

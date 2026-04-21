@@ -2,6 +2,8 @@
 
 ## hmetad 0.1.1
 
+CRAN release: 2026-04-20
+
 ### Bug fixes
 
 - Fixed bug in `linpred_draws_metad`/`linpred_rvars_metad` where
