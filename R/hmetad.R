@@ -279,9 +279,26 @@ infer_confidence_levels <- function(
     stop("Number of confidence levels (`K`) must be greater than 1.")
   }
 
-  message(paste0("`hmetad` has inferred that there are K=", K, " confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`"))
+  message(paste0("`hmetad` has inferred that there are K=", K, " confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`\n"))
 
   K
+}
+
+#' Drop rows in data with missing values in column and issue a message
+#'
+#' @param data A tibble containing the data to fit the model.
+#' @param .col A string containing the column name to check for NAs
+#' @returns data with NA rows removed
+#' @keywords internal
+#' @noRd
+drop_na_message <- function(data, .col) {
+  if (.col %in% names(data) && any(is.na(data[,.col]))) {
+    data_old <- data
+    data <- tidyr::drop_na(data, .col)
+    message(paste0('Dropping ', nrow(data_old)-nrow(data), ' rows with missing values of column "', .col, '".\n'))
+  }
+  
+  data
 }
 
 #' Aggregate `data` by `response`, `confidence`, and other columns
@@ -352,6 +369,12 @@ aggregate_metad <- function(
   .confidence = "confidence", .joint_response = "joint_response",
   .name = "N", K = NULL
 ) {
+  # check for missing values
+  data <- drop_na_message(data, .stimulus)
+  data <- drop_na_message(data, .response)
+  data <- drop_na_message(data, .confidence)
+  data <- drop_na_message(data, .joint_response)
+  
   if (nrow(data) == 0) {
     ## generate zeros if empty
     if (is.null(K)) {
@@ -403,7 +426,7 @@ aggregate_metad <- function(
         "."
       ))
     }
-
+    
     # aggregate data, filling in empty cells with zero
     data <- data |>
       ungroup() |>

@@ -320,6 +320,9 @@ metad_pmf <- function(stimulus, dprime, c,
     length(meta_c2_0) != length(meta_c2_1) ||
     !all(diff(c(meta_c, meta_c2_0)) < 0) ||
     !all(diff(c(meta_c, meta_c2_1)) > 0)) {
+    print(meta_c)
+    print(meta_c2_0)
+    print(meta_c2_1)
     stop("Error: `meta_c2_0` and meta_c2_1` must be ordered vectors of the same length constrained by `meta_c`.")
   }
 
@@ -364,6 +367,7 @@ metad_pmf <- function(stimulus, dprime, c,
 #' @keywords internal
 #' @noRd
 posterior_epred_metad <- function(prep) {
+  #prep <<- prep
   M <- get_dpar(prep, "mu")
   dprime <- get_dpar(prep, "dprime")
   c1 <- get_dpar(prep, "c")
@@ -402,11 +406,20 @@ posterior_epred_metad <- function(prep) {
         aperm(c(1, 3, 2))
     }
   } else {
-    meta_c2_0 <- dpars[stringr::str_detect(dpars, "metac2zero")] |>
-      lapply(function(s) get_dpar(prep, s)) |>
-      abind::abind(along = 3) |>
-      apply(1:2, cumsum) |>
-      aperm(c(2, 3, 1))
+    if (length(dpars[stringr::str_detect(dpars, "metac2zero")]) == 1) {
+      meta_c2_0 <- dpars[stringr::str_detect(dpars, "metac2zero")] |>
+        lapply(function(s) get_dpar(prep, s)) |>
+        abind::abind(along = 3)
+      meta_c2_0 <- meta_c2_0 |>
+        apply(1:2, cumsum) |>
+        array(dim=dim(meta_c2_0))
+    } else {
+      meta_c2_0 <- dpars[stringr::str_detect(dpars, "metac2zero")] |>
+        lapply(function(s) get_dpar(prep, s)) |>
+        abind::abind(along = 3) |>
+        apply(1:2, cumsum) |>
+        aperm(c(2, 3, 1))
+    }
   }
 
   if (is.vector(get_dpar(prep, "metac2one1diff"))) {
@@ -422,12 +435,23 @@ posterior_epred_metad <- function(prep) {
         aperm(c(1, 3, 2))
     }
   } else {
-    meta_c2_1 <- dpars[stringr::str_detect(dpars, "metac2one")] |>
-      lapply(function(s) get_dpar(prep, s)) |>
-      abind::abind(along = 3) |>
-      apply(1:2, cumsum) |>
-      aperm(c(2, 3, 1))
+    if (length(dpars[stringr::str_detect(dpars, "metac2one")]) == 1) {
+      meta_c2_1 <- dpars[stringr::str_detect(dpars, "metac2one")] |>
+        lapply(function(s) get_dpar(prep, s)) |>
+        abind::abind(along = 3)
+      meta_c2_1 <- meta_c2_1 |>
+        apply(1:2, cumsum) |>
+        array(dim=dim(meta_c2_1))
+    } else {
+      meta_c2_1 <- dpars[stringr::str_detect(dpars, "metac2one")] |>
+        lapply(function(s) get_dpar(prep, s)) |>
+        abind::abind(along = 3) |>
+        apply(1:2, cumsum) |>
+        aperm(c(2, 3, 1))
+    }
   }
+  
+  # desired: meta_c2[draw, i, k]
 
   # calculate number of confidence thresholds
   k <- last(dim(meta_c2_0))
@@ -501,18 +525,26 @@ lp_metad <- function(i, prep) {
     sapply(function(s) get_dpar(prep, s, i = i))
   if (is.vector(meta_c2_0)) {
     meta_c2_0 <- matrix(meta_c2_0, ncol = length(meta_c2_0))
+  } 
+  meta_c2_0 <- apply(meta_c2_0, 1, cumsum)
+  if (is.vector(meta_c2_0)) {
+    meta_c2_0 <- matrix(meta_c2_0, nrow = length(meta_c2_0))
+  } else {
+    meta_c2_0 <- t(meta_c2_0)
   }
-  meta_c2_0 <- meta_c2_0 |>
-    apply(1, cumsum) |>
-    t()
+
   meta_c2_1 <- dpars[stringr::str_detect(dpars, "metac2one")] |>
     sapply(function(s) get_dpar(prep, s, i = i))
   if (is.vector(meta_c2_1)) {
     meta_c2_1 <- matrix(meta_c2_1, ncol = length(meta_c2_1))
   }
-  meta_c2_1 <- meta_c2_1 |>
-    apply(1, cumsum) |>
-    t()
+  meta_c2_1 <- apply(meta_c2_1, 1, cumsum)
+  if (is.vector(meta_c2_1)) {
+    meta_c2_1 <- matrix(meta_c2_1, nrow = length(meta_c2_1))
+  } else {
+    meta_c2_1 <- t(meta_c2_1)
+  }
+  
   meta_c2_0 <- meta_c - meta_c2_0
   meta_c2_1 <- meta_c + meta_c2_1
   meta_c2_0 <- split(meta_c2_0, row(meta_c2_0))

@@ -20,7 +20,12 @@ cov_matrix <- function(S, OMEGA) {
   if (length(S) != nrow(OMEGA)) {
     stop("Dimensions of `S` and `OMEGA` must match.")
   }
-  diag(S) %*% OMEGA %*% diag(S)
+  
+  if (length(S) == 1) {
+    S %*% OMEGA %*% S
+  } else {
+    diag(S) %*% OMEGA %*% diag(S)
+  }
 }
 
 #' Generate a correlation matrix with all off-diagonal values equal to `r`
