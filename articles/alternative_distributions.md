@@ -21,6 +21,7 @@ al., 2026](#ref-meyer2026extreme)).
 We begin by loading necessary packages in `R`:
 
 ``` r
+
 library(tidyverse)
 library(brms)
 library(tidybayes)
@@ -49,6 +50,7 @@ For example, we can write the gumbel min distribution functions in `R`
 as follows:
 
 ``` r
+
 gumbel_min_lcdf <- function(x, g) {
   log1p(-exp(-exp(x - g)))
 }
@@ -66,6 +68,7 @@ efficient helper functions. The code below implements the same two
 functions in `Stan`:
 
 ``` r
+
 gumbel_min <- stanvar(
   scode = "
 real gumbel_min_lcdf(real x, real g) {
@@ -94,6 +97,7 @@ To simulate data, you can call the `sim_metad` function supplying the
 optional arguments `lcdf` and `lccdf`:
 
 ``` r
+
 d <- sim_metad(
   N_trials = 10000, dprime = 1.5, c = .1, log_M = -.5,
   c2_0_diff = c(.25, .5, .25), c2_1_diff = c(.1, .5, .25),
@@ -121,6 +125,7 @@ accordingly. The code below shows how to fit the meta-d’ model with our
 new `gumbel_min` distribution:
 
 ``` r
+
 m <- fit_metad(N ~ 1,
   data = d,
   prior = prior(normal(0, 1), class = Intercept) +
@@ -179,6 +184,7 @@ Looking at the pseudo-type 1 ROC, we can see that the `gumbel_min`
 distribution exhibits an asymmetry:
 
 ``` r
+
 # psuedo type-1 ROC
 tibble(.row = 1) |>
   add_roc1_draws(m, bounds = TRUE) |>
@@ -203,6 +209,7 @@ tibble(.row = 1) |>
 Likewise, the `gumbel_min` distribution also has asymmetric type 2 ROCs:
 
 ``` r
+
 # type 2 ROC
 roc2_draws(m, tibble(.row = 1), bounds = TRUE) |>
   median_qi(p_hit2, p_fa2) |>

@@ -16,6 +16,7 @@ participant-level and item-level effects on their model parameters.
 We can simulate data from such a design like so:
 
 ``` r
+
 library(tidyverse)
 library(tidybayes)
 library(hmetad)
@@ -107,6 +108,7 @@ Don’t worry about the details of the simulation code- what matters is
 that we have a data set with repeated measures for participants:
 
 ``` r
+
 count(d, participant)
 #> # A tibble: 50 × 2
 #>    participant     n
@@ -127,6 +129,7 @@ count(d, participant)
 And repeated measures for items:
 
 ``` r
+
 count(d, item)
 #> # A tibble: 25 × 2
 #>     item     n
@@ -152,6 +155,7 @@ data ourselves, we can see that the aggregation doesn’t really help us
 here:
 
 ``` r
+
 aggregate_metad(d, participant, item)
 #> `hmetad` has inferred that there are K=3 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`
 #> # A tibble: 1,250 × 5
@@ -175,9 +179,10 @@ As you can see, the aggregated data set has 1250 rows (with two
 observations per row), which is not much smaller than the trial-level
 data that we started with! So, in this case, it will probably be easier
 *not* to aggregate our data. Nevertheless, there is nothing stopping us
-from fitting the model like normal:[¹](#fn1)
+from fitting the model like normal:[^1]
 
 ``` r
+
 # Priors are chosen arbitrarily for this example.
 # Please choose your own wisely!
 priors <- prior(normal(0, .25), class = Intercept) +
@@ -280,6 +285,7 @@ Our data already has a `stimulus` column but separate columns for the
 two responses. So, we can add in a joint response column now:
 
 ``` r
+
 d <- d |>
   mutate(joint_response = joint_response(response, confidence, K)) |>
   relocate(joint_response, .after = "stimulus")
@@ -310,6 +316,7 @@ variable passed to `brms`, and the argument `categorical=TRUE` to tell
 `fit_metad` not to aggregate the data:
 
 ``` r
+
 m.categorical <- fit_metad(
   bf(
     joint_response | vint(stimulus) ~ 1 + (1 | participant) + (1 | item),
@@ -394,6 +401,7 @@ predictions. For example, to estimate a ROC averaging over participants
 and items, we can use an empty data set with `re_formula=NA`:
 
 ``` r
+
 roc1_rvars(m.multinomial, tibble(.row = 1), re_formula = NA)
 #> # A tibble: 5 × 6
 #> # Groups:   .row, joint_response, response, confidence [5]
@@ -409,6 +417,7 @@ roc1_rvars(m.multinomial, tibble(.row = 1), re_formula = NA)
 The process is exactly the same for the categorical model:
 
 ``` r
+
 roc1_rvars(m.categorical, tibble(.row = 1), re_formula = NA)
 #> # A tibble: 5 × 6
 #> # Groups:   .row, joint_response, response, confidence [5]
@@ -426,6 +435,7 @@ dataset with one row per participant and only the participant-level
 random effects:
 
 ``` r
+
 roc1_rvars(m.categorical, distinct(d, participant), re_formula = ~ (1 | participant))
 #> # A tibble: 250 × 7
 #> # Groups:   .row, participant, joint_response, response, confidence [250]
@@ -448,6 +458,7 @@ We can use a similar process to get item-level ROCs (averaging over
 participants):
 
 ``` r
+
 roc1_rvars(m.categorical, distinct(d, item), re_formula = ~ (1 | item))
 #> # A tibble: 125 × 7
 #> # Groups:   .row, item, joint_response, response, confidence [125]
@@ -474,8 +485,6 @@ using the `loo` package, multivariate models, and mediation models.
 These features should mostly work out of the box but they are still
 under active development, so stay tuned!
 
-------------------------------------------------------------------------
-
-1.  Note that in practice, fitting hierarchical models will usually
+[^1]: Note that in practice, fitting hierarchical models will usually
     require setting informed priors and adjusting the Stan sampler
     settings.

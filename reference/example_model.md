@@ -26,6 +26,7 @@ Generated using the code `fit_metad(N ~ 1, example_data, iter = 500)`
 ## Examples
 
 ``` r
+
 # inspect summary of posterior distribution
 summary(example_model)
 #>  Family: metad__4__normal__absolute__multinomial 

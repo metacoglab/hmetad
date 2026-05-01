@@ -29,6 +29,7 @@ This provides major benefits:
 `hmetad` is available via CRAN and can be installed using:
 
 ``` r
+
 install.packages("hmetad")
 ```
 
@@ -36,6 +37,7 @@ Alternatively, you can install the development version of `hmetad` from
 [GitHub](https://github.com/metacoglab/hmetad) with:
 
 ``` r
+
 # install.packages("pak")
 pak::pak("metacoglab/hmetad")
 ```
@@ -65,6 +67,7 @@ confidence ratings:
 You can fit an intercepts-only meta-d’ model using `fit_metad`:
 
 ``` r
+
 library(hmetad)
 
 m <- fit_metad(N ~ 1,
@@ -134,6 +137,7 @@ To account for the repeated measures in this design, you can simply
 adjust the formula to include participant-level effects:
 
 ``` r
+
 m <- fit_metad(
   bf(
     N ~ condition + (condition | participant),

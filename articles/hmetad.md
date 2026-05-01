@@ -15,6 +15,7 @@ designed for, we can start by simulating one (see
 for a description of the data simulation function):
 
 ``` r
+
 library(tidyverse)
 library(tidybayes)
 library(hmetad)
@@ -86,6 +87,7 @@ dataset that looked like this:
 Then we could convert our joint response like so:
 
 ``` r
+
 d.joint_response |>
   mutate(
     response = type1_response(joint_response, K = 4),
@@ -111,6 +113,7 @@ Similarly, you can also convert the separate responses into a joint
 response:
 
 ``` r
+
 d |>
   mutate(joint_response = joint_response(response, confidence, K = 4))
 #> # A tibble: 1,000 × 5
@@ -142,11 +145,13 @@ package is designed to use the *unsigned* (`0` or `1`) version, it
 provides helper functions to convert between the two:
 
 ``` r
+
 to_unsigned(c(-1, 1))
 #> [1] 0 1
 ```
 
 ``` r
+
 to_signed(c(0, 1))
 #> [1] -1  1
 ```
@@ -160,6 +165,7 @@ you would like to do so manually (e.g., for plotting or follow-up
 analyses), the `aggregate_metad` function can do this for you:
 
 ``` r
+
 d.summary <- aggregate_metad(d)
 #> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`
 ```
@@ -180,6 +186,7 @@ If you would like to use variable name other than `N` for the counts,
 you can change the name with the `.name` argument:
 
 ``` r
+
 aggregate_metad(d, .name = "y")
 #> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`
 #> # A tibble: 1 × 3
@@ -194,6 +201,7 @@ If you have other columns in your dataset (e.g., `participant` or
 you can simply add them to the function call:
 
 ``` r
+
 aggregate_metad(d, participant, condition)
 ```
 
@@ -205,6 +213,7 @@ rating of `3` on a `4`-point scale). The number of confidence levels can
 be specified manually using the argument `K`:
 
 ``` r
+
 aggregate_metad(d, participant, condition, K = 4)
 ```
 
@@ -218,8 +227,7 @@ package](https://paulbuerkner.com/brms/) before model fitting. In
 particular, users are likely to run into convergence errors using the
 default (flat) priors for model parameters, so we recommend doing
 careful prior predictive checks to set weakly informed priors (see
-[Schad, Betancourt, and Vasishth 2021](#ref-schad2021toward) for more
-information).
+[Schad et al. 2021](#ref-schad2021toward) for more information).
 
 Since `aggregate_metad` will place our dataset has our trial counts into
 a column named `N` by default, we can use `N` as our response variable
@@ -227,6 +235,7 @@ even if our data is not yet aggregated. To fit a model with fixed values
 for each parameter, then, we can use the formula `N ~ 1`:
 
 ``` r
+
 m <- fit_metad(N ~ 1,
   data = d,
   prior = prior(normal(0, 1), class = Intercept) +
@@ -290,6 +299,7 @@ directly. In such cases, the `fit_metad` function is roughly analogous
 to the following code:
 
 ``` r
+
 # calculate number of confidence levels
 K <- n_distinct(d$confidence)
 
@@ -317,6 +327,7 @@ wrapper around
 [`tidybayes::linpred_draws`](https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html)):
 
 ``` r
+
 draws.metad <- tibble(.row = 1) |>
   add_linpred_draws_metad(m)
 ```
@@ -345,6 +356,7 @@ some purposes, but it will often be useful to pivot it so that we have a
 separate row for each model parameter and posterior sample:
 
 ``` r
+
 draws.metad <- tibble(.row = 1) |>
   add_linpred_draws_metad(m, pivot_longer = TRUE)
 ```
@@ -370,6 +382,7 @@ Now that all of the posterior samples are stored in a single column
 e.g. [`tidybayes::median_qi`](https://mjskay.github.io/ggdist/reference/point_interval.html):
 
 ``` r
+
 draws.metad |>
   median_qi()
 #> # A tibble: 11 × 8
@@ -397,6 +410,7 @@ simulated and actual data. We can do this using the function
 [`tidybayes::predicted_draws`](https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html)):
 
 ``` r
+
 draws.predicted <- predicted_draws_metad(m, d.summary)
 ```
 
@@ -427,6 +441,7 @@ type). From here, we can plot the posterior predictions (points and
 error-bars) against the actual data (bars):
 
 ``` r
+
 draws.predicted |>
   group_by(.row, stimulus, joint_response, response, confidence) |>
   median_qi(.prediction) |>
@@ -451,6 +466,7 @@ but using `epred_draws_metad` (which is a wrapper around
 [`tidybayes::epred_draws`](https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html)):
 
 ``` r
+
 draws.epred <- epred_draws_metad(m, newdata = tibble(.row = 1))
 ```
 
@@ -472,6 +488,7 @@ draws.epred <- epred_draws_metad(m, newdata = tibble(.row = 1))
     #> # ℹ 1 more variable: .draw <int>
 
 ``` r
+
 draws.epred |>
   group_by(.row, stimulus, joint_response, response, confidence) |>
   median_qi(.epred) |>
@@ -496,6 +513,7 @@ One can also compute implied values of mean confidence from the meta-d’
 model using `mean_confidence_draws`:
 
 ``` r
+
 tibble(.row = 1) |>
   add_mean_confidence_draws(m) |>
   median_qi(.epred) |>
@@ -524,6 +542,7 @@ stimulus and response, and `.true` is the empirical mean confidence.
 In addition, we can compute mean confidence marginalizing over stimuli:
 
 ``` r
+
 tibble(.row = 1) |>
   add_mean_confidence_draws(m, by_stimulus = FALSE) |>
   median_qi(.epred) |>
@@ -541,6 +560,7 @@ tibble(.row = 1) |>
 over responses:
 
 ``` r
+
 tibble(.row = 1) |>
   add_mean_confidence_draws(m, by_response = FALSE) |>
   median_qi(.epred) |>
@@ -558,6 +578,7 @@ tibble(.row = 1) |>
 or both over stimuli and responses:
 
 ``` r
+
 tibble(.row = 1) |>
   add_mean_confidence_draws(m, by_stimulus = FALSE, by_response = FALSE) |>
   median_qi(.epred) |>
@@ -575,8 +596,8 @@ tibble(.row = 1) |>
 While mean confidence is often empirically informative, it is not
 recommended as a measure of metacognitive bias because it is known to be
 confounded by type 1 response characteristics (i.e., d' and c) and by
-metacognitive sensitivity (i.e., \textrm{meta-}d', [Sherman, Seth, and
-Barrett 2018](#ref-sherman2018)). Instead, we recommend a new measure of
+metacognitive sensitivity (i.e., \textrm{meta-}d', [Sherman et al.
+2018](#ref-sherman2018)). Instead, we recommend a new measure of
 metacognitive bias, \textrm{meta-}\Delta, which is the distance between
 the average of the confidence criteria and \textrm{meta-}c.
 
@@ -589,6 +610,7 @@ To obtain estimates of \textrm{meta-}\Delta, one can use the function
 `metacognitive_bias_draws`:
 
 ``` r
+
 tibble(.row = 1) |>
   add_metacognitive_bias_draws(m) |>
   median_qi()
@@ -605,6 +627,7 @@ To obtain type 1 performance as a pseudo-type 1 ROC, we can use
 `add_roc1_draws`:
 
 ``` r
+
 draws.roc1 <- tibble(.row = 1) |>
   add_roc1_draws(m)
 ```
@@ -640,6 +663,7 @@ For visualization, we can get posterior summaries of the ROC using
 and then simply plot as a line:
 
 ``` r
+
 draws.roc1 |>
   median_qi(p_fa, p_hit) |>
   ggplot(aes(
@@ -664,6 +688,7 @@ Finally, to plot type 2 performance as a type 2 ROC, we can use
 `add_roc2_draws`:
 
 ``` r
+
 draws.roc2 <- tibble(.row = 1) |>
   add_roc2_draws(m)
 ```
@@ -695,6 +720,7 @@ curves for the two type 1 responses.
 We can also plot the type 2 ROC similarly:
 
 ``` r
+
 draws.roc2 |>
   median_qi(p_hit2, p_fa2) |>
   mutate(response = factor(response)) |>
