@@ -54,5 +54,5 @@ predicted_rvars_metad(example_model, newdata)
 
 }
 \seealso{
-\code{\link[tidybayes:add_predicted_draws]{tidybayes::predicted_draws()}}, \code{\link[tidybayes:add_predicted_rvars]{tidybayes::predicted_rvars()}}
+\code{\link[tidybayes:predicted_draws]{tidybayes::predicted_draws()}}, \code{\link[tidybayes:predicted_rvars]{tidybayes::predicted_rvars()}}
 }

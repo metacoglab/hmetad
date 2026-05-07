@@ -82,7 +82,7 @@ test_that("aggregate_metad fails for invalid K", {
 })
 
 test_that("aggregate_metad fails for missing columns", {
-  d <- sim_metad() |> 
+  d <- sim_metad() |>
     ungroup()
   d |>
     select(-stimulus) |>
@@ -96,27 +96,26 @@ test_that("aggregate_metad fails for missing columns", {
     select(-confidence) |>
     aggregate_metad() |>
     expect_error()
-  
 })
 
 test_that("aggregate_metad fails for invalid columns", {
-  d <- sim_metad() |> 
+  d <- sim_metad() |>
     ungroup()
-  
+
   d |>
-    mutate(stimulus=stimulus-1) |>
+    mutate(stimulus = stimulus - 1) |>
     aggregate_metad() |>
     expect_error()
   d |>
-    mutate(response=response-1) |>
+    mutate(response = response - 1) |>
     aggregate_metad() |>
     expect_error()
   d |>
-    mutate(confidence=confidence-1) |>
+    mutate(confidence = confidence - 1) |>
     aggregate_metad() |>
     expect_error()
   d |>
-    mutate(joint_response=joint_response(response, confidence, K=4)-1) |>
+    mutate(joint_response = joint_response(response, confidence, K = 4) - 1) |>
     select(-response, -confidence) |>
     aggregate_metad() |>
     expect_error()

@@ -1,3 +1,20 @@
+# hmetad 0.1.2
+
+## Bug fixes
+  - Resolved error in `posterior_predict()` and `posterior_epred()` for models with multilevel effects on a single confidence level
+  - `cov_matrix()` now works for scalar inputs
+  - `aggregate_metad()` now removes rows with `NA` values prior to aggregation
+  
+## New features
+  - `metac2_parameters()` function streamlines setting priors for confidence criteria
+
+## Minor improvements and fixes
+  - `aggregate_metad()` and `fit_metad()` now perform more thorough checks on the number of confidence levels, `K`
+  - `aggregate_metad()` has increased efficiency
+
+---
+
+
 # hmetad 0.1.1
 
 ## Bug fixes
@@ -13,6 +30,10 @@
 
   - Minor updates to package documentation
   
+  
+---
+
+
 # hmetad 0.1.0
 
 `hmetad` is now on [CRAN](https://cran.r-project.org/package=hmetad)!

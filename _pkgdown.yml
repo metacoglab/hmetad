@@ -25,6 +25,7 @@ reference:
     contents:
     - fit_metad
     - metad
+    - metac2_parameters
     - stanvars_metad
 
   - title: Processing data for model fitting

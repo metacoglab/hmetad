@@ -20,7 +20,7 @@ add_roc1_rvars(newdata, object, ...)
 
 \item{newdata}{A data frame from which to generate posterior predictions}
 
-\item{...}{Additional parameters passed to \link[tidybayes:add_predicted_draws]{tidybayes::epred_draws} or \link[tidybayes:add_predicted_rvars]{tidybayes::epred_rvars}}
+\item{...}{Additional parameters passed to \link[tidybayes:epred_draws]{tidybayes::epred_draws} or \link[tidybayes:epred_rvars]{tidybayes::epred_rvars}}
 
 \item{bounds}{If \code{TRUE}, include the endpoints of the ROC at \eqn{(0, 0)} and \eqn{(1, 1)}.
 Otherwise, the endpoints are excluded.}
@@ -64,5 +64,5 @@ roc1_draws(example_model, newdata, bounds = TRUE)
 
 }
 \seealso{
-\code{\link[tidybayes:add_predicted_draws]{tidybayes::epred_draws()}}, \code{\link[tidybayes:add_predicted_rvars]{tidybayes::epred_rvars()}}
+\code{\link[tidybayes:epred_draws]{tidybayes::epred_draws()}}, \code{\link[tidybayes:epred_rvars]{tidybayes::epred_rvars()}}
 }

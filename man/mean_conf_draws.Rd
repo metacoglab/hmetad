@@ -34,8 +34,8 @@ add_mean_confidence_rvars(newdata, object, ...)
 
 \item{newdata}{A data frame from which to generate posterior predictions}
 
-\item{...}{Additional arguments to \link[tidybayes:add_predicted_draws]{tidybayes::epred_draws} or
-\link[tidybayes:add_predicted_rvars]{tidybayes::epred_rvars}}
+\item{...}{Additional arguments to \link[tidybayes:epred_draws]{tidybayes::epred_draws} or
+\link[tidybayes:epred_rvars]{tidybayes::epred_rvars}}
 
 \item{by_stimulus}{If TRUE, predict mean confidence separately by stimulus.
 Otherwise, predict mean confidence averaging over stimuli. Ignored if
@@ -104,5 +104,5 @@ mean_confidence_rvars(example_model, newdata)
 
 }
 \seealso{
-\code{\link[tidybayes:add_predicted_draws]{tidybayes::epred_draws()}}, \code{\link[tidybayes:add_predicted_rvars]{tidybayes::epred_rvars()}}
+\code{\link[tidybayes:epred_draws]{tidybayes::epred_draws()}}, \code{\link[tidybayes:epred_rvars]{tidybayes::epred_rvars()}}
 }

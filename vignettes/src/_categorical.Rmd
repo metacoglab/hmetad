@@ -131,22 +131,9 @@ priors <- prior(normal(0, .25), class = Intercept) +
     class = "Intercept",
     dpar = c("dprime", "c")
   ) +
-  set_prior("normal(-0.5, .1)",
-    class = "Intercept",
-    dpar = c(
-      "metac2zero1diff", "metac2zero2diff",
-      "metac2one1diff", "metac2one2diff"
-    )
-  ) +
+  set_prior("normal(-0.5, .1)", class = "Intercept", dpar = metac2_parameters(K = 3)) +
   prior(normal(0, 1), class = sd) +
-  set_prior("normal(0, 1)",
-    class = "sd",
-    dpar = c(
-      "dprime", "c",
-      "metac2zero1diff", "metac2zero2diff",
-      "metac2one1diff", "metac2one2diff"
-    )
-  )
+  set_prior("normal(0, 1)", class = "sd", dpar = c("dprime", "c", metac2_parameters(K = 3)))
 
 m.multinomial <- fit_metad(
   bf(

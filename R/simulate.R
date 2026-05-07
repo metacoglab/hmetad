@@ -20,7 +20,7 @@ cov_matrix <- function(S, OMEGA) {
   if (length(S) != nrow(OMEGA)) {
     stop("Dimensions of `S` and `OMEGA` must match.")
   }
-  
+
   if (length(S) == 1) {
     S %*% OMEGA %*% S
   } else {

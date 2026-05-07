@@ -20,7 +20,7 @@ add_metacognitive_bias_rvars(newdata, object, ...)
 
 \item{newdata}{A data frame from which to generate posterior predictions}
 
-\item{...}{Additional parameters passed to \link[tidybayes:add_predicted_draws]{tidybayes::epred_draws} or \link[tidybayes:add_predicted_rvars]{tidybayes::epred_rvars}}
+\item{...}{Additional parameters passed to \link[tidybayes:epred_draws]{tidybayes::epred_draws} or \link[tidybayes:epred_rvars]{tidybayes::epred_rvars}}
 
 \item{by_response}{If \code{TRUE}, compute metacognitive bias separately for the
 two type 1 responses. If \code{FALSE}, compute an un-weighted average of the two
@@ -63,5 +63,5 @@ metacognitive_bias_rvars(example_model, newdata, by_response = FALSE)
 }
 }
 \seealso{
-\code{\link[tidybayes:add_predicted_draws]{tidybayes::linpred_draws()}}, \code{\link[tidybayes:add_predicted_rvars]{tidybayes::linpred_rvars()}}
+\code{\link[tidybayes:linpred_draws]{tidybayes::linpred_draws()}}, \code{\link[tidybayes:linpred_rvars]{tidybayes::linpred_rvars()}}
 }

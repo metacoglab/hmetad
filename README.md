@@ -60,16 +60,16 @@ confidence ratings:
     #> # A tibble: 1,000 × 5
     #>    trial stimulus response correct confidence
     #>    <int>    <int>    <int>   <int>      <int>
-    #>  1     1        0        0       1          2
-    #>  2     2        1        1       1          4
-    #>  3     3        1        1       1          2
-    #>  4     4        0        0       1          4
-    #>  5     5        0        1       0          1
+    #>  1     1        0        0       1          4
+    #>  2     2        1        0       0          2
+    #>  3     3        0        0       1          4
+    #>  4     4        1        1       1          2
+    #>  5     5        1        1       1          3
     #>  6     6        1        1       1          2
-    #>  7     7        0        0       1          2
-    #>  8     8        1        0       0          1
-    #>  9     9        1        1       1          1
-    #> 10    10        0        1       0          3
+    #>  7     7        0        0       1          1
+    #>  8     8        1        1       1          1
+    #>  9     9        0        0       1          2
+    #> 10    10        0        0       1          4
     #> # ℹ 990 more rows
 
 You can fit an intercepts-only meta-d’ model using `fit_metad`:
@@ -80,14 +80,7 @@ library(hmetad)
 m <- fit_metad(N ~ 1,
   data = d,
   prior = prior(normal(0, 1), class = Intercept) +
-    set_prior(
-      "normal(0, 1)",
-      class = c(
-        "dprime", "c",
-        "metac2zero1diff", "metac2zero2diff", "metac2zero3diff",
-        "metac2one1diff", "metac2one2diff", "metac2one3diff"
-      )
-    )
+    set_prior("normal(0, 1)", class = c("dprime", "c", metac2_parameters(K = 4)))
 )
 ```
 
@@ -100,18 +93,18 @@ m <- fit_metad(N ~ 1,
     #> 
     #> Regression Coefficients:
     #>           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-    #> Intercept    -0.04      0.14    -0.35     0.23 1.00     3115     3092
+    #> Intercept    -0.00      0.15    -0.31     0.27 1.00     3029     2827
     #> 
     #> Further Distributional Parameters:
     #>                 Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-    #> dprime              1.05      0.08     0.90     1.22 1.00     4058     2832
-    #> c                  -0.04      0.04    -0.12     0.04 1.00     3950     3312
-    #> metac2zero1diff     0.47      0.03     0.41     0.54 1.00     5121     3320
-    #> metac2zero2diff     0.49      0.04     0.42     0.57 1.00     5262     2913
-    #> metac2zero3diff     0.56      0.05     0.47     0.66 1.00     5578     3139
-    #> metac2one1diff      0.50      0.04     0.44     0.57 1.00     4059     3253
-    #> metac2one2diff      0.52      0.04     0.45     0.60 1.00     5753     3401
-    #> metac2one3diff      0.46      0.04     0.37     0.55 1.00     5955     2555
+    #> dprime              0.98      0.08     0.82     1.14 1.00     3595     2959
+    #> c                  -0.01      0.04    -0.09     0.07 1.00     3734     3384
+    #> metac2zero1diff     0.54      0.04     0.47     0.61 1.00     3929     3085
+    #> metac2zero2diff     0.48      0.04     0.41     0.56 1.00     5441     3166
+    #> metac2zero3diff     0.45      0.05     0.36     0.54 1.00     4644     2901
+    #> metac2one1diff      0.48      0.04     0.42     0.56 1.00     4784     3057
+    #> metac2one2diff      0.50      0.04     0.42     0.57 1.00     5043     3220
+    #> metac2one3diff      0.56      0.05     0.47     0.66 1.00     5453     3423
     #> 
     #> Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
     #> and Tail_ESS are effective sample size measures, and Rhat is the potential
@@ -124,16 +117,16 @@ within-participant manipulation:
     #> # Groups:   participant, condition [50]
     #>    participant condition trial stimulus response correct confidence
     #>          <int>     <int> <int>    <int>    <int>   <int>      <int>
-    #>  1           1         1     1        0        0       1          4
-    #>  2           1         1     2        1        1       1          4
-    #>  3           1         1     3        0        0       1          3
-    #>  4           1         1     4        0        1       0          3
-    #>  5           1         1     5        0        0       1          3
-    #>  6           1         1     6        0        0       1          4
-    #>  7           1         1     7        0        0       1          4
+    #>  1           1         1     1        0        0       1          2
+    #>  2           1         1     2        0        0       1          1
+    #>  3           1         1     3        1        0       0          2
+    #>  4           1         1     4        1        1       1          4
+    #>  5           1         1     5        1        1       1          2
+    #>  6           1         1     6        1        1       1          1
+    #>  7           1         1     7        1        0       0          2
     #>  8           1         1     8        0        0       1          1
-    #>  9           1         1     9        0        1       0          1
-    #> 10           1         1    10        1        0       0          3
+    #>  9           1         1     9        0        1       0          2
+    #> 10           1         1    10        1        1       1          2
     #> # ℹ 4,990 more rows
 
 To account for the repeated measures in this design, you can simply
@@ -150,13 +143,7 @@ m <- fit_metad(
   ),
   data = d, init = "0",
   prior = prior(normal(0, 1)) +
-    set_prior("normal(0, 1)",
-      dpar = c(
-        "dprime", "c",
-        "metac2zero1diff", "metac2zero2diff", "metac2zero3diff",
-        "metac2one1diff", "metac2one2diff", "metac2one3diff"
-      )
-    )
+    set_prior("normal(0, 1)", dpar = c("dprime", "c", metac2_parameters(K = 4)))
 )
 ```
 
@@ -178,129 +165,129 @@ m <- fit_metad(
     #> Multilevel Hyperparameters:
     #> ~participant (Number of levels: 25) 
     #>                                                          Estimate Est.Error
-    #> sd(Intercept)                                                0.49      0.52
-    #> sd(condition)                                                0.31      0.32
-    #> sd(dprime_Intercept)                                         1.22      0.22
-    #> sd(dprime_condition)                                         0.75      0.14
-    #> sd(c_Intercept)                                              1.16      0.17
-    #> sd(c_condition)                                              0.74      0.11
-    #> sd(metac2zero1diff_Intercept)                                0.11      0.10
+    #> sd(Intercept)                                                0.83      0.31
+    #> sd(condition)                                                0.55      0.22
+    #> sd(dprime_Intercept)                                         1.19      0.21
+    #> sd(dprime_condition)                                         0.79      0.14
+    #> sd(c_Intercept)                                              1.01      0.16
+    #> sd(c_condition)                                              0.69      0.11
+    #> sd(metac2zero1diff_Intercept)                                0.11      0.09
     #> sd(metac2zero1diff_condition)                                0.07      0.06
-    #> sd(metac2zero2diff_Intercept)                                0.11      0.11
-    #> sd(metac2zero2diff_condition)                                0.07      0.07
-    #> sd(metac2zero3diff_Intercept)                                0.10      0.09
+    #> sd(metac2zero2diff_Intercept)                                0.12      0.10
+    #> sd(metac2zero2diff_condition)                                0.08      0.07
+    #> sd(metac2zero3diff_Intercept)                                0.11      0.10
     #> sd(metac2zero3diff_condition)                                0.07      0.06
-    #> sd(metac2one1diff_Intercept)                                 0.10      0.10
-    #> sd(metac2one1diff_condition)                                 0.07      0.08
-    #> sd(metac2one2diff_Intercept)                                 0.14      0.11
-    #> sd(metac2one2diff_condition)                                 0.11      0.08
-    #> sd(metac2one3diff_Intercept)                                 0.13      0.12
-    #> sd(metac2one3diff_condition)                                 0.07      0.06
-    #> cor(Intercept,condition)                                    -0.43      0.57
-    #> cor(dprime_Intercept,dprime_condition)                      -0.94      0.03
-    #> cor(c_Intercept,c_condition)                                -0.94      0.03
-    #> cor(metac2zero1diff_Intercept,metac2zero1diff_condition)    -0.41      0.56
-    #> cor(metac2zero2diff_Intercept,metac2zero2diff_condition)    -0.34      0.56
-    #> cor(metac2zero3diff_Intercept,metac2zero3diff_condition)    -0.37      0.56
-    #> cor(metac2one1diff_Intercept,metac2one1diff_condition)      -0.42      0.54
-    #> cor(metac2one2diff_Intercept,metac2one2diff_condition)      -0.32      0.55
-    #> cor(metac2one3diff_Intercept,metac2one3diff_condition)      -0.21      0.67
+    #> sd(metac2one1diff_Intercept)                                 0.11      0.09
+    #> sd(metac2one1diff_condition)                                 0.07      0.06
+    #> sd(metac2one2diff_Intercept)                                 0.19      0.17
+    #> sd(metac2one2diff_condition)                                 0.14      0.11
+    #> sd(metac2one3diff_Intercept)                                 0.14      0.12
+    #> sd(metac2one3diff_condition)                                 0.09      0.08
+    #> cor(Intercept,condition)                                    -0.60      0.35
+    #> cor(dprime_Intercept,dprime_condition)                      -0.93      0.04
+    #> cor(c_Intercept,c_condition)                                -0.93      0.03
+    #> cor(metac2zero1diff_Intercept,metac2zero1diff_condition)    -0.26      0.58
+    #> cor(metac2zero2diff_Intercept,metac2zero2diff_condition)    -0.31      0.57
+    #> cor(metac2zero3diff_Intercept,metac2zero3diff_condition)    -0.31      0.57
+    #> cor(metac2one1diff_Intercept,metac2one1diff_condition)      -0.33      0.58
+    #> cor(metac2one2diff_Intercept,metac2one2diff_condition)      -0.48      0.55
+    #> cor(metac2one3diff_Intercept,metac2one3diff_condition)      -0.34      0.57
     #>                                                          l-95% CI u-95% CI Rhat
-    #> sd(Intercept)                                                0.02     2.02 1.18
-    #> sd(condition)                                                0.01     1.26 1.19
-    #> sd(dprime_Intercept)                                         0.89     1.74 1.02
-    #> sd(dprime_condition)                                         0.56     1.07 1.06
-    #> sd(c_Intercept)                                              0.88     1.52 1.04
-    #> sd(c_condition)                                              0.55     0.97 1.04
-    #> sd(metac2zero1diff_Intercept)                                0.00     0.35 1.05
-    #> sd(metac2zero1diff_condition)                                0.00     0.24 1.02
-    #> sd(metac2zero2diff_Intercept)                                0.00     0.42 1.10
-    #> sd(metac2zero2diff_condition)                                0.00     0.27 1.05
-    #> sd(metac2zero3diff_Intercept)                                0.01     0.35 1.02
-    #> sd(metac2zero3diff_condition)                                0.00     0.24 1.02
-    #> sd(metac2one1diff_Intercept)                                 0.00     0.41 1.01
-    #> sd(metac2one1diff_condition)                                 0.00     0.29 1.04
-    #> sd(metac2one2diff_Intercept)                                 0.01     0.41 1.07
-    #> sd(metac2one2diff_condition)                                 0.01     0.30 1.04
-    #> sd(metac2one3diff_Intercept)                                 0.00     0.45 1.02
-    #> sd(metac2one3diff_condition)                                 0.00     0.24 1.03
-    #> cor(Intercept,condition)                                    -1.00     0.88 1.17
-    #> cor(dprime_Intercept,dprime_condition)                      -0.98    -0.87 1.02
-    #> cor(c_Intercept,c_condition)                                -0.98    -0.88 1.11
-    #> cor(metac2zero1diff_Intercept,metac2zero1diff_condition)    -0.99     0.86 1.03
-    #> cor(metac2zero2diff_Intercept,metac2zero2diff_condition)    -0.99     0.88 1.03
-    #> cor(metac2zero3diff_Intercept,metac2zero3diff_condition)    -0.99     0.87 1.02
-    #> cor(metac2one1diff_Intercept,metac2one1diff_condition)      -0.99     0.85 1.03
-    #> cor(metac2one2diff_Intercept,metac2one2diff_condition)      -0.98     0.85 1.09
-    #> cor(metac2one3diff_Intercept,metac2one3diff_condition)      -0.99     0.95 1.13
+    #> sd(Intercept)                                                0.31     1.50 1.01
+    #> sd(condition)                                                0.12     1.03 1.02
+    #> sd(dprime_Intercept)                                         0.85     1.69 1.00
+    #> sd(dprime_condition)                                         0.57     1.11 1.00
+    #> sd(c_Intercept)                                              0.75     1.36 1.01
+    #> sd(c_condition)                                              0.51     0.93 1.00
+    #> sd(metac2zero1diff_Intercept)                                0.00     0.34 1.00
+    #> sd(metac2zero1diff_condition)                                0.00     0.22 1.00
+    #> sd(metac2zero2diff_Intercept)                                0.00     0.39 1.00
+    #> sd(metac2zero2diff_condition)                                0.00     0.25 1.00
+    #> sd(metac2zero3diff_Intercept)                                0.00     0.36 1.00
+    #> sd(metac2zero3diff_condition)                                0.00     0.24 1.00
+    #> sd(metac2one1diff_Intercept)                                 0.00     0.35 1.00
+    #> sd(metac2one1diff_condition)                                 0.00     0.23 1.00
+    #> sd(metac2one2diff_Intercept)                                 0.01     0.61 1.00
+    #> sd(metac2one2diff_condition)                                 0.01     0.42 1.01
+    #> sd(metac2one3diff_Intercept)                                 0.01     0.45 1.00
+    #> sd(metac2one3diff_condition)                                 0.00     0.29 1.00
+    #> cor(Intercept,condition)                                    -0.94     0.49 1.01
+    #> cor(dprime_Intercept,dprime_condition)                      -0.98    -0.83 1.00
+    #> cor(c_Intercept,c_condition)                                -0.97    -0.86 1.00
+    #> cor(metac2zero1diff_Intercept,metac2zero1diff_condition)    -0.99     0.91 1.00
+    #> cor(metac2zero2diff_Intercept,metac2zero2diff_condition)    -0.99     0.90 1.00
+    #> cor(metac2zero3diff_Intercept,metac2zero3diff_condition)    -0.99     0.88 1.00
+    #> cor(metac2one1diff_Intercept,metac2one1diff_condition)      -0.99     0.90 1.00
+    #> cor(metac2one2diff_Intercept,metac2one2diff_condition)      -0.99     0.85 1.00
+    #> cor(metac2one3diff_Intercept,metac2one3diff_condition)      -0.99     0.87 1.00
     #>                                                          Bulk_ESS Tail_ESS
-    #> sd(Intercept)                                                  16       11
-    #> sd(condition)                                                  15       13
-    #> sd(dprime_Intercept)                                          401     1149
-    #> sd(dprime_condition)                                           56      591
-    #> sd(c_Intercept)                                               115      689
-    #> sd(c_condition)                                               146      575
-    #> sd(metac2zero1diff_Intercept)                                  56     1006
-    #> sd(metac2zero1diff_condition)                                 235      896
-    #> sd(metac2zero2diff_Intercept)                                  28      283
-    #> sd(metac2zero2diff_condition)                                 769     1288
-    #> sd(metac2zero3diff_Intercept)                                 510     1522
-    #> sd(metac2zero3diff_condition)                                 728     1099
-    #> sd(metac2one1diff_Intercept)                                  478     1206
-    #> sd(metac2one1diff_condition)                                  128      550
-    #> sd(metac2one2diff_Intercept)                                 1167     1470
-    #> sd(metac2one2diff_condition)                                  465      791
-    #> sd(metac2one3diff_Intercept)                                  535     1083
-    #> sd(metac2one3diff_condition)                                  599     1076
-    #> cor(Intercept,condition)                                       17       30
-    #> cor(dprime_Intercept,dprime_condition)                        395     1404
-    #> cor(c_Intercept,c_condition)                                   26       73
-    #> cor(metac2zero1diff_Intercept,metac2zero1diff_condition)      119     1441
-    #> cor(metac2zero2diff_Intercept,metac2zero2diff_condition)      143     1646
-    #> cor(metac2zero3diff_Intercept,metac2zero3diff_condition)      828     1474
-    #> cor(metac2one1diff_Intercept,metac2one1diff_condition)        657     1283
-    #> cor(metac2one2diff_Intercept,metac2one2diff_condition)        607     1508
-    #> cor(metac2one3diff_Intercept,metac2one3diff_condition)         22       77
+    #> sd(Intercept)                                                 742     1366
+    #> sd(condition)                                                 331      373
+    #> sd(dprime_Intercept)                                         1425     1823
+    #> sd(dprime_condition)                                         1261     1663
+    #> sd(c_Intercept)                                               871     1662
+    #> sd(c_condition)                                               887     1534
+    #> sd(metac2zero1diff_Intercept)                                2058     2239
+    #> sd(metac2zero1diff_condition)                                1131     1850
+    #> sd(metac2zero2diff_Intercept)                                1661     1765
+    #> sd(metac2zero2diff_condition)                                1157     2090
+    #> sd(metac2zero3diff_Intercept)                                1799     2239
+    #> sd(metac2zero3diff_condition)                                1451     1928
+    #> sd(metac2one1diff_Intercept)                                 1642     1784
+    #> sd(metac2one1diff_condition)                                 1347     1668
+    #> sd(metac2one2diff_Intercept)                                 1053     2104
+    #> sd(metac2one2diff_condition)                                  663     1403
+    #> sd(metac2one3diff_Intercept)                                 1644     2050
+    #> sd(metac2one3diff_condition)                                 1210     1770
+    #> cor(Intercept,condition)                                      410      508
+    #> cor(dprime_Intercept,dprime_condition)                       1523     2268
+    #> cor(c_Intercept,c_condition)                                 1008     1656
+    #> cor(metac2zero1diff_Intercept,metac2zero1diff_condition)     2204     2695
+    #> cor(metac2zero2diff_Intercept,metac2zero2diff_condition)     2280     2642
+    #> cor(metac2zero3diff_Intercept,metac2zero3diff_condition)     2971     3097
+    #> cor(metac2one1diff_Intercept,metac2one1diff_condition)       2232     2256
+    #> cor(metac2one2diff_Intercept,metac2one2diff_condition)        831     2144
+    #> cor(metac2one3diff_Intercept,metac2one3diff_condition)       2195     2547
     #> 
     #> Regression Coefficients:
     #>                           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
-    #> Intercept                     0.48      0.31    -0.14     1.02 1.14       19
-    #> dprime_Intercept              0.33      0.26    -0.19     0.86 1.06      398
-    #> c_Intercept                  -0.10      0.23    -0.56     0.35 1.03      230
-    #> metac2zero1diff_Intercept    -1.02      0.12    -1.27    -0.79 1.02      243
-    #> metac2zero2diff_Intercept    -1.04      0.14    -1.30    -0.77 1.02      219
-    #> metac2zero3diff_Intercept    -1.09      0.15    -1.38    -0.82 1.03      126
-    #> metac2one1diff_Intercept     -1.07      0.13    -1.33    -0.84 1.02      167
-    #> metac2one2diff_Intercept     -0.90      0.13    -1.16    -0.65 1.05     2504
-    #> metac2one3diff_Intercept     -0.95      0.14    -1.21    -0.68 1.01      343
-    #> condition                    -0.27      0.17    -0.60     0.03 1.11       24
-    #> dprime_condition              0.38      0.17     0.06     0.71 1.03      175
-    #> c_condition                   0.10      0.15    -0.19     0.41 1.04      194
-    #> metac2zero1diff_condition     0.06      0.08    -0.09     0.21 1.02      179
-    #> metac2zero2diff_condition     0.01      0.09    -0.17     0.17 1.04       82
-    #> metac2zero3diff_condition     0.01      0.09    -0.17     0.19 1.01      945
-    #> metac2one1diff_condition      0.01      0.08    -0.15     0.17 1.01      623
-    #> metac2one2diff_condition     -0.09      0.08    -0.26     0.07 1.05     2112
-    #> metac2one3diff_condition     -0.03      0.09    -0.20     0.14 1.04     1436
+    #> Intercept                     0.07      0.31    -0.57     0.64 1.00     2467
+    #> dprime_Intercept              0.82      0.27     0.27     1.37 1.00     1166
+    #> c_Intercept                  -0.06      0.21    -0.49     0.36 1.01      569
+    #> metac2zero1diff_Intercept    -1.08      0.13    -1.33    -0.84 1.00     6625
+    #> metac2zero2diff_Intercept    -1.10      0.14    -1.36    -0.83 1.00     7301
+    #> metac2zero3diff_Intercept    -0.90      0.15    -1.21    -0.62 1.00     7275
+    #> metac2one1diff_Intercept     -1.11      0.13    -1.36    -0.87 1.00     7193
+    #> metac2one2diff_Intercept     -0.91      0.14    -1.19    -0.64 1.00     6053
+    #> metac2one3diff_Intercept     -0.67      0.15    -0.96    -0.39 1.00     9017
+    #> condition                     0.07      0.20    -0.33     0.46 1.00     2220
+    #> dprime_condition              0.09      0.18    -0.27     0.45 1.00     1102
+    #> c_condition                   0.03      0.14    -0.26     0.33 1.01      589
+    #> metac2zero1diff_condition     0.06      0.08    -0.10     0.22 1.00     6219
+    #> metac2zero2diff_condition     0.09      0.09    -0.07     0.26 1.00     6987
+    #> metac2zero3diff_condition    -0.05      0.10    -0.24     0.14 1.00     6517
+    #> metac2one1diff_condition      0.04      0.08    -0.11     0.20 1.00     6730
+    #> metac2one2diff_condition     -0.05      0.09    -0.23     0.13 1.00     5339
+    #> metac2one3diff_condition     -0.18      0.09    -0.37     0.00 1.00     7544
     #>                           Tail_ESS
-    #> Intercept                       19
-    #> dprime_Intercept               734
-    #> c_Intercept                    601
-    #> metac2zero1diff_Intercept     1465
-    #> metac2zero2diff_Intercept     2002
-    #> metac2zero3diff_Intercept     2022
-    #> metac2one1diff_Intercept      1872
-    #> metac2one2diff_Intercept      2062
-    #> metac2one3diff_Intercept      2198
-    #> condition                       46
-    #> dprime_condition               682
-    #> c_condition                    604
-    #> metac2zero1diff_condition     1865
-    #> metac2zero2diff_condition     1828
-    #> metac2zero3diff_condition     1569
-    #> metac2one1diff_condition      1991
-    #> metac2one2diff_condition      2074
-    #> metac2one3diff_condition      1557
+    #> Intercept                     2774
+    #> dprime_Intercept              1747
+    #> c_Intercept                   1148
+    #> metac2zero1diff_Intercept     2665
+    #> metac2zero2diff_Intercept     3053
+    #> metac2zero3diff_Intercept     2818
+    #> metac2one1diff_Intercept      2953
+    #> metac2one2diff_Intercept      3015
+    #> metac2one3diff_Intercept      3038
+    #> condition                     2279
+    #> dprime_condition              1756
+    #> c_condition                   1061
+    #> metac2zero1diff_condition     2862
+    #> metac2zero2diff_condition     2923
+    #> metac2zero3diff_condition     2620
+    #> metac2one1diff_condition      2867
+    #> metac2one2diff_condition      2937
+    #> metac2one3diff_condition      3255
     #> 
     #> Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
     #> and Tail_ESS are effective sample size measures, and Rhat is the potential

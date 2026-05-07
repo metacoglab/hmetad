@@ -130,10 +130,7 @@ m <- fit_metad(N ~ 1,
   prior = prior(normal(0, 1), class = Intercept) +
     prior(normal(0, 1), class = dprime) +
     prior(normal(0, 1), class = c) +
-    prior(lognormal(0, 1), class = metac2zero1diff) +
-    prior(lognormal(0, 1), class = metac2zero2diff) +
-    prior(lognormal(0, 1), class = metac2one1diff) +
-    prior(lognormal(0, 1), class = metac2one2diff)
+    set_prior("lognormal(0, 1)", class = metac2_parameters(K = 4))
 )
 ```
 
@@ -158,6 +155,16 @@ m <- brm(bf(...),
   stanvars = stanvars_metad(K = K, ...),
   ...
 )
+```
+
+Alternatively, if the only issue is with the automatic data aggregation, one can provide the argument `aggregate=FALSE` to `fit_metad`:
+
+```{r eval=FALSE}
+d.aggregated <- aggregate_metad(d, ...)
+
+# modify d.aggregated as needed
+
+fit_metad(bf(...), d.aggregated, aggregate = FALSE)
 ```
 
 ## Extract model estimates

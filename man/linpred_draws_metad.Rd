@@ -20,8 +20,8 @@ add_linpred_rvars_metad(newdata, object, ..., pivot_longer = FALSE)
 
 \item{newdata}{A data frame from which to generate posterior predictions}
 
-\item{...}{Additional arguments passed to \link[tidybayes:add_predicted_draws]{tidybayes::add_linpred_draws} or
-\link[tidybayes:add_predicted_rvars]{tidybayes::add_linpred_rvars}}
+\item{...}{Additional arguments passed to \link[tidybayes:add_linpred_draws]{tidybayes::add_linpred_draws} or
+\link[tidybayes:add_linpred_rvars]{tidybayes::add_linpred_rvars}}
 
 \item{pivot_longer}{Return the draws in long format?
 \itemize{
@@ -67,5 +67,5 @@ linpred_rvars_metad(example_model, newdata, pivot_longer = TRUE)
 }
 }
 \seealso{
-\code{\link[tidybayes:add_predicted_draws]{tidybayes::linpred_draws()}}, \code{\link[tidybayes:add_predicted_rvars]{tidybayes::linpred_rvars()}}
+\code{\link[tidybayes:linpred_draws]{tidybayes::linpred_draws()}}, \code{\link[tidybayes:linpred_rvars]{tidybayes::linpred_rvars()}}
 }

@@ -93,12 +93,7 @@ m <- fit_metad(N ~ 1,
   prior = prior(normal(0, 1), class = Intercept) +
     prior(normal(0, 1), class = dprime) +
     prior(normal(0, 1), class = c) +
-    prior(lognormal(-1, 1), class = metac2zero1diff) +
-    prior(lognormal(-1, 1), class = metac2zero2diff) +
-    prior(lognormal(-1, 1), class = metac2zero3diff) +
-    prior(lognormal(-1, 1), class = metac2one1diff) +
-    prior(lognormal(-1, 1), class = metac2one2diff) +
-    prior(lognormal(-1, 1), class = metac2one3diff),
+    set_prior("lognormal(-1, 1)", class = metac2_parameters(K = 4)),
   distribution = "gumbel_min", stanvars = gumbel_min
 )
 ```
