@@ -2,6 +2,7 @@
 title: "Fitting the meta-d' model"
 output: rmarkdown::html_vignette
 bibliography: citations.bib
+csl: apa.csl
 link-citations: true
 vignette: >
   %\VignetteIndexEntry{Fitting the meta-d' model}
@@ -164,7 +165,7 @@ d.aggregated <- aggregate_metad(d, ...)
 
 # modify d.aggregated as needed
 
-fit_metad(bf(...), d.aggregated, aggregate = FALSE)
+m <- fit_metad(bf(...), d.aggregated, aggregate = FALSE)
 ```
 
 ## Extract model estimates
@@ -241,7 +242,6 @@ draws.epred |>
   ggplot(aes(x = joint_response)) +
   geom_col(aes(y = .true), fill = "grey80") +
   geom_pointrange(aes(y = .epred, ymin = .lower, ymax = .upper)) +
-  scale_alpha_discrete(range = c(.25, 1)) +
   facet_wrap(~stimulus, labeller = label_both) +
   theme_classic(18)
 ```
