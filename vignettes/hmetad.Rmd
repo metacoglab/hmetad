@@ -96,7 +96,7 @@ Finally, to ensure that the model runs efficiently, the `hmetad` package current
 d.summary <- aggregate_metad(d)
 ```
 
-```{r echo=FALSE}
+```{r, echo=FALSE}
 d.summary
 ```
 
@@ -146,7 +146,7 @@ In this model, `Intercept` is our estimate of $\textrm{log}(M) = \textrm{log}\fr
 ### Manual model fitting
 Most users can use `fit_metad` as above to fit their models. But in some cases, it might be preferable to call `brms::brm` directly. In such cases, the `fit_metad` function is roughly analogous to the following code:
 
-```{r eval=FALSE}
+```{r, eval=FALSE}
 # calculate number of confidence levels
 K <- n_distinct(d$confidence)
 
@@ -160,7 +160,7 @@ m <- brm(bf(...),
 
 Alternatively, if the only issue is with the automatic data aggregation, one can provide the argument `aggregate=FALSE` to `fit_metad`:
 
-```{r eval=FALSE}
+```{r, eval=FALSE}
 d.aggregated <- aggregate_metad(d, ...)
 
 # modify d.aggregated as needed
@@ -204,7 +204,7 @@ One way to evaluate model fit is to perform a *posterior predictive check*: to s
 draws.predicted <- predicted_draws_metad(m, d.summary)
 ```
 
-```{r echo=FALSE}
+```{r, echo=FALSE}
 draws.predicted
 ```
 
@@ -229,7 +229,7 @@ Usually it will be simpler to compare response probabilities rather than raw res
 draws.epred <- epred_draws_metad(m, newdata = tibble(.row = 1))
 ```
 
-```{r echo=FALSE}
+```{r, echo=FALSE}
 draws.epred
 ```
 
@@ -311,7 +311,7 @@ To obtain type 1 performance as a pseudo-type 1 ROC, we can use `add_roc1_draws`
 draws.roc1 <- tibble(.row = 1) |>
   add_roc1_draws(m)
 ```
-```{r echo=FALSE}
+```{r, echo=FALSE}
 draws.roc1
 ```
 
@@ -342,7 +342,7 @@ draws.roc2 <- tibble(.row = 1) |>
   add_roc2_draws(m)
 ```
 
-```{r echo=FALSE}
+```{r, echo=FALSE}
 draws.roc2
 ```
 This tibble looks the same as for `roc1_draws`, except now there are columns for `p_hit2` representing the type 2 hit rate (i.e., the probability of a correct response with `confidence >= c` given `response`) and the type 2 false alarm rate (i.e., the probability of an incorrect response with `confidence >= c` given `response`). Note that this is the response-specific type 2 ROC, so there are two separate curves for the two type 1 responses. 

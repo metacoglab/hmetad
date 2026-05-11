@@ -38,7 +38,7 @@ Suggests:
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
+Config/roxygen2/markdown: TRUE
 Config/roxygen2/version: 8.0.0
 Config/testthat/edition: 3
 URL: https://metacoglab.github.io/hmetad/, https://github.com/metacoglab/hmetad
