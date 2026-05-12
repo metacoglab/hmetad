@@ -473,7 +473,7 @@ aggregate_metad <- function(
       values_from = "n",
       names_prefix = glue::glue("{.name}_")
     ) |>
-    mutate(across(starts_with(.name), ~ tidyr::replace_na(., 0))) |>
+    mutate(across(starts_with(.name), ~ tidyr::replace_na(.x, 0))) |>
     rowwise() |>
     mutate(
       "{.name}_0" := sum(c_across(starts_with(glue::glue("{.name}_0_"),
