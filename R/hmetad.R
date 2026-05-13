@@ -446,23 +446,26 @@ aggregate_metad <- function(
 
     # get groupings for data aggregation
     data <- ungroup(data)
-    expansion <- tibble()
+    expansion <- NULL
     if (length(enquos(...)) > 0) {
-      expansion <- distinct(data, ...)
+      expansion <- tidyr::expand(
+        data,
+        distinct(data, ...),
+        "{.stimulus}" := c(0L, 1L),
+        "{.joint_response}" := seq_len(2 * K),
+      )
+    } else {
+      expansion <- tidyr::expand(
+        data,
+        "{.stimulus}" := c(0L, 1L),
+        "{.joint_response}" := seq_len(2 * K),
+      )
     }
 
     # aggregate data, filling in empty cells with zero
     data <- data |>
       count(!!sym(.stimulus), !!sym(.joint_response), ...) |>
-      tidyr::complete(
-        tidyr::expand(
-          data,
-          expansion,
-          "{.stimulus}" := c(0L, 1L),
-          "{.joint_response}" := seq_len(2 * K),
-        ),
-        fill = list(n = 0)
-      )
+      tidyr::complete(expansion, fill = list(n = 0))
   }
 
   # convert data to wide format (one row per cell in ...)

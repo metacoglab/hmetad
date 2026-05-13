@@ -23,7 +23,7 @@ Imports:
     dplyr (>= 1.2.0),
     glue (>= 1.8.0),
     posterior (>= 1.6.1),
-    rlang (>= 1.1.7),
+    rlang (>= 1.2.0),
     stats,
     stringr (>= 1.6.0),
     tidybayes (>= 3.0.7),

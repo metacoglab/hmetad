@@ -138,10 +138,10 @@ To fit the model, we can use the `fit_metad` function. This function is simply a
 Since `aggregate_metad` will place our dataset has our trial counts into a column named `N` by default, we can use `N` as our response variable even if our data is not yet aggregated. To fit a model with fixed values for each parameter, then, we can use the formula `N ~ 1`:
 ```{r model_fitting}
 m <- fit_metad(N ~ 1,
-  data = d,
+  data = d, init = 0,
   prior = prior(normal(0, 1), class = Intercept) +
     prior(normal(0, 1), class = dprime) +
-    prior(normal(0, 1), class = c) + 
+    prior(normal(0, 1), class = c) +
     set_prior("lognormal(0, 1)", class = metac2_parameters(K = 4))
 )
 ```
@@ -153,6 +153,231 @@ summary(m)
 Note that here we have arbitrarily chosen to use standard normal priors for all parameters. To get a better idea of how to set informed priors, please refer to `help('set_prior', package='brms')`.
 
 In this model, `Intercept` is our estimate of $\textrm{log}(M) = \textrm{log}\frac{\textrm{meta-}d'}{d'}$, `dprime` is our estimate of $d'$, `c` is our estimate of $c$, `metac2zero1diff` and `metac2zero2diff` are the distances between successive confidence thresholds for `"0"` responses, and `metac2one1diff` and `metac2one2diff` are the distances between successive confidence thresholds for `"1"` responses. For each parameter, `brms` shows you the posterior means (`Estimate`), posterior standard deviations (`Est. Error`), upper- and lower-95% posterior quantiles (`l-95% CI` and `u-95% CI`), as well as some convergence metrics (`Rhat`, `Bulk_ESS`, and `Tail_ESS`).
+
+### Manual model fitting
+Most users can use `fit_metad` as above to fit their models. But in some cases, it might be preferable to call `brms::brm` directly. In such cases, the `fit_metad` function is roughly analogous to the following code:
+  
+```{r, eval=FALSE}
+# calculate number of confidence levels
+K <- n_distinct(d$confidence)
+
+m <- brm(bf(...),
+  data = aggregate_metad(d, ...),
+  family = metad(K = K, ...),
+  stanvars = stanvars_metad(K = K, ...),
+  ...
+)
+```
+
+Alternatively, if the only issue is with the automatic data aggregation, one can provide the argument `aggregate=FALSE` to `fit_metad`:
+  
+```{r, eval=FALSE}
+d.aggregated <- aggregate_metad(d, ...)
+
+# modify d.aggregated as needed
+
+m <- fit_metad(bf(...), d.aggregated, aggregate = FALSE)
+```
+
+## Extract model estimates
+Once we have our fitted model, there are many estimates that we can extract from it. Although `brms` provides its own functions for extracting posterior estimates, the `hmetad` package is designed to interface well with the `tidybayes` package to make it easier to work with model posterior samples.
+
+
+### Parameter estimates
+First, it is often useful to extract the posterior draws of the model parameters, which we can do with `linpred_draws_metad` (which is a wrapper around `tidybayes::linpred_draws`):
+```{r parameters}
+draws.metad <- tibble(.row = 1) |>
+  add_linpred_draws_metad(m)
+```
+
+```{r, echo=FALSE}
+print(draws.metad)
+```
+This `tibble` has a separate row for every posterior sample and a separate column for every model parameter. This format is useful for some purposes, but it will often be useful to pivot it so that we have a separate row for each model parameter and posterior sample:
+```{r}
+draws.metad <- tibble(.row = 1) |>
+  add_linpred_draws_metad(m, pivot_longer = TRUE)
+```
+
+```{r, echo=FALSE}
+print(draws.metad)
+```
+Now that all of the posterior samples are stored in a single column `.value`, it is easy to get posterior summaries using e.g. `tidybayes::median_qi`:
+```{r}
+draws.metad |>
+  median_qi()
+```
+
+
+### Posterior predictions
+One way to evaluate model fit is to perform a *posterior predictive check*: to simulate data from the model's posterior and compare our simulated and actual data. We can do this using the function `predicted_draws_metad` (which is a wrapper around `tidybayes::predicted_draws`):
+```{r post_pred1}
+draws.predicted <- predicted_draws_metad(m, d.summary)
+```
+
+```{r, echo=FALSE}
+draws.predicted
+```
+
+In this data frame, we have all of the columns from our aggregated data `d.summary` as well as `stimulus`, `joint_response`, `response`, and `confidence` (indicating the simulated trial type), as well as `.prediction` (indicating the number of simulated trials per trial type). From here, we can plot the posterior predictions (points and error-bars) against the actual data (bars):
+```{r}
+draws.predicted |>
+  group_by(.row, stimulus, joint_response, response, confidence) |>
+  median_qi(.prediction) |>
+  group_by(.row) |>
+  mutate(N = t(d.summary$N[.row, ])) |>
+  ggplot(aes(x = joint_response)) +
+  geom_col(aes(y = N), fill = "grey80") +
+  geom_pointrange(aes(y = .prediction, ymin = .lower, ymax = .upper)) +
+  facet_wrap(~stimulus, labeller = label_both) +
+  theme_classic(18)
+```
+
+### Posterior expectations
+Usually it will be simpler to compare response probabilities rather than raw response counts. To do this, we can use the same workflow as above but using `epred_draws_metad` (which is a wrapper around `tidybayes::epred_draws`):
+
+```{r epred_draws}
+draws.epred <- epred_draws_metad(m, newdata = tibble(.row = 1))
+```
+
+```{r, echo=FALSE}
+draws.epred
+```
+
+```{r epred}
+draws.epred |>
+  group_by(.row, stimulus, joint_response, response, confidence) |>
+  median_qi(.epred) |>
+  group_by(.row) |>
+  mutate(.true = t(response_probabilities(d.summary$N[.row, ]))) |>
+  ggplot(aes(x = joint_response)) +
+  geom_col(aes(y = .true), fill = "grey80") +
+  geom_pointrange(aes(y = .epred, ymin = .lower, ymax = .upper)) +
+  facet_wrap(~stimulus, labeller = label_both) +
+  theme_classic(18)
+```
+
+
+### Mean confidence
+One can also compute implied values of mean confidence from the meta-d' model using `mean_confidence_draws`:
+```{r mean_confidence}
+tibble(.row = 1) |>
+  add_mean_confidence_draws(m) |>
+  median_qi(.epred) |>
+  left_join(d |>
+    group_by(stimulus, response) |>
+    summarize(.true = mean(confidence)))
+```
+Here, `.epred` refers to the model-estimated mean confidence per stimulus and response, and `.true` is the empirical mean confidence.
+
+In addition, we can compute mean confidence marginalizing over stimuli:
+```{r mean_confidence2}
+tibble(.row = 1) |>
+  add_mean_confidence_draws(m, by_stimulus = FALSE) |>
+  median_qi(.epred) |>
+  left_join(d |>
+    group_by(response) |>
+    summarize(.true = mean(confidence)))
+```
+over responses:
+```{r mean_confidence3}
+tibble(.row = 1) |>
+  add_mean_confidence_draws(m, by_response = FALSE) |>
+  median_qi(.epred) |>
+  left_join(d |>
+    group_by(stimulus) |>
+    summarize(.true = mean(confidence)))
+```
+
+or both over stimuli and responses:
+```{r mean_confidence4}
+tibble(.row = 1) |>
+  add_mean_confidence_draws(m, by_stimulus = FALSE, by_response = FALSE) |>
+  median_qi(.epred) |>
+  bind_cols(d |>
+    ungroup() |>
+    summarize(.true = mean(confidence)))
+```
+
+### Metacognitive bias
+While mean confidence is often empirically informative, it is not recommended as a measure of metacognitive bias because it is known to be confounded by type 1 response characteristics (i.e., $d'$ and $c$) and by metacognitive sensitivity [i.e., $\textrm{meta-}d'$, @sherman2018]. Instead, we recommend a new measure of metacognitive bias, $\textrm{meta-}\Delta$, which is the distance between the average of the confidence criteria and $\textrm{meta-}c$. 
+
+$\textrm{meta-}\Delta$ can be interpreted as lying between two extremes: when $\textrm{meta-}\Delta = 0$, the observer only uses the highest confidence rating, and when $\textrm{meta-}\Delta = \infty$, the observer only uses the lowest confidence rating. 
+
+To obtain estimates of $\textrm{meta-}\Delta$, one can use the function `metacognitive_bias_draws`:
+```{r metacognitive_bias_draws}
+tibble(.row = 1) |>
+  add_metacognitive_bias_draws(m) |>
+  median_qi()
+```
+
+
+
+
+
+
+### Pseudo Type 1 ROC
+To obtain type 1 performance as a pseudo-type 1 ROC, we can use `add_roc1_draws`:
+```{r roc1_draws}
+draws.roc1 <- tibble(.row = 1) |>
+  add_roc1_draws(m)
+```
+```{r, echo=FALSE}
+draws.roc1
+```
+
+Again, we have a tidy tibble with columns `.chain`, `.iteration`, and `.draw` identifying individual posterior samples, `joint_response`, `response`, and `confidence` identifying the different points on the ROC, and `.row` identifying different ROCs (since our data frame has only one row, here there is only one ROC). In addition, we also have `p_hit` and `p_fa`, which contain posterior estimates of type 1 hit rate (i.e., the probability of a `"1"` response with `confidence >= c` given `stimulus==1`) and type 1 false alarm rate (i.e., the probability of a `"1"` response with `confidence >= c` given `stimulus==0`).
+
+For visualization, we can get posterior summaries of the ROC using `tidybayes::median_qi` and then simply plot as a line:
+```{r roc1}
+draws.roc1 |>
+  median_qi(p_fa, p_hit) |>
+  ggplot(aes(
+    x = p_fa, xmin = p_fa.lower, xmax = p_fa.upper,
+    y = p_hit, ymin = p_hit.lower, ymax = p_hit.upper
+  )) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+  geom_errorbar(orientation = "y", width = .01) +
+  geom_errorbar(orientation = "x", width = .01) +
+  geom_line() +
+  coord_fixed(xlim = 0:1, ylim = 0:1, expand = FALSE) +
+  xlab("P(False Alarm)") +
+  ylab("P(Hit)") +
+  theme_bw(18)
+```
+
+### Type 2 ROC
+Finally, to plot type 2 performance as a type 2 ROC, we can use `add_roc2_draws`:
+```{r roc2}
+draws.roc2 <- tibble(.row = 1) |>
+  add_roc2_draws(m)
+```
+
+```{r, echo=FALSE}
+draws.roc2
+```
+This tibble looks the same as for `roc1_draws`, except now there are columns for `p_hit2` representing the type 2 hit rate (i.e., the probability of a correct response with `confidence >= c` given `response`) and the type 2 false alarm rate (i.e., the probability of an incorrect response with `confidence >= c` given `response`). Note that this is the response-specific type 2 ROC, so there are two separate curves for the two type 1 responses. 
+
+We can also plot the type 2 ROC similarly:
+```{r}
+draws.roc2 |>
+  median_qi(p_hit2, p_fa2) |>
+  mutate(response = factor(response)) |>
+  ggplot(aes(
+    x = p_fa2, xmin = p_fa2.lower, xmax = p_fa2.upper,
+    y = p_hit2, ymin = p_hit2.lower, ymax = p_hit2.upper,
+    color = response
+  )) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+  geom_errorbar(orientation = "y", width = .01) +
+  geom_errorbar(orientation = "x", width = .01) +
+  geom_line() +
+  coord_fixed(xlim = 0:1, ylim = 0:1, expand = FALSE) +
+  xlab("P(Type 2 False Alarm)") +
+  ylab("P(Type 2 Hit)") +
+  theme_bw(18)
+```
+
 
 
 ## References
