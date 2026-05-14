@@ -136,7 +136,7 @@ aggregate_metad(d, participant, condition, K = 4)
 To fit the model, we can use the `fit_metad` function. This function is simply a wrapper around `brms::brm`, so users are **strongly** encouraged to become familiar with [the `brms` package](https://paulbuerkner.com/brms/) before model fitting. In particular, users are likely to run into convergence errors using the default (flat) priors for model parameters, so we recommend doing careful prior predictive checks to set weakly informed priors [see @schad2021toward for more information].
 
 Since `aggregate_metad` will place our dataset has our trial counts into a column named `N` by default, we can use `N` as our response variable even if our data is not yet aggregated. To fit a model with fixed values for each parameter, then, we can use the formula `N ~ 1`:
-```{r model_fitting}
+```{r model_fitting, results=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 m <- fit_metad(N ~ 1,
   data = d, init = 0,
   prior = prior(normal(0, 1), class = Intercept) +

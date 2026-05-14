@@ -47,21 +47,22 @@ For \code{roc1_rvars} and \code{add_roc1_rvars}, parameters are returned as
 \link[posterior:rvar]{posterior::rvar}s, with one row per row in \code{newdata} and per joint response.
 }
 \examples{
+\donttest{
 newdata <- tidyr::tibble(.row = 1)
 
 # compute pseudo-type 1 ROC curve
 # equivalent to ``
-roc1_draws(example_model, newdata)
-add_roc1_draws(newdata, example_model)
+roc1_draws(example_model(), newdata)
+add_roc1_draws(newdata, example_model())
 
 # use posterior::rvar for additional efficiency
-# equivalent to `add_roc1_draws(newdata, example_model)`
-roc1_rvars(example_model, newdata)
+# equivalent to `add_roc1_draws(newdata, example_model())`
+roc1_rvars(example_model(), newdata)
 
 # include the ROC bounds
-# equivalent to `add_roc1_draws(newdata, example_model, bounds = TRUE)`
-roc1_draws(example_model, newdata, bounds = TRUE)
-
+# equivalent to `add_roc1_draws(newdata, example_model(), bounds = TRUE)`
+roc1_draws(example_model(), newdata, bounds = TRUE)
+}
 }
 \seealso{
 \code{\link[tidybayes:epred_draws]{tidybayes::epred_draws()}}, \code{\link[tidybayes:epred_rvars]{tidybayes::epred_rvars()}}

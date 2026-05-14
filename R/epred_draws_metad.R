@@ -18,16 +18,17 @@
 #'  * `stimulus`, `joint_response`, `response`, `confidence`: identifiers for the response type
 #'  * `.epred`: probability of the type 1 and type 2 response given the stimulus, \eqn{P(R, C \;\vert\; S)}
 #' @examples
+#' \donttest{
 #' newdata <- tidyr::tibble(.row = 1)
 #'
 #' # obtain model predictions
-#' # equivalent to `add_epred_draws_metad(newdata, example_model)`
-#' epred_draws_metad(example_model, newdata)
+#' # equivalent to `add_epred_draws_metad(newdata, example_model())`
+#' epred_draws_metad(example_model(), newdata)
 #'
 #' # obtain model predictions (`posterior::rvar`)
-#' # equivalent to `add_epred_rvars_metad(newdata, example_model)`
-#' epred_rvars_metad(example_model, newdata)
-#'
+#' # equivalent to `add_epred_rvars_metad(newdata, example_model())`
+#' epred_rvars_metad(example_model(), newdata)
+#' }
 #' @rdname epred_draws_metad
 #' @seealso [tidybayes::epred_draws()], [tidybayes::epred_rvars()]
 #' @export

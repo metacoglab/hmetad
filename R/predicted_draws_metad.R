@@ -18,16 +18,17 @@
 #'  * `stimulus`, `joint_response`, `response`, `confidence`: identifiers for the response type
 #'  * `.prediction`: predicted type 1 and type 2 responses given the stimulus
 #' @examples
-#' newdata <- aggregate_metad(example_data)
+#' \donttest{
+#' newdata <- aggregate_metad(example_data())
 #'
 #' # obtain model predictions
-#' # equivalent to `add_predicted_draws_metad(newdata, example_model)`
-#' predicted_draws_metad(example_model, newdata)
+#' # equivalent to `add_predicted_draws_metad(newdata, example_model())`
+#' predicted_draws_metad(example_model(), newdata)
 #'
 #' # obtain model predictions (posterior::rvar)
-#' # equivalent to `add_predicted_rvars_metad(newdata, example_model)`
-#' predicted_rvars_metad(example_model, newdata)
-#'
+#' # equivalent to `add_predicted_rvars_metad(newdata, example_model())`
+#' predicted_rvars_metad(example_model(), newdata)
+#' }
 #' @rdname predicted_draws_metad
 #' @seealso [tidybayes::predicted_draws()], [tidybayes::predicted_rvars()]
 #' @export

@@ -47,23 +47,24 @@ returned in a tidy tibble with one row per posterior draw. For
 \link[posterior:rvar]{posterior::rvar}s, with one row per row in \code{newdata}.
 }
 \examples{
+\donttest{
 newdata <- tidyr::tibble(.row = 1)
 
 # obtain model parameters (wide format)
-# equivalent to `add_linpred_draws_metad(newdata, example_model)`
-linpred_draws_metad(example_model, newdata)
-\donttest{
+# equivalent to `add_linpred_draws_metad(newdata, example_model())`
+linpred_draws_metad(example_model(), newdata)
+
 # obtain model parameters (long format)
-# equivalent to `add_linpred_draws_metad(newdata, example_model, pivot_longer = TRUE)`
-linpred_draws_metad(example_model, newdata, pivot_longer = TRUE)
+# equivalent to `add_linpred_draws_metad(newdata, example_model(), pivot_longer = TRUE)`
+linpred_draws_metad(example_model(), newdata, pivot_longer = TRUE)
 
 # obtain model parameters (wide format, posterior::rvar)
-# equivalent to `add_linpred_rvars_metad(newdata, example_model)`
-linpred_rvars_metad(example_model, newdata)
+# equivalent to `add_linpred_rvars_metad(newdata, example_model())`
+linpred_rvars_metad(example_model(), newdata)
 
 # obtain model parameters (long format, posterior::rvar)
-# equivalent to `add_linpred_rvars_metad(newdata, example_model, pivot_longer = TRUE)`
-linpred_rvars_metad(example_model, newdata, pivot_longer = TRUE)
+# equivalent to `add_linpred_rvars_metad(newdata, example_model(), pivot_longer = TRUE)`
+linpred_rvars_metad(example_model(), newdata, pivot_longer = TRUE)
 }
 }
 \seealso{

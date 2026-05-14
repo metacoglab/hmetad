@@ -49,16 +49,16 @@ For \code{roc2_rvars} and \code{add_roc2_rvars}, parameters are returned as
 newdata <- tidyr::tibble(.row = 1)
 
 # compute type 2 ROC curve
-# equivalent to `add_roc2_draws(newdata, example_model)`
-roc2_draws(example_model, newdata)
+# equivalent to `add_roc2_draws(newdata, example_model())`
+roc2_draws(example_model(), newdata)
 
 # use posterior::rvar for additional efficiency
-# equivalent to `add_roc2_rvars(newdata, example_model)`
-roc2_rvars(example_model, newdata)
+# equivalent to `add_roc2_rvars(newdata, example_model())`
+roc2_rvars(example_model(), newdata)
 
 # include the ROC bounds
-# equivalent to `roc2_draws(newdata, example_model, bounds = TRUE)`
-roc2_draws(example_model, newdata, bounds = TRUE)
+# equivalent to `roc2_draws(newdata, example_model(), bounds = TRUE)`
+roc2_draws(example_model(), newdata, bounds = TRUE)
 
 }
 \seealso{

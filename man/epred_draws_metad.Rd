@@ -42,16 +42,17 @@ row per posterior draw. For \code{epred_rvars_metad} and
 with one row per row in \code{newdata}.
 }
 \examples{
+\donttest{
 newdata <- tidyr::tibble(.row = 1)
 
 # obtain model predictions
-# equivalent to `add_epred_draws_metad(newdata, example_model)`
-epred_draws_metad(example_model, newdata)
+# equivalent to `add_epred_draws_metad(newdata, example_model())`
+epred_draws_metad(example_model(), newdata)
 
 # obtain model predictions (`posterior::rvar`)
-# equivalent to `add_epred_rvars_metad(newdata, example_model)`
-epred_rvars_metad(example_model, newdata)
-
+# equivalent to `add_epred_rvars_metad(newdata, example_model())`
+epred_rvars_metad(example_model(), newdata)
+}
 }
 \seealso{
 \code{\link[tidybayes:epred_draws]{tidybayes::epred_draws()}}, \code{\link[tidybayes:epred_rvars]{tidybayes::epred_rvars()}}
