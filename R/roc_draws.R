@@ -180,6 +180,7 @@ add_roc1_rvars <- function(newdata, object, ...) {
 #' @rdname roc2_draws
 #' @seealso [tidybayes::epred_draws()], [tidybayes::epred_rvars()]
 #' @examples
+#' \donttest{
 #' newdata <- tidyr::tibble(.row = 1)
 #'
 #' # compute type 2 ROC curve
@@ -193,7 +194,7 @@ add_roc1_rvars <- function(newdata, object, ...) {
 #' # include the ROC bounds
 #' # equivalent to `roc2_draws(newdata, example_model(), bounds = TRUE)`
 #' roc2_draws(example_model(), newdata, bounds = TRUE)
-#'
+#' }
 #' @export
 roc2_draws <- function(object, newdata, ..., bounds = FALSE) {
   draws <- epred_draws_metad(object, newdata, ...)

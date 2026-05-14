@@ -46,6 +46,7 @@ For \code{roc2_rvars} and \code{add_roc2_rvars}, parameters are returned as
 \code{posterior::rvar}s, with one row per row in \code{newdata} and per joint response.
 }
 \examples{
+\donttest{
 newdata <- tidyr::tibble(.row = 1)
 
 # compute type 2 ROC curve
@@ -59,7 +60,7 @@ roc2_rvars(example_model(), newdata)
 # include the ROC bounds
 # equivalent to `roc2_draws(newdata, example_model(), bounds = TRUE)`
 roc2_draws(example_model(), newdata, bounds = TRUE)
-
+}
 }
 \seealso{
 \code{\link[tidybayes:epred_draws]{tidybayes::epred_draws()}}, \code{\link[tidybayes:epred_rvars]{tidybayes::epred_rvars()}}
