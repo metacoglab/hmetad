@@ -20,8 +20,8 @@ add_linpred_rvars_metad(newdata, object, ..., pivot_longer = FALSE)
 
 \item{newdata}{A data frame from which to generate posterior predictions}
 
-\item{...}{Additional arguments passed to \link[tidybayes:add_predicted_draws]{tidybayes::add_linpred_draws} or
-\link[tidybayes:add_predicted_rvars]{tidybayes::add_linpred_rvars}}
+\item{...}{Additional arguments passed to \link[tidybayes:add_linpred_draws]{tidybayes::add_linpred_draws} or
+\link[tidybayes:add_linpred_rvars]{tidybayes::add_linpred_rvars}}
 
 \item{pivot_longer}{Return the draws in long format?
 \itemize{
@@ -47,25 +47,26 @@ returned in a tidy tibble with one row per posterior draw. For
 \link[posterior:rvar]{posterior::rvar}s, with one row per row in \code{newdata}.
 }
 \examples{
+\donttest{
 newdata <- tidyr::tibble(.row = 1)
 
 # obtain model parameters (wide format)
-# equivalent to `add_linpred_draws_metad(newdata, example_model)`
-linpred_draws_metad(example_model, newdata)
-\donttest{
+# equivalent to `add_linpred_draws_metad(newdata, example_model())`
+linpred_draws_metad(example_model(), newdata)
+
 # obtain model parameters (long format)
-# equivalent to `add_linpred_draws_metad(newdata, example_model, pivot_longer = TRUE)`
-linpred_draws_metad(example_model, newdata, pivot_longer = TRUE)
+# equivalent to `add_linpred_draws_metad(newdata, example_model(), pivot_longer = TRUE)`
+linpred_draws_metad(example_model(), newdata, pivot_longer = TRUE)
 
 # obtain model parameters (wide format, posterior::rvar)
-# equivalent to `add_linpred_rvars_metad(newdata, example_model)`
-linpred_rvars_metad(example_model, newdata)
+# equivalent to `add_linpred_rvars_metad(newdata, example_model())`
+linpred_rvars_metad(example_model(), newdata)
 
 # obtain model parameters (long format, posterior::rvar)
-# equivalent to `add_linpred_rvars_metad(newdata, example_model, pivot_longer = TRUE)`
-linpred_rvars_metad(example_model, newdata, pivot_longer = TRUE)
+# equivalent to `add_linpred_rvars_metad(newdata, example_model(), pivot_longer = TRUE)`
+linpred_rvars_metad(example_model(), newdata, pivot_longer = TRUE)
 }
 }
 \seealso{
-\code{\link[tidybayes:add_predicted_draws]{tidybayes::linpred_draws()}}, \code{\link[tidybayes:add_predicted_rvars]{tidybayes::linpred_rvars()}}
+\code{\link[tidybayes:linpred_draws]{tidybayes::linpred_draws()}}, \code{\link[tidybayes:linpred_rvars]{tidybayes::linpred_rvars()}}
 }

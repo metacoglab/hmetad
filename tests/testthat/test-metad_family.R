@@ -80,3 +80,41 @@ test_that("metad works", {
     "metad__2__gumbel_min__absolute__multinomial"
   )
 })
+
+test_that("metac2_parameters works", {
+  expect_equal(
+    metac2_parameters(2),
+    c("metac2zero1diff", "metac2one1diff")
+  )
+  expect_equal(
+    metac2_parameters(3),
+    c(
+      "metac2zero1diff", "metac2zero2diff",
+      "metac2one1diff", "metac2one2diff"
+    )
+  )
+  expect_equal(
+    metac2_parameters(3, "zero"),
+    c("metac2zero1diff", "metac2zero2diff")
+  )
+  expect_equal(
+    metac2_parameters(3, "0"),
+    c("metac2zero1diff", "metac2zero2diff")
+  )
+  expect_equal(
+    metac2_parameters(3, 0),
+    c("metac2zero1diff", "metac2zero2diff")
+  )
+  expect_equal(
+    metac2_parameters(3, "one"),
+    c("metac2one1diff", "metac2one2diff")
+  )
+  expect_equal(
+    metac2_parameters(3, "1"),
+    c("metac2one1diff", "metac2one2diff")
+  )
+  expect_equal(
+    metac2_parameters(3, 1),
+    c("metac2one1diff", "metac2one2diff")
+  )
+})

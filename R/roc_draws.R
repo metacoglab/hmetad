@@ -24,21 +24,22 @@
 #' @rdname roc1_draws
 #' @seealso [tidybayes::epred_draws()], [tidybayes::epred_rvars()]
 #' @examples
+#' \donttest{
 #' newdata <- tidyr::tibble(.row = 1)
 #'
 #' # compute pseudo-type 1 ROC curve
 #' # equivalent to ``
-#' roc1_draws(example_model, newdata)
-#' add_roc1_draws(newdata, example_model)
+#' roc1_draws(example_model(), newdata)
+#' add_roc1_draws(newdata, example_model())
 #'
 #' # use posterior::rvar for additional efficiency
-#' # equivalent to `add_roc1_draws(newdata, example_model)`
-#' roc1_rvars(example_model, newdata)
+#' # equivalent to `add_roc1_draws(newdata, example_model())`
+#' roc1_rvars(example_model(), newdata)
 #'
 #' # include the ROC bounds
-#' # equivalent to `add_roc1_draws(newdata, example_model, bounds = TRUE)`
-#' roc1_draws(example_model, newdata, bounds = TRUE)
-#'
+#' # equivalent to `add_roc1_draws(newdata, example_model(), bounds = TRUE)`
+#' roc1_draws(example_model(), newdata, bounds = TRUE)
+#' }
 #' @export
 roc1_draws <- function(object, newdata, ..., bounds = FALSE) {
   draws <- epred_draws_metad(object, newdata, ...)
@@ -179,20 +180,21 @@ add_roc1_rvars <- function(newdata, object, ...) {
 #' @rdname roc2_draws
 #' @seealso [tidybayes::epred_draws()], [tidybayes::epred_rvars()]
 #' @examples
+#' \donttest{
 #' newdata <- tidyr::tibble(.row = 1)
 #'
 #' # compute type 2 ROC curve
-#' # equivalent to `add_roc2_draws(newdata, example_model)`
-#' roc2_draws(example_model, newdata)
+#' # equivalent to `add_roc2_draws(newdata, example_model())`
+#' roc2_draws(example_model(), newdata)
 #'
 #' # use posterior::rvar for additional efficiency
-#' # equivalent to `add_roc2_rvars(newdata, example_model)`
-#' roc2_rvars(example_model, newdata)
+#' # equivalent to `add_roc2_rvars(newdata, example_model())`
+#' roc2_rvars(example_model(), newdata)
 #'
 #' # include the ROC bounds
-#' # equivalent to `roc2_draws(newdata, example_model, bounds = TRUE)`
-#' roc2_draws(example_model, newdata, bounds = TRUE)
-#'
+#' # equivalent to `roc2_draws(newdata, example_model(), bounds = TRUE)`
+#' roc2_draws(example_model(), newdata, bounds = TRUE)
+#' }
 #' @export
 roc2_draws <- function(object, newdata, ..., bounds = FALSE) {
   draws <- epred_draws_metad(object, newdata, ...)

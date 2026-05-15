@@ -20,23 +20,24 @@
 #'  * `.variable`, `.value`: if `pivot_longer=TRUE`, `.variable` identifies different meta-d' model parameters and `.value` stores posterior samples
 #'  * `M`, `dprime`, `c`, `meta_dprime`, `meta_c`, `meta_c2_0_<k>`, `meta_c2_1_<k>`: if `pivot_longer=FALSE`, posterior samples of all meta-d' model parameters
 #' @examples
+#' \donttest{
 #' newdata <- tidyr::tibble(.row = 1)
 #'
 #' # obtain model parameters (wide format)
-#' # equivalent to `add_linpred_draws_metad(newdata, example_model)`
-#' linpred_draws_metad(example_model, newdata)
-#' \donttest{
+#' # equivalent to `add_linpred_draws_metad(newdata, example_model())`
+#' linpred_draws_metad(example_model(), newdata)
+#'
 #' # obtain model parameters (long format)
-#' # equivalent to `add_linpred_draws_metad(newdata, example_model, pivot_longer = TRUE)`
-#' linpred_draws_metad(example_model, newdata, pivot_longer = TRUE)
+#' # equivalent to `add_linpred_draws_metad(newdata, example_model(), pivot_longer = TRUE)`
+#' linpred_draws_metad(example_model(), newdata, pivot_longer = TRUE)
 #'
 #' # obtain model parameters (wide format, posterior::rvar)
-#' # equivalent to `add_linpred_rvars_metad(newdata, example_model)`
-#' linpred_rvars_metad(example_model, newdata)
+#' # equivalent to `add_linpred_rvars_metad(newdata, example_model())`
+#' linpred_rvars_metad(example_model(), newdata)
 #'
 #' # obtain model parameters (long format, posterior::rvar)
-#' # equivalent to `add_linpred_rvars_metad(newdata, example_model, pivot_longer = TRUE)`
-#' linpred_rvars_metad(example_model, newdata, pivot_longer = TRUE)
+#' # equivalent to `add_linpred_rvars_metad(newdata, example_model(), pivot_longer = TRUE)`
+#' linpred_rvars_metad(example_model(), newdata, pivot_longer = TRUE)
 #' }
 #' @rdname linpred_draws_metad
 #' @seealso [tidybayes::linpred_draws()], [tidybayes::linpred_rvars()]
@@ -169,12 +170,26 @@ linpred_rvars_metad <- function(object, newdata, ..., pivot_longer = FALSE) {
       values_to = "diff"
     ) |>
     mutate(response = as.numeric(.data$response == "one")) |>
-    group_by(!!!syms(.cols), .data$response) |>
-    mutate(c2 = posterior::rvar_ifelse(
-      .data$response == 1,
-      .data$meta_c + cumsum(.data$diff),
-      .data$meta_c - cumsum(.data$diff)
-    )) |>
+    group_by(!!!syms(.cols), .data$response)
+
+  if (max(draws$k) == 1) {
+    draws <- draws |>
+      mutate(c2 = posterior::rvar_ifelse(
+        .data$response == 1,
+        .data$meta_c + .data$diff,
+        .data$meta_c - .data$diff
+      ))
+  } else {
+    draws <- draws |>
+      mutate(c2 = posterior::rvar_ifelse(
+        .data$response == 1,
+        .data$meta_c + cumsum(.data$diff),
+        .data$meta_c - cumsum(.data$diff)
+      ))
+  }
+
+
+  draws <- draws |>
     ungroup() |>
     select(-"diff") |>
     tidyr::pivot_wider(

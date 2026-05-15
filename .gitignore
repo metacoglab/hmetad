@@ -11,4 +11,5 @@ inst/doc
 vignettes/models
 vignettes/*.R
 docs
+build
 **/*.*~

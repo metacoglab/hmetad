@@ -20,8 +20,8 @@ add_epred_rvars_metad(newdata, object, ...)
 
 \item{newdata}{A data frame from which to generate posterior predictions}
 
-\item{...}{Additional arguments passed to \link[tidybayes:add_predicted_draws]{tidybayes::add_epred_draws} or
-\link[tidybayes:add_predicted_rvars]{tidybayes::add_epred_rvars}}
+\item{...}{Additional arguments passed to \link[tidybayes:add_epred_draws]{tidybayes::add_epred_draws} or
+\link[tidybayes:add_epred_rvars]{tidybayes::add_epred_rvars}}
 }
 \value{
 a tibble containing posterior draws of model parameters with the
@@ -42,17 +42,18 @@ row per posterior draw. For \code{epred_rvars_metad} and
 with one row per row in \code{newdata}.
 }
 \examples{
+\donttest{
 newdata <- tidyr::tibble(.row = 1)
 
 # obtain model predictions
-# equivalent to `add_epred_draws_metad(newdata, example_model)`
-epred_draws_metad(example_model, newdata)
+# equivalent to `add_epred_draws_metad(newdata, example_model())`
+epred_draws_metad(example_model(), newdata)
 
 # obtain model predictions (`posterior::rvar`)
-# equivalent to `add_epred_rvars_metad(newdata, example_model)`
-epred_rvars_metad(example_model, newdata)
-
+# equivalent to `add_epred_rvars_metad(newdata, example_model())`
+epred_rvars_metad(example_model(), newdata)
+}
 }
 \seealso{
-\code{\link[tidybayes:add_predicted_draws]{tidybayes::epred_draws()}}, \code{\link[tidybayes:add_predicted_rvars]{tidybayes::epred_rvars()}}
+\code{\link[tidybayes:epred_draws]{tidybayes::epred_draws()}}, \code{\link[tidybayes:epred_rvars]{tidybayes::epred_rvars()}}
 }

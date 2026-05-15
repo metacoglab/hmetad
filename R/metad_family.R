@@ -320,9 +320,6 @@ metad_pmf <- function(stimulus, dprime, c,
     length(meta_c2_0) != length(meta_c2_1) ||
     !all(diff(c(meta_c, meta_c2_0)) < 0) ||
     !all(diff(c(meta_c, meta_c2_1)) > 0)) {
-    print(meta_c)
-    print(meta_c2_0)
-    print(meta_c2_1)
     stop("Error: `meta_c2_0` and meta_c2_1` must be ordered vectors of the same length constrained by `meta_c`.")
   }
 
@@ -367,7 +364,6 @@ metad_pmf <- function(stimulus, dprime, c,
 #' @keywords internal
 #' @noRd
 posterior_epred_metad <- function(prep) {
-  #prep <<- prep
   M <- get_dpar(prep, "mu")
   dprime <- get_dpar(prep, "dprime")
   c1 <- get_dpar(prep, "c")
@@ -412,7 +408,7 @@ posterior_epred_metad <- function(prep) {
         abind::abind(along = 3)
       meta_c2_0 <- meta_c2_0 |>
         apply(1:2, cumsum) |>
-        array(dim=dim(meta_c2_0))
+        array(dim = dim(meta_c2_0))
     } else {
       meta_c2_0 <- dpars[stringr::str_detect(dpars, "metac2zero")] |>
         lapply(function(s) get_dpar(prep, s)) |>
@@ -441,7 +437,7 @@ posterior_epred_metad <- function(prep) {
         abind::abind(along = 3)
       meta_c2_1 <- meta_c2_1 |>
         apply(1:2, cumsum) |>
-        array(dim=dim(meta_c2_1))
+        array(dim = dim(meta_c2_1))
     } else {
       meta_c2_1 <- dpars[stringr::str_detect(dpars, "metac2one")] |>
         lapply(function(s) get_dpar(prep, s)) |>
@@ -450,7 +446,7 @@ posterior_epred_metad <- function(prep) {
         aperm(c(2, 3, 1))
     }
   }
-  
+
   # desired: meta_c2[draw, i, k]
 
   # calculate number of confidence thresholds
@@ -525,7 +521,7 @@ lp_metad <- function(i, prep) {
     sapply(function(s) get_dpar(prep, s, i = i))
   if (is.vector(meta_c2_0)) {
     meta_c2_0 <- matrix(meta_c2_0, ncol = length(meta_c2_0))
-  } 
+  }
   meta_c2_0 <- apply(meta_c2_0, 1, cumsum)
   if (is.vector(meta_c2_0)) {
     meta_c2_0 <- matrix(meta_c2_0, nrow = length(meta_c2_0))
@@ -544,7 +540,7 @@ lp_metad <- function(i, prep) {
   } else {
     meta_c2_1 <- t(meta_c2_1)
   }
-  
+
   meta_c2_0 <- meta_c - meta_c2_0
   meta_c2_1 <- meta_c + meta_c2_1
   meta_c2_0 <- split(meta_c2_0, row(meta_c2_0))
@@ -708,4 +704,39 @@ metad <- function(K, distribution = "normal", metac_absolute = TRUE, categorical
     posterior_predict = posterior_predict_metad,
     posterior_epred = posterior_epred_metad
   )
+}
+
+#' Obtain a vector of the names of the `K-1` parameters representing the
+#' differences between successive confidence criteria for the meta-d' model with
+#' `K` levels of confidence.
+#' @param K The number of confidence levels
+#' @param response If "both", list confidence criteria parameters for both "0"
+#'   and "1" responses. If "zero" or "0", list only confidence criteria for the
+#'   "0" response. If "one" or "1", list only confidence criteria for the "1"
+#'   response.
+#' @examples
+#' # list confidence criteria parameters for K=3 confidence levels
+#' metac2_parameters(K = 3)
+#'
+#' # list parameters for "0" responses
+#' metac2_parameters(K = 3, response = "zero")
+#'
+#' # useful for setting model priors
+#' set_prior("normal(0, 1)", class = "b", dpar = metac2_parameters(K = 4))
+#'
+#' @export
+metac2_parameters <- function(K, response = "both") {
+  k <- K - 1
+  metac2_zero <- paste0(paste0("metac2zero", seq_len(K - 1), "diff"))
+  metac2_one <- paste0(paste0("metac2one", seq_len(K - 1), "diff"))
+
+  if (response == "both") {
+    c(metac2_zero, metac2_one)
+  } else if (response %in% c("zero", "0")) {
+    metac2_zero
+  } else if (response %in% c("one", "1")) {
+    metac2_one
+  } else {
+    stop('response argument must be one of "both", "zero", "0", "one", or "1".')
+  }
 }

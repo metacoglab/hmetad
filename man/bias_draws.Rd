@@ -20,7 +20,7 @@ add_metacognitive_bias_rvars(newdata, object, ...)
 
 \item{newdata}{A data frame from which to generate posterior predictions}
 
-\item{...}{Additional parameters passed to \link[tidybayes:add_predicted_draws]{tidybayes::epred_draws} or \link[tidybayes:add_predicted_rvars]{tidybayes::epred_rvars}}
+\item{...}{Additional parameters passed to \link[tidybayes:epred_draws]{tidybayes::epred_draws} or \link[tidybayes:epred_rvars]{tidybayes::epred_rvars}}
 
 \item{by_response}{If \code{TRUE}, compute metacognitive bias separately for the
 two type 1 responses. If \code{FALSE}, compute an un-weighted average of the two
@@ -48,20 +48,21 @@ response. For \code{metacognitive_bias_rvars} and
 \link[posterior:rvar]{posterior::rvar}s, with one row per row in \code{newdata} and per response.
 }
 \examples{
+\donttest{
 newdata <- tidyr::tibble(.row = 1)
 
 # compute metacognitive bias
-# equivalent to `add_metacognitive_bias_draws(newdata, example_model)`
-metacognitive_bias_draws(example_model, newdata)
-\donttest{
+# equivalent to `add_metacognitive_bias_draws(newdata, example_model())`
+metacognitive_bias_draws(example_model(), newdata)
+
 # use `posterior::rvar` for increased efficiency
-# equivalent to `add_metacognitive_bias_rvars(newdata, example_model)`
-metacognitive_bias_rvars(example_model, newdata)
+# equivalent to `add_metacognitive_bias_rvars(newdata, example_model())`
+metacognitive_bias_rvars(example_model(), newdata)
 
 # average over the two type 1 responses
-metacognitive_bias_rvars(example_model, newdata, by_response = FALSE)
+metacognitive_bias_rvars(example_model(), newdata, by_response = FALSE)
 }
 }
 \seealso{
-\code{\link[tidybayes:add_predicted_draws]{tidybayes::linpred_draws()}}, \code{\link[tidybayes:add_predicted_rvars]{tidybayes::linpred_rvars()}}
+\code{\link[tidybayes:linpred_draws]{tidybayes::linpred_draws()}}, \code{\link[tidybayes:linpred_rvars]{tidybayes::linpred_rvars()}}
 }

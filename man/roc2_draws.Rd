@@ -20,7 +20,7 @@ add_roc2_rvars(newdata, object, ...)
 
 \item{newdata}{A data frame from which to generate posterior predictions}
 
-\item{...}{Additional parameters passed to \link[tidybayes:add_predicted_draws]{tidybayes::epred_draws}}
+\item{...}{Additional parameters passed to \link[tidybayes:epred_draws]{tidybayes::epred_draws}}
 
 \item{bounds}{If \code{TRUE}, include the endpoints of the ROC at \eqn{(0, 0)} and \eqn{(1, 1)}.
 Otherwise, the endpoints are excluded.}
@@ -46,21 +46,22 @@ For \code{roc2_rvars} and \code{add_roc2_rvars}, parameters are returned as
 \code{posterior::rvar}s, with one row per row in \code{newdata} and per joint response.
 }
 \examples{
+\donttest{
 newdata <- tidyr::tibble(.row = 1)
 
 # compute type 2 ROC curve
-# equivalent to `add_roc2_draws(newdata, example_model)`
-roc2_draws(example_model, newdata)
+# equivalent to `add_roc2_draws(newdata, example_model())`
+roc2_draws(example_model(), newdata)
 
 # use posterior::rvar for additional efficiency
-# equivalent to `add_roc2_rvars(newdata, example_model)`
-roc2_rvars(example_model, newdata)
+# equivalent to `add_roc2_rvars(newdata, example_model())`
+roc2_rvars(example_model(), newdata)
 
 # include the ROC bounds
-# equivalent to `roc2_draws(newdata, example_model, bounds = TRUE)`
-roc2_draws(example_model, newdata, bounds = TRUE)
-
+# equivalent to `roc2_draws(newdata, example_model(), bounds = TRUE)`
+roc2_draws(example_model(), newdata, bounds = TRUE)
+}
 }
 \seealso{
-\code{\link[tidybayes:add_predicted_draws]{tidybayes::epred_draws()}}, \code{\link[tidybayes:add_predicted_rvars]{tidybayes::epred_rvars()}}
+\code{\link[tidybayes:epred_draws]{tidybayes::epred_draws()}}, \code{\link[tidybayes:epred_rvars]{tidybayes::epred_rvars()}}
 }

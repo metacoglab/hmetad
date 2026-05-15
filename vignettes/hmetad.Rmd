@@ -2,6 +2,7 @@
 title: "Fitting the meta-d' model"
 output: rmarkdown::html_vignette
 bibliography: citations.bib
+csl: apa.csl
 link-citations: true
 vignette: >
   %\VignetteIndexEntry{Fitting the meta-d' model}
@@ -95,7 +96,7 @@ Finally, to ensure that the model runs efficiently, the `hmetad` package current
 d.summary <- aggregate_metad(d)
 ```
 
-```{r echo=FALSE}
+```{r, echo=FALSE}
 d.summary
 ```
 
@@ -104,6 +105,17 @@ The resulting data frame has three columns: `N_0` is the number of trials with `
 If you would like to use variable name other than `N` for the counts, you can change the name with the `.name` argument:
 ```{r aggregate_metad_response}
 aggregate_metad(d, .name = "y")
+```
+
+Similarly, you are able to use different column names for `stimulus`, `response`, and `confidence` (or `stimulus` and `joint_response`):
+```{r aggregate_metad_columns}
+d |>
+  rename(
+    s = stimulus,
+    r = response,
+    c = confidence
+  ) |>
+  aggregate_metad(.stimulus = "s", .response = "r", .confidence = "c")
 ```
 
 
@@ -124,16 +136,13 @@ aggregate_metad(d, participant, condition, K = 4)
 To fit the model, we can use the `fit_metad` function. This function is simply a wrapper around `brms::brm`, so users are **strongly** encouraged to become familiar with [the `brms` package](https://paulbuerkner.com/brms/) before model fitting. In particular, users are likely to run into convergence errors using the default (flat) priors for model parameters, so we recommend doing careful prior predictive checks to set weakly informed priors [see @schad2021toward for more information].
 
 Since `aggregate_metad` will place our dataset has our trial counts into a column named `N` by default, we can use `N` as our response variable even if our data is not yet aggregated. To fit a model with fixed values for each parameter, then, we can use the formula `N ~ 1`:
-```{r model_fitting, results=FALSE, message=FALSE, warning=FALSE}
+```{r model_fitting, results=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 m <- fit_metad(N ~ 1,
-  data = d,
+  data = d, init = 0,
   prior = prior(normal(0, 1), class = Intercept) +
     prior(normal(0, 1), class = dprime) +
     prior(normal(0, 1), class = c) +
-    prior(lognormal(0, 1), class = metac2zero1diff) +
-    prior(lognormal(0, 1), class = metac2zero2diff) +
-    prior(lognormal(0, 1), class = metac2one1diff) +
-    prior(lognormal(0, 1), class = metac2one2diff)
+    set_prior("lognormal(0, 1)", class = metac2_parameters(K = 4))
 )
 ```
 
@@ -147,8 +156,8 @@ In this model, `Intercept` is our estimate of $\textrm{log}(M) = \textrm{log}\fr
 
 ### Manual model fitting
 Most users can use `fit_metad` as above to fit their models. But in some cases, it might be preferable to call `brms::brm` directly. In such cases, the `fit_metad` function is roughly analogous to the following code:
-
-```{r eval=FALSE}
+  
+```{r, eval=FALSE}
 # calculate number of confidence levels
 K <- n_distinct(d$confidence)
 
@@ -158,6 +167,16 @@ m <- brm(bf(...),
   stanvars = stanvars_metad(K = K, ...),
   ...
 )
+```
+
+Alternatively, if the only issue is with the automatic data aggregation, one can provide the argument `aggregate=FALSE` to `fit_metad`:
+  
+```{r, eval=FALSE}
+d.aggregated <- aggregate_metad(d, ...)
+
+# modify d.aggregated as needed
+
+m <- fit_metad(bf(...), d.aggregated, aggregate = FALSE)
 ```
 
 ## Extract model estimates
@@ -196,7 +215,7 @@ One way to evaluate model fit is to perform a *posterior predictive check*: to s
 draws.predicted <- predicted_draws_metad(m, d.summary)
 ```
 
-```{r echo=FALSE}
+```{r, echo=FALSE}
 draws.predicted
 ```
 
@@ -221,7 +240,7 @@ Usually it will be simpler to compare response probabilities rather than raw res
 draws.epred <- epred_draws_metad(m, newdata = tibble(.row = 1))
 ```
 
-```{r echo=FALSE}
+```{r, echo=FALSE}
 draws.epred
 ```
 
@@ -234,7 +253,6 @@ draws.epred |>
   ggplot(aes(x = joint_response)) +
   geom_col(aes(y = .true), fill = "grey80") +
   geom_pointrange(aes(y = .epred, ymin = .lower, ymax = .upper)) +
-  scale_alpha_discrete(range = c(.25, 1)) +
   facet_wrap(~stimulus, labeller = label_both) +
   theme_classic(18)
 ```
@@ -304,7 +322,7 @@ To obtain type 1 performance as a pseudo-type 1 ROC, we can use `add_roc1_draws`
 draws.roc1 <- tibble(.row = 1) |>
   add_roc1_draws(m)
 ```
-```{r echo=FALSE}
+```{r, echo=FALSE}
 draws.roc1
 ```
 
@@ -335,7 +353,7 @@ draws.roc2 <- tibble(.row = 1) |>
   add_roc2_draws(m)
 ```
 
-```{r echo=FALSE}
+```{r, echo=FALSE}
 draws.roc2
 ```
 This tibble looks the same as for `roc1_draws`, except now there are columns for `p_hit2` representing the type 2 hit rate (i.e., the probability of a correct response with `confidence >= c` given `response`) and the type 2 false alarm rate (i.e., the probability of an incorrect response with `confidence >= c` given `response`). Note that this is the response-specific type 2 ROC, so there are two separate curves for the two type 1 responses. 
@@ -359,6 +377,7 @@ draws.roc2 |>
   ylab("P(Type 2 Hit)") +
   theme_bw(18)
 ```
+
 
 
 ## References

@@ -1,6 +1,6 @@
 Package: hmetad
 Title: Fit the Meta-D' Model of Confidence Ratings Using 'brms'
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: c(
     person("Kevin", "O'Neill", email="kevin.o'neill@ucl.ac.uk", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0001-7401-9802")),
@@ -23,7 +23,7 @@ Imports:
     dplyr (>= 1.2.0),
     glue (>= 1.8.0),
     posterior (>= 1.6.1),
-    rlang (>= 1.1.7),
+    rlang (>= 1.2.0),
     stats,
     stringr (>= 1.6.0),
     tidybayes (>= 3.0.7),
@@ -38,9 +38,8 @@ Suggests:
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
+Config/roxygen2/markdown: TRUE
+Config/roxygen2/version: 8.0.0
 Config/testthat/edition: 3
 URL: https://metacoglab.github.io/hmetad/, https://github.com/metacoglab/hmetad
 BugReports: https://github.com/metacoglab/hmetad/issues
-LazyData: true

@@ -185,13 +185,14 @@ response_probabilities <- function(counts) {
 #' @param categorical If `FALSE` (default), use the multinomial likelihood over
 #'   aggregated data. If `TRUE`, use the categorical likelihood over individual
 #'   trials.
+#' @param message If `TRUE`, print a message about inferred K
 #' @returns An integer describing the number of confidence levels in `data`
 #' @keywords internal
 #' @noRd
 infer_confidence_levels <- function(
   data, aggregate = TRUE, .stimulus = "stimulus", .response = "response",
   .confidence = "confidence", .joint_response = "joint_response",
-  .name = "N", categorical = FALSE
+  .name = "N", categorical = FALSE, message = TRUE
 ) {
   # check validity of stimulus column
   if (aggregate || categorical) {
@@ -279,7 +280,9 @@ infer_confidence_levels <- function(
     stop("Number of confidence levels (`K`) must be greater than 1.")
   }
 
-  message(paste0("`hmetad` has inferred that there are K=", K, " confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`\n"))
+  if (message) {
+    message(paste0("`hmetad` has inferred that there are K=", K, " confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`\n"))
+  }
 
   K
 }
@@ -292,12 +295,12 @@ infer_confidence_levels <- function(
 #' @keywords internal
 #' @noRd
 drop_na_message <- function(data, .col) {
-  if (.col %in% names(data) && any(is.na(data[,.col]))) {
+  if (.col %in% names(data) && any(is.na(data[, .col]))) {
     data_old <- data
     data <- tidyr::drop_na(data, .col)
-    message(paste0('Dropping ', nrow(data_old)-nrow(data), ' rows with missing values of column "', .col, '".\n'))
+    message(paste0("Dropping ", nrow(data_old) - nrow(data), ' rows with missing values of column "', .col, '".\n'))
   }
-  
+
   data
 }
 
@@ -374,7 +377,7 @@ aggregate_metad <- function(
   data <- drop_na_message(data, .response)
   data <- drop_na_message(data, .confidence)
   data <- drop_na_message(data, .joint_response)
-  
+
   if (nrow(data) == 0) {
     ## generate zeros if empty
     if (is.null(K)) {
@@ -426,30 +429,54 @@ aggregate_metad <- function(
         "."
       ))
     }
-    
+
+    if (n_distinct(pull(data, .joint_response)) / 2 > K) {
+      stop(paste0(
+        'Number of confidence levels set to "K=', K,
+        '", but data has ', n_distinct(pull(data, .joint_response)) / 2,
+        " confidence levels"
+      ))
+    } else if (n_distinct(pull(data, .joint_response)) / 2 < K) {
+      warning(paste0(
+        'Number of confidence levels set to "K=', K,
+        '", but data only has ', n_distinct(pull(data, .joint_response)) / 2,
+        " unique confidence levels"
+      ))
+    }
+
+    # get groupings for data aggregation
+    data <- ungroup(data)
+    expansion <- NULL
+    if (length(enquos(...)) > 0) {
+      expansion <- tidyr::expand(
+        data,
+        distinct(data, ...),
+        "{.stimulus}" := c(0L, 1L),
+        "{.joint_response}" := seq_len(2 * K),
+      )
+    } else {
+      expansion <- tidyr::expand(
+        data,
+        "{.stimulus}" := c(0L, 1L),
+        "{.joint_response}" := seq_len(2 * K),
+      )
+    }
+
     # aggregate data, filling in empty cells with zero
     data <- data |>
-      ungroup() |>
       count(!!sym(.stimulus), !!sym(.joint_response), ...) |>
-      tidyr::complete(
-        data |>
-          ungroup() |>
-          tidyr::expand(
-            "{.stimulus}" := c(0L, 1L),
-            "{.joint_response}" := seq_len(2 * K),
-            ...
-          ),
-        fill = list(n = 0)
-      )
+      tidyr::complete(expansion, fill = list(n = 0))
   }
 
   # convert data to wide format (one row per cell in ...)
+  # and fill empty cells with zero
   data <- data |>
     tidyr::pivot_wider(
       names_from = all_of(c(.stimulus, .joint_response)),
       values_from = "n",
       names_prefix = glue::glue("{.name}_")
     ) |>
+    mutate(across(starts_with(.name), ~ tidyr::replace_na(.x, 0))) |>
     rowwise() |>
     mutate(
       "{.name}_0" := sum(c_across(starts_with(glue::glue("{.name}_0_"),
@@ -580,29 +607,65 @@ fit_metad <- function(formula, data, ..., aggregate = TRUE,
   if (categorical) {
     # use vint variable as stimulus column for categorical models
     .stimulus <- stringr::str_extract(
-      deparse1(formula$formula), 
-      "^.* \\| vint\\((.*)\\) ~ .*$", 
-      group=1
+      deparse1(formula$formula),
+      "^.* \\| vint\\((.*)\\) ~ .*$",
+      group = 1
     )
-    
+
     # ensure that the stimulus column exists in the model formula
     if (is.na(.stimulus)) {
       stop("Categorical models require a `vint` term in the response of the model formula. See `help('brmsformula')` for more information")
     }
   }
-  
+
   # determine number of confidence levels
   # (run whether K is specified or not to validate data columns)
-  K_inferred <- infer_confidence_levels(
-    data,
-    aggregate = aggregate, categorical = categorical,
-    .stimulus = .stimulus, .response = .response, .confidence = .confidence,
-    .joint_response = .joint_response, .name = .name
-  )
   if (is.null(K)) {
-   K <- K_inferred
+    K <- infer_confidence_levels(
+      data,
+      aggregate = aggregate, categorical = categorical,
+      .stimulus = .stimulus, .response = .response, .confidence = .confidence,
+      .joint_response = .joint_response, .name = .name, message = TRUE
+    )
+  } else {
+    # validate data columns
+    infer_confidence_levels(
+      data,
+      aggregate = aggregate, categorical = categorical,
+      .stimulus = .stimulus, .response = .response, .confidence = .confidence,
+      .joint_response = .joint_response, .name = .name, message = FALSE
+    )
+
+    # validate specified K argument
+    if (!aggregate || categorical) {
+      k <- NULL
+      if (!aggregate) {
+        k <- ncol(pull(data, .name)) / 4
+      } else if (categorical) {
+        k <- n_distinct(pull(data, .joint_response)) / 2
+      }
+
+      if (k > K) {
+        stop(paste0(
+          'Number of confidence levels set to "K=', K,
+          '", but data has ', k, " confidence levels"
+        ))
+      } else if (!aggregate && k < K) {
+        stop(paste0(
+          'Number of confidence levels set to "K=', K,
+          '", but data only has ', k,
+          " unique confidence levels"
+        ))
+      } else if (categorical && k < K) {
+        warning(paste0(
+          'Number of confidence levels set to "K=', K,
+          '", but data only has ', k,
+          " unique confidence levels"
+        ))
+      }
+    }
   }
-  
+
   ## convert the formula to use the metad family
   formula <- bf(formula,
     family = metad(K,

@@ -42,17 +42,18 @@ row per posterior draw. For \code{predicted_rvars_metad} and
 with one row per row in \code{newdata}.
 }
 \examples{
-newdata <- aggregate_metad(example_data)
+\donttest{
+newdata <- aggregate_metad(example_data())
 
 # obtain model predictions
-# equivalent to `add_predicted_draws_metad(newdata, example_model)`
-predicted_draws_metad(example_model, newdata)
+# equivalent to `add_predicted_draws_metad(newdata, example_model())`
+predicted_draws_metad(example_model(), newdata)
 
 # obtain model predictions (posterior::rvar)
-# equivalent to `add_predicted_rvars_metad(newdata, example_model)`
-predicted_rvars_metad(example_model, newdata)
-
+# equivalent to `add_predicted_rvars_metad(newdata, example_model())`
+predicted_rvars_metad(example_model(), newdata)
+}
 }
 \seealso{
-\code{\link[tidybayes:add_predicted_draws]{tidybayes::predicted_draws()}}, \code{\link[tidybayes:add_predicted_rvars]{tidybayes::predicted_rvars()}}
+\code{\link[tidybayes:predicted_draws]{tidybayes::predicted_draws()}}, \code{\link[tidybayes:predicted_rvars]{tidybayes::predicted_rvars()}}
 }

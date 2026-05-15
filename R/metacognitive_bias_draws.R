@@ -41,18 +41,19 @@ metacognitive_bias <- function(..., rvar = FALSE) {
 #' @rdname bias_draws
 #' @seealso [tidybayes::linpred_draws()], [tidybayes::linpred_rvars()]
 #' @examples
+#' \donttest{
 #' newdata <- tidyr::tibble(.row = 1)
 #'
 #' # compute metacognitive bias
-#' # equivalent to `add_metacognitive_bias_draws(newdata, example_model)`
-#' metacognitive_bias_draws(example_model, newdata)
-#' \donttest{
+#' # equivalent to `add_metacognitive_bias_draws(newdata, example_model())`
+#' metacognitive_bias_draws(example_model(), newdata)
+#'
 #' # use `posterior::rvar` for increased efficiency
-#' # equivalent to `add_metacognitive_bias_rvars(newdata, example_model)`
-#' metacognitive_bias_rvars(example_model, newdata)
+#' # equivalent to `add_metacognitive_bias_rvars(newdata, example_model())`
+#' metacognitive_bias_rvars(example_model(), newdata)
 #'
 #' # average over the two type 1 responses
-#' metacognitive_bias_rvars(example_model, newdata, by_response = FALSE)
+#' metacognitive_bias_rvars(example_model(), newdata, by_response = FALSE)
 #' }
 #' @export
 metacognitive_bias_draws <- function(object, newdata, ..., by_response = TRUE) {
