@@ -12,4 +12,3 @@
 ^vignettes/src/*.Rmd$
 ^data-raw$
 ^CRAN-SUBMISSION$
-^build$
