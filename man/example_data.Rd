@@ -25,9 +25,9 @@ A simulated data set of 1000 trials from a two-alternative
 forced choice task with 4 levels of confidence.
 }
 \examples{
-# Fit an empty model on the example data 
+# Fit an empty model on the example data
 # (remove empty=TRUE to actually fit the model)
-fit_metad(N ~ 1, example_data(), empty=TRUE)
+fit_metad(N ~ 1, example_data(), empty = TRUE)
 }
 \seealso{
 \code{\link[=sim_metad]{sim_metad()}}

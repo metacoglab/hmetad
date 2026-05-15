@@ -47,7 +47,7 @@ metacognitive_bias <- function(..., rvar = FALSE) {
 #' # compute metacognitive bias
 #' # equivalent to `add_metacognitive_bias_draws(newdata, example_model())`
 #' metacognitive_bias_draws(example_model(), newdata)
-#' 
+#'
 #' # use `posterior::rvar` for increased efficiency
 #' # equivalent to `add_metacognitive_bias_rvars(newdata, example_model())`
 #' metacognitive_bias_rvars(example_model(), newdata)

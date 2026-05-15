@@ -22,15 +22,15 @@ the$example_model <- NULL
 #'   probabilities of the model used for simulation
 #' @seealso [sim_metad()]
 #' @examples
-#' # Fit an empty model on the example data 
+#' # Fit an empty model on the example data
 #' # (remove empty=TRUE to actually fit the model)
-#' fit_metad(N ~ 1, example_data(), empty=TRUE)
+#' fit_metad(N ~ 1, example_data(), empty = TRUE)
 #' @export
 example_data <- function() {
   if (is.null(the$example_data)) {
     the$example_data <- sim_metad(N_trials = 1000)
   }
-  
+
   the$example_data
 }
 
@@ -54,6 +54,6 @@ example_model <- function() {
   if (is.null(the$example_model)) {
     the$example_model <- fit_metad(N ~ 1, example_data(), iter = 500)
   }
-  
+
   the$example_model
 }

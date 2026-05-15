@@ -26,7 +26,7 @@
 #' # obtain model parameters (wide format)
 #' # equivalent to `add_linpred_draws_metad(newdata, example_model())`
 #' linpred_draws_metad(example_model(), newdata)
-#' 
+#'
 #' # obtain model parameters (long format)
 #' # equivalent to `add_linpred_draws_metad(newdata, example_model(), pivot_longer = TRUE)`
 #' linpred_draws_metad(example_model(), newdata, pivot_longer = TRUE)
@@ -170,12 +170,26 @@ linpred_rvars_metad <- function(object, newdata, ..., pivot_longer = FALSE) {
       values_to = "diff"
     ) |>
     mutate(response = as.numeric(.data$response == "one")) |>
-    group_by(!!!syms(.cols), .data$response) |>
-    mutate(c2 = posterior::rvar_ifelse(
-      .data$response == 1,
-      .data$meta_c + cumsum(.data$diff),
-      .data$meta_c - cumsum(.data$diff)
-    )) |>
+    group_by(!!!syms(.cols), .data$response)
+
+  if (max(draws$k) == 1) {
+    draws <- draws |>
+      mutate(c2 = posterior::rvar_ifelse(
+        .data$response == 1,
+        .data$meta_c + .data$diff,
+        .data$meta_c - .data$diff
+      ))
+  } else {
+    draws <- draws |>
+      mutate(c2 = posterior::rvar_ifelse(
+        .data$response == 1,
+        .data$meta_c + cumsum(.data$diff),
+        .data$meta_c - cumsum(.data$diff)
+      ))
+  }
+
+
+  draws <- draws |>
     ungroup() |>
     select(-"diff") |>
     tidyr::pivot_wider(

@@ -95,7 +95,7 @@ predicted_draws_metad <- function(object, newdata, ...) {
     ## number of confidence levels
     K <- as.integer(n_distinct(draws$.prediction) / 2)
 
-    draws |>
+    draws <- draws |>
       rename(joint_response = .data$.prediction) |>
       mutate(joint_response = as.integer(.data$joint_response)) |>
       ungroup() |>
@@ -109,6 +109,8 @@ predicted_draws_metad <- function(object, newdata, ...) {
       ) |>
       group_by(.data$.row, !!!syms(.cols), !!sym(.stimulus))
   }
+
+  draws
 }
 
 #' @rdname predicted_draws_metad
