@@ -2,6 +2,8 @@
 
 ## hmetad 0.1.2
 
+CRAN release: 2026-05-15
+
 ### Bug fixes
 
 - Resolved error in
