@@ -3,7 +3,7 @@
 ## Introduction
 
 This vignette demonstrates how to use the `hmetad` package to fit the
-meta-d’ model ([Maniscalco and Lau 2012](#ref-maniscalco2012)) to a
+meta-d’ model ([Maniscalco & Lau, 2012](#ref-maniscalco2012)) to a
 canonical metacognition experiment which requires a binary decision
 together with a confidence rating on each trial.
 
@@ -196,6 +196,26 @@ aggregate_metad(d, .name = "y")
 #> # ℹ 1 more variable: y[7:16] <int>
 ```
 
+Similarly, you are able to use different column names for `stimulus`,
+`response`, and `confidence` (or `stimulus` and `joint_response`):
+
+``` r
+
+d |>
+  rename(
+    s = stimulus,
+    r = response,
+    c = confidence
+  ) |>
+  aggregate_metad(.stimulus = "s", .response = "r", .confidence = "c")
+#> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`
+#> # A tibble: 1 × 3
+#>     N_0   N_1 N[,"N_0_1"] [,"N_0_2"] [,"N_0_3"] [,"N_0_4"] [,"N_0_5"] [,"N_0_6"]
+#>   <int> <int>       <int>      <int>      <int>      <int>      <int>      <int>
+#> 1   500   500           3         59        117         44         83        135
+#> # ℹ 1 more variable: N[7:16] <int>
+```
+
 If you have other columns in your dataset (e.g., `participant` or
 `condition` columns) that you would like to be aggregated separately,
 you can simply add them to the function call:
@@ -227,7 +247,7 @@ package](https://paulbuerkner.com/brms/) before model fitting. In
 particular, users are likely to run into convergence errors using the
 default (flat) priors for model parameters, so we recommend doing
 careful prior predictive checks to set weakly informed priors (see
-[Schad et al. 2021](#ref-schad2021toward) for more information).
+[Schad et al., 2021](#ref-schad2021toward) for more information).
 
 Since `aggregate_metad` will place our dataset has our trial counts into
 a column named `N` by default, we can use `N` as our response variable
@@ -237,14 +257,11 @@ for each parameter, then, we can use the formula `N ~ 1`:
 ``` r
 
 m <- fit_metad(N ~ 1,
-  data = d,
+  data = d, init = 0,
   prior = prior(normal(0, 1), class = Intercept) +
     prior(normal(0, 1), class = dprime) +
     prior(normal(0, 1), class = c) +
-    prior(lognormal(0, 1), class = metac2zero1diff) +
-    prior(lognormal(0, 1), class = metac2zero2diff) +
-    prior(lognormal(0, 1), class = metac2one1diff) +
-    prior(lognormal(0, 1), class = metac2one2diff)
+    set_prior("lognormal(0, 1)", class = metac2_parameters(K = 4))
 )
 ```
 
@@ -257,18 +274,18 @@ m <- fit_metad(N ~ 1,
     #> 
     #> Regression Coefficients:
     #>           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-    #> Intercept    -0.69      0.34    -1.45    -0.13 1.00     4631     2650
+    #> Intercept    -0.69      0.33    -1.43    -0.12 1.00     4446     2542
     #> 
     #> Further Distributional Parameters:
     #>                 Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-    #> dprime              0.71      0.08     0.54     0.87 1.00     5629     3331
-    #> c                  -0.49      0.04    -0.57    -0.41 1.00     3635     3018
-    #> metac2zero1diff     0.21      0.02     0.17     0.26 1.00     6021     3170
-    #> metac2zero2diff     0.78      0.06     0.67     0.89 1.00     4866     2703
-    #> metac2zero3diff     1.28      0.18     0.98     1.65 1.00     7047     3234
-    #> metac2one1diff      0.47      0.03     0.41     0.54 1.00     4783     3192
-    #> metac2one2diff      1.00      0.05     0.91     1.09 1.00     4766     3126
-    #> metac2one3diff      1.30      0.11     1.10     1.52 1.00     6856     2845
+    #> dprime              0.71      0.09     0.54     0.88 1.00     6394     3014
+    #> c                  -0.49      0.04    -0.58    -0.41 1.00     4587     3335
+    #> metac2zero1diff     0.21      0.02     0.17     0.26 1.00     6569     2623
+    #> metac2zero2diff     0.78      0.06     0.68     0.90 1.00     6385     3291
+    #> metac2zero3diff     1.25      0.17     0.94     1.61 1.01     7202     2919
+    #> metac2one1diff      0.47      0.03     0.41     0.54 1.00     5110     3275
+    #> metac2one2diff      1.00      0.05     0.91     1.09 1.00     6801     3074
+    #> metac2one3diff      1.29      0.11     1.09     1.51 1.00     6541     3022
     #> 
     #> Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
     #> and Tail_ESS are effective sample size measures, and Rhat is the potential
@@ -311,6 +328,18 @@ m <- brm(bf(...),
 )
 ```
 
+Alternatively, if the only issue is with the automatic data aggregation,
+one can provide the argument `aggregate=FALSE` to `fit_metad`:
+
+``` r
+
+d.aggregated <- aggregate_metad(d, ...)
+
+# modify d.aggregated as needed
+
+m <- fit_metad(bf(...), d.aggregated, aggregate = FALSE)
+```
+
 ## Extract model estimates
 
 Once we have our fitted model, there are many estimates that we can
@@ -336,16 +365,16 @@ draws.metad <- tibble(.row = 1) |>
     #> # Groups:   .row [1]
     #>     .row .chain .iteration .draw     M dprime      c meta_dprime meta_c
     #>    <int>  <int>      <int> <int> <dbl>  <dbl>  <dbl>       <dbl>  <dbl>
-    #>  1     1     NA         NA     1 0.644  0.708 -0.507       0.456 -0.507
-    #>  2     1     NA         NA     2 0.591  0.650 -0.423       0.384 -0.423
-    #>  3     1     NA         NA     3 0.926  0.587 -0.474       0.544 -0.474
-    #>  4     1     NA         NA     4 0.644  0.608 -0.520       0.392 -0.520
-    #>  5     1     NA         NA     5 0.655  0.686 -0.537       0.449 -0.537
-    #>  6     1     NA         NA     6 0.519  0.754 -0.493       0.392 -0.493
-    #>  7     1     NA         NA     7 0.324  0.824 -0.460       0.267 -0.460
-    #>  8     1     NA         NA     8 0.344  0.778 -0.418       0.268 -0.418
-    #>  9     1     NA         NA     9 0.543  0.688 -0.446       0.373 -0.446
-    #> 10     1     NA         NA    10 0.468  0.679 -0.494       0.318 -0.494
+    #>  1     1     NA         NA     1 0.419  0.846 -0.536      0.355  -0.536
+    #>  2     1     NA         NA     2 0.650  0.625 -0.534      0.406  -0.534
+    #>  3     1     NA         NA     3 0.425  0.817 -0.480      0.347  -0.480
+    #>  4     1     NA         NA     4 0.652  0.611 -0.437      0.398  -0.437
+    #>  5     1     NA         NA     5 0.622  0.555 -0.494      0.345  -0.494
+    #>  6     1     NA         NA     6 0.655  0.654 -0.520      0.428  -0.520
+    #>  7     1     NA         NA     7 0.679  0.660 -0.493      0.448  -0.493
+    #>  8     1     NA         NA     8 0.656  0.711 -0.497      0.467  -0.497
+    #>  9     1     NA         NA     9 0.599  0.796 -0.426      0.477  -0.426
+    #> 10     1     NA         NA    10 0.175  0.557 -0.550      0.0973 -0.550
     #> # ℹ 3,990 more rows
     #> # ℹ 6 more variables: meta_c2_0_1 <dbl>, meta_c2_0_2 <dbl>, meta_c2_0_3 <dbl>,
     #> #   meta_c2_1_1 <dbl>, meta_c2_1_2 <dbl>, meta_c2_1_3 <dbl>
@@ -363,18 +392,18 @@ draws.metad <- tibble(.row = 1) |>
 
     #> # A tibble: 44,000 × 6
     #> # Groups:   .row, .variable [11]
-    #>     .row .chain .iteration .draw .variable    .value
-    #>    <int>  <int>      <int> <int> <chr>         <dbl>
-    #>  1     1     NA         NA     1 M            0.644 
-    #>  2     1     NA         NA     1 dprime       0.708 
-    #>  3     1     NA         NA     1 c           -0.507 
-    #>  4     1     NA         NA     1 meta_dprime  0.456 
-    #>  5     1     NA         NA     1 meta_c      -0.507 
-    #>  6     1     NA         NA     1 meta_c2_0_1 -0.702 
-    #>  7     1     NA         NA     1 meta_c2_0_2 -1.52  
-    #>  8     1     NA         NA     1 meta_c2_0_3 -2.93  
-    #>  9     1     NA         NA     1 meta_c2_1_1 -0.0740
-    #> 10     1     NA         NA     1 meta_c2_1_2  0.975 
+    #>     .row .chain .iteration .draw .variable   .value
+    #>    <int>  <int>      <int> <int> <chr>        <dbl>
+    #>  1     1     NA         NA     1 M            0.419
+    #>  2     1     NA         NA     1 dprime       0.846
+    #>  3     1     NA         NA     1 c           -0.536
+    #>  4     1     NA         NA     1 meta_dprime  0.355
+    #>  5     1     NA         NA     1 meta_c      -0.536
+    #>  6     1     NA         NA     1 meta_c2_0_1 -0.748
+    #>  7     1     NA         NA     1 meta_c2_0_2 -1.53 
+    #>  8     1     NA         NA     1 meta_c2_0_3 -2.97 
+    #>  9     1     NA         NA     1 meta_c2_1_1 -0.125
+    #> 10     1     NA         NA     1 meta_c2_1_2  0.937
     #> # ℹ 43,990 more rows
 
 Now that all of the posterior samples are stored in a single column
@@ -386,19 +415,19 @@ e.g. [`tidybayes::median_qi`](https://mjskay.github.io/ggdist/reference/point_i
 draws.metad |>
   median_qi()
 #> # A tibble: 11 × 8
-#>     .row .variable    .value  .lower  .upper .width .point .interval
-#>    <int> <chr>         <dbl>   <dbl>   <dbl>  <dbl> <chr>  <chr>    
-#>  1     1 c           -0.492  -0.574  -0.409    0.95 median qi       
-#>  2     1 dprime       0.708   0.543   0.874    0.95 median qi       
-#>  3     1 M            0.516   0.234   0.878    0.95 median qi       
-#>  4     1 meta_c      -0.492  -0.574  -0.409    0.95 median qi       
-#>  5     1 meta_c2_0_1 -0.705  -0.793  -0.618    0.95 median qi       
-#>  6     1 meta_c2_0_2 -1.49   -1.60   -1.37     0.95 median qi       
-#>  7     1 meta_c2_0_3 -2.75   -3.14   -2.46     0.95 median qi       
-#>  8     1 meta_c2_1_1 -0.0211 -0.0969  0.0566   0.95 median qi       
-#>  9     1 meta_c2_1_2  0.978   0.884   1.07     0.95 median qi       
-#> 10     1 meta_c2_1_3  2.28    2.07    2.51     0.95 median qi       
-#> 11     1 meta_dprime  0.365   0.168   0.578    0.95 median qi
+#>     .row .variable    .value .lower  .upper .width .point .interval
+#>    <int> <chr>         <dbl>  <dbl>   <dbl>  <dbl> <chr>  <chr>    
+#>  1     1 c           -0.492  -0.579 -0.406    0.95 median qi       
+#>  2     1 dprime       0.707   0.545  0.878    0.95 median qi       
+#>  3     1 M            0.519   0.239  0.885    0.95 median qi       
+#>  4     1 meta_c      -0.492  -0.579 -0.406    0.95 median qi       
+#>  5     1 meta_c2_0_1 -0.706  -0.794 -0.616    0.95 median qi       
+#>  6     1 meta_c2_0_2 -1.49   -1.61  -1.37     0.95 median qi       
+#>  7     1 meta_c2_0_3 -2.72   -3.11  -2.42     0.95 median qi       
+#>  8     1 meta_c2_1_1 -0.0195 -0.102  0.0587   0.95 median qi       
+#>  9     1 meta_c2_1_2  0.978   0.884  1.07     0.95 median qi       
+#> 10     1 meta_c2_1_3  2.27    2.06   2.49     0.95 median qi       
+#> 11     1 meta_dprime  0.369   0.171  0.578    0.95 median qi
 ```
 
 ### Posterior predictions
@@ -456,7 +485,7 @@ draws.predicted |>
 #> replacement element 1 has 256 rows to replace 16 rows
 ```
 
-![](hmetad_files/figure-html/unnamed-chunk-10-1.png)
+![](hmetad_files/figure-html/unnamed-chunk-11-1.png)
 
 ### Posterior expectations
 
@@ -474,16 +503,16 @@ draws.epred <- epred_draws_metad(m, newdata = tibble(.row = 1))
     #> # Groups:   .row, stimulus, joint_response, response, confidence [16]
     #>     .row stimulus joint_response response confidence  .epred .chain .iteration
     #>    <int>    <int>          <int>    <int>      <dbl>   <dbl>  <int>      <int>
-    #>  1     1        0              1        0          4 0.00382     NA         NA
-    #>  2     1        0              1        0          4 0.00668     NA         NA
-    #>  3     1        0              1        0          4 0.00436     NA         NA
-    #>  4     1        0              1        0          4 0.00276     NA         NA
-    #>  5     1        0              1        0          4 0.00282     NA         NA
-    #>  6     1        0              1        0          4 0.00287     NA         NA
-    #>  7     1        0              1        0          4 0.0103      NA         NA
-    #>  8     1        0              1        0          4 0.00628     NA         NA
-    #>  9     1        0              1        0          4 0.00450     NA         NA
-    #> 10     1        0              1        0          4 0.00922     NA         NA
+    #>  1     1        0              1        0          4 0.00329     NA         NA
+    #>  2     1        0              1        0          4 0.00971     NA         NA
+    #>  3     1        0              1        0          4 0.00485     NA         NA
+    #>  4     1        0              1        0          4 0.00778     NA         NA
+    #>  5     1        0              1        0          4 0.00277     NA         NA
+    #>  6     1        0              1        0          4 0.00782     NA         NA
+    #>  7     1        0              1        0          4 0.00646     NA         NA
+    #>  8     1        0              1        0          4 0.00559     NA         NA
+    #>  9     1        0              1        0          4 0.00789     NA         NA
+    #> 10     1        0              1        0          4 0.00446     NA         NA
     #> # ℹ 63,990 more rows
     #> # ℹ 1 more variable: .draw <int>
 
@@ -497,10 +526,8 @@ draws.epred |>
   ggplot(aes(x = joint_response)) +
   geom_col(aes(y = .true), fill = "grey80") +
   geom_pointrange(aes(y = .epred, ymin = .lower, ymax = .upper)) +
-  scale_alpha_discrete(range = c(.25, 1)) +
   facet_wrap(~stimulus, labeller = label_both) +
   theme_classic(18)
-#> Warning: Using alpha for a discrete variable is not advised.
 #> Warning in `[<-.data.frame`(`*tmp*`, , y_vars, value = list(y = c(0.006, :
 #> replacement element 1 has 256 rows to replace 16 rows
 ```
@@ -530,10 +557,10 @@ tibble(.row = 1) |>
 #> # A tibble: 4 × 10
 #>    .row stimulus response .epred .lower .upper .width .point .interval .true
 #>   <int>    <int>    <int>  <dbl>  <dbl>  <dbl>  <dbl> <chr>  <chr>     <dbl>
-#> 1     1        0        0   2.06   1.99   2.15   0.95 median qi         2.09
+#> 1     1        0        0   2.07   1.99   2.15   0.95 median qi         2.09
 #> 2     1        0        1   1.91   1.83   1.99   0.95 median qi         1.92
-#> 3     1        1        0   1.95   1.86   2.04   0.95 median qi         1.90
-#> 4     1        1        1   2.08   2.02   2.15   0.95 median qi         2.07
+#> 3     1        1        0   1.95   1.86   2.03   0.95 median qi         1.90
+#> 4     1        1        1   2.08   2.02   2.16   0.95 median qi         2.07
 ```
 
 Here, `.epred` refers to the model-estimated mean confidence per
@@ -596,7 +623,7 @@ tibble(.row = 1) |>
 While mean confidence is often empirically informative, it is not
 recommended as a measure of metacognitive bias because it is known to be
 confounded by type 1 response characteristics (i.e., d' and c) and by
-metacognitive sensitivity (i.e., \textrm{meta-}d', [Sherman et al.
+metacognitive sensitivity (i.e., \textrm{meta-}d', [Sherman et al.,
 2018](#ref-sherman2018)). Instead, we recommend a new measure of
 metacognitive bias, \textrm{meta-}\Delta, which is the distance between
 the average of the confidence criteria and \textrm{meta-}c.
@@ -617,8 +644,8 @@ tibble(.row = 1) |>
 #> # A tibble: 2 × 8
 #>    .row response metacognitive_bias .lower .upper .width .point .interval
 #>   <int>    <int>              <dbl>  <dbl>  <dbl>  <dbl> <chr>  <chr>    
-#> 1     1        0               1.16   1.03   1.31   0.95 median qi       
-#> 2     1        1               1.57   1.47   1.67   0.95 median qi
+#> 1     1        0               1.15   1.02   1.29   0.95 median qi       
+#> 2     1        1               1.57   1.46   1.67   0.95 median qi
 ```
 
 ### Pseudo Type 1 ROC
@@ -636,16 +663,16 @@ draws.roc1 <- tibble(.row = 1) |>
     #> # Groups:   .row, joint_response, response, confidence [7]
     #>     .row joint_response response confidence .chain .iteration .draw  p_fa p_hit
     #>    <int>          <int>    <int>      <dbl>  <int>      <int> <int> <dbl> <dbl>
-    #>  1     1              1        0          4     NA         NA     1 0.996 0.999
-    #>  2     1              1        0          4     NA         NA     2 0.993 0.998
-    #>  3     1              1        0          4     NA         NA     3 0.996 0.999
-    #>  4     1              1        0          4     NA         NA     4 0.997 0.999
-    #>  5     1              1        0          4     NA         NA     5 0.997 1.000
-    #>  6     1              1        0          4     NA         NA     6 0.997 0.999
-    #>  7     1              1        0          4     NA         NA     7 0.990 0.997
-    #>  8     1              1        0          4     NA         NA     8 0.994 0.998
-    #>  9     1              1        0          4     NA         NA     9 0.996 0.999
-    #> 10     1              1        0          4     NA         NA    10 0.991 0.998
+    #>  1     1              1        0          4     NA         NA     1 0.997 0.999
+    #>  2     1              1        0          4     NA         NA     2 0.990 0.998
+    #>  3     1              1        0          4     NA         NA     3 0.995 0.999
+    #>  4     1              1        0          4     NA         NA     4 0.992 0.998
+    #>  5     1              1        0          4     NA         NA     5 0.997 0.999
+    #>  6     1              1        0          4     NA         NA     6 0.992 0.998
+    #>  7     1              1        0          4     NA         NA     7 0.994 0.999
+    #>  8     1              1        0          4     NA         NA     8 0.994 0.999
+    #>  9     1              1        0          4     NA         NA     9 0.992 0.999
+    #> 10     1              1        0          4     NA         NA    10 0.996 0.998
     #> # ℹ 27,990 more rows
 
 Again, we have a tidy tibble with columns `.chain`, `.iteration`, and
@@ -697,16 +724,16 @@ draws.roc2 <- tibble(.row = 1) |>
     #> # Groups:   .row, response, confidence [6]
     #>     .row response confidence .chain .iteration .draw  p_hit2   p_fa2
     #>    <int>    <int>      <dbl>  <int>      <int> <int>   <dbl>   <dbl>
-    #>  1     1        0          4     NA         NA     1 0.00870 0.00338
-    #>  2     1        0          4     NA         NA     2 0.0145  0.00691
-    #>  3     1        0          4     NA         NA     3 0.0102  0.00331
-    #>  4     1        0          4     NA         NA     4 0.00667 0.00289
-    #>  5     1        0          4     NA         NA     5 0.00666 0.00255
-    #>  6     1        0          4     NA         NA     6 0.00632 0.00271
-    #>  7     1        0          4     NA         NA     7 0.0214  0.0134 
-    #>  8     1        0          4     NA         NA     8 0.0129  0.00766
-    #>  9     1        0          4     NA         NA     9 0.00978 0.00457
-    #> 10     1        0          4     NA         NA    10 0.0210  0.0120 
+    #>  1     1        0          4     NA         NA     1 0.00722 0.00345
+    #>  2     1        0          4     NA         NA     2 0.0236  0.0117 
+    #>  3     1        0          4     NA         NA     3 0.0103  0.00514
+    #>  4     1        0          4     NA         NA     4 0.0174  0.00827
+    #>  5     1        0          4     NA         NA     5 0.00670 0.00322
+    #>  6     1        0          4     NA         NA     6 0.0185  0.00845
+    #>  7     1        0          4     NA         NA     7 0.0148  0.00631
+    #>  8     1        0          4     NA         NA     8 0.0126  0.00503
+    #>  9     1        0          4     NA         NA     9 0.0162  0.00647
+    #> 10     1        0          4     NA         NA    10 0.0114  0.00947
     #> # ℹ 23,990 more rows
 
 This tibble looks the same as for `roc1_draws`, except now there are
@@ -739,18 +766,18 @@ draws.roc2 |>
   theme_bw(18)
 ```
 
-![](hmetad_files/figure-html/unnamed-chunk-14-1.png)
+![](hmetad_files/figure-html/unnamed-chunk-15-1.png)
 
 ## References
 
-Maniscalco, Brian, and Hakwan Lau. 2012. “A Signal Detection Theoretic
-Approach for Estimating Metacognitive Sensitivity from Confidence
-Ratings.” *Consciousness and Cognition* 21 (1): 422–30.
+Maniscalco, B., & Lau, H. (2012). A signal detection theoretic approach
+for estimating metacognitive sensitivity from confidence ratings.
+*Consciousness and Cognition*, *21*(1), 422–430.
 
-Schad, Daniel J, Michael Betancourt, and Shravan Vasishth. 2021. “Toward
-a Principled Bayesian Workflow in Cognitive Science.” *Psychological
-Methods* 26 (1): 103.
+Schad, D. J., Betancourt, M., & Vasishth, S. (2021). Toward a principled
+bayesian workflow in cognitive science. *Psychological Methods*,
+*26*(1), 103.
 
-Sherman, Maxine T, Anil K Seth, and Adam B Barrett. 2018. “Quantifying
-Metacognitive Thresholds Using Signal-Detection Theory.” *BioRxiv*,
+Sherman, M. T., Seth, A. K., & Barrett, A. B. (2018). Quantifying
+metacognitive thresholds using signal-detection theory. *BioRxiv*,
 361543.

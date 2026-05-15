@@ -69,57 +69,59 @@ following columns:
 ## Examples
 
 ``` r
+# \donttest{
 newdata <- tidyr::tibble(.row = 1)
 
 # compute type 2 ROC curve
-# equivalent to `add_roc2_draws(newdata, example_model)`
-roc2_draws(example_model, newdata)
+# equivalent to `add_roc2_draws(newdata, example_model())`
+roc2_draws(example_model(), newdata)
 #> # A tibble: 6,000 × 8
 #> # Groups:   .row, response, confidence [6]
 #>     .row response confidence .chain .iteration .draw p_hit2  p_fa2
 #>    <int>    <int>      <dbl>  <int>      <int> <int>  <dbl>  <dbl>
-#>  1     1        0          4     NA         NA     1  0.279 0.0877
-#>  2     1        0          4     NA         NA     2  0.302 0.0820
-#>  3     1        0          4     NA         NA     3  0.261 0.0706
-#>  4     1        0          4     NA         NA     4  0.233 0.0639
-#>  5     1        0          4     NA         NA     5  0.264 0.0722
-#>  6     1        0          4     NA         NA     6  0.260 0.0664
-#>  7     1        0          4     NA         NA     7  0.267 0.0781
-#>  8     1        0          4     NA         NA     8  0.264 0.0822
-#>  9     1        0          4     NA         NA     9  0.268 0.0627
-#> 10     1        0          4     NA         NA    10  0.256 0.0777
+#>  1     1        0          4     NA         NA     1  0.219 0.0617
+#>  2     1        0          4     NA         NA     2  0.188 0.0394
+#>  3     1        0          4     NA         NA     3  0.177 0.0423
+#>  4     1        0          4     NA         NA     4  0.190 0.0447
+#>  5     1        0          4     NA         NA     5  0.190 0.0496
+#>  6     1        0          4     NA         NA     6  0.224 0.0520
+#>  7     1        0          4     NA         NA     7  0.207 0.0518
+#>  8     1        0          4     NA         NA     8  0.217 0.0612
+#>  9     1        0          4     NA         NA     9  0.182 0.0459
+#> 10     1        0          4     NA         NA    10  0.238 0.0543
 #> # ℹ 5,990 more rows
 
 # use posterior::rvar for additional efficiency
-# equivalent to `add_roc2_rvars(newdata, example_model)`
-roc2_rvars(example_model, newdata)
+# equivalent to `add_roc2_rvars(newdata, example_model())`
+roc2_rvars(example_model(), newdata)
 #> # A tibble: 6 × 5
 #> # Groups:   .row, response, confidence [6]
 #>    .row response confidence        p_hit2          p_fa2
 #>   <int>    <int>      <dbl>    <rvar[1d]>     <rvar[1d]>
-#> 1     1        0          2  0.74 ± 0.020  0.501 ± 0.031
-#> 2     1        0          3  0.48 ± 0.025  0.217 ± 0.024
-#> 3     1        0          4  0.27 ± 0.022  0.080 ± 0.014
-#> 4     1        1          1  0.75 ± 0.019  0.526 ± 0.031
-#> 5     1        1          2  0.45 ± 0.024  0.197 ± 0.025
-#> 6     1        1          3  0.23 ± 0.022  0.063 ± 0.013
+#> 1     1        0          2  0.75 ± 0.020  0.526 ± 0.032
+#> 2     1        0          3  0.47 ± 0.024  0.215 ± 0.026
+#> 3     1        0          4  0.21 ± 0.020  0.053 ± 0.011
+#> 4     1        1          1  0.74 ± 0.019  0.516 ± 0.030
+#> 5     1        1          2  0.45 ± 0.023  0.197 ± 0.024
+#> 6     1        1          3  0.22 ± 0.020  0.059 ± 0.012
 
 # include the ROC bounds
-# equivalent to `roc2_draws(newdata, example_model, bounds = TRUE)`
-roc2_draws(example_model, newdata, bounds = TRUE)
+# equivalent to `roc2_draws(newdata, example_model(), bounds = TRUE)`
+roc2_draws(example_model(), newdata, bounds = TRUE)
 #> # A tibble: 10,000 × 8
 #> # Groups:   .row, response, confidence [10]
 #>     .row response confidence .chain .iteration .draw p_hit2  p_fa2
 #>    <int>    <dbl>      <dbl>  <int>      <int> <int>  <dbl>  <dbl>
-#>  1     1        0          4     NA         NA     1  0.279 0.0877
-#>  2     1        0          4     NA         NA     2  0.302 0.0820
-#>  3     1        0          4     NA         NA     3  0.261 0.0706
-#>  4     1        0          4     NA         NA     4  0.233 0.0639
-#>  5     1        0          4     NA         NA     5  0.264 0.0722
-#>  6     1        0          4     NA         NA     6  0.260 0.0664
-#>  7     1        0          4     NA         NA     7  0.267 0.0781
-#>  8     1        0          4     NA         NA     8  0.264 0.0822
-#>  9     1        0          4     NA         NA     9  0.268 0.0627
-#> 10     1        0          4     NA         NA    10  0.256 0.0777
+#>  1     1        0          4     NA         NA     1  0.219 0.0617
+#>  2     1        0          4     NA         NA     2  0.188 0.0394
+#>  3     1        0          4     NA         NA     3  0.177 0.0423
+#>  4     1        0          4     NA         NA     4  0.190 0.0447
+#>  5     1        0          4     NA         NA     5  0.190 0.0496
+#>  6     1        0          4     NA         NA     6  0.224 0.0520
+#>  7     1        0          4     NA         NA     7  0.207 0.0518
+#>  8     1        0          4     NA         NA     8  0.217 0.0612
+#>  9     1        0          4     NA         NA     9  0.182 0.0459
+#> 10     1        0          4     NA         NA    10  0.238 0.0543
 #> # ℹ 9,990 more rows
+# }
 ```

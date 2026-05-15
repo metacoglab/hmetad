@@ -9,7 +9,7 @@ forced choice task with 4 levels of confidence."><meta property="og:image" conte
 
     <a class="navbar-brand me-2" href="../index.html">hmetad</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,11 +57,11 @@ forced choice task with 4 levels of confidence.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="va">example_data</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">example_data</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
-    <h2 id="format">Format<a class="anchor" aria-label="anchor" href="#format"></a></h2>
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A tibble of 1000 observations containing the following columns:</p><ul><li><p><code>trial</code>: the trial number</p></li>
 <li><p><code>stimulus</code>: the stimulus presence (<code>0</code> or <code>1</code>)</p></li>
 <li><p><code>response</code>: the simulated type 1 response</p></li>
@@ -73,78 +73,22 @@ parameters of the model used for simulation</p></li>
 probabilities of the model used for simulation</p></li>
 </ul></div>
     <div class="section level2">
-    <h2 id="source">Source<a class="anchor" aria-label="anchor" href="#source"></a></h2>
-    <p>Generated using the code <code>sim_metad(N_trials = 1000)</code></p>
-    </div>
-    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="sim_metad.html">sim_metad()</a></code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="fit_metad.html">fit_metad</a></span><span class="op">(</span><span class="va">N</span> <span class="op">~</span> <span class="fl">1</span>, <span class="va">example_data</span>, chains <span class="op">=</span> <span class="fl">1</span>, iter <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Fit an empty model on the example data</span></span></span>
+<span class="r-in"><span><span class="co"># (remove empty=TRUE to actually fit the model)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="fit_metad.html">fit_metad</a></span><span class="op">(</span><span class="va">N</span> <span class="op">~</span> <span class="fl">1</span>, <span class="fu">example_data</span><span class="op">(</span><span class="op">)</span>, empty <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=&lt;K&gt;`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Compiling Stan program...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Start sampling</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Gradient evaluation took 2.7e-05 seconds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.27 seconds.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Adjust your expectations accordingly!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration:   1 / 500 [  0%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration:  50 / 500 [ 10%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 100 / 500 [ 20%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 150 / 500 [ 30%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 200 / 500 [ 40%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 250 / 500 [ 50%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 251 / 500 [ 50%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 300 / 500 [ 60%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 350 / 500 [ 70%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 400 / 500 [ 80%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 450 / 500 [ 90%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 500 / 500 [100%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:  Elapsed Time: 0.025 seconds (Warm-up)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:                0.015 seconds (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:                0.04 seconds (Total)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Running the chains for more iterations may help. See</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> https://mc-stan.org/misc/warnings.html#bulk-ess</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Running the chains for more iterations may help. See</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> https://mc-stan.org/misc/warnings.html#tail-ess</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Family: metad__4__normal__absolute__multinomial </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Links: mu = log </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Formula: N ~ 1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Data: data.aggregated (Number of observations: 1) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Draws: 1 chains, each with iter = 500; warmup = 250; thin = 1;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          total post-warmup draws = 250</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Regression Coefficients:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Intercept     0.12      0.14    -0.19     0.37 1.00      166      130</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Further Distributional Parameters:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> dprime              1.01      0.08     0.85     1.17 1.01      152      173</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> c                   0.01      0.04    -0.07     0.09 1.00      229      145</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2zero1diff     0.51      0.04     0.44     0.57 1.01      251      180</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2zero2diff     0.47      0.04     0.41     0.53 1.02      440      141</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2zero3diff     0.47      0.05     0.38     0.56 1.00      302      155</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2one1diff      0.46      0.04     0.40     0.53 1.02      206      154</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2one2diff      0.55      0.04     0.48     0.63 1.01      324      155</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2one3diff      0.52      0.05     0.42     0.62 1.01      344      142</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> and Tail_ESS are effective sample size measures, and Rhat is the potential</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale reduction factor on split chains (at convergence, Rhat = 1).</span>
-<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The model does not contain posterior draws.</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

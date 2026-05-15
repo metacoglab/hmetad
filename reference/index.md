@@ -13,6 +13,13 @@ Run the meta-d’ model on aggregated or non-aggregated data using `brms`
 
   `brms` family for the metad' model
 
+- [`metac2_parameters()`](https://metacoglab.github.io/hmetad/reference/metac2_parameters.md)
+  :
+
+  Obtain a vector of the names of the `K-1` parameters representing the
+  differences between successive confidence criteria for the meta-d'
+  model with `K` levels of confidence.
+
 - [`stanvars_metad()`](https://metacoglab.github.io/hmetad/reference/stanvars_metad.md)
   : Generate Stan code for the meta-d' model
 
@@ -124,7 +131,7 @@ distributions
 
 Inspect an example dataset and fitted meta-d’ model
 
-- [`example_data`](https://metacoglab.github.io/hmetad/reference/example_data.md)
+- [`example_data()`](https://metacoglab.github.io/hmetad/reference/example_data.md)
   : Simulated data for example model fitting
-- [`example_model`](https://metacoglab.github.io/hmetad/reference/example_model.md)
+- [`example_model()`](https://metacoglab.github.io/hmetad/reference/example_model.md)
   : Example meta-d' model for model post-processing

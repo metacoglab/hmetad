@@ -144,16 +144,16 @@ sim_metad_participant_condition(10, 10)
 #> # A tibble: 200 × 16
 #>    participant condition trial stimulus response correct confidence dprime
 #>          <int>     <int> <int>    <int>    <int>   <int>      <int>  <dbl>
-#>  1           1         1     1        0        1       0          1  0.385
-#>  2           1         1     2        0        1       0          2  0.385
-#>  3           1         1     3        0        1       0          2  0.385
-#>  4           1         1     4        0        1       0          4  0.385
-#>  5           1         1     5        0        1       0          4  0.385
-#>  6           1         1     1        1        0       0          4  0.385
-#>  7           1         1     2        1        1       1          4  0.385
-#>  8           1         1     3        1        1       1          4  0.385
-#>  9           1         1     4        1        1       1          4  0.385
-#> 10           1         1     5        1        1       1          4  0.385
+#>  1           1         1     1        0        0       1          1   1.29
+#>  2           1         1     2        0        0       1          2   1.29
+#>  3           1         1     3        0        0       1          2   1.29
+#>  4           1         1     4        0        1       0          1   1.29
+#>  5           1         1     5        0        1       0          4   1.29
+#>  6           1         1     1        1        1       1          1   1.29
+#>  7           1         1     2        1        1       1          1   1.29
+#>  8           1         1     3        1        1       1          2   1.29
+#>  9           1         1     4        1        1       1          2   1.29
+#> 10           1         1     5        1        1       1          3   1.29
 #> # ℹ 190 more rows
 #> # ℹ 8 more variables: c <dbl>, meta_dprime <dbl>, M <dbl>, meta_c2_0 <list>,
 #> #   meta_c2_1 <list>, theta <dbl>, theta_1 <dbl>, theta_2 <dbl>

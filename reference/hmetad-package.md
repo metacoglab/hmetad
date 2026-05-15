@@ -25,5 +25,8 @@ Useful links:
 
 Authors:
 
+- Kevin O'Neill [kevin.o'neill@ucl.ac.uk](mailto:kevin.o)
+  ([ORCID](https://orcid.org/0000-0001-7401-9802)) \[copyright holder\]
+
 - Stephen Fleming <stephen.fleming@ucl.ac.uk>
   ([ORCID](https://orcid.org/0000-0003-0233-4891)) \[copyright holder\]

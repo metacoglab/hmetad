@@ -74,61 +74,62 @@ following columns:
 ## Examples
 
 ``` r
+# \donttest{
 newdata <- tidyr::tibble(.row = 1)
 
 # compute pseudo-type 1 ROC curve
 # equivalent to ``
-roc1_draws(example_model, newdata)
+roc1_draws(example_model(), newdata)
 #> # A tibble: 7,000 × 9
 #> # Groups:   .row, joint_response, response, confidence [7]
 #>     .row joint_response response confidence .chain .iteration .draw  p_fa p_hit
 #>    <int>          <int>    <int>      <dbl>  <int>      <int> <int> <dbl> <dbl>
-#>  1     1              1        0          4     NA         NA     1 0.809 0.974
-#>  2     1              1        0          4     NA         NA     2 0.791 0.976
-#>  3     1              1        0          4     NA         NA     3 0.829 0.979
-#>  4     1              1        0          4     NA         NA     4 0.826 0.980
-#>  5     1              1        0          4     NA         NA     5 0.804 0.975
-#>  6     1              1        0          4     NA         NA     6 0.815 0.978
-#>  7     1              1        0          4     NA         NA     7 0.817 0.978
-#>  8     1              1        0          4     NA         NA     8 0.824 0.976
-#>  9     1              1        0          4     NA         NA     9 0.816 0.981
-#> 10     1              1        0          4     NA         NA    10 0.828 0.975
+#>  1     1              1        0          4     NA         NA     1 0.836 0.982
+#>  2     1              1        0          4     NA         NA     2 0.874 0.987
+#>  3     1              1        0          4     NA         NA     3 0.881 0.985
+#>  4     1              1        0          4     NA         NA     4 0.871 0.984
+#>  5     1              1        0          4     NA         NA     5 0.867 0.985
+#>  6     1              1        0          4     NA         NA     6 0.847 0.984
+#>  7     1              1        0          4     NA         NA     7 0.856 0.985
+#>  8     1              1        0          4     NA         NA     8 0.847 0.982
+#>  9     1              1        0          4     NA         NA     9 0.876 0.985
+#> 10     1              1        0          4     NA         NA    10 0.835 0.983
 #> # ℹ 6,990 more rows
-add_roc1_draws(newdata, example_model)
+add_roc1_draws(newdata, example_model())
 #> # A tibble: 7,000 × 9
 #> # Groups:   .row, joint_response, response, confidence [7]
 #>     .row joint_response response confidence .chain .iteration .draw  p_fa p_hit
 #>    <int>          <int>    <int>      <dbl>  <int>      <int> <int> <dbl> <dbl>
-#>  1     1              1        0          4     NA         NA     1 0.809 0.974
-#>  2     1              1        0          4     NA         NA     2 0.791 0.976
-#>  3     1              1        0          4     NA         NA     3 0.829 0.979
-#>  4     1              1        0          4     NA         NA     4 0.826 0.980
-#>  5     1              1        0          4     NA         NA     5 0.804 0.975
-#>  6     1              1        0          4     NA         NA     6 0.815 0.978
-#>  7     1              1        0          4     NA         NA     7 0.817 0.978
-#>  8     1              1        0          4     NA         NA     8 0.824 0.976
-#>  9     1              1        0          4     NA         NA     9 0.816 0.981
-#> 10     1              1        0          4     NA         NA    10 0.828 0.975
+#>  1     1              1        0          4     NA         NA     1 0.836 0.982
+#>  2     1              1        0          4     NA         NA     2 0.874 0.987
+#>  3     1              1        0          4     NA         NA     3 0.881 0.985
+#>  4     1              1        0          4     NA         NA     4 0.871 0.984
+#>  5     1              1        0          4     NA         NA     5 0.867 0.985
+#>  6     1              1        0          4     NA         NA     6 0.847 0.984
+#>  7     1              1        0          4     NA         NA     7 0.856 0.985
+#>  8     1              1        0          4     NA         NA     8 0.847 0.982
+#>  9     1              1        0          4     NA         NA     9 0.876 0.985
+#> 10     1              1        0          4     NA         NA    10 0.835 0.983
 #> # ℹ 6,990 more rows
 
 # use posterior::rvar for additional efficiency
-# equivalent to `add_roc1_draws(newdata, example_model)`
-roc1_rvars(example_model, newdata)
+# equivalent to `add_roc1_draws(newdata, example_model())`
+roc1_rvars(example_model(), newdata)
 #> # A tibble: 7 × 6
 #> # Groups:   .row, joint_response, response, confidence [7]
 #>    .row joint_response response confidence            p_fa          p_hit
 #>   <int>          <int>    <int>      <dbl>      <rvar[1d]>     <rvar[1d]>
-#> 1     1              1        0          4  0.812 ± 0.0165  0.98 ± 0.0044
-#> 2     1              2        0          3  0.664 ± 0.0201  0.93 ± 0.0086
-#> 3     1              3        0          2  0.484 ± 0.0211  0.84 ± 0.0141
-#> 4     1              4        0          1  0.299 ± 0.0207  0.69 ± 0.0209
-#> 5     1              5        1          1  0.157 ± 0.0136  0.52 ± 0.0211
-#> 6     1              6        1          2  0.059 ± 0.0079  0.31 ± 0.0196
-#> 7     1              7        1          3  0.019 ± 0.0039  0.16 ± 0.0160
+#> 1     1              1        0          4  0.855 ± 0.0150  0.98 ± 0.0036
+#> 2     1              2        0          3  0.667 ± 0.0197  0.93 ± 0.0089
+#> 3     1              3        0          2  0.470 ± 0.0210  0.84 ± 0.0143
+#> 4     1              4        0          1  0.296 ± 0.0201  0.69 ± 0.0206
+#> 5     1              5        1          1  0.153 ± 0.0132  0.51 ± 0.0201
+#> 6     1              6        1          2  0.058 ± 0.0079  0.31 ± 0.0183
+#> 7     1              7        1          3  0.017 ± 0.0036  0.15 ± 0.0147
 
 # include the ROC bounds
-# equivalent to `add_roc1_draws(newdata, example_model, bounds = TRUE)`
-roc1_draws(example_model, newdata, bounds = TRUE)
+# equivalent to `add_roc1_draws(newdata, example_model(), bounds = TRUE)`
+roc1_draws(example_model(), newdata, bounds = TRUE)
 #> # A tibble: 9,000 × 9
 #> # Groups:   .row, joint_response, response, confidence [9]
 #>     .row joint_response response confidence .chain .iteration .draw  p_fa p_hit
@@ -144,4 +145,5 @@ roc1_draws(example_model, newdata, bounds = TRUE)
 #>  9     1              0        0          5     NA         NA     9     1     1
 #> 10     1              0        0          5     NA         NA    10     1     1
 #> # ℹ 8,990 more rows
+# }
 ```
