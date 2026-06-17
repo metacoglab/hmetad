@@ -3,7 +3,7 @@ template:
   bootstrap: 5
   light-switch: true
   math-rendering: katex
-  bootswatch: simplex
+  bootswatch: brite
   includes:
     in_header: |
       <meta name="google-site-verification" content="iiir4yUeAhnMJ1Li5Q7z796I_3JkBmSfwAaipMRMSOo" />
