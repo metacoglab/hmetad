@@ -34,6 +34,10 @@ type2_rvars(
 add_type2_rvars(newdata, object, ...)
 }
 \arguments{
+\item{object}{The \code{brms} model with the \code{metad} family}
+
+\item{newdata}{A data frame from which to generate posterior predictions}
+
 \item{...}{Additional arguments passed to \link[tidybayes:add_epred_draws]{tidybayes::add_epred_draws} or
 \link[tidybayes:add_epred_rvars]{tidybayes::add_epred_rvars}}
 

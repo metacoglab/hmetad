@@ -3,8 +3,7 @@
 #' Given a dataset `data`, determine the probability of each type 2 response,
 #' optionally conditional on stimulus and/or type 1 response.
 #'
-#' @param object The `brms` model with the `metad` family
-#' @param newdata A data frame from which to generate posterior predictions
+#' @param data The data frame to aggregate
 #' @param ... Grouping columns in `data`. These columns will be converted to
 #'   factors.
 #' @param .stimulus The name of "stimulus" column
@@ -101,6 +100,8 @@ type2_probabilities <- function(
 #'   `add_type2_rvars_metad`, parameters are returned as [posterior::rvar]s,
 #'   with one row per row in `newdata`.
 #'
+#' @param object The `brms` model with the `metad` family
+#' @param newdata A data frame from which to generate posterior predictions
 #' @param ... Additional arguments passed to [tidybayes::add_epred_draws] or
 #'   [tidybayes::add_epred_rvars]
 #' @param .stimulus The name of "stimulus" column

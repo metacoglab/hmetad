@@ -17,6 +17,8 @@ type2_probabilities(
 )
 }
 \arguments{
+\item{data}{The data frame to aggregate}
+
 \item{...}{Grouping columns in \code{data}. These columns will be converted to
 factors.}
 
@@ -37,10 +39,6 @@ probabilities conditional on stimulus.}
 
 \item{by_response}{If \code{TRUE} (default), calculate type 2 response
 probabilities conditional on type 1 response.}
-
-\item{object}{The \code{brms} model with the \code{metad} family}
-
-\item{newdata}{A data frame from which to generate posterior predictions}
 }
 \value{
 A tibble with columns:
