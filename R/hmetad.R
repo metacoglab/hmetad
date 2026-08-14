@@ -86,84 +86,12 @@ type1_response <- function(joint_response, K) {
 #' @rdname responses
 #' @export
 type2_response <- function(joint_response, K) {
-  joint_response <- as.integer(joint_response)
-  ifelse(joint_response > K,
-    joint_response - K,
-    K + 1 - joint_response
+  as.integer(
+    ifelse(joint_response > K,
+      joint_response - K,
+      K + 1 - joint_response
+    )
   )
-}
-
-#' Compute joint response probabilities from aggregated counts
-#'
-#' @param counts A vector (or matrix) of counts of joint type 1/type 2
-#' responses as provided by [aggregate_metad]
-#' @returns A vector (or matrix) of response probabilities \eqn{P(R, C \;\vert\; S)}
-#' @details
-#' For response \eqn{R}, confidence \eqn{C}, stimulus \eqn{S}, and number of
-#' confidence levels \eqn{K}, `counts` should be a vector (or matrix with rows)
-#' of the form:
-#' \deqn{
-#'  [N_{S=0, R=0, C=K}, \ldots, N_{S=0, R=0, C=1}, \\
-#'  N_{S=0, R=1, C=1}, \ldots, N_{S=0, R=1, C=K}, \\
-#'  N_{S=1, R=0, C=K}, \ldots, N_{S=1, R=0, C=1}, \\
-#'  N_{S=1, R=1, C=1}, \ldots, N_{S=1, R=1, C=K}] \\
-#' }{
-#' [N(R=0, C=K, S=0), ..., N(R=0, C=1, S=0),
-#'  N(R=1, C=1, S=0), ..., N(R=1, C=K, S=0),
-#'  N(R=0, C=K, S=1), ..., N(R=0, C=1, S=1),
-#'  N(R=1, C=1, S=1), ..., N(R=1, C=K, S=1)]
-#' }
-#'
-#'
-#' Returns a vector (or matrix with rows) of the form:
-#' \deqn{
-#' [P(R=0, C=K \;\vert\; S=0), ..., P(R=0, C=1 \;\vert\; S=0), \\
-#'  P(R=1, C=1 \;\vert\; S=0), ..., P(R=1, C=K \;\vert\; S=0), \\
-#'  P(R=0, C=K \;\vert\; S=1), ..., P(R=0, C=1 \;\vert\; S=1), \\
-#'  P(R=1, C=1 \;\vert\; S=1), ..., P(R=1, C=K \;\vert\; S=1)]
-#' }{
-#' [P(R=0, C=K | S=0), ..., P(R=0, C=1 | S=0),
-#'  P(R=1, C=1 | S=0), ..., P(R=1, C=K | S=0),
-#'  P(R=0, C=K | S=1), ..., P(R=0, C=1 | S=1),
-#'  P(R=1, C=1 | S=1), ..., P(R=1, C=K | S=1)]
-#' }
-#' @examples
-#' # Aggregate responses from simulated data
-#' d <- sim_metad() |> aggregate_metad()
-#'
-#' # Compute conditional response probabilities
-#' response_probabilities(d$N)
-#'
-#' # Also works on matrices
-#' matrix(rep(1, 16), nrow = 2) |> response_probabilities()
-#' @export
-response_probabilities <- function(counts) {
-  if (is.vector(counts)) {
-    if ((length(counts) %% 4) != 0) {
-      stop(paste0("Length of response counts should be divisible by 4, but is: ", length(counts)))
-    }
-
-    L <- length(counts) / 2
-
-    c(
-      counts[1:L] / sum(counts[1:L]),
-      counts[(L + 1):(2 * L)] / sum(counts[(L + 1):(2 * L)])
-    )
-  } else if (is.matrix(counts)) {
-    if ((ncol(counts) %% 4) != 0) {
-      stop(paste0("Length of response counts should be divisible by 4, but is: ", ncol(counts)))
-    }
-
-    L <- ncol(counts) / 2
-    cbind(
-      counts[, 1:L, drop = FALSE] /
-        rowSums(counts[, 1:L, drop = FALSE]),
-      counts[, (L + 1):(2 * L), drop = FALSE] /
-        rowSums(counts[, (L + 1):(2 * L), drop = FALSE])
-    )
-  } else {
-    stop(paste0("`counts` is of type '", class(counts), "', expected vector or matrix."))
-  }
 }
 
 #' Infer the number of confidence levels in aggregated or non-aggregated data
@@ -304,73 +232,15 @@ drop_na_message <- function(data, .col) {
   data
 }
 
-#' Aggregate `data` by `response`, `confidence`, and other columns
+#' Helper function to aggregate data by response, confidence, and grouping columns
+#' @description
+#' Same as `aggregate_metad`, except returns counts in long format
 #'
-#' Counts number of rows in `data` with unique combinations values in the
-#' columns `response`, `confidence`, and any other columns in `...`.
-#'
-#' @param data The data frame to aggregate
-#' @param ... Grouping columns in `data`. These columns will be converted to
-#'   factors.
-#' @param .stimulus The name of "stimulus" column
-#' @param .response The name of "response" column
-#' @param .confidence The name of "confidence" column
-#' @param .joint_response The name of "joint_response" column
-#' @param .name The name of the resulting column containing trial counts
-#' @param K The number of confidence levels in `data`. If `NULL`, this is
-#'   estimated from `data` using the maximum value of either the confidence
-#'   column or joint response column.
-#' @details The data frame `data` must have one column with the name given by
-#' `.stimulus`. Additionally, it must have either:
-#'   * Two columns with names given by `.response` and `.confidence`
-#'   * One column with the name given by `.joint_response`
-#'
-#' Finally, it must also have columns for any additional variables in `...`.
-#'
-#' @returns A tibble with one row per combination of the variables in `...`, and
-#'   another column named by the value of `.response` containing trial counts.
-#'   For \eqn{K} confidence levels, this will be an \eqn{N \times K*4} matrix,
-#'   such that the columns represent (for stimulus \eqn{S}, type 1 response
-#'   \eqn{R}, and type 2 response \eqn{C}):
-#' \deqn{
-#'  [N_{S=0, R=0, C=K}, \ldots, N_{S=0, R=0, C=1}, \\
-#'  N_{S=0, R=1, C=1}, \ldots, N_{S=0, R=1, C=K}, \\
-#'  N_{S=1, R=0, C=K}, \ldots, N_{S=1, R=0, C=1}, \\
-#'  N_{S=1, R=1, C=1}, \ldots, N_{S=1, R=1, C=K}] \\
-#' }{
-#' [N(R=0, C=K, S=0), ..., N(R=0, C=1, S=0),
-#'  N(R=1, C=1, S=0), ..., N(R=1, C=K, S=0),
-#'  N(R=0, C=K, S=1), ..., N(R=0, C=1, S=1),
-#'  N(R=1, C=1, S=1), ..., N(R=1, C=K, S=1)]
-#' }
-#' @examples
-#' # aggregate a dataset without grouping factors
-#' d <- sim_metad()
-#' aggregate_metad(d)
-#'
-#' # aggregate a dataset with grouping factors
-#' d2 <- sim_metad_condition()
-#' aggregate_metad(d2, condition)
-#'
-#' # can also aggregate ignoring grouping factors
-#' aggregate_metad(d2)
-#'
-#' # aggregate data with only `joint_response` column
-#' library(dplyr)
-#' d |>
-#'   ungroup() |>
-#'   mutate(joint_response = joint_response(
-#'     response, confidence,
-#'     max(as.integer(confidence))
-#'   )) |>
-#'   select(-response, -confidence) |>
-#'   aggregate_metad()
-#'
-#' @export
-aggregate_metad <- function(
+#' @keywords internal
+#' @noRd
+.aggregate_metad <- function(
   data, ..., .stimulus = "stimulus", .response = "response",
-  .confidence = "confidence", .joint_response = "joint_response",
-  .name = "N", K = NULL
+  .confidence = "confidence", .joint_response = "joint_response", K = NULL
 ) {
   # check for missing values
   data <- drop_na_message(data, .stimulus)
@@ -402,7 +272,7 @@ aggregate_metad <- function(
         data,
         aggregate = TRUE, categorical = FALSE,
         .stimulus = .stimulus, .response = .response, .confidence = .confidence,
-        .joint_response = .joint_response, .name = .name
+        .joint_response = .joint_response
       )
     }
 
@@ -430,16 +300,21 @@ aggregate_metad <- function(
       ))
     }
 
-    if (n_distinct(pull(data, .joint_response)) / 2 > K) {
+    # check number of confidence levels
+    if (!(.confidence %in% names(data))) {
+      data <- data |>
+        mutate("{.confidence}" := type2_response(!!sym(.joint_response), K))
+    }
+    if (n_distinct(pull(data, .confidence)) > K) {
       stop(paste0(
         'Number of confidence levels set to "K=', K,
-        '", but data has ', n_distinct(pull(data, .joint_response)) / 2,
+        '", but data has ', n_distinct(pull(data, .confidence)),
         " confidence levels"
       ))
-    } else if (n_distinct(pull(data, .joint_response)) / 2 < K) {
+    } else if (n_distinct(pull(data, .confidence)) < K) {
       warning(paste0(
         'Number of confidence levels set to "K=', K,
-        '", but data only has ', n_distinct(pull(data, .joint_response)) / 2,
+        '", but data only has ', n_distinct(pull(data, .confidence)),
         " unique confidence levels"
       ))
     }
@@ -465,7 +340,109 @@ aggregate_metad <- function(
     # aggregate data, filling in empty cells with zero
     data <- data |>
       count(!!sym(.stimulus), !!sym(.joint_response), ...) |>
-      tidyr::complete(expansion, fill = list(n = 0))
+      tidyr::complete(expansion, fill = list(n = 0)) |>
+      mutate(
+        "{.response}" := type1_response(!!sym(.joint_response), K),
+        "{.confidence}" := type2_response(!!sym(.joint_response), K)
+      ) |>
+      relocate(
+        ..., !!sym(.stimulus), !!sym(.response),
+        !!sym(.confidence), !!sym(.joint_response), n
+      )
+  }
+
+  data
+}
+
+#' Aggregate `data` by `response`, `confidence`, and other columns
+#'
+#' Counts number of rows in `data` with unique combinations values in the
+#' columns `response`, `confidence`, and any other columns in `...`.
+#'
+#' @param data The data frame to aggregate
+#' @param ... Grouping columns in `data`. These columns will be converted to
+#'   factors.
+#' @param .stimulus The name of "stimulus" column
+#' @param .response The name of "response" column
+#' @param .confidence The name of "confidence" column
+#' @param .joint_response The name of "joint_response" column
+#' @param .name The name of the resulting column containing trial counts
+#' @param K The number of confidence levels in `data`. If `NULL`, this is
+#'   estimated from `data` using the maximum value of either the confidence
+#'   column or joint response column.
+#' @param pivot_longer If `FALSE` (default), return aggregated data as a single
+#'   matrix column. Otherwise, return aggregated data in a tidy long format.
+#' @details The data frame `data` must have one column with the name given by
+#'   `.stimulus`. Additionally, it must have either:
+#'   * Two columns with names given by `.response` and `.confidence`
+#'   * One column with the name given by `.joint_response`
+#'
+#'   Finally, it must also have columns for any additional variables in `...`.
+#'
+#' @returns A tibble with one row per combination of the variables in `...`, and
+#'   another column named by the value of `.response` containing trial counts.
+#'   For \eqn{K} confidence levels, this will be an \eqn{N \times K*4} matrix,
+#'   such that the columns represent (for stimulus \eqn{S}, type 1 response
+#'   \eqn{R}, and type 2 response \eqn{C}):
+#' \deqn{
+#'  [N_{S=0, R=0, C=K}, \ldots, N_{S=0, R=0, C=1}, \\
+#'  N_{S=0, R=1, C=1}, \ldots, N_{S=0, R=1, C=K}, \\
+#'  N_{S=1, R=0, C=K}, \ldots, N_{S=1, R=0, C=1}, \\
+#'  N_{S=1, R=1, C=1}, \ldots, N_{S=1, R=1, C=K}] \\
+#' }{
+#' [N(R=0, C=K, S=0), ..., N(R=0, C=1, S=0),
+#'  N(R=1, C=1, S=0), ..., N(R=1, C=K, S=0),
+#'  N(R=0, C=K, S=1), ..., N(R=0, C=1, S=1),
+#'  N(R=1, C=1, S=1), ..., N(R=1, C=K, S=1)]
+#' }
+#'   If `pivot_longer=TRUE`, counts are stored in separate rows rather than as a
+#'   single matrix column.
+#' @examples
+#' # aggregate a dataset without grouping factors
+#' d <- sim_metad()
+#' aggregate_metad(d)
+#'
+#' # aggregate a dataset with grouping factors
+#' d2 <- sim_metad_condition()
+#' aggregate_metad(d2, condition)
+#'
+#' # can also aggregate ignoring grouping factors
+#' aggregate_metad(d2)
+#'
+#' # aggregate data with only `joint_response` column
+#' library(dplyr)
+#' d |>
+#'   ungroup() |>
+#'   mutate(joint_response = joint_response(
+#'     response, confidence,
+#'     max(as.integer(confidence))
+#'   )) |>
+#'   select(-response, -confidence) |>
+#'   aggregate_metad()
+#'
+#' @export
+aggregate_metad <- function(
+  data, ..., .stimulus = "stimulus", .response = "response",
+  .confidence = "confidence", .joint_response = "joint_response",
+  .name = "N", K = NULL, pivot_longer = FALSE
+) {
+  # aggregate data in long format
+  data <- .aggregate_metad(
+    data, ...,
+    .stimulus = .stimulus, .response = .response,
+    .confidence = .confidence, .joint_response = .joint_response, K = K
+  )
+
+  if (pivot_longer) {
+    return(data)
+  }
+
+  # remove type 1 and type 2 response columns
+  if (.response %in% names(data)) {
+    data <- select(data, -.response)
+  }
+  if (.confidence %in% names(data)) {
+    data <- select(data, -.confidence)
   }
 
   # convert data to wide format (one row per cell in ...)
@@ -548,6 +525,9 @@ aggregate_metad <- function(
 #' @param metac_absolute If `TRUE`, fix the type 2 criterion to be equal to the
 #'   type 1 criterion. Otherwise, equate the criteria relatively such that
 #'   metac/metadprime = c/dprime.
+#' @param allow_negative_values If `FALSE` (default), M-ratio is modeled on the
+#'   logarithmic scale to prevent negative values. If `TRUE`, M-ratio is modeled on the
+#'   identity scale which allows for `M <= 0`.
 #' @param stanvars Additional `stanvars` to pass to the model code, for example
 #'   to define an alternative distribution or a custom model prior (see
 #'   [brms::stanvar()]).
@@ -590,8 +570,8 @@ aggregate_metad <- function(
 fit_metad <- function(formula, data, ..., aggregate = TRUE,
                       .stimulus = "stimulus", .response = "response",
                       .confidence = "confidence", .joint_response = "joint_response",
-                      K = NULL,
-                      distribution = "normal", metac_absolute = TRUE, stanvars = NULL,
+                      K = NULL, distribution = "normal", metac_absolute = TRUE,
+                      allow_negative_values = FALSE, stanvars = NULL,
                       categorical = FALSE, logit = TRUE) {
   data.aggregated <- data
 
@@ -668,10 +648,12 @@ fit_metad <- function(formula, data, ..., aggregate = TRUE,
 
   ## convert the formula to use the metad family
   formula <- bf(formula,
-    family = metad(K,
+    family = metad(
+      K = K,
       distribution = distribution,
       metac_absolute = metac_absolute,
-      categorical = categorical
+      categorical = categorical,
+      allow_negative_values = allow_negative_values
     )
   )
 

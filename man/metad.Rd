@@ -4,7 +4,13 @@
 \alias{metad}
 \title{\code{brms} family for the metad' model}
 \usage{
-metad(K, distribution = "normal", metac_absolute = TRUE, categorical = FALSE)
+metad(
+  K,
+  distribution = "normal",
+  metac_absolute = TRUE,
+  categorical = FALSE,
+  allow_negative_values = FALSE
+)
 }
 \arguments{
 \item{K}{The number of confidence levels}
@@ -19,6 +25,10 @@ type 1 criterion. Otherwise, equate the criteria relatively such that
 \item{categorical}{If \code{FALSE} (default), use the multinomial likelihood over
 aggregated data. If \code{TRUE}, use the categorical likelihood over individual
 trials.}
+
+\item{allow_negative_values}{If \code{FALSE} (default), M-ratio is modeled on the
+logarithmic scale to prevent negative values. If \code{TRUE}, M-ratio is modeled on the
+identity scale which allows for \code{M <= 0}.}
 }
 \value{
 A \code{brms} family for the metad' model with \eqn{K} confidence levels

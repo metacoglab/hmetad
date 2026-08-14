@@ -87,30 +87,32 @@ rmatrixnorm <- function(mu, L_sigma_rows, L_sigma_cols) {
 #' Simulate from the meta-d' model
 #'
 #' @description Generate a simulated dataset from the meta-d' model with
-#'   sensitivity `dprime`, response bias `c`, metacognitive efficiency `log_M`,
-#'   and distances between confidence thresholds `c2_0_diff` and `c2_1_diff`
-#'   (for the two responses).
+#'   sensitivity `dprime`, response bias `c`, metacognitive efficiency `M`, and
+#'   distances between confidence thresholds `c2_0_diff` and `c2_1_diff` (for
+#'   the two responses).
 #' @param N_trials Total number of trials to simulate. Half of these trials will
 #'   have `stimulus=0` and half will have `stimulus=1`.
 #' @param dprime The sensitivity of the signal detection agent to simulate
 #' @param c The response bias of the signal detection agent to simulate
-#' @param log_M The metacognitive efficiency of the agent on the logarithmic
-#'   scale, where `0` indicates optimal metacognitive sensitivity, negative
-#'   numbers indicate metacognitive inefficiency, and positive numbers indicate
-#'   metacognitive hyper-efficiency.
+#' @param M The metacognitive efficiency of the agent, where negative values
+#'   indicate below chance metacognitive sensitivity, `0` indicates an absence
+#'   of metacognitive sensitivity, values between `0` and `1` indicate
+#'   metacognitive inefficiency, 1` indicates optimal metacognitive sensitivity,
+#'   and values greater than `1` indicate metacognitive hyper-efficiency.
 #' @param c2_0_diff,c2_1_diff Distances between confidence thresholds for `"0"`
 #'   and `"1"` responses, such that `meta_c2_0 = meta_c - cumsum(c2_0_diff)` and
 #'   `meta_c2_1 = meta_c + cumsum(c2_1_diff)`.
 #' @param metac_absolute Determines how to fix the type 1 threshold for modeling
-#'   confidence ratings. If metac_absolute=TRUE, `meta_c = c`. Otherwise,
+#'   confidence ratings. If `metac_absolute=TRUE`, `meta_c = c`. Otherwise,
 #'   `meta_c = M * c`.
 #' @param summarize Aggregate the data?
-#' * If `FALSE`, returns a dataset with one row per observation.
+#' * If `summarize=FALSE`, returns a dataset with one row per observation.
 #' * If `summarize=TRUE`, returns an aggregated
 #'   dataset where `n` is the number of observations per response, accuracy, and
 #'   confidence level.
-#' @param lcdf,lccdf The log (complement) cumulative distribution function of the underlying signal
-#'   distribution. By default, uses a `normal(+/-dprime/2, 1)` distribution.
+#' @param lcdf,lccdf The log (complement) cumulative distribution function of
+#'   the underlying signal distribution. By default, uses a `normal(+/-dprime/2,
+#'   1)` distribution.
 #' @returns A simulated dataset of type 1 responses and confidence ratings, with
 #'   columns:
 #'   * `trial`: the simulated trial number
@@ -128,18 +130,18 @@ rmatrixnorm <- function(mu, L_sigma_rows, L_sigma_cols) {
 #' sim_metad(N_trials = 10000, summarize = TRUE)
 #' sim_metad(N_trials = 10, c2_0_diff = 1, c2_1_diff = 1)
 #' @export
-sim_metad <- function(N_trials = 100, dprime = 1, c = 0, log_M = 0,
-                      c2_0_diff = rep(.5, 3), c2_1_diff = rep(.5, 3),
+sim_metad <- function(N_trials = 100, dprime = 1, c = 0,
+                      M = 1, c2_0_diff = rep(.5, 3), c2_1_diff = rep(.5, 3),
                       metac_absolute = TRUE, summarize = FALSE,
                       lcdf = normal_lcdf, lccdf = normal_lccdf) {
   if (N_trials <= 0) {
     stop("Error: `N_trials` must be greater than 0.")
   }
   if (!all(
-    length(dprime) == 1, length(c) == 1, length(log_M) == 1,
-    is.numeric(dprime), is.numeric(c), is.numeric(log_M)
+    length(dprime) == 1, length(c) == 1, length(M) == 1,
+    is.numeric(dprime), is.numeric(c), is.numeric(M)
   )) {
-    stop("Error: `dprime`, `c`, and `log_M` must be single numbers.")
+    stop("Error: `dprime`, `c`, and `M` must be single numbers.")
   }
   if (!is.numeric(c2_0_diff) || !is.numeric(c2_1_diff) ||
     length(c2_0_diff) != length(c2_1_diff) ||
@@ -147,7 +149,6 @@ sim_metad <- function(N_trials = 100, dprime = 1, c = 0, log_M = 0,
     stop("Error: c2_0_diff and c2_1_diff must be positive vectors of the same length")
   }
 
-  M <- exp(log_M)
   meta_dprime <- M * dprime
   meta_c <- NULL
   if (metac_absolute) {
@@ -203,28 +204,30 @@ sim_metad <- function(N_trials = 100, dprime = 1, c = 0, log_M = 0,
 #' Simulate from the meta-d' model across separate conditions
 #' @description Generate a simulated dataset across separate conditions from the
 #'   meta-d' model with sensitivity `dprime`, response bias `c`, metacognitive
-#'   efficiency `log_M`, and distances between confidence thresholds `c2_0_diff`
-#'   and `c2_1_diff` (for the two responses).
+#'   efficiency `M`, and distances between confidence thresholds `c2_0_diff` and
+#'   `c2_1_diff` (for the two responses).
 #' @param N_trials Total number of trials to simulate. Half of these trials will
 #'   have `stimulus=0` and half will have `stimulus=1`.
 #' @param dprime The sensitivity of the signal detection agent to simulate
 #' @param c The response bias of the signal detection agent to simulate
-#' @param log_M The metacognitive efficiency of the agent on the logarithmic
-#'   scale, where `0` indicates optimal metacognitive sensitivity, negative
-#'   numbers indicate metacognitive inefficiency, and positive numbers indicate
-#'   metacognitive hyper-efficiency.
+#' @param M The metacognitive efficiency of the agent, where negative values
+#'   indicate below chance metacognitive sensitivity, `0` indicates an absence
+#'   of metacognitive sensitivity, values between `0` and `1` indicate
+#'   metacognitive inefficiency, 1` indicates optimal metacognitive sensitivity,
+#'   and values greater than `1` indicate metacognitive hyper-efficiency.
 #' @param c2_0_diff,c2_1_diff Distances between confidence thresholds for `"0"`
 #'   and `"1"` responses, such that `meta_c2_0 = meta_c - cumsum(c2_0_diff)` and
 #'   `meta_c2_1 = meta_c + cumsum(c2_1_diff)`.
 #' @param metac_absolute Determines how to fix the type 1 threshold for modeling
-#'   confidence ratings. If metac_absolute=TRUE, `meta_c = c`. Otherwise,
+#'   confidence ratings. If `metac_absolute=TRUE`, `meta_c = c`. Otherwise,
 #'   `meta_c = M * c`.
 #' @param summarize Aggregate the data? If `summarize=FALSE`, returns a dataset
 #'   with one row per observation. If `summarize=TRUE`, returns an aggregated
 #'   dataset where `n` is the number of observations per response, accuracy, and
 #'   confidence level.
-#' @param lcdf,lccdf The log (complement) cumulative distribution function of the underlying signal
-#'   distribution. By default, uses a `normal(+/-dprime/2, 1)` distribution.
+#' @param lcdf,lccdf The log (complement) cumulative distribution function of
+#'   the underlying signal distribution. By default, uses a `normal(+/-dprime/2,
+#'   1)` distribution.
 #' @returns A simulated dataset of type 1 responses and confidence ratings, with
 #'   columns:
 #'   * `trial`: the simulated trial number
@@ -243,7 +246,8 @@ sim_metad <- function(N_trials = 100, dprime = 1, c = 0, log_M = 0,
 #' sim_metad_condition(N_trials = 10000, summarize = TRUE)
 #' sim_metad_condition(N_trials = 10, c2_0_diff = list(1, .5), c2_1_diff = list(1, .5))
 #' @export
-sim_metad_condition <- function(N_trials = 100, dprime = rep(1, 2), c = rep(0, 2), log_M = rep(0, 2),
+sim_metad_condition <- function(N_trials = 100, dprime = rep(1, 2), c = rep(0, 2),
+                                M = rep(1, 2),
                                 c2_0_diff = list(rep(.5, 3), rep(.5, 3)),
                                 c2_1_diff = list(rep(.5, 3), rep(.5, 3)),
                                 metac_absolute = TRUE, summarize = FALSE,
@@ -252,12 +256,12 @@ sim_metad_condition <- function(N_trials = 100, dprime = rep(1, 2), c = rep(0, 2
 
   tibble(
     condition = seq_along(dprime),
-    dprime = dprime, c = c, log_M = log_M,
+    dprime = dprime, c = c, M = M,
     c2_0_diff = c2_0_diff, c2_1_diff = c2_1_diff
   ) |>
     mutate(data = purrr::pmap(
       list(
-        .data$dprime, .data$c, .data$log_M,
+        .data$dprime, .data$c, .data$M,
         .data$c2_0_diff, .data$c2_1_diff
       ),
       sim_metad,
@@ -274,32 +278,39 @@ sim_metad_condition <- function(N_trials = 100, dprime = rep(1, 2), c = rep(0, 2
 #'
 #' @description Generate a simulated dataset across participants from the
 #'   meta-d' model with sensitivity `dprime`, response bias `c`, metacognitive
-#'   efficiency `log_M`, and distances between confidence thresholds `c2_0_diff`
-#'   and `c2_1_diff` (for the two responses).
+#'   efficiency `M`, and distances between confidence thresholds `c2_0_diff` and
+#'   `c2_1_diff` (for the two responses).
 #' @param N_trials,N_participants Total number of participants and trials to
 #'   simulate per participant. Half of these trials will have `stimulus=0` and
 #'   half will have `stimulus=1`.
-#' @param mu_dprime,sd_dprime The mean and standard deviation of sensitivities
+#' @param mean_dprime,sd_dprime The mean and standard deviation of sensitivities
 #'   of the signal detection agents to simulate
-#' @param mu_c,sd_c The mean and standard deviation of response bias of the
+#' @param mean_c,sd_c The mean and standard deviation of response bias of the
 #'   signal detection agents to simulate
-#' @param mu_log_M,sd_log_M The mean and standard deviation of metacognitive
-#'   efficiency of the agents on the logarithmic scale, where `0` indicates
-#'   optimal metacognitive sensitivity, negative numbers indicate metacognitive
+#' @param mean_M,sd_M The mean and standard deviation of metacognitive efficiency
+#'   of the agents. If `allow_negative_values==TRUE` (default), M-ratio is
+#'   simulated on the logarithmic scale, where `0` indicates optimal
+#'   metacognitive sensitivity, negative numbers indicate metacognitive
 #'   inefficiency, and positive numbers indicate metacognitive hyper-efficiency.
-#' @param mu_z_c2_0,mu_z_c2_1 Mean distance between confidence thresholds for
+#'   Otherwise, M-ratio is modeled on its natural scale to allow negative
+#'   values.
+#' @param mean_z_c2_0,mean_z_c2_1 Mean distance between confidence thresholds for
 #'   `"0"` and `"1"` responses on the log_scale, such that `meta_c2_0 = meta_c -
 #'   cumulative_sum(exp(z_c2_0))` and `meta_c2_1 = meta_c +
 #'   cumulative_sum(exp(z_c2_1))`.
 #' @param sd_z_c2_0,sd_z_c2_1 SD of log distances between confidence thresholds
 #'   for `"0"` and `"1"` responses on the log_scale.
-#' @param r_z_c2_0,r_z_c2_1 Correlation of log distances between confidence thresholds
-#'   for `"0"` and `"1"` responses on the log_scale.
+#' @param r_z_c2_0,r_z_c2_1 Correlation of log distances between confidence
+#'   thresholds for `"0"` and `"1"` responses on the log_scale.
 #' @param metac_absolute Determines how to fix the type 1 threshold for modeling
-#'   confidence ratings. If metac_absolute=TRUE, `meta_c = c`. Otherwise,
+#'   confidence ratings. If `metac_absolute=TRUE`, `meta_c = c`. Otherwise,
 #'   `meta_c = M * c`.
-#' @param summarize Aggregate the data? If summarize=FALSE, returns a dataset
-#'   with one row per observation. If summarize=TRUE, returns an aggregated
+#' @param allow_negative_values If `allow_negative_values=FALSE` (default),
+#'   M-ratio is simulated using a normal distribution on the logarithmic scale
+#'   to prohibit negative values. If `allow_negative_values=TRUE`, then M-ratio
+#'   is simulated on its natural scale, allowing negative values.
+#' @param summarize Aggregate the data? If `summarize=FALSE`, returns a dataset
+#'   with one row per observation. If `summarize=TRUE`, returns an aggregated
 #'   dataset where `n` is the number of observations per response, accuracy, and
 #'   confidence level.
 #' @param lcdf The log cumulative distribution function of the underlying signal
@@ -322,39 +333,47 @@ sim_metad_condition <- function(N_trials = 100, dprime = rep(1, 2), c = rep(0, 2
 #'   possible value.
 #' @examples
 #' sim_metad_participant(N_participants = 10, N_trials = 10)
-#' sim_metad_participant(N_participants = 25, mu_dprime = 2, mu_log_M = -1)
+#' sim_metad_participant(N_participants = 25, mean_dprime = 2, mean_M = -1)
 #' @export
 sim_metad_participant <- function(N_participants = 100, N_trials = 100,
-                                  mu_dprime = 1, sd_dprime = .5, mu_c = 0, sd_c = .5,
-                                  mu_log_M = 0, sd_log_M = .5,
-                                  mu_z_c2_0 = rep(-1, 3), sd_z_c2_0 = rep(.1, 3), r_z_c2_0 = diag(3),
-                                  mu_z_c2_1 = rep(-1, 3), sd_z_c2_1 = rep(.1, 3), r_z_c2_1 = diag(3),
-                                  metac_absolute = TRUE, summarize = FALSE,
+                                  mean_dprime = 1, sd_dprime = .5, mean_c = 0, sd_c = .5,
+                                  mean_M = 0, sd_M = .5,
+                                  mean_z_c2_0 = rep(-1, 3), sd_z_c2_0 = rep(.1, 3), r_z_c2_0 = diag(3),
+                                  mean_z_c2_1 = rep(-1, 3), sd_z_c2_1 = rep(.1, 3), r_z_c2_1 = diag(3),
+                                  metac_absolute = TRUE, allow_negative_values = FALSE, summarize = FALSE,
                                   lcdf = normal_lcdf, lccdf = normal_lccdf) {
   check_installed("purrr", reason = "to use `purrr::map` and `purrr::pmap`")
 
-  tidyr::expand_grid(participant = 1:N_participants) |>
+  d <- tidyr::expand_grid(participant = 1:N_participants) |>
     mutate(
-      dprime = rnorm(n(), mu_dprime, sd_dprime),
-      c = rnorm(n(), mu_c, sd_c),
-      log_M = rnorm(n(), mu_log_M, sd_log_M),
+      dprime = rnorm(n(), mean_dprime, sd_dprime),
+      c = rnorm(n(), mean_c, sd_c),
+      M = rnorm(n(), mean_M, sd_M),
       c2_0_diff = purrr::map(
         .data$participant,
         ~ exp(rmulti_normal(1,
-          mu = mu_z_c2_0,
+          mu = mean_z_c2_0,
           Sigma = cov_matrix(sd_z_c2_0, r_z_c2_0)
         ))
       ),
       c2_1_diff = purrr::map(
         .data$participant,
         ~ exp(rmulti_normal(1,
-          mu = mu_z_c2_1,
+          mu = mean_z_c2_1,
           Sigma = cov_matrix(sd_z_c2_1, r_z_c2_1)
         ))
-      ),
+      )
+    )
+
+  if (!allow_negative_values) {
+    d$M <- exp(d$M)
+  }
+
+  d |>
+    mutate(
       data = purrr::pmap(
         list(
-          .data$dprime, .data$c, .data$log_M,
+          .data$dprime, .data$c, .data$M,
           .data$c2_0_diff, .data$c2_1_diff
         ),
         sim_metad,
@@ -371,22 +390,24 @@ sim_metad_participant <- function(N_participants = 100, N_trials = 100,
 #'
 #' @description Generate a simulated dataset across participants and conditions
 #'   from the meta-d' model with sensitivity `dprime`, response bias `c`,
-#'   metacognitive efficiency `log_M`, and distances between confidence
-#'   thresholds `c2_0_diff` and `c2_1_diff` (for the two responses).
+#'   metacognitive efficiency `M`, and distances between confidence thresholds
+#'   `c2_0_diff` and `c2_1_diff` (for the two responses).
 #' @param N_trials,N_participants Total number of participants and trials to
 #'   simulate per participant. Half of these trials will have `stimulus=0` and
 #'   half will have `stimulus=1`.
-#' @param mu_dprime,sd_dprime,r_dprime The mean, standard deviation, and
+#' @param mean_dprime,sd_dprime,r_dprime The mean, standard deviation, and
 #'   within-participant correlations of sensitivities of the signal detection
 #'   agents to simulate
-#' @param mu_c,sd_c,r_c The mean, standard deviation, and within-participant
+#' @param mean_c,sd_c,r_c The mean, standard deviation, and within-participant
 #'   correlations of response bias of the signal detection agents to simulate
-#' @param mu_log_M,sd_log_M,r_log_M The mean, standard deviation, and
-#'   within-participant correlations of metacognitive efficiency of the agents
-#'   on the logarithmic scale, where `0` indicates optimal metacognitive
-#'   sensitivity, negative numbers indicate metacognitive inefficiency, and
-#'   positive numbers indicate metacognitive hyper-efficiency.
-#' @param mu_z_c2_0,mu_z_c2_1 Mean distance between confidence thresholds for
+#' @param mean_M,sd_M,r_M The mean, standard deviation, and within-participant
+#'   correlations of metacognitive efficiency of the agents. If
+#'   `allow_negative_values==TRUE` (default), M-ratio is simulated on the
+#'   logarithmic scale, where `0` indicates optimal metacognitive sensitivity,
+#'   negative numbers indicate metacognitive inefficiency, and positive numbers
+#'   indicate metacognitive hyper-efficiency. Otherwise, M-ratio is modeled on
+#'   its natural scale to allow negative values.
+#' @param mean_z_c2_0,mean_z_c2_1 Mean distance between confidence thresholds for
 #'   `"0"` and `"1"` responses on the log_scale, such that `meta_c2_0 = meta_c -
 #'   cumulative_sum(exp(z_c2_0))` and `meta_c2_1 = meta_c +
 #'   cumulative_sum(exp(z_c2_1))`.
@@ -403,10 +424,14 @@ sim_metad_participant <- function(N_participants = 100, N_trials = 100,
 #'   levels of log distances between confidence thresholds for `"0"` and `"1"`
 #'   responses on the log_scale.
 #' @param metac_absolute Determines how to fix the type 1 threshold for modeling
-#'   confidence ratings. If metac_absolute=TRUE, `meta_c = c`. Otherwise,
+#'   confidence ratings. If `metac_absolute=TRUE`, `meta_c = c`. Otherwise,
 #'   `meta_c = M * c`.
-#' @param summarize Aggregate the data? If summarize=FALSE, returns a dataset
-#'   with one row per observation. If summarize=TRUE, returns an aggregated
+#' @param allow_negative_values If `allow_negative_values=FALSE` (default),
+#'   M-ratio is simulated using a normal distribution on the logarithmic scale
+#'   to prohibit negative values. If `allow_negative_values=TRUE`, then M-ratio
+#'   is simulated on its natural scale, allowing negative values.
+#' @param summarize Aggregate the data? If `summarize=FALSE`, returns a dataset
+#'   with one row per observation. If `summarize=TRUE`, returns an aggregated
 #'   dataset where `n` is the number of observations per response, accuracy, and
 #'   confidence level.
 #' @param lcdf The log cumulative distribution function of the underlying signal
@@ -431,50 +456,50 @@ sim_metad_participant <- function(N_participants = 100, N_trials = 100,
 #' @export
 sim_metad_participant_condition <-
   function(N_participants = 100, N_trials = 100,
-           mu_dprime = rep(1, 2), sd_dprime = rep(.5, 2), r_dprime = diag(2),
-           mu_c = rep(0, 2), sd_c = rep(.5, 2), r_c = diag(2),
-           mu_log_M = rep(0, 2), sd_log_M = rep(.5, 2), r_log_M = diag(2),
-           mu_z_c2_0 = matrix(rep(-1, 6), nrow = 3, ncol = 2),
+           mean_dprime = rep(1, 2), sd_dprime = rep(.5, 2), r_dprime = diag(2),
+           mean_c = rep(0, 2), sd_c = rep(.5, 2), r_c = diag(2),
+           mean_M = rep(0, 2), sd_M = rep(.5, 2), r_M = diag(2),
+           mean_z_c2_0 = matrix(rep(-1, 6), nrow = 3, ncol = 2),
            sd_z_c2_0_condition = rep(.1, 2), r_z_c2_0_condition = diag(2),
            sd_z_c2_0_confidence = rep(.1, 3), r_z_c2_0_confidence = diag(3),
-           mu_z_c2_1 = matrix(rep(-1, 6), nrow = 3, ncol = 2),
+           mean_z_c2_1 = matrix(rep(-1, 6), nrow = 3, ncol = 2),
            sd_z_c2_1_condition = rep(.1, 2), r_z_c2_1_condition = diag(2),
            sd_z_c2_1_confidence = rep(.1, 3), r_z_c2_1_confidence = diag(3),
-           metac_absolute = TRUE, summarize = FALSE,
+           metac_absolute = TRUE, allow_negative_values = FALSE, summarize = FALSE,
            lcdf = normal_lcdf, lccdf = normal_lccdf) {
     check_installed("purrr", reason = "to use `purrr::map_dbl`, `purrr::map` and `purrr::pmap`")
 
     ## calculate covariance matrices
     sigma_dprime <- cov_matrix(sd_dprime, r_dprime)
     sigma_c <- cov_matrix(sd_c, r_c)
-    sigma_log_M <- cov_matrix(sd_log_M, r_log_M)
+    sigma_M <- cov_matrix(sd_M, r_M)
     L_sigma_z_c2_0_condition <- chol(cov_matrix(sd_z_c2_0_condition, r_z_c2_0_condition))
     L_sigma_z_c2_0_confidence <- chol(cov_matrix(sd_z_c2_0_confidence, r_z_c2_0_confidence))
     L_sigma_z_c2_1_condition <- chol(cov_matrix(sd_z_c2_1_condition, r_z_c2_1_condition))
     L_sigma_z_c2_1_confidence <- chol(cov_matrix(sd_z_c2_1_confidence, r_z_c2_1_confidence))
 
-    tidyr::expand_grid(
+    d <- tidyr::expand_grid(
       participant = 1:N_participants,
-      condition = seq_along(mu_dprime)
+      condition = seq_along(mean_dprime)
     ) |>
       group_by(.data$participant) |>
       mutate(
         dprime = purrr::map_dbl(
           .data$condition, function(condition, d) d[, condition],
-          rmulti_normal(1, mu_dprime, sigma_dprime)
+          rmulti_normal(1, mean_dprime, sigma_dprime)
         ),
         c = purrr::map_dbl(
           .data$condition, function(condition, c) c[, condition],
-          rmulti_normal(1, mu_c, sigma_c)
+          rmulti_normal(1, mean_c, sigma_c)
         ),
-        log_M = purrr::map_dbl(
-          .data$condition, function(condition, log_m) log_m[, condition],
-          rmulti_normal(1, mu_log_M, sigma_log_M)
+        M = purrr::map_dbl(
+          .data$condition, function(condition, M) M[, condition],
+          rmulti_normal(1, mean_M, sigma_M)
         ),
         c2_0_diff = purrr::map(
           .data$condition, function(condition, c2) c2[, condition],
           exp(rmatrixnorm(
-            mu_z_c2_0,
+            mean_z_c2_0,
             L_sigma_z_c2_0_confidence,
             L_sigma_z_c2_0_condition
           ))
@@ -482,16 +507,22 @@ sim_metad_participant_condition <-
         c2_1_diff = purrr::map(
           .data$condition, function(condition, c2) c2[, condition],
           exp(rmatrixnorm(
-            mu_z_c2_1,
+            mean_z_c2_1,
             L_sigma_z_c2_1_confidence,
             L_sigma_z_c2_1_condition
           ))
         )
       ) |>
-      ungroup() |>
+      ungroup()
+
+    if (!allow_negative_values) {
+      d$M <- exp(d$M)
+    }
+
+    d |>
       mutate(data = purrr::pmap(
         list(
-          .data$dprime, .data$c, .data$log_M,
+          .data$dprime, .data$c, .data$M,
           .data$c2_0_diff, .data$c2_1_diff
         ),
         sim_metad,

@@ -14,6 +14,10 @@ export(add_roc1_draws)
 export(add_roc1_rvars)
 export(add_roc2_draws)
 export(add_roc2_rvars)
+export(add_type1_draws)
+export(add_type1_rvars)
+export(add_type2_draws)
+export(add_type2_rvars)
 export(aggregate_metad)
 export(cor_matrix)
 export(cov_matrix)
@@ -22,9 +26,11 @@ export(epred_rvars_metad)
 export(example_data)
 export(example_model)
 export(fit_metad)
+export(joint_probabilities)
 export(joint_response)
 export(linpred_draws_metad)
 export(linpred_rvars_metad)
+export(mean_confidence)
 export(mean_confidence_draws)
 export(mean_confidence_rvars)
 export(metac2_parameters)
@@ -36,10 +42,11 @@ export(normal_lccdf)
 export(normal_lcdf)
 export(predicted_draws_metad)
 export(predicted_rvars_metad)
-export(response_probabilities)
 export(rmatrixnorm)
+export(roc1)
 export(roc1_draws)
 export(roc1_rvars)
+export(roc2)
 export(roc2_draws)
 export(roc2_rvars)
 export(sim_metad)
@@ -49,22 +56,34 @@ export(sim_metad_participant_condition)
 export(stanvars_metad)
 export(to_signed)
 export(to_unsigned)
+export(type1_draws)
+export(type1_probabilities)
 export(type1_response)
+export(type1_rvars)
+export(type2_draws)
+export(type2_probabilities)
 export(type2_response)
+export(type2_rvars)
 import(dplyr)
 import(rlang)
-importFrom(brms,bf)
-importFrom(brms,brm)
-importFrom(brms,brmsterms)
-importFrom(brms,custom_family)
-importFrom(brms,get_dpar)
-importFrom(brms,rmulti_normal)
-importFrom(brms,stanvar)
+importFrom(brms,
+  bf,
+  brm,
+  brmsterms,
+  custom_family,
+  get_dpar,
+  rmulti_normal,
+  stanvar
+)
 importFrom(glue,glue)
-importFrom(posterior,rvar_ifelse)
-importFrom(posterior,rvar_mean)
-importFrom(posterior,rvar_sum)
-importFrom(stats,dmultinom)
-importFrom(stats,pnorm)
-importFrom(stats,rmultinom)
-importFrom(stats,rnorm)
+importFrom(posterior,
+  rvar_ifelse,
+  rvar_mean,
+  rvar_sum
+)
+importFrom(stats,
+  dmultinom,
+  pnorm,
+  rmultinom,
+  rnorm
+)

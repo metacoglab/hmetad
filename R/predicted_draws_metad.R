@@ -11,11 +11,15 @@
 #' @param newdata A data frame from which to generate posterior predictions
 #' @param ... Additional arguments passed to [tidybayes::add_predicted_draws] or
 #'   [tidybayes::add_predicted_rvars]
+#' @param .stimulus The name of "stimulus" column
+#' @param .response The name of "response" column
+#' @param .confidence The name of "confidence" column
+#' @param .joint_response The name of "joint_response" column
 #' @returns a tibble containing posterior draws of model parameters with the
 #'   following columns:
 #'  * `.row`: the row of `newdata`
 #'  * `.chain`, `.iteration`, `.draw`: for `predicted_draws_metad`, identifiers for the posterior sample
-#'  * `stimulus`, `joint_response`, `response`, `confidence`: identifiers for the response type
+#'  * `{.stimulus}`, `{.joint_response}`, `{.response}`, `{.confidence}`: identifiers for the response type
 #'  * `.prediction`: predicted type 1 and type 2 responses given the stimulus
 #' @examples
 #' \donttest{
@@ -32,7 +36,10 @@
 #' @rdname predicted_draws_metad
 #' @seealso [tidybayes::predicted_draws()], [tidybayes::predicted_rvars()]
 #' @export
-predicted_draws_metad <- function(object, newdata, ...) {
+predicted_draws_metad <- function(
+  object, newdata, ..., .stimulus = "stimulus", .response = "response",
+  .confidence = "confidence", .joint_response = "joint_response"
+) {
   if (object$family$family != "custom" ||
     !stringr::str_starts(object$family$name, "metad")) {
     stop("Model must use the `metad` family.")
@@ -42,11 +49,10 @@ predicted_draws_metad <- function(object, newdata, ...) {
   object <- tidybayes::recover_types(object)
 
   ## grouping columns
-  .stimulus <- get_stimulus(object)
+  .stimulus <- get_stimulus(object, .default = .stimulus)
   .cols <- names(newdata)
   .cols <- .cols[!(.cols %in% c(
-    ".row", .stimulus, "joint_response",
-    "response", "confidence"
+    ".row", .stimulus, .joint_response, .response, .confidence
   ))]
 
   if (get_ll(object) == "multinomial") {
@@ -54,30 +60,30 @@ predicted_draws_metad <- function(object, newdata, ...) {
       tidyr::separate_wider_delim(
         ".category",
         delim = "_",
-        names = c(NA, "stimulus", "joint_response")
+        names = c(NA, .stimulus, .joint_response)
       ) |>
       mutate(
-        stimulus = as.integer(.data$stimulus),
-        joint_response = as.integer(.data$joint_response),
+        "{.stimulus}" := as.integer(!!sym(.stimulus)),
+        "{.joint_response}" := as.integer(!!sym(.joint_response)),
       ) |>
       relocate(".prediction") |>
       ungroup()
 
     ## number of confidence levels
-    K <- as.integer(n_distinct(draws$joint_response) / 2)
+    K <- as.integer(n_distinct(pull(draws, .joint_response)) / 2)
 
     draws <- draws |>
       mutate(
-        response = type1_response(.data$joint_response, K),
-        confidence = type2_response(.data$joint_response, K)
+        "{.response}" := type1_response(!!sym(.joint_response), K),
+        "{.confidence}" := type2_response(!!sym(.joint_response), K)
       ) |>
       relocate(
-        ".row", !!!syms(.cols), "stimulus", "joint_response",
-        "response", "confidence"
+        ".row", !!!syms(.cols), .stimulus, .joint_response,
+        .response, .confidence
       ) |>
       group_by(
-        .data$.row, !!!syms(.cols), .data$stimulus, .data$joint_response,
-        .data$response, .data$confidence
+        .data$.row, !!!syms(.cols), !!sym(.stimulus), !!sym(.joint_response),
+        !!sym(.response), !!sym(.confidence)
       )
   } else {
     if (.stimulus %in% names(newdata)) {
@@ -96,16 +102,16 @@ predicted_draws_metad <- function(object, newdata, ...) {
     K <- as.integer(n_distinct(draws$.prediction) / 2)
 
     draws <- draws |>
-      rename(joint_response = .data$.prediction) |>
-      mutate(joint_response = as.integer(.data$joint_response)) |>
+      rename("{.joint_response}" := .data$.prediction) |>
+      mutate("{.joint_response}" := as.integer(!!sym(.joint_response))) |>
       ungroup() |>
       mutate(
-        response = type1_response(.data$joint_response, K),
-        confidence = type2_response(.data$joint_response, K)
+        "{.response}" := type1_response(!!sym(.joint_response), K),
+        "{.confidence}" := type2_response(!!sym(.joint_response), K)
       ) |>
       relocate(
-        ".row", !!!syms(.cols), !!sym(.stimulus), "joint_response",
-        "response", "confidence"
+        ".row", !!!syms(.cols), !!sym(.stimulus), .joint_response,
+        .response, .confidence
       ) |>
       group_by(.data$.row, !!!syms(.cols), !!sym(.stimulus))
   }
@@ -121,7 +127,10 @@ add_predicted_draws_metad <- function(newdata, object, ...) {
 
 #' @rdname predicted_draws_metad
 #' @export
-predicted_rvars_metad <- function(object, newdata, ...) {
+predicted_rvars_metad <- function(
+  object, newdata, ..., .stimulus = "stimulus", .response = "response",
+  .confidence = "confidence", .joint_response = "joint_response"
+) {
   if (object$family$family != "custom" ||
     !stringr::str_starts(object$family$name, "metad")) {
     stop("Model must use the `metad` family.")
@@ -131,11 +140,11 @@ predicted_rvars_metad <- function(object, newdata, ...) {
   object <- tidybayes::recover_types(object)
 
   ## grouping columns
-  .stimulus <- get_stimulus(object)
+  .stimulus <- get_stimulus(object, .default = .stimulus)
   .cols <- names(newdata)
   .cols <- .cols[!(.cols %in% c(
-    ".row", .stimulus, "joint_response",
-    "response", "confidence"
+    ".row", .stimulus, .joint_response,
+    .response, .confidence
   ))]
 
   draws <- NULL
@@ -147,29 +156,29 @@ predicted_rvars_metad <- function(object, newdata, ...) {
       tidyr::separate_wider_delim(
         ".category",
         delim = "_",
-        names = c(NA, "stimulus", "joint_response")
+        names = c(NA, .stimulus, .joint_response)
       ) |>
       mutate(
-        stimulus = as.integer(.data$stimulus),
-        joint_response = as.integer(.data$joint_response),
+        "{.stimulus}" := as.integer(!!sym(.stimulus)),
+        "{.joint_response}" := as.integer(!!sym(.joint_response)),
       ) |>
       relocate(".prediction")
 
     ## number of confidence levels
-    K <- as.integer(n_distinct(draws$joint_response) / 2)
+    K <- as.integer(n_distinct(pull(draws, .joint_response)) / 2)
 
     draws <- draws |>
       mutate(
-        response = type1_response(.data$joint_response, K),
-        confidence = type2_response(.data$joint_response, K)
+        "{.response}" := type1_response(!!sym(.joint_response), K),
+        "{.confidence}" := type2_response(!!sym(.joint_response), K)
       ) |>
       relocate(
-        ".row", !!!syms(.cols), "stimulus", "joint_response",
-        "response", "confidence"
+        ".row", !!!syms(.cols), .stimulus, .joint_response,
+        .response, .confidence
       ) |>
       group_by(
-        .data$.row, !!!syms(.cols), .data$stimulus, .data$joint_response,
-        .data$response, .data$confidence
+        .data$.row, !!!syms(.cols), !!sym(.stimulus), !!sym(.joint_response),
+        !!sym(.response), !!sym(.confidence)
       )
   } else {
     if (.stimulus %in% names(newdata)) {
@@ -188,13 +197,13 @@ predicted_rvars_metad <- function(object, newdata, ...) {
     K <- as.integer(max(draws$.prediction)[1] / 2)
 
     draws <- draws |>
-      rename(joint_response = .data$.prediction) |>
+      rename("{.joint_response}" := .data$.prediction) |>
       mutate(
-        response = joint_response > K,
-        confidence = rvar_ifelse(
-          joint_response > K,
-          joint_response - K,
-          K + 1 - joint_response
+        "{.response}" := !!sym(.joint_response) > K,
+        "{.confidence}" := rvar_ifelse(
+          !!sym(.joint_response) > K,
+          !!sym(.joint_response) - K,
+          K + 1 - !!sym(.joint_response)
         )
       ) |>
       relocate(".row", !!!syms(.cols), !!sym(.stimulus)) |>

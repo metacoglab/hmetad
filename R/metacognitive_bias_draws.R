@@ -28,6 +28,7 @@ metacognitive_bias <- function(..., rvar = FALSE) {
 #' @param object The `brms` model with the `metad` family
 #' @param newdata A data frame from which to generate posterior predictions
 #' @param ... Additional parameters passed to [tidybayes::epred_draws] or [tidybayes::epred_rvars]
+#' @param .response The name of "response" column
 #' @param by_response If `TRUE`, compute metacognitive bias separately for the
 #'   two type 1 responses. If `FALSE`, compute an un-weighted average of the two
 #'   measures.
@@ -35,7 +36,7 @@ metacognitive_bias <- function(..., rvar = FALSE) {
 #'   with the following columns:
 #'  * `.row`: the row of `newdata`
 #'  * `.chain`, `.iteration`, `.draw`: for `metacognitive_bias_draws` and `add_metacognitive_bias_draws`, identifiers for the posterior sample
-#'  * `response`: the type 1 response for perceived stimulus presence
+#'  * `{.response}`: the type 1 response for perceived stimulus presence
 #'  * `metacognitive_bias`: the distance between `meta_c` and the average of
 #'   the confidence criteria `meta_c2_{response}`.
 #' @rdname bias_draws
@@ -56,7 +57,7 @@ metacognitive_bias <- function(..., rvar = FALSE) {
 #' metacognitive_bias_rvars(example_model(), newdata, by_response = FALSE)
 #' }
 #' @export
-metacognitive_bias_draws <- function(object, newdata, ..., by_response = TRUE) {
+metacognitive_bias_draws <- function(object, newdata, ..., .response = "response", by_response = TRUE) {
   if (object$family$family != "custom" ||
     !stringr::str_starts(object$family$name, "metad")) {
     stop("Model must use the `metad` family.")
@@ -68,7 +69,7 @@ metacognitive_bias_draws <- function(object, newdata, ..., by_response = TRUE) {
   ## grouping columns
   .stimulus <- get_stimulus(object)
   .cols <- names(newdata)
-  .cols <- .cols[!(.cols %in% c(".row", .stimulus, ".draw", "response"))]
+  .cols <- .cols[!(.cols %in% c(".row", .stimulus, ".draw", .response))]
 
   ## set stimulus for categorical models (not used in linpred_draws)
   if (get_ll(object) == "categorical") {
@@ -85,19 +86,19 @@ metacognitive_bias_draws <- function(object, newdata, ..., by_response = TRUE) {
       ".chain", ".iteration", ".draw", starts_with("metac2")
     ) |>
     tidyr::pivot_longer(starts_with("metac2"),
-      names_to = c("response", "confidence"),
+      names_to = c(.response, "confidence"),
       names_pattern = "metac2([[:alpha:]]*)([[:digit:]])diff"
     ) |>
-    mutate(response = as.integer(.data$response == "one")) |>
+    mutate("{.response}" := as.integer(!!sym(.response) == "one")) |>
     group_by(
-      .data$.row, !!!syms(.cols), .data$response,
+      .data$.row, !!!syms(.cols), !!sym(.response),
       .data$.chain, .data$.iteration, .data$.draw
     ) |>
     summarize(
       metacognitive_bias = metacognitive_bias(.data$value),
       .groups = "keep"
     ) |>
-    group_by(.data$.row, !!!syms(.cols), .data$response)
+    group_by(.data$.row, !!!syms(.cols), !!sym(.response))
 
   if (!by_response) {
     draws <- draws |>
@@ -124,7 +125,7 @@ add_metacognitive_bias_draws <- function(newdata, object, ...) {
 
 #' @rdname bias_draws
 #' @export
-metacognitive_bias_rvars <- function(object, newdata, ..., by_response = TRUE) {
+metacognitive_bias_rvars <- function(object, newdata, ..., .response = "response", by_response = TRUE) {
   if (object$family$family != "custom" ||
     !stringr::str_starts(object$family$name, "metad")) {
     stop("Model must use the `metad` family.")
@@ -157,11 +158,11 @@ metacognitive_bias_rvars <- function(object, newdata, ..., by_response = TRUE) {
     group_by(.data$.row, !!!syms(.cols)) |>
     select(".row", !!!syms(.cols), starts_with("metac2")) |>
     tidyr::pivot_longer(starts_with("metac2"),
-      names_to = c("response", "confidence"),
+      names_to = c(.response, "confidence"),
       names_pattern = "metac2([[:alpha:]]*)([[:digit:]])diff"
     ) |>
-    mutate(response = as.integer(.data$response == "one")) |>
-    group_by(.data$.row, !!!syms(.cols), .data$response) |>
+    mutate("{.response}" := as.integer(!!sym(.response) == "one")) |>
+    group_by(.data$.row, !!!syms(.cols), !!sym(.response)) |>
     summarize(
       metacognitive_bias = metacognitive_bias(.data$value, rvar = TRUE),
       .groups = "keep"

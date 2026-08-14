@@ -8,26 +8,27 @@ conditions}
 sim_metad_participant_condition(
   N_participants = 100,
   N_trials = 100,
-  mu_dprime = rep(1, 2),
+  mean_dprime = rep(1, 2),
   sd_dprime = rep(0.5, 2),
   r_dprime = diag(2),
-  mu_c = rep(0, 2),
+  mean_c = rep(0, 2),
   sd_c = rep(0.5, 2),
   r_c = diag(2),
-  mu_log_M = rep(0, 2),
-  sd_log_M = rep(0.5, 2),
-  r_log_M = diag(2),
-  mu_z_c2_0 = matrix(rep(-1, 6), nrow = 3, ncol = 2),
+  mean_M = rep(0, 2),
+  sd_M = rep(0.5, 2),
+  r_M = diag(2),
+  mean_z_c2_0 = matrix(rep(-1, 6), nrow = 3, ncol = 2),
   sd_z_c2_0_condition = rep(0.1, 2),
   r_z_c2_0_condition = diag(2),
   sd_z_c2_0_confidence = rep(0.1, 3),
   r_z_c2_0_confidence = diag(3),
-  mu_z_c2_1 = matrix(rep(-1, 6), nrow = 3, ncol = 2),
+  mean_z_c2_1 = matrix(rep(-1, 6), nrow = 3, ncol = 2),
   sd_z_c2_1_condition = rep(0.1, 2),
   r_z_c2_1_condition = diag(2),
   sd_z_c2_1_confidence = rep(0.1, 3),
   r_z_c2_1_confidence = diag(3),
   metac_absolute = TRUE,
+  allow_negative_values = FALSE,
   summarize = FALSE,
   lcdf = normal_lcdf,
   lccdf = normal_lccdf
@@ -38,20 +39,22 @@ sim_metad_participant_condition(
 simulate per participant. Half of these trials will have \code{stimulus=0} and
 half will have \code{stimulus=1}.}
 
-\item{mu_dprime, sd_dprime, r_dprime}{The mean, standard deviation, and
+\item{mean_dprime, sd_dprime, r_dprime}{The mean, standard deviation, and
 within-participant correlations of sensitivities of the signal detection
 agents to simulate}
 
-\item{mu_c, sd_c, r_c}{The mean, standard deviation, and within-participant
+\item{mean_c, sd_c, r_c}{The mean, standard deviation, and within-participant
 correlations of response bias of the signal detection agents to simulate}
 
-\item{mu_log_M, sd_log_M, r_log_M}{The mean, standard deviation, and
-within-participant correlations of metacognitive efficiency of the agents
-on the logarithmic scale, where \code{0} indicates optimal metacognitive
-sensitivity, negative numbers indicate metacognitive inefficiency, and
-positive numbers indicate metacognitive hyper-efficiency.}
+\item{mean_M, sd_M, r_M}{The mean, standard deviation, and within-participant
+correlations of metacognitive efficiency of the agents. If
+\code{allow_negative_values==TRUE} (default), M-ratio is simulated on the
+logarithmic scale, where \code{0} indicates optimal metacognitive sensitivity,
+negative numbers indicate metacognitive inefficiency, and positive numbers
+indicate metacognitive hyper-efficiency. Otherwise, M-ratio is modeled on
+its natural scale to allow negative values.}
 
-\item{mu_z_c2_0, mu_z_c2_1}{Mean distance between confidence thresholds for
+\item{mean_z_c2_0, mean_z_c2_1}{Mean distance between confidence thresholds for
 \code{"0"} and \code{"1"} responses on the log_scale, such that \code{meta_c2_0 = meta_c - cumulative_sum(exp(z_c2_0))} and \code{meta_c2_1 = meta_c + cumulative_sum(exp(z_c2_1))}.}
 
 \item{sd_z_c2_0_condition, sd_z_c2_1_condition}{SD of log distances across
@@ -71,11 +74,16 @@ levels of log distances between confidence thresholds for \code{"0"} and \code{"
 responses on the log_scale.}
 
 \item{metac_absolute}{Determines how to fix the type 1 threshold for modeling
-confidence ratings. If metac_absolute=TRUE, \code{meta_c = c}. Otherwise,
+confidence ratings. If \code{metac_absolute=TRUE}, \code{meta_c = c}. Otherwise,
 \code{meta_c = M * c}.}
 
-\item{summarize}{Aggregate the data? If summarize=FALSE, returns a dataset
-with one row per observation. If summarize=TRUE, returns an aggregated
+\item{allow_negative_values}{If \code{allow_negative_values=FALSE} (default),
+M-ratio is simulated using a normal distribution on the logarithmic scale
+to prohibit negative values. If \code{allow_negative_values=TRUE}, then M-ratio
+is simulated on its natural scale, allowing negative values.}
+
+\item{summarize}{Aggregate the data? If \code{summarize=FALSE}, returns a dataset
+with one row per observation. If \code{summarize=TRUE}, returns an aggregated
 dataset where \code{n} is the number of observations per response, accuracy, and
 confidence level.}
 
@@ -103,8 +111,8 @@ possible value.
 \description{
 Generate a simulated dataset across participants and conditions
 from the meta-d' model with sensitivity \code{dprime}, response bias \code{c},
-metacognitive efficiency \code{log_M}, and distances between confidence
-thresholds \code{c2_0_diff} and \code{c2_1_diff} (for the two responses).
+metacognitive efficiency \code{M}, and distances between confidence thresholds
+\code{c2_0_diff} and \code{c2_1_diff} (for the two responses).
 }
 \examples{
 sim_metad_participant_condition(10, 10)

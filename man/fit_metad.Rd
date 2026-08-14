@@ -16,6 +16,7 @@ fit_metad(
   K = NULL,
   distribution = "normal",
   metac_absolute = TRUE,
+  allow_negative_values = FALSE,
   stanvars = NULL,
   categorical = FALSE,
   logit = TRUE
@@ -61,6 +62,10 @@ model. By default, uses a normal distribution with a mean parameterized by
 \item{metac_absolute}{If \code{TRUE}, fix the type 2 criterion to be equal to the
 type 1 criterion. Otherwise, equate the criteria relatively such that
 metac/metadprime = c/dprime.}
+
+\item{allow_negative_values}{If \code{FALSE} (default), M-ratio is modeled on the
+logarithmic scale to prevent negative values. If \code{TRUE}, M-ratio is modeled on the
+identity scale which allows for \code{M <= 0}.}
 
 \item{stanvars}{Additional \code{stanvars} to pass to the model code, for example
 to define an alternative distribution or a custom model prior (see

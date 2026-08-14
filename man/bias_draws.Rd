@@ -7,11 +7,23 @@
 \alias{add_metacognitive_bias_rvars}
 \title{Obtain posterior draws of an index of metacognitive bias}
 \usage{
-metacognitive_bias_draws(object, newdata, ..., by_response = TRUE)
+metacognitive_bias_draws(
+  object,
+  newdata,
+  ...,
+  .response = "response",
+  by_response = TRUE
+)
 
 add_metacognitive_bias_draws(newdata, object, ...)
 
-metacognitive_bias_rvars(object, newdata, ..., by_response = TRUE)
+metacognitive_bias_rvars(
+  object,
+  newdata,
+  ...,
+  .response = "response",
+  by_response = TRUE
+)
 
 add_metacognitive_bias_rvars(newdata, object, ...)
 }
@@ -21,6 +33,8 @@ add_metacognitive_bias_rvars(newdata, object, ...)
 \item{newdata}{A data frame from which to generate posterior predictions}
 
 \item{...}{Additional parameters passed to \link[tidybayes:epred_draws]{tidybayes::epred_draws} or \link[tidybayes:epred_rvars]{tidybayes::epred_rvars}}
+
+\item{.response}{The name of "response" column}
 
 \item{by_response}{If \code{TRUE}, compute metacognitive bias separately for the
 two type 1 responses. If \code{FALSE}, compute an un-weighted average of the two
@@ -32,7 +46,7 @@ with the following columns:
 \itemize{
 \item \code{.row}: the row of \code{newdata}
 \item \code{.chain}, \code{.iteration}, \code{.draw}: for \code{metacognitive_bias_draws} and \code{add_metacognitive_bias_draws}, identifiers for the posterior sample
-\item \code{response}: the type 1 response for perceived stimulus presence
+\item \code{{.response}}: the type 1 response for perceived stimulus presence
 \item \code{metacognitive_bias}: the distance between \code{meta_c} and the average of
 the confidence criteria \verb{meta_c2_\{response\}}.
 }
