@@ -439,10 +439,10 @@ aggregate_metad <- function(
 
   # remove type 1 and type 2 response columns
   if (.response %in% names(data)) {
-    data <- select(data, -.response)
+    data <- select(data, -!!sym(.response))
   }
   if (.confidence %in% names(data)) {
-    data <- select(data, -.confidence)
+    data <- select(data, -!!sym(.confidence))
   }
 
   # convert data to wide format (one row per cell in ...)

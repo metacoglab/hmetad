@@ -57,7 +57,7 @@ roc1 <- function(
       K = K, by_stimulus = TRUE
     ) |>
     ungroup() |>
-    tidyr::pivot_wider(names_from = .stimulus, values_from = c("n", "p"))
+    tidyr::pivot_wider(names_from = !!sym(.stimulus), values_from = c("n", "p"))
 
   ## add in ROC bounds
   expansion <- NULL

@@ -78,8 +78,8 @@ predicted_draws_metad <- function(
         "{.confidence}" := type2_response(!!sym(.joint_response), K)
       ) |>
       relocate(
-        ".row", !!!syms(.cols), .stimulus, .joint_response,
-        .response, .confidence
+        ".row", !!!syms(.cols), !!sym(.stimulus), !!sym(.joint_response),
+        !!sym(.response), !!sym(.confidence)
       ) |>
       group_by(
         .data$.row, !!!syms(.cols), !!sym(.stimulus), !!sym(.joint_response),
@@ -173,8 +173,8 @@ predicted_rvars_metad <- function(
         "{.confidence}" := type2_response(!!sym(.joint_response), K)
       ) |>
       relocate(
-        ".row", !!!syms(.cols), .stimulus, .joint_response,
-        .response, .confidence
+        ".row", !!!syms(.cols), !!sym(.stimulus), !!sym(.joint_response),
+        !!sym(.response), !!sym(.confidence)
       ) |>
       group_by(
         .data$.row, !!!syms(.cols), !!sym(.stimulus), !!sym(.joint_response),
