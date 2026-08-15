@@ -243,10 +243,11 @@ get_ll <- function(model) {
 
 #' Get the stimulus variable in `model`
 #' @param model The `brms` model to get the variable for
+#' @param .default return this value for multinomial models
 #' @returns A character vector.
 #' @keywords internal
 #' @noRd
-get_stimulus <- function(model) {
+get_stimulus <- function(model, .default = "stimulus") {
   if (get_ll(model) == "categorical") {
     if (is.null(brmsterms(model$formula)$adforms$vint)) {
       stop("Error: couldn't find a 'stimulus' variable for categorical model")
@@ -255,7 +256,7 @@ get_stimulus <- function(model) {
     return(all.vars(brmsterms(model$formula)$adforms$vint)[1])
   }
 
-  "stimulus"
+  .default
 }
 
 #' Normal cumulative distribution functions
@@ -661,6 +662,9 @@ posterior_predict_metad <- function(i, prep, ...) {
 #' @param categorical If `FALSE` (default), use the multinomial likelihood over
 #'   aggregated data. If `TRUE`, use the categorical likelihood over individual
 #'   trials.
+#' @param allow_negative_values If `FALSE` (default), M-ratio is modeled on the
+#'   logarithmic scale to prevent negative values. If `TRUE`, M-ratio is modeled on the
+#'   identity scale which allows for `M <= 0`.
 #' @returns A `brms` family for the metad' model with \eqn{K} confidence levels
 #' @examples
 #' # create a family using the normal distribution and 3 levels of confidence
@@ -674,7 +678,7 @@ posterior_predict_metad <- function(i, prep, ...) {
 #' # in R and in Stan using [brms::stanvar()]
 #' metad(4, distribution = "gumbel_min")
 #' @export
-metad <- function(K, distribution = "normal", metac_absolute = TRUE, categorical = FALSE) {
+metad <- function(K, distribution = "normal", metac_absolute = TRUE, categorical = FALSE, allow_negative_values = FALSE) {
   k <- K - 1
 
   # if categorical=TRUE, use categorical likelihood with
@@ -684,6 +688,14 @@ metad <- function(K, distribution = "normal", metac_absolute = TRUE, categorical
   if (categorical) {
     vars <- "vint1[n]"
     specials <- "categorical"
+  }
+
+  # set link function and lower bounds for m-ratio
+  link <- "log"
+  lb <- 0
+  if (allow_negative_values) {
+    link <- "identity"
+    lb <- NA
   }
 
   custom_family(
@@ -696,8 +708,8 @@ metad <- function(K, distribution = "normal", metac_absolute = TRUE, categorical
       "mu", "dprime", "c", paste0("metac2zero", 1:k, "diff"),
       paste0("metac2one", 1:k, "diff")
     ),
-    links = c("log", "identity", "identity", rep("log", 2 * k)),
-    lb = c(0, NA, NA, rep(0, 2 * k)),
+    links = c(link, "identity", "identity", rep("log", 2 * k)),
+    lb = c(lb, NA, NA, rep(0, 2 * k)),
     type = "int",
     vars = vars, specials = specials,
     log_lik = log_lik_metad,

@@ -7,19 +7,20 @@
 sim_metad_participant(
   N_participants = 100,
   N_trials = 100,
-  mu_dprime = 1,
+  mean_dprime = 1,
   sd_dprime = 0.5,
-  mu_c = 0,
+  mean_c = 0,
   sd_c = 0.5,
-  mu_log_M = 0,
-  sd_log_M = 0.5,
-  mu_z_c2_0 = rep(-1, 3),
+  mean_M = 0,
+  sd_M = 0.5,
+  mean_z_c2_0 = rep(-1, 3),
   sd_z_c2_0 = rep(0.1, 3),
   r_z_c2_0 = diag(3),
-  mu_z_c2_1 = rep(-1, 3),
+  mean_z_c2_1 = rep(-1, 3),
   sd_z_c2_1 = rep(0.1, 3),
   r_z_c2_1 = diag(3),
   metac_absolute = TRUE,
+  allow_negative_values = FALSE,
   summarize = FALSE,
   lcdf = normal_lcdf,
   lccdf = normal_lccdf
@@ -30,32 +31,40 @@ sim_metad_participant(
 simulate per participant. Half of these trials will have \code{stimulus=0} and
 half will have \code{stimulus=1}.}
 
-\item{mu_dprime, sd_dprime}{The mean and standard deviation of sensitivities
+\item{mean_dprime, sd_dprime}{The mean and standard deviation of sensitivities
 of the signal detection agents to simulate}
 
-\item{mu_c, sd_c}{The mean and standard deviation of response bias of the
+\item{mean_c, sd_c}{The mean and standard deviation of response bias of the
 signal detection agents to simulate}
 
-\item{mu_log_M, sd_log_M}{The mean and standard deviation of metacognitive
-efficiency of the agents on the logarithmic scale, where \code{0} indicates
-optimal metacognitive sensitivity, negative numbers indicate metacognitive
-inefficiency, and positive numbers indicate metacognitive hyper-efficiency.}
+\item{mean_M, sd_M}{The mean and standard deviation of metacognitive efficiency
+of the agents. If \code{allow_negative_values==TRUE} (default), M-ratio is
+simulated on the logarithmic scale, where \code{0} indicates optimal
+metacognitive sensitivity, negative numbers indicate metacognitive
+inefficiency, and positive numbers indicate metacognitive hyper-efficiency.
+Otherwise, M-ratio is modeled on its natural scale to allow negative
+values.}
 
-\item{mu_z_c2_0, mu_z_c2_1}{Mean distance between confidence thresholds for
+\item{mean_z_c2_0, mean_z_c2_1}{Mean distance between confidence thresholds for
 \code{"0"} and \code{"1"} responses on the log_scale, such that \code{meta_c2_0 = meta_c - cumulative_sum(exp(z_c2_0))} and \code{meta_c2_1 = meta_c + cumulative_sum(exp(z_c2_1))}.}
 
 \item{sd_z_c2_0, sd_z_c2_1}{SD of log distances between confidence thresholds
 for \code{"0"} and \code{"1"} responses on the log_scale.}
 
-\item{r_z_c2_0, r_z_c2_1}{Correlation of log distances between confidence thresholds
-for \code{"0"} and \code{"1"} responses on the log_scale.}
+\item{r_z_c2_0, r_z_c2_1}{Correlation of log distances between confidence
+thresholds for \code{"0"} and \code{"1"} responses on the log_scale.}
 
 \item{metac_absolute}{Determines how to fix the type 1 threshold for modeling
-confidence ratings. If metac_absolute=TRUE, \code{meta_c = c}. Otherwise,
+confidence ratings. If \code{metac_absolute=TRUE}, \code{meta_c = c}. Otherwise,
 \code{meta_c = M * c}.}
 
-\item{summarize}{Aggregate the data? If summarize=FALSE, returns a dataset
-with one row per observation. If summarize=TRUE, returns an aggregated
+\item{allow_negative_values}{If \code{allow_negative_values=FALSE} (default),
+M-ratio is simulated using a normal distribution on the logarithmic scale
+to prohibit negative values. If \code{allow_negative_values=TRUE}, then M-ratio
+is simulated on its natural scale, allowing negative values.}
+
+\item{summarize}{Aggregate the data? If \code{summarize=FALSE}, returns a dataset
+with one row per observation. If \code{summarize=TRUE}, returns an aggregated
 dataset where \code{n} is the number of observations per response, accuracy, and
 confidence level.}
 
@@ -86,10 +95,10 @@ possible value.
 \description{
 Generate a simulated dataset across participants from the
 meta-d' model with sensitivity \code{dprime}, response bias \code{c}, metacognitive
-efficiency \code{log_M}, and distances between confidence thresholds \code{c2_0_diff}
-and \code{c2_1_diff} (for the two responses).
+efficiency \code{M}, and distances between confidence thresholds \code{c2_0_diff} and
+\code{c2_1_diff} (for the two responses).
 }
 \examples{
 sim_metad_participant(N_participants = 10, N_trials = 10)
-sim_metad_participant(N_participants = 25, mu_dprime = 2, mu_log_M = -1)
+sim_metad_participant(N_participants = 25, mean_dprime = 2, mean_M = -1)
 }

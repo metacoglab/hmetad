@@ -7,11 +7,27 @@
 \alias{add_epred_rvars_metad}
 \title{Obtain posterior draws of joint response probabilities}
 \usage{
-epred_draws_metad(object, newdata, ...)
+epred_draws_metad(
+  object,
+  newdata,
+  ...,
+  .stimulus = "stimulus",
+  .response = "response",
+  .confidence = "confidence",
+  .joint_response = "joint_response"
+)
 
 add_epred_draws_metad(newdata, object, ...)
 
-epred_rvars_metad(object, newdata, ...)
+epred_rvars_metad(
+  object,
+  newdata,
+  ...,
+  .stimulus = "stimulus",
+  .response = "response",
+  .confidence = "confidence",
+  .joint_response = "joint_response"
+)
 
 add_epred_rvars_metad(newdata, object, ...)
 }
@@ -22,6 +38,14 @@ add_epred_rvars_metad(newdata, object, ...)
 
 \item{...}{Additional arguments passed to \link[tidybayes:add_epred_draws]{tidybayes::add_epred_draws} or
 \link[tidybayes:add_epred_rvars]{tidybayes::add_epred_rvars}}
+
+\item{.stimulus}{The name of "stimulus" column}
+
+\item{.response}{The name of "response" column}
+
+\item{.confidence}{The name of "confidence" column}
+
+\item{.joint_response}{The name of "joint_response" column}
 }
 \value{
 a tibble containing posterior draws of model parameters with the
@@ -29,7 +53,7 @@ following columns:
 \itemize{
 \item \code{.row}: the row of \code{newdata}
 \item \code{.chain}, \code{.iteration}, \code{.draw}: for \code{epred_draws_metad}, identifiers for the posterior sample
-\item \code{stimulus}, \code{joint_response}, \code{response}, \code{confidence}: identifiers for the response type
+\item \code{{.stimulus}}, \code{{.joint_response}}, \code{{.response}}, \code{{.confidence}}: identifiers for the response type
 \item \code{.epred}: probability of the type 1 and type 2 response given the stimulus, \eqn{P(R, C \;\vert\; S)}
 }
 }
@@ -55,5 +79,6 @@ epred_rvars_metad(example_model(), newdata)
 }
 }
 \seealso{
-\code{\link[tidybayes:epred_draws]{tidybayes::epred_draws()}}, \code{\link[tidybayes:epred_rvars]{tidybayes::epred_rvars()}}
+\code{\link[=joint_probabilities]{joint_probabilities()}}, \code{\link[tidybayes:epred_draws]{tidybayes::epred_draws()}},
+\code{\link[tidybayes:epred_rvars]{tidybayes::epred_rvars()}}
 }

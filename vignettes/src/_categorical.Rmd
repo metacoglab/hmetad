@@ -122,7 +122,7 @@ aggregate_metad(d, participant, item)
 ```
 
 As you can see, the aggregated data set has `r nrow(aggregate_metad(d, participant, item))` rows (with two observations per row), which is not much smaller than the trial-level data that we started with! So, in this case, it will probably be easier *not* to aggregate our data. Nevertheless, there is nothing stopping us from fitting the model like normal:^[Note that in practice, fitting hierarchical models will usually require setting informed priors and adjusting the Stan sampler settings.]
-```{r multinomial_model}
+```{r multinomial_model, warning=FALSE, message=FALSE}
 # Priors are chosen arbitrarily for this example.
 # Please choose your own wisely!
 priors <- prior(normal(0, .25), class = Intercept) +
@@ -172,7 +172,7 @@ d
 
 ## Model fitting
 Now that we have our data, we can fit the trial-level model using `joint_response` as our response variable, `stimulus` as an extra variable passed to `brms`, and the argument `categorical=TRUE` to tell `fit_metad` not to aggregate the data:
-```{r model_fitting}
+```{r model_fitting, warning=FALSE, message=FALSE}
 m.categorical <- fit_metad(
   bf(
     joint_response | vint(stimulus) ~ 1 + (1 | participant) + (1 | item),

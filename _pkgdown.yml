@@ -37,8 +37,13 @@ reference:
     - joint_response
     - type1_response
     - type2_response
-    - response_probabilities
     - aggregate_metad
+    - type1_probabilities
+    - type2_probabilities
+    - joint_probabilities
+    - roc1
+    - roc2
+    - mean_confidence
 
   - title: Extracting model estimates
     desc: >
@@ -65,6 +70,14 @@ reference:
     - add_metacognitive_bias_draws
     - metacognitive_bias_rvars
     - add_metacognitive_bias_rvars
+    - type1_draws
+    - add_type1_draws
+    - type1_rvars
+    - add_type1_rvars
+    - type2_draws
+    - add_type2_draws
+    - type2_rvars
+    - add_type2_rvars
     - roc1_draws
     - add_roc1_draws
     - roc1_rvars

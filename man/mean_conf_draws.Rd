@@ -11,6 +11,8 @@ mean_confidence_draws(
   object,
   newdata,
   ...,
+  .stimulus = "stimulus",
+  .response = "response",
   by_stimulus = TRUE,
   by_response = TRUE,
   by_correct = FALSE
@@ -22,6 +24,8 @@ mean_confidence_rvars(
   object,
   newdata,
   ...,
+  .stimulus = "stimulus",
+  .response = "response",
   by_stimulus = TRUE,
   by_response = TRUE,
   by_correct = FALSE
@@ -36,6 +40,10 @@ add_mean_confidence_rvars(newdata, object, ...)
 
 \item{...}{Additional arguments to \link[tidybayes:epred_draws]{tidybayes::epred_draws} or
 \link[tidybayes:epred_rvars]{tidybayes::epred_rvars}}
+
+\item{.stimulus}{The name of "stimulus" column}
+
+\item{.response}{The name of "response" column}
 
 \item{by_stimulus}{If TRUE, predict mean confidence separately by stimulus.
 Otherwise, predict mean confidence averaging over stimuli. Ignored if
@@ -54,8 +62,8 @@ following columns:
 \itemize{
 \item \code{.row}: the row of \code{newdata}
 \item \code{.chain}, \code{.iteration}, \code{.draw}: for \code{mean_confidence_draws} and \code{add_mean_confidence_draws}, identifiers for the posterior sample
-\item \code{stimulus}: indicator for stimulus presence (if \code{by_stimulus==TRUE & by_correct==FALSE})
-\item \code{response}: indicator for type 1 response (if \code{by_response==TRUE & by_correct==FALSE})
+\item \code{{.stimulus}}: indicator for stimulus presence (if \code{by_stimulus==TRUE & by_correct==FALSE})
+\item \code{{.response}}: indicator for type 1 response (if \code{by_response==TRUE & by_correct==FALSE})
 \item \code{correct}: indicator for the accuracy of the type 1 response (if \code{by_correct==TRUE})
 \item \code{.epred}: the predicted mean confidence
 }
@@ -105,5 +113,5 @@ mean_confidence_rvars(example_model(), newdata)
 }
 }
 \seealso{
-\code{\link[tidybayes:epred_draws]{tidybayes::epred_draws()}}, \code{\link[tidybayes:epred_rvars]{tidybayes::epred_rvars()}}
+\code{\link[=mean_confidence]{mean_confidence()}}, \code{\link[tidybayes:epred_draws]{tidybayes::epred_draws()}}, \code{\link[tidybayes:epred_rvars]{tidybayes::epred_rvars()}}
 }

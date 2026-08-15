@@ -7,11 +7,27 @@
 \alias{add_predicted_rvars_metad}
 \title{Obtain posterior predictions of joint responses}
 \usage{
-predicted_draws_metad(object, newdata, ...)
+predicted_draws_metad(
+  object,
+  newdata,
+  ...,
+  .stimulus = "stimulus",
+  .response = "response",
+  .confidence = "confidence",
+  .joint_response = "joint_response"
+)
 
 add_predicted_draws_metad(newdata, object, ...)
 
-predicted_rvars_metad(object, newdata, ...)
+predicted_rvars_metad(
+  object,
+  newdata,
+  ...,
+  .stimulus = "stimulus",
+  .response = "response",
+  .confidence = "confidence",
+  .joint_response = "joint_response"
+)
 
 add_predicted_rvars_metad(newdata, object, ...)
 }
@@ -22,6 +38,14 @@ add_predicted_rvars_metad(newdata, object, ...)
 
 \item{...}{Additional arguments passed to \link[tidybayes:add_predicted_draws]{tidybayes::add_predicted_draws} or
 \link[tidybayes:add_predicted_rvars]{tidybayes::add_predicted_rvars}}
+
+\item{.stimulus}{The name of "stimulus" column}
+
+\item{.response}{The name of "response" column}
+
+\item{.confidence}{The name of "confidence" column}
+
+\item{.joint_response}{The name of "joint_response" column}
 }
 \value{
 a tibble containing posterior draws of model parameters with the
@@ -29,7 +53,7 @@ following columns:
 \itemize{
 \item \code{.row}: the row of \code{newdata}
 \item \code{.chain}, \code{.iteration}, \code{.draw}: for \code{predicted_draws_metad}, identifiers for the posterior sample
-\item \code{stimulus}, \code{joint_response}, \code{response}, \code{confidence}: identifiers for the response type
+\item \code{{.stimulus}}, \code{{.joint_response}}, \code{{.response}}, \code{{.confidence}}: identifiers for the response type
 \item \code{.prediction}: predicted type 1 and type 2 responses given the stimulus
 }
 }

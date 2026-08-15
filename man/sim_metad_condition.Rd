@@ -8,7 +8,7 @@ sim_metad_condition(
   N_trials = 100,
   dprime = rep(1, 2),
   c = rep(0, 2),
-  log_M = rep(0, 2),
+  M = rep(1, 2),
   c2_0_diff = list(rep(0.5, 3), rep(0.5, 3)),
   c2_1_diff = list(rep(0.5, 3), rep(0.5, 3)),
   metac_absolute = TRUE,
@@ -25,17 +25,17 @@ have \code{stimulus=0} and half will have \code{stimulus=1}.}
 
 \item{c}{The response bias of the signal detection agent to simulate}
 
-\item{log_M}{The metacognitive efficiency of the agent on the logarithmic
-scale, where \code{0} indicates optimal metacognitive sensitivity, negative
-numbers indicate metacognitive inefficiency, and positive numbers indicate
-metacognitive hyper-efficiency.}
+\item{M}{The metacognitive efficiency of the agent, where negative values
+indicate below chance metacognitive sensitivity, \code{0} indicates an absence
+of metacognitive sensitivity, values between \code{0} and \code{1} indicate
+metacognitive inefficiency, 1\verb{indicates optimal metacognitive sensitivity, and values greater than}1` indicate metacognitive hyper-efficiency.}
 
 \item{c2_0_diff, c2_1_diff}{Distances between confidence thresholds for \code{"0"}
 and \code{"1"} responses, such that \code{meta_c2_0 = meta_c - cumsum(c2_0_diff)} and
 \code{meta_c2_1 = meta_c + cumsum(c2_1_diff)}.}
 
 \item{metac_absolute}{Determines how to fix the type 1 threshold for modeling
-confidence ratings. If metac_absolute=TRUE, \code{meta_c = c}. Otherwise,
+confidence ratings. If \code{metac_absolute=TRUE}, \code{meta_c = c}. Otherwise,
 \code{meta_c = M * c}.}
 
 \item{summarize}{Aggregate the data? If \code{summarize=FALSE}, returns a dataset
@@ -43,8 +43,8 @@ with one row per observation. If \code{summarize=TRUE}, returns an aggregated
 dataset where \code{n} is the number of observations per response, accuracy, and
 confidence level.}
 
-\item{lcdf, lccdf}{The log (complement) cumulative distribution function of the underlying signal
-distribution. By default, uses a \verb{normal(+/-dprime/2, 1)} distribution.}
+\item{lcdf, lccdf}{The log (complement) cumulative distribution function of
+the underlying signal distribution. By default, uses a \verb{normal(+/-dprime/2, 1)} distribution.}
 }
 \value{
 A simulated dataset of type 1 responses and confidence ratings, with
@@ -66,8 +66,8 @@ possible value.
 \description{
 Generate a simulated dataset across separate conditions from the
 meta-d' model with sensitivity \code{dprime}, response bias \code{c}, metacognitive
-efficiency \code{log_M}, and distances between confidence thresholds \code{c2_0_diff}
-and \code{c2_1_diff} (for the two responses).
+efficiency \code{M}, and distances between confidence thresholds \code{c2_0_diff} and
+\code{c2_1_diff} (for the two responses).
 }
 \examples{
 sim_metad_condition(N_trials = 10)

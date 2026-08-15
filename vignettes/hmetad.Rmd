@@ -34,7 +34,7 @@ library(tidybayes)
 library(hmetad)
 
 d <- sim_metad(
-  N_trials = 1000, dprime = .75, c = -.5, log_M = -1,
+  N_trials = 1000, dprime = .75, c = -.5, M = .33,
   c2_0 = c(.25, .75, 1), c2_1 = c(.5, 1, 1.25)
 )
 ```
@@ -224,10 +224,9 @@ In this data frame, we have all of the columns from our aggregated data `d.summa
 draws.predicted |>
   group_by(.row, stimulus, joint_response, response, confidence) |>
   median_qi(.prediction) |>
-  group_by(.row) |>
-  mutate(N = t(d.summary$N[.row, ])) |>
+  left_join(joint_probabilities(d)) |>
   ggplot(aes(x = joint_response)) +
-  geom_col(aes(y = N), fill = "grey80") +
+  geom_col(aes(y = n), fill = "grey80") +
   geom_pointrange(aes(y = .prediction, ymin = .lower, ymax = .upper)) +
   facet_wrap(~stimulus, labeller = label_both) +
   theme_classic(18)
@@ -248,10 +247,9 @@ draws.epred
 draws.epred |>
   group_by(.row, stimulus, joint_response, response, confidence) |>
   median_qi(.epred) |>
-  group_by(.row) |>
-  mutate(.true = t(response_probabilities(d.summary$N[.row, ]))) |>
+  left_join(joint_probabilities(d)) |>
   ggplot(aes(x = joint_response)) +
-  geom_col(aes(y = .true), fill = "grey80") +
+  geom_col(aes(y = p), fill = "grey80") +
   geom_pointrange(aes(y = .epred, ymin = .lower, ymax = .upper)) +
   facet_wrap(~stimulus, labeller = label_both) +
   theme_classic(18)
@@ -264,9 +262,7 @@ One can also compute implied values of mean confidence from the meta-d' model us
 tibble(.row = 1) |>
   add_mean_confidence_draws(m) |>
   median_qi(.epred) |>
-  left_join(d |>
-    group_by(stimulus, response) |>
-    summarize(.true = mean(confidence)))
+  left_join(mean_confidence(d))
 ```
 Here, `.epred` refers to the model-estimated mean confidence per stimulus and response, and `.true` is the empirical mean confidence.
 
@@ -275,18 +271,14 @@ In addition, we can compute mean confidence marginalizing over stimuli:
 tibble(.row = 1) |>
   add_mean_confidence_draws(m, by_stimulus = FALSE) |>
   median_qi(.epred) |>
-  left_join(d |>
-    group_by(response) |>
-    summarize(.true = mean(confidence)))
+  left_join(mean_confidence(d, by_stimulus = FALSE))
 ```
 over responses:
 ```{r mean_confidence3}
 tibble(.row = 1) |>
   add_mean_confidence_draws(m, by_response = FALSE) |>
   median_qi(.epred) |>
-  left_join(d |>
-    group_by(stimulus) |>
-    summarize(.true = mean(confidence)))
+  left_join(mean_confidence(d, by_response = FALSE))
 ```
 
 or both over stimuli and responses:
@@ -294,9 +286,8 @@ or both over stimuli and responses:
 tibble(.row = 1) |>
   add_mean_confidence_draws(m, by_stimulus = FALSE, by_response = FALSE) |>
   median_qi(.epred) |>
-  bind_cols(d |>
-    ungroup() |>
-    summarize(.true = mean(confidence)))
+  left_join(mean_confidence(d, by_stimulus = FALSE, by_response = FALSE) |>
+    mutate(.row = 1))
 ```
 
 ### Metacognitive bias
@@ -340,6 +331,7 @@ draws.roc1 |>
   geom_errorbar(orientation = "y", width = .01) +
   geom_errorbar(orientation = "x", width = .01) +
   geom_line() +
+  geom_point(aes(x = p_fa, y = p_hit), data = roc1(d), inherit.aes = FALSE) +
   coord_fixed(xlim = 0:1, ylim = 0:1, expand = FALSE) +
   xlab("P(False Alarm)") +
   ylab("P(Hit)") +
@@ -372,6 +364,9 @@ draws.roc2 |>
   geom_errorbar(orientation = "y", width = .01) +
   geom_errorbar(orientation = "x", width = .01) +
   geom_line() +
+  geom_point(aes(x = p_fa2, y = p_hit2, color = response),
+    data = mutate(roc2(d), response = factor(response)), inherit.aes = FALSE
+  ) +
   coord_fixed(xlim = 0:1, ylim = 0:1, expand = FALSE) +
   xlab("P(Type 2 False Alarm)") +
   ylab("P(Type 2 Hit)") +

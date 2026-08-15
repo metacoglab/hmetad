@@ -188,7 +188,6 @@ linpred_rvars_metad <- function(object, newdata, ..., pivot_longer = FALSE) {
       ))
   }
 
-
   draws <- draws |>
     ungroup() |>
     select(-"diff") |>

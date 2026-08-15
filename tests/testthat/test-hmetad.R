@@ -40,15 +40,6 @@ test_that("type2_response works", {
   )
 })
 
-test_that("response_probabilities works", {
-  response_probabilities(rep(1, 8)) |>
-    expect_equal(rep(1 / 4, 8))
-
-  matrix(rep(1, 16), nrow = 2) |>
-    response_probabilities() |>
-    expect_equal(matrix(rep(1 / 4, 16), nrow = 2))
-})
-
 test_that("aggregate_metad works", {
   expect_equal(
     aggregate_metad(tibble(), K = 2),

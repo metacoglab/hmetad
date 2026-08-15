@@ -12,7 +12,8 @@ aggregate_metad(
   .confidence = "confidence",
   .joint_response = "joint_response",
   .name = "N",
-  K = NULL
+  K = NULL,
+  pivot_longer = FALSE
 )
 }
 \arguments{
@@ -34,6 +35,9 @@ factors.}
 \item{K}{The number of confidence levels in \code{data}. If \code{NULL}, this is
 estimated from \code{data} using the maximum value of either the confidence
 column or joint response column.}
+
+\item{pivot_longer}{If \code{FALSE} (default), return aggregated data as a single
+matrix column. Otherwise, return aggregated data in a tidy long format.}
 }
 \value{
 A tibble with one row per combination of the variables in \code{...}, and
@@ -52,6 +56,8 @@ such that the columns represent (for stimulus \eqn{S}, type 1 response
  N(R=0, C=K, S=1), ..., N(R=0, C=1, S=1),
  N(R=1, C=1, S=1), ..., N(R=1, C=K, S=1)]
 }
+If \code{pivot_longer=TRUE}, counts are stored in separate rows rather than as a
+single matrix column.
 }
 \description{
 Counts number of rows in \code{data} with unique combinations values in the
