@@ -1,9 +1,9 @@
 # Simulate from the meta-d' model
 
 Generate a simulated dataset from the meta-d' model with sensitivity
-`dprime`, response bias `c`, metacognitive efficiency `log_M`, and
-distances between confidence thresholds `c2_0_diff` and `c2_1_diff` (for
-the two responses).
+`dprime`, response bias `c`, metacognitive efficiency `M`, and distances
+between confidence thresholds `c2_0_diff` and `c2_1_diff` (for the two
+responses).
 
 ## Usage
 
@@ -12,7 +12,7 @@ sim_metad(
   N_trials = 100,
   dprime = 1,
   c = 0,
-  log_M = 0,
+  M = 1,
   c2_0_diff = rep(0.5, 3),
   c2_1_diff = rep(0.5, 3),
   metac_absolute = TRUE,
@@ -37,11 +37,13 @@ sim_metad(
 
   The response bias of the signal detection agent to simulate
 
-- log_M:
+- M:
 
-  The metacognitive efficiency of the agent on the logarithmic scale,
-  where `0` indicates optimal metacognitive sensitivity, negative
-  numbers indicate metacognitive inefficiency, and positive numbers
+  The metacognitive efficiency of the agent, where negative values
+  indicate below chance metacognitive sensitivity, `0` indicates an
+  absence of metacognitive sensitivity, values between `0` and `1`
+  indicate metacognitive inefficiency,
+  1`indicates optimal metacognitive sensitivity, and values greater than`1\`
   indicate metacognitive hyper-efficiency.
 
 - c2_0_diff, c2_1_diff:
@@ -53,14 +55,15 @@ sim_metad(
 - metac_absolute:
 
   Determines how to fix the type 1 threshold for modeling confidence
-  ratings. If metac_absolute=TRUE, `meta_c = c`. Otherwise,
+  ratings. If `metac_absolute=TRUE`, `meta_c = c`. Otherwise,
   `meta_c = M * c`.
 
 - summarize:
 
   Aggregate the data?
 
-  - If `FALSE`, returns a dataset with one row per observation.
+  - If `summarize=FALSE`, returns a dataset with one row per
+    observation.
 
   - If `summarize=TRUE`, returns an aggregated dataset where `n` is the
     number of observations per response, accuracy, and confidence level.
@@ -99,19 +102,19 @@ possible value.
 ``` r
 sim_metad(N_trials = 10)
 #> # A tibble: 10 × 14
-#> # Groups:   stimulus, response, confidence [9]
+#> # Groups:   stimulus, response, confidence [7]
 #>    trial stimulus response correct confidence dprime     c meta_dprime     M
 #>    <int>    <int>    <int>   <int>      <int>  <dbl> <dbl>       <dbl> <dbl>
 #>  1     1        0        0       1          1      1     0           1     1
-#>  2     2        0        0       1          2      1     0           1     1
-#>  3     3        0        0       1          3      1     0           1     1
-#>  4     4        0        1       0          1      1     0           1     1
-#>  5     5        0        1       0          2      1     0           1     1
-#>  6     1        1        0       0          4      1     0           1     1
-#>  7     2        1        1       1          2      1     0           1     1
+#>  2     2        0        0       1          1      1     0           1     1
+#>  3     3        0        0       1          2      1     0           1     1
+#>  4     4        0        0       1          3      1     0           1     1
+#>  5     5        0        1       0          1      1     0           1     1
+#>  6     1        1        0       0          1      1     0           1     1
+#>  7     2        1        1       1          1      1     0           1     1
 #>  8     3        1        1       1          2      1     0           1     1
-#>  9     4        1        1       1          3      1     0           1     1
-#> 10     5        1        1       1          4      1     0           1     1
+#>  9     4        1        1       1          2      1     0           1     1
+#> 10     5        1        1       1          2      1     0           1     1
 #> # ℹ 5 more variables: meta_c2_0 <list>, meta_c2_1 <list>, theta <dbl>,
 #> #   theta_1 <dbl>, theta_2 <dbl>
 sim_metad(N_trials = 10000, summarize = TRUE)
@@ -119,38 +122,38 @@ sim_metad(N_trials = 10000, summarize = TRUE)
 #> # Groups:   stimulus [2]
 #>    stimulus response correct confidence     n dprime     c meta_dprime     M
 #>       <int>    <int>   <int>      <int> <int>  <dbl> <dbl>       <dbl> <dbl>
-#>  1        0        0       1          1   915      1     0           1     1
-#>  2        0        0       1          2   933      1     0           1     1
-#>  3        0        0       1          3   800      1     0           1     1
-#>  4        0        0       1          4   834      1     0           1     1
-#>  5        0        1       0          1   740      1     0           1     1
-#>  6        0        1       0          2   453      1     0           1     1
-#>  7        0        1       0          3   229      1     0           1     1
-#>  8        0        1       0          4    96      1     0           1     1
-#>  9        1        0       0          1   740      1     0           1     1
-#> 10        1        0       0          2   447      1     0           1     1
-#> 11        1        0       0          3   206      1     0           1     1
-#> 12        1        0       0          4   115      1     0           1     1
-#> 13        1        1       1          1   936      1     0           1     1
-#> 14        1        1       1          2  1002      1     0           1     1
-#> 15        1        1       1          3   728      1     0           1     1
-#> 16        1        1       1          4   826      1     0           1     1
+#>  1        0        0       1          1   976      1     0           1     1
+#>  2        0        0       1          2   921      1     0           1     1
+#>  3        0        0       1          3   727      1     0           1     1
+#>  4        0        0       1          4   806      1     0           1     1
+#>  5        0        1       0          1   784      1     0           1     1
+#>  6        0        1       0          2   463      1     0           1     1
+#>  7        0        1       0          3   211      1     0           1     1
+#>  8        0        1       0          4   112      1     0           1     1
+#>  9        1        0       0          1   723      1     0           1     1
+#> 10        1        0       0          2   444      1     0           1     1
+#> 11        1        0       0          3   250      1     0           1     1
+#> 12        1        0       0          4   111      1     0           1     1
+#> 13        1        1       1          1   970      1     0           1     1
+#> 14        1        1       1          2   981      1     0           1     1
+#> 15        1        1       1          3   705      1     0           1     1
+#> 16        1        1       1          4   816      1     0           1     1
 #> # ℹ 5 more variables: meta_c2_0 <list>, meta_c2_1 <list>, theta <dbl>,
 #> #   theta_1 <dbl>, theta_2 <dbl>
 sim_metad(N_trials = 10, c2_0_diff = 1, c2_1_diff = 1)
 #> # A tibble: 10 × 14
-#> # Groups:   stimulus, response, confidence [8]
+#> # Groups:   stimulus, response, confidence [6]
 #>    trial stimulus response correct confidence dprime     c meta_dprime     M
 #>    <int>    <int>    <int>   <int>      <int>  <dbl> <dbl>       <dbl> <dbl>
 #>  1     1        0        0       1          1      1     0           1     1
-#>  2     2        0        0       1          1      1     0           1     1
+#>  2     2        0        0       1          2      1     0           1     1
 #>  3     3        0        0       1          2      1     0           1     1
 #>  4     4        0        1       0          1      1     0           1     1
-#>  5     5        0        1       0          2      1     0           1     1
+#>  5     5        0        1       0          1      1     0           1     1
 #>  6     1        1        0       0          1      1     0           1     1
-#>  7     2        1        0       0          2      1     0           1     1
+#>  7     2        1        0       0          1      1     0           1     1
 #>  8     3        1        1       1          1      1     0           1     1
-#>  9     4        1        1       1          1      1     0           1     1
+#>  9     4        1        1       1          2      1     0           1     1
 #> 10     5        1        1       1          2      1     0           1     1
 #> # ℹ 5 more variables: meta_c2_0 <list>, meta_c2_1 <list>, theta <dbl>,
 #> #   theta_1 <dbl>, theta_2 <dbl>

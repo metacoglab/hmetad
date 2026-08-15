@@ -19,6 +19,7 @@ fit_metad(
   K = NULL,
   distribution = "normal",
   metac_absolute = TRUE,
+  allow_negative_values = FALSE,
   stanvars = NULL,
   categorical = FALSE,
   logit = TRUE
@@ -91,6 +92,12 @@ fit_metad(
   criterion. Otherwise, equate the criteria relatively such that
   metac/metadprime = c/dprime.
 
+- allow_negative_values:
+
+  If `FALSE` (default), M-ratio is modeled on the logarithmic scale to
+  prevent negative values. If `TRUE`, M-ratio is modeled on the identity
+  scale which allows for `M <= 0`.
+
 - stanvars:
 
   Additional `stanvars` to pass to the model code, for example to define
@@ -153,8 +160,8 @@ fit_metad(N ~ 1, sim_metad())
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
 #> Chain 1: 
-#> Chain 1: Gradient evaluation took 2.1e-05 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.21 seconds.
+#> Chain 1: Gradient evaluation took 1.9e-05 seconds
+#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.19 seconds.
 #> Chain 1: Adjust your expectations accordingly!
 #> Chain 1: 
 #> Chain 1: 
@@ -171,9 +178,9 @@ fit_metad(N ~ 1, sim_metad())
 #> Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.116 seconds (Warm-up)
-#> Chain 1:                0.109 seconds (Sampling)
-#> Chain 1:                0.225 seconds (Total)
+#> Chain 1:  Elapsed Time: 0.119 seconds (Warm-up)
+#> Chain 1:                0.113 seconds (Sampling)
+#> Chain 1:                0.232 seconds (Total)
 #> Chain 1: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
@@ -196,9 +203,9 @@ fit_metad(N ~ 1, sim_metad())
 #> Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 2: 
-#> Chain 2:  Elapsed Time: 0.11 seconds (Warm-up)
-#> Chain 2:                0.11 seconds (Sampling)
-#> Chain 2:                0.22 seconds (Total)
+#> Chain 2:  Elapsed Time: 0.113 seconds (Warm-up)
+#> Chain 2:                0.113 seconds (Sampling)
+#> Chain 2:                0.226 seconds (Total)
 #> Chain 2: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
@@ -221,9 +228,9 @@ fit_metad(N ~ 1, sim_metad())
 #> Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 3: 
-#> Chain 3:  Elapsed Time: 0.113 seconds (Warm-up)
-#> Chain 3:                0.101 seconds (Sampling)
-#> Chain 3:                0.214 seconds (Total)
+#> Chain 3:  Elapsed Time: 0.116 seconds (Warm-up)
+#> Chain 3:                0.103 seconds (Sampling)
+#> Chain 3:                0.219 seconds (Total)
 #> Chain 3: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
@@ -246,9 +253,9 @@ fit_metad(N ~ 1, sim_metad())
 #> Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 4: 
-#> Chain 4:  Elapsed Time: 0.108 seconds (Warm-up)
-#> Chain 4:                0.117 seconds (Sampling)
-#> Chain 4:                0.225 seconds (Total)
+#> Chain 4:  Elapsed Time: 0.111 seconds (Warm-up)
+#> Chain 4:                0.12 seconds (Sampling)
+#> Chain 4:                0.231 seconds (Total)
 #> Chain 4: 
 #>  Family: metad__4__normal__absolute__multinomial 
 #>   Links: mu = log 
@@ -291,8 +298,8 @@ fit_metad(
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
 #> Chain 1: 
-#> Chain 1: Gradient evaluation took 3.9e-05 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.39 seconds.
+#> Chain 1: Gradient evaluation took 4e-05 seconds
+#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.4 seconds.
 #> Chain 1: Adjust your expectations accordingly!
 #> Chain 1: 
 #> Chain 1: 
@@ -309,9 +316,9 @@ fit_metad(
 #> Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.94 seconds (Warm-up)
-#> Chain 1:                1.866 seconds (Sampling)
-#> Chain 1:                2.806 seconds (Total)
+#> Chain 1:  Elapsed Time: 1.031 seconds (Warm-up)
+#> Chain 1:                2.047 seconds (Sampling)
+#> Chain 1:                3.078 seconds (Total)
 #> Chain 1: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
@@ -325,8 +332,8 @@ fit_metad(
 #> Chain 2:   Error evaluating the log probability at the initial value.
 #> Chain 2: Exception: Exception: multinomial_logit_lpmf: log-probabilities parameter[8] is -inf, but must be finite! (in 'anon_model', line 43, column 2 to line 46, column 66) (in 'anon_model', line 159, column 6 to column 200)
 #> Chain 2: 
-#> Chain 2: Gradient evaluation took 2.5e-05 seconds
-#> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.25 seconds.
+#> Chain 2: Gradient evaluation took 2.6e-05 seconds
+#> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.26 seconds.
 #> Chain 2: Adjust your expectations accordingly!
 #> Chain 2: 
 #> Chain 2: 
@@ -343,15 +350,15 @@ fit_metad(
 #> Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 2: 
-#> Chain 2:  Elapsed Time: 0.837 seconds (Warm-up)
-#> Chain 2:                1.882 seconds (Sampling)
-#> Chain 2:                2.719 seconds (Total)
+#> Chain 2:  Elapsed Time: 0.916 seconds (Warm-up)
+#> Chain 2:                2.061 seconds (Sampling)
+#> Chain 2:                2.977 seconds (Total)
 #> Chain 2: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
 #> Chain 3: 
-#> Chain 3: Gradient evaluation took 2.5e-05 seconds
-#> Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.25 seconds.
+#> Chain 3: Gradient evaluation took 2.6e-05 seconds
+#> Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.26 seconds.
 #> Chain 3: Adjust your expectations accordingly!
 #> Chain 3: 
 #> Chain 3: 
@@ -368,15 +375,15 @@ fit_metad(
 #> Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 3: 
-#> Chain 3:  Elapsed Time: 1.717 seconds (Warm-up)
-#> Chain 3:                1.905 seconds (Sampling)
-#> Chain 3:                3.622 seconds (Total)
+#> Chain 3:  Elapsed Time: 1.903 seconds (Warm-up)
+#> Chain 3:                2.067 seconds (Sampling)
+#> Chain 3:                3.97 seconds (Total)
 #> Chain 3: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
 #> Chain 4: 
-#> Chain 4: Gradient evaluation took 2.5e-05 seconds
-#> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.25 seconds.
+#> Chain 4: Gradient evaluation took 2.8e-05 seconds
+#> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.28 seconds.
 #> Chain 4: Adjust your expectations accordingly!
 #> Chain 4: 
 #> Chain 4: 
@@ -393,9 +400,9 @@ fit_metad(
 #> Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 4: 
-#> Chain 4:  Elapsed Time: 3.463 seconds (Warm-up)
-#> Chain 4:                1.82 seconds (Sampling)
-#> Chain 4:                5.283 seconds (Total)
+#> Chain 4:  Elapsed Time: 3.767 seconds (Warm-up)
+#> Chain 4:                1.988 seconds (Sampling)
+#> Chain 4:                5.755 seconds (Total)
 #> Chain 4: 
 #> Warning: There were 1 divergent transitions after warmup. See
 #> https://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup

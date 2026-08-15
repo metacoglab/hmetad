@@ -29,7 +29,7 @@ argument order swapped."><meta property="og:image" content="https://metacoglab.g
 
     <a class="navbar-brand me-2" href="../index.html">hmetad</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,6 +94,8 @@ argument order swapped.</p>
 <span>  <span class="va">object</span>,</span>
 <span>  <span class="va">newdata</span>,</span>
 <span>  <span class="va">...</span>,</span>
+<span>  .stimulus <span class="op">=</span> <span class="st">"stimulus"</span>,</span>
+<span>  .response <span class="op">=</span> <span class="st">"response"</span>,</span>
 <span>  by_stimulus <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  by_response <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  by_correct <span class="op">=</span> <span class="cn">FALSE</span></span>
@@ -105,6 +107,8 @@ argument order swapped.</p>
 <span>  <span class="va">object</span>,</span>
 <span>  <span class="va">newdata</span>,</span>
 <span>  <span class="va">...</span>,</span>
+<span>  .stimulus <span class="op">=</span> <span class="st">"stimulus"</span>,</span>
+<span>  .response <span class="op">=</span> <span class="st">"response"</span>,</span>
 <span>  by_stimulus <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  by_response <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  by_correct <span class="op">=</span> <span class="cn">FALSE</span></span>
@@ -130,6 +134,14 @@ argument order swapped.</p>
 <a href="https://mjskay.github.io/tidybayes/reference/add_predicted_rvars.html" class="external-link">tidybayes::epred_rvars</a></p></dd>
 
 
+<dt id="arg--stimulus">.stimulus<a class="anchor" aria-label="anchor" href="#arg--stimulus"></a></dt>
+<dd><p>The name of "stimulus" column</p></dd>
+
+
+<dt id="arg--response">.response<a class="anchor" aria-label="anchor" href="#arg--response"></a></dt>
+<dd><p>The name of "response" column</p></dd>
+
+
 <dt id="arg-by-stimulus">by_stimulus<a class="anchor" aria-label="anchor" href="#arg-by-stimulus"></a></dt>
 <dd><p>If TRUE, predict mean confidence separately by stimulus.
 Otherwise, predict mean confidence averaging over stimuli. Ignored if
@@ -152,14 +164,14 @@ incorrect responses.</p></dd>
     <p>a tibble containing posterior draws of mean confidence with the
 following columns:</p><ul><li><p><code>.row</code>: the row of <code>newdata</code></p></li>
 <li><p><code>.chain</code>, <code>.iteration</code>, <code>.draw</code>: for <code>mean_confidence_draws</code> and <code>add_mean_confidence_draws</code>, identifiers for the posterior sample</p></li>
-<li><p><code>stimulus</code>: indicator for stimulus presence (if <code>by_stimulus==TRUE &amp; by_correct==FALSE</code>)</p></li>
-<li><p><code>response</code>: indicator for type 1 response (if <code>by_response==TRUE &amp; by_correct==FALSE</code>)</p></li>
+<li><p><code>{.stimulus}</code>: indicator for stimulus presence (if <code>by_stimulus==TRUE &amp; by_correct==FALSE</code>)</p></li>
+<li><p><code>{.response}</code>: indicator for type 1 response (if <code>by_response==TRUE &amp; by_correct==FALSE</code>)</p></li>
 <li><p><code>correct</code>: indicator for the accuracy of the type 1 response (if <code>by_correct==TRUE</code>)</p></li>
 <li><p><code>.epred</code>: the predicted mean confidence</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html" class="external-link">tidybayes::epred_draws()</a></code>, <code><a href="https://mjskay.github.io/tidybayes/reference/add_predicted_rvars.html" class="external-link">tidybayes::epred_rvars()</a></code></p></div>
+    <div class="dont-index"><p><code><a href="mean_confidence.html">mean_confidence()</a></code>, <code><a href="https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html" class="external-link">tidybayes::epred_draws()</a></code>, <code><a href="https://mjskay.github.io/tidybayes/reference/add_predicted_rvars.html" class="external-link">tidybayes::epred_rvars()</a></code></p></div>
     </div>
 
     <div class="section level2">

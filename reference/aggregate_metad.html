@@ -9,7 +9,7 @@ columns response, confidence, and any other columns in ...."><meta property="og:
 
     <a class="navbar-brand me-2" href="../index.html">hmetad</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,7 +68,8 @@ columns <code>response</code>, <code>confidence</code>, and any other columns in
 <span>  .confidence <span class="op">=</span> <span class="st">"confidence"</span>,</span>
 <span>  .joint_response <span class="op">=</span> <span class="st">"joint_response"</span>,</span>
 <span>  .name <span class="op">=</span> <span class="st">"N"</span>,</span>
-<span>  K <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  K <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  pivot_longer <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -110,6 +111,11 @@ factors.</p></dd>
 estimated from <code>data</code> using the maximum value of either the confidence
 column or joint response column.</p></dd>
 
+
+<dt id="arg-pivot-longer">pivot_longer<a class="anchor" aria-label="anchor" href="#arg-pivot-longer"></a></dt>
+<dd><p>If <code>FALSE</code> (default), return aggregated data as a single
+matrix column. Otherwise, return aggregated data in a tidy long format.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -123,7 +129,9 @@ $$
  N_{S=0, R=1, C=1}, \ldots, N_{S=0, R=1, C=K}, \\
  N_{S=1, R=0, C=K}, \ldots, N_{S=1, R=0, C=1}, \\
  N_{S=1, R=1, C=1}, \ldots, N_{S=1, R=1, C=K}] \\
-$$</p>
+$$
+If <code>pivot_longer=TRUE</code>, counts are stored in separate rows rather than as a
+single matrix column.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>

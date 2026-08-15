@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">hmetad</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -309,11 +309,22 @@ are bounded.</p>
 <p>First, instead of fitting <span class="math inline">\textrm{meta-}d'</span> directly, the
 <code>hmetad</code> package models the <span class="math inline">M</span>-ratio <span class="math inline">M =
 \frac{\textrm{meta-}d'}{d'}</span>. While this parameterization
-helps regularize against strong differences between <span class="math inline">\textrm{meta-}d'</span> and <span class="math inline">d'</span>, the <span class="math inline">M</span>-ratio is still bounded by zero. So, the
-<code>hmetad</code> package models the <span class="math inline">M</span>-ratio on the logarithmic scale, i.e., <span class="math inline">\textrm{log }M =
+helps regularize against strong differences between <span class="math inline">\textrm{meta-}d'</span> and <span class="math inline">d'</span>, the <span class="math inline">M</span>-ratio is still typically bounded by zero.
+So, the <code>hmetad</code> package models the <span class="math inline">M</span>-ratio on the logarithmic scale, i.e., <span class="math inline">\textrm{log }M =
 \textrm{log}\frac{\textrm{meta-}d'}{d'}</span>. In this
 parameterization, one can compute <span class="math inline">\textrm{meta-}d'</span> as <span class="math inline">\textrm{meta-}d' = e^{\textrm{log
-}M}d'</span>.</p>
+}M}d'</span>. In principle, however, <span class="math inline">M</span>-ratio may negative values. This might occur
+for two reasons:</p>
+<ol style="list-style-type: decimal">
+<li>A participant has below-chance task performance (i.e., a negative d’
+value) but above-chance metacognitive sensitivity (i.e., positive
+meta-d’)</li>
+<li>A participant has above-chance task performance (i.e., positive d’)
+but below-chance metacognitive sensitivity (i.e., negative meta-d’)</li>
+</ol>
+<p>To allow for negative values of <span class="math inline">M</span>-ratio during model fitting, you can use the
+argument <code>allow_negative_values=TRUE</code>. This will model <span class="math inline">M</span>-ratio on the unbounded identity scale
+instead of the logarithmic scale (which is lower bounded at zero).</p>
 <p>Second, the confidence criteria <span class="math inline">\textrm{meta-}c_{2,1:K}^0</span> and <span class="math inline">\textrm{meta-}c_{2,1:K}^1</span> each have two
 constraints. Namely, <span class="math inline">\textrm{meta-}c_{2,1:K}^0</span> must be strictly
 decreasing and less than <span class="math inline">\textrm{meta-}c</span>, whereas <span class="math inline">\textrm{meta-}c_{2,1:K}^1</span> must be strictly

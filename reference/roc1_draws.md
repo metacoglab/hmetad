@@ -11,11 +11,27 @@ with one row per row in `newdata` and per joint response.
 ## Usage
 
 ``` r
-roc1_draws(object, newdata, ..., bounds = FALSE)
+roc1_draws(
+  object,
+  newdata,
+  ...,
+  .response = "response",
+  .confidence = "confidence",
+  .joint_response = "joint_response",
+  bounds = FALSE
+)
 
 add_roc1_draws(newdata, object, ...)
 
-roc1_rvars(object, newdata, ..., bounds = FALSE)
+roc1_rvars(
+  object,
+  newdata,
+  ...,
+  .response = "response",
+  .confidence = "confidence",
+  .joint_response = "joint_response",
+  bounds = FALSE
+)
 
 add_roc1_rvars(newdata, object, ...)
 ```
@@ -37,6 +53,18 @@ add_roc1_rvars(newdata, object, ...)
   or
   [tidybayes::epred_rvars](https://mjskay.github.io/tidybayes/reference/add_predicted_rvars.html)
 
+- .response:
+
+  The name of "response" column
+
+- .confidence:
+
+  The name of "confidence" column
+
+- .joint_response:
+
+  The name of "joint_response" column
+
 - bounds:
 
   If `TRUE`, include the endpoints of the ROC at \\(0, 0)\\ and \\(1,
@@ -52,13 +80,13 @@ following columns:
 - `.chain`, `.iteration`, `.draw`: for `roc1_draws` and
   `add_roc1_draws`, identifiers for the posterior sample
 
-- `joint_response`: the combined type 1 / type 2 response (\\J \in \[1,
-  2K\]\\) for \\K\\ confidence levels)
+- `{.joint_response}`: the combined type 1 / type 2 response (\\J \in
+  \[1, 2K\]\\) for \\K\\ confidence levels)
 
-- `response`: the type 1 response for perceived stimulus presence (\\R
-  \in \\0, 1\\\\)
+- `{.response}`: the type 1 response for perceived stimulus presence
+  (\\R \in \\0, 1\\\\)
 
-- `confidence`: the type 2 confidence response (\\C \in \[1, K\]\\)
+- `{.confidence}`: the type 2 confidence response (\\C \in \[1, K\]\\)
 
 - `p_fa`: the cumulative probability of a 'present'/'old' response for
   `stimulus==0` (\\P(J \ge j \\\vert\\ S=0)\\)
@@ -68,6 +96,7 @@ following columns:
 
 ## See also
 
+[`roc1()`](https://metacoglab.github.io/hmetad/reference/roc1.md),
 [`tidybayes::epred_draws()`](https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html),
 [`tidybayes::epred_rvars()`](https://mjskay.github.io/tidybayes/reference/add_predicted_rvars.html)
 
@@ -83,7 +112,7 @@ roc1_draws(example_model(), newdata)
 #> # A tibble: 7,000 × 9
 #> # Groups:   .row, joint_response, response, confidence [7]
 #>     .row joint_response response confidence .chain .iteration .draw  p_fa p_hit
-#>    <int>          <int>    <int>      <dbl>  <int>      <int> <int> <dbl> <dbl>
+#>    <int>          <int>    <int>      <int>  <int>      <int> <int> <dbl> <dbl>
 #>  1     1              1        0          4     NA         NA     1 0.836 0.982
 #>  2     1              1        0          4     NA         NA     2 0.874 0.987
 #>  3     1              1        0          4     NA         NA     3 0.881 0.985
@@ -99,7 +128,7 @@ add_roc1_draws(newdata, example_model())
 #> # A tibble: 7,000 × 9
 #> # Groups:   .row, joint_response, response, confidence [7]
 #>     .row joint_response response confidence .chain .iteration .draw  p_fa p_hit
-#>    <int>          <int>    <int>      <dbl>  <int>      <int> <int> <dbl> <dbl>
+#>    <int>          <int>    <int>      <int>  <int>      <int> <int> <dbl> <dbl>
 #>  1     1              1        0          4     NA         NA     1 0.836 0.982
 #>  2     1              1        0          4     NA         NA     2 0.874 0.987
 #>  3     1              1        0          4     NA         NA     3 0.881 0.985
@@ -118,7 +147,7 @@ roc1_rvars(example_model(), newdata)
 #> # A tibble: 7 × 6
 #> # Groups:   .row, joint_response, response, confidence [7]
 #>    .row joint_response response confidence            p_fa          p_hit
-#>   <int>          <int>    <int>      <dbl>      <rvar[1d]>     <rvar[1d]>
+#>   <int>          <int>    <int>      <int>      <rvar[1d]>     <rvar[1d]>
 #> 1     1              1        0          4  0.855 ± 0.0150  0.98 ± 0.0036
 #> 2     1              2        0          3  0.667 ± 0.0197  0.93 ± 0.0089
 #> 3     1              3        0          2  0.470 ± 0.0210  0.84 ± 0.0143
@@ -133,7 +162,7 @@ roc1_draws(example_model(), newdata, bounds = TRUE)
 #> # A tibble: 9,000 × 9
 #> # Groups:   .row, joint_response, response, confidence [9]
 #>     .row joint_response response confidence .chain .iteration .draw  p_fa p_hit
-#>    <int>          <dbl>    <dbl>      <dbl>  <int>      <int> <int> <dbl> <dbl>
+#>    <int>          <dbl>    <int>      <int>  <int>      <int> <int> <dbl> <dbl>
 #>  1     1              0        0          5     NA         NA     1     1     1
 #>  2     1              0        0          5     NA         NA     2     1     1
 #>  3     1              0        0          5     NA         NA     3     1     1

@@ -21,7 +21,7 @@ library(tidybayes)
 library(hmetad)
 
 d <- sim_metad(
-  N_trials = 1000, dprime = .75, c = -.5, log_M = -1,
+  N_trials = 1000, dprime = .75, c = -.5, M = .33,
   c2_0 = c(.25, .75, 1), c2_1 = c(.5, 1, 1.25)
 )
 ```
@@ -95,7 +95,7 @@ d.joint_response |>
   )
 #> # A tibble: 1,000 × 4
 #>    trial joint_response response confidence
-#>    <int>          <int>    <int>      <dbl>
+#>    <int>          <int>    <int>      <int>
 #>  1     1              4        0          1
 #>  2     2              4        0          1
 #>  3     3              4        0          1
@@ -173,7 +173,7 @@ d.summary <- aggregate_metad(d)
     #> # A tibble: 1 × 3
     #>     N_0   N_1 N[,"N_0_1"] [,"N_0_2"] [,"N_0_3"] [,"N_0_4"] [,"N_0_5"] [,"N_0_6"]
     #>   <int> <int>       <int>      <int>      <int>      <int>      <int>      <int>
-    #> 1   500   500           3         59        117         44         83        135
+    #> 1   500   500           2         58        118         44         82        135
     #> # ℹ 1 more variable: N[7:16] <int>
 
 The resulting data frame has three columns: `N_0` is the number of
@@ -192,7 +192,7 @@ aggregate_metad(d, .name = "y")
 #> # A tibble: 1 × 3
 #>     y_0   y_1 y[,"y_0_1"] [,"y_0_2"] [,"y_0_3"] [,"y_0_4"] [,"y_0_5"] [,"y_0_6"]
 #>   <int> <int>       <int>      <int>      <int>      <int>      <int>      <int>
-#> 1   500   500           3         59        117         44         83        135
+#> 1   500   500           2         58        118         44         82        135
 #> # ℹ 1 more variable: y[7:16] <int>
 ```
 
@@ -212,7 +212,7 @@ d |>
 #> # A tibble: 1 × 3
 #>     N_0   N_1 N[,"N_0_1"] [,"N_0_2"] [,"N_0_3"] [,"N_0_4"] [,"N_0_5"] [,"N_0_6"]
 #>   <int> <int>       <int>      <int>      <int>      <int>      <int>      <int>
-#> 1   500   500           3         59        117         44         83        135
+#> 1   500   500           2         58        118         44         82        135
 #> # ℹ 1 more variable: N[7:16] <int>
 ```
 
@@ -274,18 +274,18 @@ m <- fit_metad(N ~ 1,
     #> 
     #> Regression Coefficients:
     #>           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-    #> Intercept    -0.69      0.33    -1.43    -0.12 1.00     4446     2542
+    #> Intercept    -0.81      0.37    -1.62    -0.20 1.00     3631     2385
     #> 
     #> Further Distributional Parameters:
     #>                 Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-    #> dprime              0.71      0.09     0.54     0.88 1.00     6394     3014
-    #> c                  -0.49      0.04    -0.58    -0.41 1.00     4587     3335
-    #> metac2zero1diff     0.21      0.02     0.17     0.26 1.00     6569     2623
-    #> metac2zero2diff     0.78      0.06     0.68     0.90 1.00     6385     3291
-    #> metac2zero3diff     1.25      0.17     0.94     1.61 1.01     7202     2919
-    #> metac2one1diff      0.47      0.03     0.41     0.54 1.00     5110     3275
-    #> metac2one2diff      1.00      0.05     0.91     1.09 1.00     6801     3074
-    #> metac2one3diff      1.29      0.11     1.09     1.51 1.00     6541     3022
+    #> dprime              0.69      0.08     0.53     0.86 1.00     6672     3517
+    #> c                  -0.49      0.04    -0.57    -0.41 1.00     4155     3000
+    #> metac2zero1diff     0.21      0.02     0.16     0.26 1.00     6720     2726
+    #> metac2zero2diff     0.79      0.05     0.68     0.89 1.00     6138     3038
+    #> metac2zero3diff     1.34      0.19     1.00     1.75 1.00     5573     2602
+    #> metac2one1diff      0.47      0.03     0.41     0.54 1.00     4334     3111
+    #> metac2one2diff      0.99      0.05     0.90     1.08 1.00     6025     3504
+    #> metac2one3diff      1.29      0.11     1.09     1.50 1.00     7349     3113
     #> 
     #> Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
     #> and Tail_ESS are effective sample size measures, and Rhat is the potential
@@ -365,16 +365,16 @@ draws.metad <- tibble(.row = 1) |>
     #> # Groups:   .row [1]
     #>     .row .chain .iteration .draw     M dprime      c meta_dprime meta_c
     #>    <int>  <int>      <int> <int> <dbl>  <dbl>  <dbl>       <dbl>  <dbl>
-    #>  1     1     NA         NA     1 0.419  0.846 -0.536      0.355  -0.536
-    #>  2     1     NA         NA     2 0.650  0.625 -0.534      0.406  -0.534
-    #>  3     1     NA         NA     3 0.425  0.817 -0.480      0.347  -0.480
-    #>  4     1     NA         NA     4 0.652  0.611 -0.437      0.398  -0.437
-    #>  5     1     NA         NA     5 0.622  0.555 -0.494      0.345  -0.494
-    #>  6     1     NA         NA     6 0.655  0.654 -0.520      0.428  -0.520
-    #>  7     1     NA         NA     7 0.679  0.660 -0.493      0.448  -0.493
-    #>  8     1     NA         NA     8 0.656  0.711 -0.497      0.467  -0.497
-    #>  9     1     NA         NA     9 0.599  0.796 -0.426      0.477  -0.426
-    #> 10     1     NA         NA    10 0.175  0.557 -0.550      0.0973 -0.550
+    #>  1     1     NA         NA     1 0.397  0.590 -0.461       0.234 -0.461
+    #>  2     1     NA         NA     2 0.908  0.638 -0.431       0.579 -0.431
+    #>  3     1     NA         NA     3 0.292  0.781 -0.566       0.228 -0.566
+    #>  4     1     NA         NA     4 0.455  0.668 -0.413       0.304 -0.413
+    #>  5     1     NA         NA     5 0.520  0.685 -0.531       0.356 -0.531
+    #>  6     1     NA         NA     6 0.635  0.677 -0.537       0.430 -0.537
+    #>  7     1     NA         NA     7 0.287  0.742 -0.485       0.213 -0.485
+    #>  8     1     NA         NA     8 0.246  0.685 -0.596       0.168 -0.596
+    #>  9     1     NA         NA     9 0.231  0.821 -0.617       0.190 -0.617
+    #> 10     1     NA         NA    10 0.712  0.681 -0.467       0.485 -0.467
     #> # ℹ 3,990 more rows
     #> # ℹ 6 more variables: meta_c2_0_1 <dbl>, meta_c2_0_2 <dbl>, meta_c2_0_3 <dbl>,
     #> #   meta_c2_1_1 <dbl>, meta_c2_1_2 <dbl>, meta_c2_1_3 <dbl>
@@ -392,18 +392,18 @@ draws.metad <- tibble(.row = 1) |>
 
     #> # A tibble: 44,000 × 6
     #> # Groups:   .row, .variable [11]
-    #>     .row .chain .iteration .draw .variable   .value
-    #>    <int>  <int>      <int> <int> <chr>        <dbl>
-    #>  1     1     NA         NA     1 M            0.419
-    #>  2     1     NA         NA     1 dprime       0.846
-    #>  3     1     NA         NA     1 c           -0.536
-    #>  4     1     NA         NA     1 meta_dprime  0.355
-    #>  5     1     NA         NA     1 meta_c      -0.536
-    #>  6     1     NA         NA     1 meta_c2_0_1 -0.748
-    #>  7     1     NA         NA     1 meta_c2_0_2 -1.53 
-    #>  8     1     NA         NA     1 meta_c2_0_3 -2.97 
-    #>  9     1     NA         NA     1 meta_c2_1_1 -0.125
-    #> 10     1     NA         NA     1 meta_c2_1_2  0.937
+    #>     .row .chain .iteration .draw .variable     .value
+    #>    <int>  <int>      <int> <int> <chr>          <dbl>
+    #>  1     1     NA         NA     1 M            0.397  
+    #>  2     1     NA         NA     1 dprime       0.590  
+    #>  3     1     NA         NA     1 c           -0.461  
+    #>  4     1     NA         NA     1 meta_dprime  0.234  
+    #>  5     1     NA         NA     1 meta_c      -0.461  
+    #>  6     1     NA         NA     1 meta_c2_0_1 -0.709  
+    #>  7     1     NA         NA     1 meta_c2_0_2 -1.57   
+    #>  8     1     NA         NA     1 meta_c2_0_3 -2.97   
+    #>  9     1     NA         NA     1 meta_c2_1_1  0.00242
+    #> 10     1     NA         NA     1 meta_c2_1_2  1.03   
     #> # ℹ 43,990 more rows
 
 Now that all of the posterior samples are stored in a single column
@@ -415,19 +415,19 @@ e.g. [`tidybayes::median_qi`](https://mjskay.github.io/ggdist/reference/point_i
 draws.metad |>
   median_qi()
 #> # A tibble: 11 × 8
-#>     .row .variable    .value .lower  .upper .width .point .interval
-#>    <int> <chr>         <dbl>  <dbl>   <dbl>  <dbl> <chr>  <chr>    
-#>  1     1 c           -0.492  -0.579 -0.406    0.95 median qi       
-#>  2     1 dprime       0.707   0.545  0.878    0.95 median qi       
-#>  3     1 M            0.519   0.239  0.885    0.95 median qi       
-#>  4     1 meta_c      -0.492  -0.579 -0.406    0.95 median qi       
-#>  5     1 meta_c2_0_1 -0.706  -0.794 -0.616    0.95 median qi       
-#>  6     1 meta_c2_0_2 -1.49   -1.61  -1.37     0.95 median qi       
-#>  7     1 meta_c2_0_3 -2.72   -3.11  -2.42     0.95 median qi       
-#>  8     1 meta_c2_1_1 -0.0195 -0.102  0.0587   0.95 median qi       
-#>  9     1 meta_c2_1_2  0.978   0.884  1.07     0.95 median qi       
-#> 10     1 meta_c2_1_3  2.27    2.06   2.49     0.95 median qi       
-#> 11     1 meta_dprime  0.369   0.171  0.578    0.95 median qi
+#>     .row .variable    .value  .lower  .upper .width .point .interval
+#>    <int> <chr>         <dbl>   <dbl>   <dbl>  <dbl> <chr>  <chr>    
+#>  1     1 c           -0.492  -0.574  -0.409    0.95 median qi       
+#>  2     1 dprime       0.693   0.533   0.861    0.95 median qi       
+#>  3     1 M            0.459   0.198   0.815    0.95 median qi       
+#>  4     1 meta_c      -0.492  -0.574  -0.409    0.95 median qi       
+#>  5     1 meta_c2_0_1 -0.703  -0.789  -0.616    0.95 median qi       
+#>  6     1 meta_c2_0_2 -1.49   -1.61   -1.37     0.95 median qi       
+#>  7     1 meta_c2_0_3 -2.82   -3.24   -2.49     0.95 median qi       
+#>  8     1 meta_c2_1_1 -0.0210 -0.0997  0.0582   0.95 median qi       
+#>  9     1 meta_c2_1_2  0.972   0.878   1.07     0.95 median qi       
+#> 10     1 meta_c2_1_3  2.26    2.06    2.48     0.95 median qi       
+#> 11     1 meta_dprime  0.318   0.138   0.529    0.95 median qi
 ```
 
 ### Posterior predictions
@@ -447,17 +447,17 @@ draws.predicted <- predicted_draws_metad(m, d.summary)
     #> # Groups:   .row, N_0, N_1, N, stimulus, joint_response, response, confidence
     #> #   [16]
     #>     .row   N_0   N_1 N[,"N_0_1"] stimulus joint_response response confidence
-    #>    <int> <int> <int>       <int>    <int>          <int>    <int>      <dbl>
-    #>  1     1   500   500           3        0              1        0          4
-    #>  2     1   500   500           3        0              1        0          4
-    #>  3     1   500   500           3        0              1        0          4
-    #>  4     1   500   500           3        0              1        0          4
-    #>  5     1   500   500           3        0              1        0          4
-    #>  6     1   500   500           3        0              1        0          4
-    #>  7     1   500   500           3        0              1        0          4
-    #>  8     1   500   500           3        0              1        0          4
-    #>  9     1   500   500           3        0              1        0          4
-    #> 10     1   500   500           3        0              1        0          4
+    #>    <int> <int> <int>       <int>    <int>          <int>    <int>      <int>
+    #>  1     1   500   500           2        0              1        0          4
+    #>  2     1   500   500           2        0              1        0          4
+    #>  3     1   500   500           2        0              1        0          4
+    #>  4     1   500   500           2        0              1        0          4
+    #>  5     1   500   500           2        0              1        0          4
+    #>  6     1   500   500           2        0              1        0          4
+    #>  7     1   500   500           2        0              1        0          4
+    #>  8     1   500   500           2        0              1        0          4
+    #>  9     1   500   500           2        0              1        0          4
+    #> 10     1   500   500           2        0              1        0          4
     #> # ℹ 63,990 more rows
     #> # ℹ 5 more variables: N[2:16] <int>, .prediction <int>, .chain <int>,
     #> #   .iteration <int>, .draw <int>
@@ -474,15 +474,15 @@ error-bars) against the actual data (bars):
 draws.predicted |>
   group_by(.row, stimulus, joint_response, response, confidence) |>
   median_qi(.prediction) |>
-  group_by(.row) |>
-  mutate(N = t(d.summary$N[.row, ])) |>
+  left_join(joint_probabilities(d)) |>
   ggplot(aes(x = joint_response)) +
-  geom_col(aes(y = N), fill = "grey80") +
+  geom_col(aes(y = n), fill = "grey80") +
   geom_pointrange(aes(y = .prediction, ymin = .lower, ymax = .upper)) +
   facet_wrap(~stimulus, labeller = label_both) +
   theme_classic(18)
-#> Warning in `[<-.data.frame`(`*tmp*`, , y_vars, value = list(y = c(3, 59, :
-#> replacement element 1 has 256 rows to replace 16 rows
+#> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`
+#> Joining with `by = join_by(stimulus, joint_response, response,
+#> confidence)`
 ```
 
 ![](hmetad_files/figure-html/unnamed-chunk-11-1.png)
@@ -502,17 +502,17 @@ draws.epred <- epred_draws_metad(m, newdata = tibble(.row = 1))
     #> # A tibble: 64,000 × 9
     #> # Groups:   .row, stimulus, joint_response, response, confidence [16]
     #>     .row stimulus joint_response response confidence  .epred .chain .iteration
-    #>    <int>    <int>          <int>    <int>      <dbl>   <dbl>  <int>      <int>
-    #>  1     1        0              1        0          4 0.00329     NA         NA
-    #>  2     1        0              1        0          4 0.00971     NA         NA
-    #>  3     1        0              1        0          4 0.00485     NA         NA
-    #>  4     1        0              1        0          4 0.00778     NA         NA
-    #>  5     1        0              1        0          4 0.00277     NA         NA
-    #>  6     1        0              1        0          4 0.00782     NA         NA
-    #>  7     1        0              1        0          4 0.00646     NA         NA
-    #>  8     1        0              1        0          4 0.00559     NA         NA
-    #>  9     1        0              1        0          4 0.00789     NA         NA
-    #> 10     1        0              1        0          4 0.00446     NA         NA
+    #>    <int>    <int>          <int>    <int>      <int>   <dbl>  <int>      <int>
+    #>  1     1        0              1        0          4 0.00257     NA         NA
+    #>  2     1        0              1        0          4 0.00513     NA         NA
+    #>  3     1        0              1        0          4 0.00730     NA         NA
+    #>  4     1        0              1        0          4 0.00417     NA         NA
+    #>  5     1        0              1        0          4 0.00441     NA         NA
+    #>  6     1        0              1        0          4 0.00480     NA         NA
+    #>  7     1        0              1        0          4 0.00464     NA         NA
+    #>  8     1        0              1        0          4 0.00280     NA         NA
+    #>  9     1        0              1        0          4 0.00527     NA         NA
+    #> 10     1        0              1        0          4 0.00742     NA         NA
     #> # ℹ 63,990 more rows
     #> # ℹ 1 more variable: .draw <int>
 
@@ -521,15 +521,15 @@ draws.epred <- epred_draws_metad(m, newdata = tibble(.row = 1))
 draws.epred |>
   group_by(.row, stimulus, joint_response, response, confidence) |>
   median_qi(.epred) |>
-  group_by(.row) |>
-  mutate(.true = t(response_probabilities(d.summary$N[.row, ]))) |>
+  left_join(joint_probabilities(d)) |>
   ggplot(aes(x = joint_response)) +
-  geom_col(aes(y = .true), fill = "grey80") +
+  geom_col(aes(y = p), fill = "grey80") +
   geom_pointrange(aes(y = .epred, ymin = .lower, ymax = .upper)) +
   facet_wrap(~stimulus, labeller = label_both) +
   theme_classic(18)
-#> Warning in `[<-.data.frame`(`*tmp*`, , y_vars, value = list(y = c(0.006, :
-#> replacement element 1 has 256 rows to replace 16 rows
+#> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`
+#> Joining with `by = join_by(stimulus, joint_response, response,
+#> confidence)`
 ```
 
 ![](hmetad_files/figure-html/epred-1.png)
@@ -544,23 +544,17 @@ model using `mean_confidence_draws`:
 tibble(.row = 1) |>
   add_mean_confidence_draws(m) |>
   median_qi(.epred) |>
-  left_join(d |>
-    group_by(stimulus, response) |>
-    summarize(.true = mean(confidence)))
-#> `summarise()` has regrouped the output.
+  left_join(mean_confidence(d))
+#> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`
 #> Joining with `by = join_by(stimulus, response)`
-#> ℹ Summaries were computed grouped by stimulus and response.
-#> ℹ Output is grouped by stimulus.
-#> ℹ Use `summarise(.groups = "drop_last")` to silence this message.
-#> ℹ Use `summarise(.by = c(stimulus, response))` for per-operation grouping
-#>   (`?dplyr::dplyr_by`) instead.
 #> # A tibble: 4 × 10
-#>    .row stimulus response .epred .lower .upper .width .point .interval .true
-#>   <int>    <int>    <int>  <dbl>  <dbl>  <dbl>  <dbl> <chr>  <chr>     <dbl>
-#> 1     1        0        0   2.07   1.99   2.15   0.95 median qi         2.09
-#> 2     1        0        1   1.91   1.83   1.99   0.95 median qi         1.92
-#> 3     1        1        0   1.95   1.86   2.03   0.95 median qi         1.90
-#> 4     1        1        1   2.08   2.02   2.16   0.95 median qi         2.07
+#>    .row stimulus response .epred .lower .upper .width .point .interval
+#>   <int>    <int>    <int>  <dbl>  <dbl>  <dbl>  <dbl> <chr>  <chr>    
+#> 1     1        0        0   2.06   1.98   2.14   0.95 median qi       
+#> 2     1        0        1   1.92   1.84   2.00   0.95 median qi       
+#> 3     1        1        0   1.95   1.86   2.04   0.95 median qi       
+#> 4     1        1        1   2.08   2.01   2.15   0.95 median qi       
+#> # ℹ 1 more variable: mean_confidence <dbl>
 ```
 
 Here, `.epred` refers to the model-estimated mean confidence per
@@ -573,15 +567,14 @@ In addition, we can compute mean confidence marginalizing over stimuli:
 tibble(.row = 1) |>
   add_mean_confidence_draws(m, by_stimulus = FALSE) |>
   median_qi(.epred) |>
-  left_join(d |>
-    group_by(response) |>
-    summarize(.true = mean(confidence)))
+  left_join(mean_confidence(d, by_stimulus = FALSE))
+#> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`
 #> Joining with `by = join_by(response)`
 #> # A tibble: 2 × 9
-#>    .row response .epred .lower .upper .width .point .interval .true
-#>   <int>    <int>  <dbl>  <dbl>  <dbl>  <dbl> <chr>  <chr>     <dbl>
-#> 1     1        0   2.03   1.95   2.11   0.95 median qi         2.03
-#> 2     1        1   2.01   1.96   2.07   0.95 median qi         2.01
+#>    .row response .epred .lower .upper .width .point .interval mean_confidence
+#>   <int>    <int>  <dbl>  <dbl>  <dbl>  <dbl> <chr>  <chr>               <dbl>
+#> 1     1        0   2.02   1.95   2.10   0.95 median qi                   2.03
+#> 2     1        1   2.01   1.96   2.07   0.95 median qi                   2.01
 ```
 
 over responses:
@@ -591,15 +584,14 @@ over responses:
 tibble(.row = 1) |>
   add_mean_confidence_draws(m, by_response = FALSE) |>
   median_qi(.epred) |>
-  left_join(d |>
-    group_by(stimulus) |>
-    summarize(.true = mean(confidence)))
+  left_join(mean_confidence(d, by_response = FALSE))
+#> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`
 #> Joining with `by = join_by(stimulus)`
 #> # A tibble: 2 × 9
-#>    .row stimulus .epred .lower .upper .width .point .interval .true
-#>   <int>    <int>  <dbl>  <dbl>  <dbl>  <dbl> <chr>  <chr>     <dbl>
-#> 1     1        0   1.98   1.93   2.03   0.95 median qi         2   
-#> 2     1        1   2.06   2.01   2.11   0.95 median qi         2.04
+#>    .row stimulus .epred .lower .upper .width .point .interval mean_confidence
+#>   <int>    <int>  <dbl>  <dbl>  <dbl>  <dbl> <chr>  <chr>               <dbl>
+#> 1     1        0   1.98   1.93   2.03   0.95 median qi                   2   
+#> 2     1        1   2.05   2.00   2.11   0.95 median qi                   2.04
 ```
 
 or both over stimuli and responses:
@@ -609,13 +601,14 @@ or both over stimuli and responses:
 tibble(.row = 1) |>
   add_mean_confidence_draws(m, by_stimulus = FALSE, by_response = FALSE) |>
   median_qi(.epred) |>
-  bind_cols(d |>
-    ungroup() |>
-    summarize(.true = mean(confidence)))
+  left_join(mean_confidence(d, by_stimulus = FALSE, by_response = FALSE) |>
+    mutate(.row = 1))
+#> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`
+#> Joining with `by = join_by(.row)`
 #> # A tibble: 1 × 8
-#>    .row .epred .lower .upper .width .point .interval .true
-#>   <int>  <dbl>  <dbl>  <dbl>  <dbl> <chr>  <chr>     <dbl>
-#> 1     1   2.02   1.97   2.06   0.95 median qi         2.02
+#>    .row .epred .lower .upper .width .point .interval mean_confidence
+#>   <dbl>  <dbl>  <dbl>  <dbl>  <dbl> <chr>  <chr>               <dbl>
+#> 1     1   2.02   1.97   2.06   0.95 median qi                   2.02
 ```
 
 ### Metacognitive bias
@@ -644,8 +637,8 @@ tibble(.row = 1) |>
 #> # A tibble: 2 × 8
 #>    .row response metacognitive_bias .lower .upper .width .point .interval
 #>   <int>    <int>              <dbl>  <dbl>  <dbl>  <dbl> <chr>  <chr>    
-#> 1     1        0               1.15   1.02   1.29   0.95 median qi       
-#> 2     1        1               1.57   1.46   1.67   0.95 median qi
+#> 1     1        0               1.18   1.04   1.33   0.95 median qi       
+#> 2     1        1               1.56   1.46   1.67   0.95 median qi
 ```
 
 ### Pseudo Type 1 ROC
@@ -662,17 +655,17 @@ draws.roc1 <- tibble(.row = 1) |>
     #> # A tibble: 28,000 × 9
     #> # Groups:   .row, joint_response, response, confidence [7]
     #>     .row joint_response response confidence .chain .iteration .draw  p_fa p_hit
-    #>    <int>          <int>    <int>      <dbl>  <int>      <int> <int> <dbl> <dbl>
+    #>    <int>          <int>    <int>      <int>  <int>      <int> <int> <dbl> <dbl>
     #>  1     1              1        0          4     NA         NA     1 0.997 0.999
-    #>  2     1              1        0          4     NA         NA     2 0.990 0.998
-    #>  3     1              1        0          4     NA         NA     3 0.995 0.999
-    #>  4     1              1        0          4     NA         NA     4 0.992 0.998
-    #>  5     1              1        0          4     NA         NA     5 0.997 0.999
-    #>  6     1              1        0          4     NA         NA     6 0.992 0.998
-    #>  7     1              1        0          4     NA         NA     7 0.994 0.999
-    #>  8     1              1        0          4     NA         NA     8 0.994 0.999
-    #>  9     1              1        0          4     NA         NA     9 0.992 0.999
-    #> 10     1              1        0          4     NA         NA    10 0.996 0.998
+    #>  2     1              1        0          4     NA         NA     2 0.995 0.999
+    #>  3     1              1        0          4     NA         NA     3 0.993 0.998
+    #>  4     1              1        0          4     NA         NA     4 0.996 0.999
+    #>  5     1              1        0          4     NA         NA     5 0.996 0.999
+    #>  6     1              1        0          4     NA         NA     6 0.995 0.999
+    #>  7     1              1        0          4     NA         NA     7 0.995 0.999
+    #>  8     1              1        0          4     NA         NA     8 0.997 0.999
+    #>  9     1              1        0          4     NA         NA     9 0.995 0.999
+    #> 10     1              1        0          4     NA         NA    10 0.993 0.999
     #> # ℹ 27,990 more rows
 
 Again, we have a tidy tibble with columns `.chain`, `.iteration`, and
@@ -701,10 +694,12 @@ draws.roc1 |>
   geom_errorbar(orientation = "y", width = .01) +
   geom_errorbar(orientation = "x", width = .01) +
   geom_line() +
+  geom_point(aes(x = p_fa, y = p_hit), data = roc1(d), inherit.aes = FALSE) +
   coord_fixed(xlim = 0:1, ylim = 0:1, expand = FALSE) +
   xlab("P(False Alarm)") +
   ylab("P(Hit)") +
   theme_bw(18)
+#> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`
 ```
 
 ![](hmetad_files/figure-html/roc1-1.png)
@@ -723,17 +718,17 @@ draws.roc2 <- tibble(.row = 1) |>
     #> # A tibble: 24,000 × 8
     #> # Groups:   .row, response, confidence [6]
     #>     .row response confidence .chain .iteration .draw  p_hit2   p_fa2
-    #>    <int>    <int>      <dbl>  <int>      <int> <int>   <dbl>   <dbl>
-    #>  1     1        0          4     NA         NA     1 0.00722 0.00345
-    #>  2     1        0          4     NA         NA     2 0.0236  0.0117 
-    #>  3     1        0          4     NA         NA     3 0.0103  0.00514
-    #>  4     1        0          4     NA         NA     4 0.0174  0.00827
-    #>  5     1        0          4     NA         NA     5 0.00670 0.00322
-    #>  6     1        0          4     NA         NA     6 0.0185  0.00845
-    #>  7     1        0          4     NA         NA     7 0.0148  0.00631
-    #>  8     1        0          4     NA         NA     8 0.0126  0.00503
-    #>  9     1        0          4     NA         NA     9 0.0162  0.00647
-    #> 10     1        0          4     NA         NA    10 0.0114  0.00947
+    #>    <int>    <int>      <int>  <int>      <int> <int>   <dbl>   <dbl>
+    #>  1     1        0          3     NA         NA     1 0.00592 0.00359
+    #>  2     1        0          3     NA         NA     2 0.0113  0.00340
+    #>  3     1        0          3     NA         NA     3 0.0170  0.0113 
+    #>  4     1        0          3     NA         NA     4 0.00890 0.00476
+    #>  5     1        0          3     NA         NA     5 0.0104  0.00512
+    #>  6     1        0          3     NA         NA     6 0.0114  0.00488
+    #>  7     1        0          3     NA         NA     7 0.0102  0.00672
+    #>  8     1        0          3     NA         NA     8 0.00700 0.00498
+    #>  9     1        0          3     NA         NA     9 0.0126  0.00888
+    #> 10     1        0          3     NA         NA    10 0.0165  0.00657
     #> # ℹ 23,990 more rows
 
 This tibble looks the same as for `roc1_draws`, except now there are
@@ -760,10 +755,14 @@ draws.roc2 |>
   geom_errorbar(orientation = "y", width = .01) +
   geom_errorbar(orientation = "x", width = .01) +
   geom_line() +
+  geom_point(aes(x = p_fa2, y = p_hit2, color = response),
+    data = mutate(roc2(d), response = factor(response)), inherit.aes = FALSE
+  ) +
   coord_fixed(xlim = 0:1, ylim = 0:1, expand = FALSE) +
   xlab("P(Type 2 False Alarm)") +
   ylab("P(Type 2 Hit)") +
   theme_bw(18)
+#> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`
 ```
 
 ![](hmetad_files/figure-html/unnamed-chunk-15-1.png)

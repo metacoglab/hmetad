@@ -21,7 +21,7 @@ posterior::rvars, with one row per row in newdata and per response."><meta prope
 
     <a class="navbar-brand me-2" href="../index.html">hmetad</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,11 +78,23 @@ response. For <code>metacognitive_bias_rvars</code> and
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">metacognitive_bias_draws</span><span class="op">(</span><span class="va">object</span>, <span class="va">newdata</span>, <span class="va">...</span>, by_response <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">metacognitive_bias_draws</span><span class="op">(</span></span>
+<span>  <span class="va">object</span>,</span>
+<span>  <span class="va">newdata</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  .response <span class="op">=</span> <span class="st">"response"</span>,</span>
+<span>  by_response <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">add_metacognitive_bias_draws</span><span class="op">(</span><span class="va">newdata</span>, <span class="va">object</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">metacognitive_bias_rvars</span><span class="op">(</span><span class="va">object</span>, <span class="va">newdata</span>, <span class="va">...</span>, by_response <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu">metacognitive_bias_rvars</span><span class="op">(</span></span>
+<span>  <span class="va">object</span>,</span>
+<span>  <span class="va">newdata</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  .response <span class="op">=</span> <span class="st">"response"</span>,</span>
+<span>  by_response <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">add_metacognitive_bias_rvars</span><span class="op">(</span><span class="va">newdata</span>, <span class="va">object</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -103,6 +115,10 @@ response. For <code>metacognitive_bias_rvars</code> and
 <dd><p>Additional parameters passed to <a href="https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html" class="external-link">tidybayes::epred_draws</a> or <a href="https://mjskay.github.io/tidybayes/reference/add_predicted_rvars.html" class="external-link">tidybayes::epred_rvars</a></p></dd>
 
 
+<dt id="arg--response">.response<a class="anchor" aria-label="anchor" href="#arg--response"></a></dt>
+<dd><p>The name of "response" column</p></dd>
+
+
 <dt id="arg-by-response">by_response<a class="anchor" aria-label="anchor" href="#arg-by-response"></a></dt>
 <dd><p>If <code>TRUE</code>, compute metacognitive bias separately for the
 two type 1 responses. If <code>FALSE</code>, compute an un-weighted average of the two
@@ -114,7 +130,7 @@ measures.</p></dd>
     <p>a tibble containing posterior draws of \(\textrm{meta-}\Delta\)
 with the following columns:</p><ul><li><p><code>.row</code>: the row of <code>newdata</code></p></li>
 <li><p><code>.chain</code>, <code>.iteration</code>, <code>.draw</code>: for <code>metacognitive_bias_draws</code> and <code>add_metacognitive_bias_draws</code>, identifiers for the posterior sample</p></li>
-<li><p><code>response</code>: the type 1 response for perceived stimulus presence</p></li>
+<li><p><code>{.response}</code>: the type 1 response for perceived stimulus presence</p></li>
 <li><p><code>metacognitive_bias</code>: the distance between <code>meta_c</code> and the average of
 the confidence criteria <code>meta_c2_{response}</code>.</p></li>
 </ul></div>
@@ -143,8 +159,8 @@ the confidence criteria <code>meta_c2_{response}</code>.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:   Error evaluating the log probability at the initial value.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Exception: Exception: multinomial_logit_lpmf: log-probabilities parameter[8] is -inf, but must be finite! (in 'anon_model', line 43, column 2 to line 46, column 66) (in 'anon_model', line 81, column 6 to column 185)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Gradient evaluation took 2.4e-05 seconds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.24 seconds.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Gradient evaluation took 2.5e-05 seconds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.25 seconds.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Adjust your expectations accordingly!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
@@ -218,8 +234,8 @@ the confidence criteria <code>meta_c2_{response}</code>.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3: Iteration: 500 / 500 [100%]  (Sampling)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3:  Elapsed Time: 0.028 seconds (Warm-up)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3:                0.021 seconds (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3:                0.049 seconds (Total)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3:                0.022 seconds (Sampling)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3:                0.05 seconds (Total)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).</span>

@@ -17,7 +17,7 @@ posterior::rvars, with one row per row in newdata and per joint response."><meta
 
     <a class="navbar-brand me-2" href="../index.html">hmetad</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,7 +57,7 @@ posterior::rvars, with one row per row in newdata and per joint response."><meta
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Obtain posterior draws of the pseudo type 1 receiver operating characteristic (ROC) curve.</h1>
-      <small class="dont-index">Source: <a href="https://github.com/metacoglab/hmetad/blob/main/R/roc_draws.R" class="external-link"><code>R/roc_draws.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/metacoglab/hmetad/blob/main/R/roc1_draws.R" class="external-link"><code>R/roc1_draws.R</code></a></small>
       <div class="d-none name"><code>roc1_draws.Rd</code></div>
     </div>
 
@@ -72,11 +72,27 @@ For <code>roc1_rvars</code> and <code>add_roc1_rvars</code>, parameters are retu
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">roc1_draws</span><span class="op">(</span><span class="va">object</span>, <span class="va">newdata</span>, <span class="va">...</span>, bounds <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">roc1_draws</span><span class="op">(</span></span>
+<span>  <span class="va">object</span>,</span>
+<span>  <span class="va">newdata</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  .response <span class="op">=</span> <span class="st">"response"</span>,</span>
+<span>  .confidence <span class="op">=</span> <span class="st">"confidence"</span>,</span>
+<span>  .joint_response <span class="op">=</span> <span class="st">"joint_response"</span>,</span>
+<span>  bounds <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">add_roc1_draws</span><span class="op">(</span><span class="va">newdata</span>, <span class="va">object</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">roc1_rvars</span><span class="op">(</span><span class="va">object</span>, <span class="va">newdata</span>, <span class="va">...</span>, bounds <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu">roc1_rvars</span><span class="op">(</span></span>
+<span>  <span class="va">object</span>,</span>
+<span>  <span class="va">newdata</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  .response <span class="op">=</span> <span class="st">"response"</span>,</span>
+<span>  .confidence <span class="op">=</span> <span class="st">"confidence"</span>,</span>
+<span>  .joint_response <span class="op">=</span> <span class="st">"joint_response"</span>,</span>
+<span>  bounds <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">add_roc1_rvars</span><span class="op">(</span><span class="va">newdata</span>, <span class="va">object</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -97,6 +113,18 @@ For <code>roc1_rvars</code> and <code>add_roc1_rvars</code>, parameters are retu
 <dd><p>Additional parameters passed to <a href="https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html" class="external-link">tidybayes::epred_draws</a> or <a href="https://mjskay.github.io/tidybayes/reference/add_predicted_rvars.html" class="external-link">tidybayes::epred_rvars</a></p></dd>
 
 
+<dt id="arg--response">.response<a class="anchor" aria-label="anchor" href="#arg--response"></a></dt>
+<dd><p>The name of "response" column</p></dd>
+
+
+<dt id="arg--confidence">.confidence<a class="anchor" aria-label="anchor" href="#arg--confidence"></a></dt>
+<dd><p>The name of "confidence" column</p></dd>
+
+
+<dt id="arg--joint-response">.joint_response<a class="anchor" aria-label="anchor" href="#arg--joint-response"></a></dt>
+<dd><p>The name of "joint_response" column</p></dd>
+
+
 <dt id="arg-bounds">bounds<a class="anchor" aria-label="anchor" href="#arg-bounds"></a></dt>
 <dd><p>If <code>TRUE</code>, include the endpoints of the ROC at \((0, 0)\) and \((1, 1)\).
 Otherwise, the endpoints are excluded.</p></dd>
@@ -107,15 +135,15 @@ Otherwise, the endpoints are excluded.</p></dd>
     <p>a tibble containing posterior draws of the pseudo type 1 ROC with the following
 columns:</p><ul><li><p><code>.row</code>: the row of <code>newdata</code></p></li>
 <li><p><code>.chain</code>, <code>.iteration</code>, <code>.draw</code>: for <code>roc1_draws</code> and <code>add_roc1_draws</code>, identifiers for the posterior sample</p></li>
-<li><p><code>joint_response</code>: the combined type 1 / type 2 response (\(J \in [1, 2K]\)) for \(K\) confidence levels)</p></li>
-<li><p><code>response</code>: the type 1 response for perceived stimulus presence (\(R \in \{0, 1\}\))</p></li>
-<li><p><code>confidence</code>: the type 2 confidence response (\(C \in [1, K]\))</p></li>
+<li><p><code>{.joint_response}</code>: the combined type 1 / type 2 response (\(J \in [1, 2K]\)) for \(K\) confidence levels)</p></li>
+<li><p><code>{.response}</code>: the type 1 response for perceived stimulus presence (\(R \in \{0, 1\}\))</p></li>
+<li><p><code>{.confidence}</code>: the type 2 confidence response (\(C \in [1, K]\))</p></li>
 <li><p><code>p_fa</code>: the cumulative probability of a 'present'/'old' response for <code>stimulus==0</code> (\(P(J \ge j \;\vert\; S=0)\))</p></li>
 <li><p><code>p_hit</code>: the cumulative probability of a 'present'/'old' response for <code>stimulus==1</code> (\(P(J \ge j \;\vert\; S=1)\))</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html" class="external-link">tidybayes::epred_draws()</a></code>, <code><a href="https://mjskay.github.io/tidybayes/reference/add_predicted_rvars.html" class="external-link">tidybayes::epred_rvars()</a></code></p></div>
+    <div class="dont-index"><p><code><a href="roc1.html">roc1()</a></code>, <code><a href="https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html" class="external-link">tidybayes::epred_draws()</a></code>, <code><a href="https://mjskay.github.io/tidybayes/reference/add_predicted_rvars.html" class="external-link">tidybayes::epred_rvars()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -129,7 +157,7 @@ columns:</p><ul><li><p><code>.row</code>: the row of <code>newdata</code></p></l
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7,000 × 9</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   .row, joint_response, response, confidence [7]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     .row joint_response response confidence .chain .iteration .draw  p_fa p_hit</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     1              1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 0.836 0.982</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>     1              1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     2 0.874 0.987</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>     1              1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     3 0.881 0.985</span>
@@ -145,7 +173,7 @@ columns:</p><ul><li><p><code>.row</code>: the row of <code>newdata</code></p></l
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7,000 × 9</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   .row, joint_response, response, confidence [7]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     .row joint_response response confidence .chain .iteration .draw  p_fa p_hit</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     1              1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1 0.836 0.982</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>     1              1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     2 0.874 0.987</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>     1              1        0          4     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     3 0.881 0.985</span>
@@ -164,7 +192,7 @@ columns:</p><ul><li><p><code>.row</code>: the row of <code>newdata</code></p></l
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   .row, joint_response, response, confidence [7]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    .row joint_response response confidence            p_fa          p_hit</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;rvar[1d]&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;rvar[1d]&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;rvar[1d]&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;rvar[1d]&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1              1        0          4  0.855 <span style="color: #949494;">± 0.0150</span>  0.98 <span style="color: #949494;">± 0.0036</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     1              2        0          3  0.667 <span style="color: #949494;">± 0.0197</span>  0.93 <span style="color: #949494;">± 0.0089</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     1              3        0          2  0.470 <span style="color: #949494;">± 0.0210</span>  0.84 <span style="color: #949494;">± 0.0143</span></span>
@@ -179,7 +207,7 @@ columns:</p><ul><li><p><code>.row</code>: the row of <code>newdata</code></p></l
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 9,000 × 9</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   .row, joint_response, response, confidence [9]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     .row joint_response response confidence .chain .iteration .draw  p_fa p_hit</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     1              0        0          5     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1     1     1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>     1              0        0          5     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     2     1     1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>     1              0        0          5     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     3     1     1</span>

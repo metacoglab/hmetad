@@ -11,11 +11,27 @@ with one row per row in `newdata`.
 ## Usage
 
 ``` r
-epred_draws_metad(object, newdata, ...)
+epred_draws_metad(
+  object,
+  newdata,
+  ...,
+  .stimulus = "stimulus",
+  .response = "response",
+  .confidence = "confidence",
+  .joint_response = "joint_response"
+)
 
 add_epred_draws_metad(newdata, object, ...)
 
-epred_rvars_metad(object, newdata, ...)
+epred_rvars_metad(
+  object,
+  newdata,
+  ...,
+  .stimulus = "stimulus",
+  .response = "response",
+  .confidence = "confidence",
+  .joint_response = "joint_response"
+)
 
 add_epred_rvars_metad(newdata, object, ...)
 ```
@@ -37,6 +53,22 @@ add_epred_rvars_metad(newdata, object, ...)
   or
   [tidybayes::add_epred_rvars](https://mjskay.github.io/tidybayes/reference/add_predicted_rvars.html)
 
+- .stimulus:
+
+  The name of "stimulus" column
+
+- .response:
+
+  The name of "response" column
+
+- .confidence:
+
+  The name of "confidence" column
+
+- .joint_response:
+
+  The name of "joint_response" column
+
 ## Value
 
 a tibble containing posterior draws of model parameters with the
@@ -47,14 +79,15 @@ following columns:
 - `.chain`, `.iteration`, `.draw`: for `epred_draws_metad`, identifiers
   for the posterior sample
 
-- `stimulus`, `joint_response`, `response`, `confidence`: identifiers
-  for the response type
+- `{.stimulus}`, `{.joint_response}`, `{.response}`, `{.confidence}`:
+  identifiers for the response type
 
 - `.epred`: probability of the type 1 and type 2 response given the
   stimulus, \\P(R, C \\\vert\\ S)\\
 
 ## See also
 
+[`joint_probabilities()`](https://metacoglab.github.io/hmetad/reference/joint_probabilities.md),
 [`tidybayes::epred_draws()`](https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html),
 [`tidybayes::epred_rvars()`](https://mjskay.github.io/tidybayes/reference/add_predicted_rvars.html)
 
@@ -70,7 +103,7 @@ epred_draws_metad(example_model(), newdata)
 #> # A tibble: 16,000 × 9
 #> # Groups:   .row, stimulus, joint_response, response, confidence [16]
 #>     .row stimulus joint_response response confidence .epred .chain .iteration
-#>    <int>    <int>          <int>    <int>      <dbl>  <dbl>  <int>      <int>
+#>    <int>    <int>          <int>    <int>      <int>  <dbl>  <int>      <int>
 #>  1     1        0              1        0          4  0.164     NA         NA
 #>  2     1        0              1        0          4  0.126     NA         NA
 #>  3     1        0              1        0          4  0.119     NA         NA
@@ -90,7 +123,7 @@ epred_rvars_metad(example_model(), newdata)
 #> # A tibble: 16 × 6
 #> # Groups:   .row, stimulus, joint_response, response, confidence [16]
 #>     .row stimulus joint_response response confidence          .epred
-#>    <int>    <int>          <int>    <int>      <dbl>      <rvar[1d]>
+#>    <int>    <int>          <int>    <int>      <int>      <rvar[1d]>
 #>  1     1        0              1        0          4  0.145 ± 0.0150
 #>  2     1        0              2        0          3  0.188 ± 0.0157
 #>  3     1        0              3        0          2  0.196 ± 0.0145

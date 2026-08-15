@@ -99,7 +99,7 @@ optional arguments `lcdf` and `lccdf`:
 ``` r
 
 d <- sim_metad(
-  N_trials = 10000, dprime = 1.5, c = .1, log_M = -.5,
+  N_trials = 10000, dprime = 1.5, c = .1, M = .5,
   c2_0_diff = c(.25, .5, .25), c2_1_diff = c(.1, .5, .25),
   lcdf = gumbel_min_lcdf, lccdf = gumbel_min_lccdf
 )
@@ -145,18 +145,18 @@ m <- fit_metad(N ~ 1,
     #> 
     #> Regression Coefficients:
     #>           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-    #> Intercept    -0.61      0.06    -0.73    -0.49 1.00     3435     3084
+    #> Intercept    -0.78      0.07    -0.92    -0.64 1.00     3585     2991
     #> 
     #> Further Distributional Parameters:
     #>                 Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-    #> dprime              1.55      0.03     1.49     1.60 1.00     4395     3285
-    #> c                   0.11      0.01     0.09     0.14 1.00     3571     3330
-    #> metac2zero1diff     0.24      0.01     0.22     0.26 1.00     5494     3111
-    #> metac2zero2diff     0.49      0.01     0.46     0.51 1.00     5245     3309
-    #> metac2zero3diff     0.25      0.01     0.23     0.27 1.00     5431     3329
-    #> metac2one1diff      0.10      0.01     0.09     0.11 1.00     5013     2667
-    #> metac2one2diff      0.48      0.01     0.45     0.51 1.00     3758     2796
-    #> metac2one3diff      0.25      0.01     0.23     0.27 1.00     5682     3080
+    #> dprime              1.52      0.03     1.47     1.58 1.00     5784     3300
+    #> c                   0.10      0.01     0.07     0.13 1.00     4121     3389
+    #> metac2zero1diff     0.23      0.01     0.22     0.25 1.00     5184     2981
+    #> metac2zero2diff     0.49      0.01     0.46     0.51 1.00     4903     3318
+    #> metac2zero3diff     0.25      0.01     0.23     0.27 1.00     6557     2878
+    #> metac2one1diff      0.10      0.01     0.09     0.11 1.00     5809     3156
+    #> metac2one2diff      0.49      0.01     0.46     0.51 1.00     3960     2911
+    #> metac2one3diff      0.25      0.01     0.23     0.27 1.00     5084     2946
     #> 
     #> Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
     #> and Tail_ESS are effective sample size measures, and Rhat is the potential
@@ -191,12 +191,13 @@ tibble(.row = 1) |>
   geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
   geom_errorbar(orientation = "y", width = .01) +
   geom_errorbar(orientation = "x", width = .01) +
-  geom_point() +
   geom_line() +
+  geom_point(aes(x = p_fa, y = p_hit), data = roc1(d), inherit.aes = FALSE) +
   coord_fixed(xlim = 0:1, ylim = 0:1, expand = FALSE) +
   xlab("P(False Alarm)") +
   ylab("P(Hit)") +
   theme_bw(18)
+#> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`
 ```
 
 ![](alternative_distributions_files/figure-html/roc1-1.png)
@@ -217,12 +218,15 @@ roc2_draws(m, tibble(.row = 1), bounds = TRUE) |>
   geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
   geom_errorbar(orientation = "y", width = .01) +
   geom_errorbar(orientation = "x", width = .01) +
-  geom_point() +
   geom_line() +
+  geom_point(aes(x = p_fa2, y = p_hit2, color = response),
+    data = mutate(roc2(d), response = factor(response)), inherit.aes = FALSE
+  ) +
   coord_fixed(xlim = 0:1, ylim = 0:1, expand = FALSE) +
   xlab("P(Type 2 False Alarm)") +
   ylab("P(Type 2 Hit)") +
   theme_bw(18)
+#> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`
 ```
 
 ![](alternative_distributions_files/figure-html/roc2-1.png)

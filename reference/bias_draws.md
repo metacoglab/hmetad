@@ -13,11 +13,23 @@ with one row per row in `newdata` and per response.
 ## Usage
 
 ``` r
-metacognitive_bias_draws(object, newdata, ..., by_response = TRUE)
+metacognitive_bias_draws(
+  object,
+  newdata,
+  ...,
+  .response = "response",
+  by_response = TRUE
+)
 
 add_metacognitive_bias_draws(newdata, object, ...)
 
-metacognitive_bias_rvars(object, newdata, ..., by_response = TRUE)
+metacognitive_bias_rvars(
+  object,
+  newdata,
+  ...,
+  .response = "response",
+  by_response = TRUE
+)
 
 add_metacognitive_bias_rvars(newdata, object, ...)
 ```
@@ -39,6 +51,10 @@ add_metacognitive_bias_rvars(newdata, object, ...)
   or
   [tidybayes::epred_rvars](https://mjskay.github.io/tidybayes/reference/add_predicted_rvars.html)
 
+- .response:
+
+  The name of "response" column
+
 - by_response:
 
   If `TRUE`, compute metacognitive bias separately for the two type 1
@@ -55,7 +71,7 @@ following columns:
 - `.chain`, `.iteration`, `.draw`: for `metacognitive_bias_draws` and
   `add_metacognitive_bias_draws`, identifiers for the posterior sample
 
-- `response`: the type 1 response for perceived stimulus presence
+- `{.response}`: the type 1 response for perceived stimulus presence
 
 - `metacognitive_bias`: the distance between `meta_c` and the average of
   the confidence criteria `meta_c2_{response}`.
@@ -86,8 +102,8 @@ metacognitive_bias_draws(example_model(), newdata)
 #> Chain 1:   Error evaluating the log probability at the initial value.
 #> Chain 1: Exception: Exception: multinomial_logit_lpmf: log-probabilities parameter[8] is -inf, but must be finite! (in 'anon_model', line 43, column 2 to line 46, column 66) (in 'anon_model', line 81, column 6 to column 185)
 #> Chain 1: 
-#> Chain 1: Gradient evaluation took 2.4e-05 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.24 seconds.
+#> Chain 1: Gradient evaluation took 2.5e-05 seconds
+#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.25 seconds.
 #> Chain 1: Adjust your expectations accordingly!
 #> Chain 1: 
 #> Chain 1: 
@@ -161,8 +177,8 @@ metacognitive_bias_draws(example_model(), newdata)
 #> Chain 3: Iteration: 500 / 500 [100%]  (Sampling)
 #> Chain 3: 
 #> Chain 3:  Elapsed Time: 0.028 seconds (Warm-up)
-#> Chain 3:                0.021 seconds (Sampling)
-#> Chain 3:                0.049 seconds (Total)
+#> Chain 3:                0.022 seconds (Sampling)
+#> Chain 3:                0.05 seconds (Total)
 #> Chain 3: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).

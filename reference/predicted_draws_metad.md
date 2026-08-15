@@ -11,11 +11,27 @@ with one row per row in `newdata`.
 ## Usage
 
 ``` r
-predicted_draws_metad(object, newdata, ...)
+predicted_draws_metad(
+  object,
+  newdata,
+  ...,
+  .stimulus = "stimulus",
+  .response = "response",
+  .confidence = "confidence",
+  .joint_response = "joint_response"
+)
 
 add_predicted_draws_metad(newdata, object, ...)
 
-predicted_rvars_metad(object, newdata, ...)
+predicted_rvars_metad(
+  object,
+  newdata,
+  ...,
+  .stimulus = "stimulus",
+  .response = "response",
+  .confidence = "confidence",
+  .joint_response = "joint_response"
+)
 
 add_predicted_rvars_metad(newdata, object, ...)
 ```
@@ -37,6 +53,22 @@ add_predicted_rvars_metad(newdata, object, ...)
   or
   [tidybayes::add_predicted_rvars](https://mjskay.github.io/tidybayes/reference/add_predicted_rvars.html)
 
+- .stimulus:
+
+  The name of "stimulus" column
+
+- .response:
+
+  The name of "response" column
+
+- .confidence:
+
+  The name of "confidence" column
+
+- .joint_response:
+
+  The name of "joint_response" column
+
 ## Value
 
 a tibble containing posterior draws of model parameters with the
@@ -47,8 +79,8 @@ following columns:
 - `.chain`, `.iteration`, `.draw`: for `predicted_draws_metad`,
   identifiers for the posterior sample
 
-- `stimulus`, `joint_response`, `response`, `confidence`: identifiers
-  for the response type
+- `{.stimulus}`, `{.joint_response}`, `{.response}`, `{.confidence}`:
+  identifiers for the response type
 
 - `.prediction`: predicted type 1 and type 2 responses given the
   stimulus
@@ -72,7 +104,7 @@ predicted_draws_metad(example_model(), newdata)
 #> # Groups:   .row, N_0, N_1, N, stimulus, joint_response, response, confidence
 #> #   [16]
 #>     .row   N_0   N_1 N[,"N_0_1"] stimulus joint_response response confidence
-#>    <int> <int> <int>       <int>    <int>          <int>    <int>      <dbl>
+#>    <int> <int> <int>       <int>    <int>          <int>    <int>      <int>
 #>  1     1   500   500          71        0              1        0          4
 #>  2     1   500   500          71        0              1        0          4
 #>  3     1   500   500          71        0              1        0          4
@@ -94,7 +126,7 @@ predicted_rvars_metad(example_model(), newdata)
 #> # Groups:   .row, N_0, N_1, N, stimulus, joint_response, response, confidence
 #> #   [16]
 #>     .row   N_0   N_1 N[,"N_0_1"] stimulus joint_response response confidence
-#>    <int> <int> <int>       <int>    <int>          <int>    <int>      <dbl>
+#>    <int> <int> <int>       <int>    <int>          <int>    <int>      <int>
 #>  1     1   500   500          71        0              1        0          4
 #>  2     1   500   500          71        0              2        0          3
 #>  3     1   500   500          71        0              3        0          2

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">hmetad</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,6 +50,23 @@
       <small>Source: <a href="https://github.com/metacoglab/hmetad/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.0" id="hmetad-020">hmetad 0.2.0<a class="anchor" aria-label="anchor" href="#hmetad-020"></a></h2>
+<div class="section level3">
+<h3 id="new-features-0-2-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-2-0"></a></h3>
+<ul><li>Added <code>allow_negative_values</code> argument to <code>fit_metad</code>, which models M-ratio on the identity (rather than the logarithmic) scale to allow negative values of M-ratio.</li>
+<li>Added ability to simulate with negative M-ratios. <strong>Note that the <code>log_M</code> arguments to simulation functions are renamed to reflect this.</strong>
+</li>
+<li>Added functions for empirical quantities (i.e., <code>type1_probabilities</code>, <code>type2_probabilities</code>, <code>joint_probabilities</code>, <code>roc1</code>, <code>roc2</code>, and <code>mean_confidence</code>), allowing for easy comparison with model estimates</li>
+<li>Added a <code>by_response</code> argument to <code>roc2_draws</code> and related functions, allowing for type 2 ROCs collapsed across type 1 responses</li>
+</ul></div>
+<div class="section level3">
+<h3 id="minor-improvements-and-fixes-0-2-0">Minor improvements and fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-fixes-0-2-0"></a></h3>
+<ul><li>Added <code>.stimulus</code>, <code>.response</code>, <code>.confidence</code>, and <code>.joint_response</code> arguments to all draws functions, allowing users to specify the names of the corresponding columns</li>
+<li>Confidence levels now match across the two type 1 responses in <code>roc2_draws</code>
+</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.2" id="hmetad-012">hmetad 0.1.2<a class="anchor" aria-label="anchor" href="#hmetad-012"></a></h2><p class="text-muted">CRAN release: 2026-05-15</p>
 <div class="section level3">

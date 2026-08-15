@@ -19,17 +19,20 @@
 <url><loc>https://metacoglab.github.io/hmetad/reference/fit_metad.html</loc></url>
 <url><loc>https://metacoglab.github.io/hmetad/reference/hmetad-package.html</loc></url>
 <url><loc>https://metacoglab.github.io/hmetad/reference/index.html</loc></url>
+<url><loc>https://metacoglab.github.io/hmetad/reference/joint_probabilities.html</loc></url>
 <url><loc>https://metacoglab.github.io/hmetad/reference/linpred_draws_metad.html</loc></url>
 <url><loc>https://metacoglab.github.io/hmetad/reference/mean_conf_draws.html</loc></url>
+<url><loc>https://metacoglab.github.io/hmetad/reference/mean_confidence.html</loc></url>
 <url><loc>https://metacoglab.github.io/hmetad/reference/metac2_parameters.html</loc></url>
 <url><loc>https://metacoglab.github.io/hmetad/reference/metad.html</loc></url>
 <url><loc>https://metacoglab.github.io/hmetad/reference/metad_pmf.html</loc></url>
 <url><loc>https://metacoglab.github.io/hmetad/reference/normal_dist.html</loc></url>
 <url><loc>https://metacoglab.github.io/hmetad/reference/predicted_draws_metad.html</loc></url>
-<url><loc>https://metacoglab.github.io/hmetad/reference/response_probabilities.html</loc></url>
 <url><loc>https://metacoglab.github.io/hmetad/reference/responses.html</loc></url>
 <url><loc>https://metacoglab.github.io/hmetad/reference/rmatrixnorm.html</loc></url>
+<url><loc>https://metacoglab.github.io/hmetad/reference/roc1.html</loc></url>
 <url><loc>https://metacoglab.github.io/hmetad/reference/roc1_draws.html</loc></url>
+<url><loc>https://metacoglab.github.io/hmetad/reference/roc2.html</loc></url>
 <url><loc>https://metacoglab.github.io/hmetad/reference/roc2_draws.html</loc></url>
 <url><loc>https://metacoglab.github.io/hmetad/reference/signed.html</loc></url>
 <url><loc>https://metacoglab.github.io/hmetad/reference/sim_metad.html</loc></url>
@@ -37,5 +40,9 @@
 <url><loc>https://metacoglab.github.io/hmetad/reference/sim_metad_participant.html</loc></url>
 <url><loc>https://metacoglab.github.io/hmetad/reference/sim_metad_participant_condition.html</loc></url>
 <url><loc>https://metacoglab.github.io/hmetad/reference/stanvars_metad.html</loc></url>
+<url><loc>https://metacoglab.github.io/hmetad/reference/type1_draws.html</loc></url>
+<url><loc>https://metacoglab.github.io/hmetad/reference/type1_probabilities.html</loc></url>
+<url><loc>https://metacoglab.github.io/hmetad/reference/type2_draws.html</loc></url>
+<url><loc>https://metacoglab.github.io/hmetad/reference/type2_probabilities.html</loc></url>
 </urlset>
 

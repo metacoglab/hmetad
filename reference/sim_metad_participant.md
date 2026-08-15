@@ -2,7 +2,7 @@
 
 Generate a simulated dataset across participants from the meta-d' model
 with sensitivity `dprime`, response bias `c`, metacognitive efficiency
-`log_M`, and distances between confidence thresholds `c2_0_diff` and
+`M`, and distances between confidence thresholds `c2_0_diff` and
 `c2_1_diff` (for the two responses).
 
 ## Usage
@@ -11,19 +11,20 @@ with sensitivity `dprime`, response bias `c`, metacognitive efficiency
 sim_metad_participant(
   N_participants = 100,
   N_trials = 100,
-  mu_dprime = 1,
+  mean_dprime = 1,
   sd_dprime = 0.5,
-  mu_c = 0,
+  mean_c = 0,
   sd_c = 0.5,
-  mu_log_M = 0,
-  sd_log_M = 0.5,
-  mu_z_c2_0 = rep(-1, 3),
+  mean_M = 0,
+  sd_M = 0.5,
+  mean_z_c2_0 = rep(-1, 3),
   sd_z_c2_0 = rep(0.1, 3),
   r_z_c2_0 = diag(3),
-  mu_z_c2_1 = rep(-1, 3),
+  mean_z_c2_1 = rep(-1, 3),
   sd_z_c2_1 = rep(0.1, 3),
   r_z_c2_1 = diag(3),
   metac_absolute = TRUE,
+  allow_negative_values = FALSE,
   summarize = FALSE,
   lcdf = normal_lcdf,
   lccdf = normal_lccdf
@@ -38,25 +39,27 @@ sim_metad_participant(
   Half of these trials will have `stimulus=0` and half will have
   `stimulus=1`.
 
-- mu_dprime, sd_dprime:
+- mean_dprime, sd_dprime:
 
   The mean and standard deviation of sensitivities of the signal
   detection agents to simulate
 
-- mu_c, sd_c:
+- mean_c, sd_c:
 
   The mean and standard deviation of response bias of the signal
   detection agents to simulate
 
-- mu_log_M, sd_log_M:
+- mean_M, sd_M:
 
   The mean and standard deviation of metacognitive efficiency of the
-  agents on the logarithmic scale, where `0` indicates optimal
+  agents. If `allow_negative_values==TRUE` (default), M-ratio is
+  simulated on the logarithmic scale, where `0` indicates optimal
   metacognitive sensitivity, negative numbers indicate metacognitive
   inefficiency, and positive numbers indicate metacognitive
-  hyper-efficiency.
+  hyper-efficiency. Otherwise, M-ratio is modeled on its natural scale
+  to allow negative values.
 
-- mu_z_c2_0, mu_z_c2_1:
+- mean_z_c2_0, mean_z_c2_1:
 
   Mean distance between confidence thresholds for `"0"` and `"1"`
   responses on the log_scale, such that
@@ -76,15 +79,22 @@ sim_metad_participant(
 - metac_absolute:
 
   Determines how to fix the type 1 threshold for modeling confidence
-  ratings. If metac_absolute=TRUE, `meta_c = c`. Otherwise,
+  ratings. If `metac_absolute=TRUE`, `meta_c = c`. Otherwise,
   `meta_c = M * c`.
+
+- allow_negative_values:
+
+  If `allow_negative_values=FALSE` (default), M-ratio is simulated using
+  a normal distribution on the logarithmic scale to prohibit negative
+  values. If `allow_negative_values=TRUE`, then M-ratio is simulated on
+  its natural scale, allowing negative values.
 
 - summarize:
 
-  Aggregate the data? If summarize=FALSE, returns a dataset with one row
-  per observation. If summarize=TRUE, returns an aggregated dataset
-  where `n` is the number of observations per response, accuracy, and
-  confidence level.
+  Aggregate the data? If `summarize=FALSE`, returns a dataset with one
+  row per observation. If `summarize=TRUE`, returns an aggregated
+  dataset where `n` is the number of observations per response,
+  accuracy, and confidence level.
 
 - lcdf:
 
@@ -130,33 +140,33 @@ sim_metad_participant(N_participants = 10, N_trials = 10)
 #> # A tibble: 100 × 15
 #>    participant trial stimulus response correct confidence dprime     c
 #>          <int> <int>    <int>    <int>   <int>      <int>  <dbl> <dbl>
-#>  1           1     1        0        0       1          1   1.31 0.202
-#>  2           1     2        0        0       1          4   1.31 0.202
-#>  3           1     3        0        1       0          1   1.31 0.202
-#>  4           1     4        0        1       0          2   1.31 0.202
-#>  5           1     5        0        1       0          4   1.31 0.202
-#>  6           1     1        1        0       0          2   1.31 0.202
-#>  7           1     2        1        0       0          3   1.31 0.202
-#>  8           1     3        1        0       0          4   1.31 0.202
-#>  9           1     4        1        1       1          1   1.31 0.202
-#> 10           1     5        1        1       1          4   1.31 0.202
+#>  1           1     1        0        0       1          1   1.25 0.319
+#>  2           1     2        0        0       1          3   1.25 0.319
+#>  3           1     3        0        0       1          4   1.25 0.319
+#>  4           1     4        0        0       1          4   1.25 0.319
+#>  5           1     5        0        1       0          1   1.25 0.319
+#>  6           1     1        1        1       1          2   1.25 0.319
+#>  7           1     2        1        1       1          3   1.25 0.319
+#>  8           1     3        1        1       1          3   1.25 0.319
+#>  9           1     4        1        1       1          3   1.25 0.319
+#> 10           1     5        1        1       1          4   1.25 0.319
 #> # ℹ 90 more rows
 #> # ℹ 7 more variables: meta_dprime <dbl>, M <dbl>, meta_c2_0 <list>,
 #> #   meta_c2_1 <list>, theta <dbl>, theta_1 <dbl>, theta_2 <dbl>
-sim_metad_participant(N_participants = 25, mu_dprime = 2, mu_log_M = -1)
+sim_metad_participant(N_participants = 25, mean_dprime = 2, mean_M = -1)
 #> # A tibble: 2,500 × 15
-#>    participant trial stimulus response correct confidence dprime     c
-#>          <int> <int>    <int>    <int>   <int>      <int>  <dbl> <dbl>
-#>  1           1     1        0        0       1          1   1.41 0.624
-#>  2           1     2        0        0       1          1   1.41 0.624
-#>  3           1     3        0        0       1          1   1.41 0.624
-#>  4           1     4        0        0       1          1   1.41 0.624
-#>  5           1     5        0        0       1          1   1.41 0.624
-#>  6           1     6        0        0       1          1   1.41 0.624
-#>  7           1     7        0        0       1          1   1.41 0.624
-#>  8           1     8        0        0       1          2   1.41 0.624
-#>  9           1     9        0        0       1          2   1.41 0.624
-#> 10           1    10        0        0       1          2   1.41 0.624
+#>    participant trial stimulus response correct confidence dprime      c
+#>          <int> <int>    <int>    <int>   <int>      <int>  <dbl>  <dbl>
+#>  1           1     1        0        0       1          1   1.10 -0.662
+#>  2           1     2        0        0       1          1   1.10 -0.662
+#>  3           1     3        0        0       1          1   1.10 -0.662
+#>  4           1     4        0        0       1          1   1.10 -0.662
+#>  5           1     5        0        0       1          1   1.10 -0.662
+#>  6           1     6        0        0       1          1   1.10 -0.662
+#>  7           1     7        0        0       1          1   1.10 -0.662
+#>  8           1     8        0        0       1          1   1.10 -0.662
+#>  9           1     9        0        0       1          1   1.10 -0.662
+#> 10           1    10        0        0       1          1   1.10 -0.662
 #> # ℹ 2,490 more rows
 #> # ℹ 7 more variables: meta_dprime <dbl>, M <dbl>, meta_c2_0 <list>,
 #> #   meta_c2_1 <list>, theta <dbl>, theta_1 <dbl>, theta_2 <dbl>

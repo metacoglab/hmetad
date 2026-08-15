@@ -56,7 +56,7 @@ epred_draws_metad(example_model(), tidyr::tibble(.row = 1))
 #> # A tibble: 16,000 × 9
 #> # Groups:   .row, stimulus, joint_response, response, confidence [16]
 #>     .row stimulus joint_response response confidence .epred .chain .iteration
-#>    <int>    <int>          <int>    <int>      <dbl>  <dbl>  <int>      <int>
+#>    <int>    <int>          <int>    <int>      <int>  <dbl>  <int>      <int>
 #>  1     1        0              1        0          4  0.164     NA         NA
 #>  2     1        0              1        0          4  0.126     NA         NA
 #>  3     1        0              1        0          4  0.119     NA         NA

@@ -36,13 +36,29 @@ Transform data between common formats used in metacognition research
   [`type2_response()`](https://metacoglab.github.io/hmetad/reference/responses.md)
   : Convert between separate and joint type 1/type 2 responses
 
-- [`response_probabilities()`](https://metacoglab.github.io/hmetad/reference/response_probabilities.md)
-  : Compute joint response probabilities from aggregated counts
-
 - [`aggregate_metad()`](https://metacoglab.github.io/hmetad/reference/aggregate_metad.md)
   :
 
   Aggregate `data` by `response`, `confidence`, and other columns
+
+- [`type1_probabilities()`](https://metacoglab.github.io/hmetad/reference/type1_probabilities.md)
+  : Calculate empirical type 1 response probabilities
+
+- [`type2_probabilities()`](https://metacoglab.github.io/hmetad/reference/type2_probabilities.md)
+  : Calculate empirical type 2 response probabilities
+
+- [`joint_probabilities()`](https://metacoglab.github.io/hmetad/reference/joint_probabilities.md)
+  : Calculate empirical joint type 1/type 2 response probabilities
+
+- [`roc1()`](https://metacoglab.github.io/hmetad/reference/roc1.md) :
+  Calculate empirical pseudo-type 1 receiver operating characteristic
+  curves
+
+- [`roc2()`](https://metacoglab.github.io/hmetad/reference/roc2.md) :
+  Calculate empirical type 2 receiver operating characteristic curves
+
+- [`mean_confidence()`](https://metacoglab.github.io/hmetad/reference/mean_confidence.md)
+  : Calculate empirical mean confidence
 
 ## Extracting model estimates
 
@@ -74,6 +90,16 @@ from fitted models.
   [`metacognitive_bias_rvars()`](https://metacoglab.github.io/hmetad/reference/bias_draws.md)
   [`add_metacognitive_bias_rvars()`](https://metacoglab.github.io/hmetad/reference/bias_draws.md)
   : Obtain posterior draws of an index of metacognitive bias
+- [`type1_draws()`](https://metacoglab.github.io/hmetad/reference/type1_draws.md)
+  [`add_type1_draws()`](https://metacoglab.github.io/hmetad/reference/type1_draws.md)
+  [`type1_rvars()`](https://metacoglab.github.io/hmetad/reference/type1_draws.md)
+  [`add_type1_rvars()`](https://metacoglab.github.io/hmetad/reference/type1_draws.md)
+  : Calculate posterior draws of type 1 response probabilities
+- [`type2_draws()`](https://metacoglab.github.io/hmetad/reference/type2_draws.md)
+  [`add_type2_draws()`](https://metacoglab.github.io/hmetad/reference/type2_draws.md)
+  [`type2_rvars()`](https://metacoglab.github.io/hmetad/reference/type2_draws.md)
+  [`add_type2_rvars()`](https://metacoglab.github.io/hmetad/reference/type2_draws.md)
+  : Calculate posterior draws of type 2 response probabilities
 - [`roc1_draws()`](https://metacoglab.github.io/hmetad/reference/roc1_draws.md)
   [`add_roc1_draws()`](https://metacoglab.github.io/hmetad/reference/roc1_draws.md)
   [`roc1_rvars()`](https://metacoglab.github.io/hmetad/reference/roc1_draws.md)

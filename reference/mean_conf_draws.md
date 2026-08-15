@@ -23,6 +23,8 @@ mean_confidence_draws(
   object,
   newdata,
   ...,
+  .stimulus = "stimulus",
+  .response = "response",
   by_stimulus = TRUE,
   by_response = TRUE,
   by_correct = FALSE
@@ -34,6 +36,8 @@ mean_confidence_rvars(
   object,
   newdata,
   ...,
+  .stimulus = "stimulus",
+  .response = "response",
   by_stimulus = TRUE,
   by_response = TRUE,
   by_correct = FALSE
@@ -58,6 +62,14 @@ add_mean_confidence_rvars(newdata, object, ...)
   [tidybayes::epred_draws](https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html)
   or
   [tidybayes::epred_rvars](https://mjskay.github.io/tidybayes/reference/add_predicted_rvars.html)
+
+- .stimulus:
+
+  The name of "stimulus" column
+
+- .response:
+
+  The name of "response" column
 
 - by_stimulus:
 
@@ -86,10 +98,10 @@ following columns:
 - `.chain`, `.iteration`, `.draw`: for `mean_confidence_draws` and
   `add_mean_confidence_draws`, identifiers for the posterior sample
 
-- `stimulus`: indicator for stimulus presence (if
+- `{.stimulus}`: indicator for stimulus presence (if
   `by_stimulus==TRUE & by_correct==FALSE`)
 
-- `response`: indicator for type 1 response (if
+- `{.response}`: indicator for type 1 response (if
   `by_response==TRUE & by_correct==FALSE`)
 
 - `correct`: indicator for the accuracy of the type 1 response (if
@@ -99,6 +111,7 @@ following columns:
 
 ## See also
 
+[`mean_confidence()`](https://metacoglab.github.io/hmetad/reference/mean_confidence.md),
 [`tidybayes::epred_draws()`](https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html),
 [`tidybayes::epred_rvars()`](https://mjskay.github.io/tidybayes/reference/add_predicted_rvars.html)
 

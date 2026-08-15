@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">hmetad</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -112,17 +112,52 @@
 
         <dt>
 
-          <code><a href="response_probabilities.html">response_probabilities()</a></code>
-
-        </dt>
-        <dd>Compute joint response probabilities from aggregated counts</dd>
-
-        <dt>
-
           <code><a href="aggregate_metad.html">aggregate_metad()</a></code>
 
         </dt>
         <dd>Aggregate <code>data</code> by <code>response</code>, <code>confidence</code>, and other columns</dd>
+
+        <dt>
+
+          <code><a href="type1_probabilities.html">type1_probabilities()</a></code>
+
+        </dt>
+        <dd>Calculate empirical type 1 response probabilities</dd>
+
+        <dt>
+
+          <code><a href="type2_probabilities.html">type2_probabilities()</a></code>
+
+        </dt>
+        <dd>Calculate empirical type 2 response probabilities</dd>
+
+        <dt>
+
+          <code><a href="joint_probabilities.html">joint_probabilities()</a></code>
+
+        </dt>
+        <dd>Calculate empirical joint type 1/type 2 response probabilities</dd>
+
+        <dt>
+
+          <code><a href="roc1.html">roc1()</a></code>
+
+        </dt>
+        <dd>Calculate empirical pseudo-type 1 receiver operating characteristic curves</dd>
+
+        <dt>
+
+          <code><a href="roc2.html">roc2()</a></code>
+
+        </dt>
+        <dd>Calculate empirical type 2 receiver operating characteristic curves</dd>
+
+        <dt>
+
+          <code><a href="mean_confidence.html">mean_confidence()</a></code>
+
+        </dt>
+        <dd>Calculate empirical mean confidence</dd>
       </dl></div><div class="section level2">
       <h2 id="extracting-model-estimates">Extracting model estimates<a class="anchor" aria-label="anchor" href="#extracting-model-estimates"></a></h2>
 
@@ -167,6 +202,20 @@
 
         </dt>
         <dd>Obtain posterior draws of an index of metacognitive bias</dd>
+
+        <dt>
+
+          <code><a href="type1_draws.html">type1_draws()</a></code> <code><a href="type1_draws.html">add_type1_draws()</a></code> <code><a href="type1_draws.html">type1_rvars()</a></code> <code><a href="type1_draws.html">add_type1_rvars()</a></code>
+
+        </dt>
+        <dd>Calculate posterior draws of type 1 response probabilities</dd>
+
+        <dt>
+
+          <code><a href="type2_draws.html">type2_draws()</a></code> <code><a href="type2_draws.html">add_type2_draws()</a></code> <code><a href="type2_draws.html">type2_rvars()</a></code> <code><a href="type2_draws.html">add_type2_rvars()</a></code>
+
+        </dt>
+        <dd>Calculate posterior draws of type 2 response probabilities</dd>
 
         <dt>
 

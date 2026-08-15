@@ -2,7 +2,7 @@
 
 Generate a simulated dataset across participants and conditions from the
 meta-d' model with sensitivity `dprime`, response bias `c`,
-metacognitive efficiency `log_M`, and distances between confidence
+metacognitive efficiency `M`, and distances between confidence
 thresholds `c2_0_diff` and `c2_1_diff` (for the two responses).
 
 ## Usage
@@ -11,26 +11,27 @@ thresholds `c2_0_diff` and `c2_1_diff` (for the two responses).
 sim_metad_participant_condition(
   N_participants = 100,
   N_trials = 100,
-  mu_dprime = rep(1, 2),
+  mean_dprime = rep(1, 2),
   sd_dprime = rep(0.5, 2),
   r_dprime = diag(2),
-  mu_c = rep(0, 2),
+  mean_c = rep(0, 2),
   sd_c = rep(0.5, 2),
   r_c = diag(2),
-  mu_log_M = rep(0, 2),
-  sd_log_M = rep(0.5, 2),
-  r_log_M = diag(2),
-  mu_z_c2_0 = matrix(rep(-1, 6), nrow = 3, ncol = 2),
+  mean_M = rep(0, 2),
+  sd_M = rep(0.5, 2),
+  r_M = diag(2),
+  mean_z_c2_0 = matrix(rep(-1, 6), nrow = 3, ncol = 2),
   sd_z_c2_0_condition = rep(0.1, 2),
   r_z_c2_0_condition = diag(2),
   sd_z_c2_0_confidence = rep(0.1, 3),
   r_z_c2_0_confidence = diag(3),
-  mu_z_c2_1 = matrix(rep(-1, 6), nrow = 3, ncol = 2),
+  mean_z_c2_1 = matrix(rep(-1, 6), nrow = 3, ncol = 2),
   sd_z_c2_1_condition = rep(0.1, 2),
   r_z_c2_1_condition = diag(2),
   sd_z_c2_1_confidence = rep(0.1, 3),
   r_z_c2_1_confidence = diag(3),
   metac_absolute = TRUE,
+  allow_negative_values = FALSE,
   summarize = FALSE,
   lcdf = normal_lcdf,
   lccdf = normal_lccdf
@@ -45,25 +46,27 @@ sim_metad_participant_condition(
   Half of these trials will have `stimulus=0` and half will have
   `stimulus=1`.
 
-- mu_dprime, sd_dprime, r_dprime:
+- mean_dprime, sd_dprime, r_dprime:
 
   The mean, standard deviation, and within-participant correlations of
   sensitivities of the signal detection agents to simulate
 
-- mu_c, sd_c, r_c:
+- mean_c, sd_c, r_c:
 
   The mean, standard deviation, and within-participant correlations of
   response bias of the signal detection agents to simulate
 
-- mu_log_M, sd_log_M, r_log_M:
+- mean_M, sd_M, r_M:
 
   The mean, standard deviation, and within-participant correlations of
-  metacognitive efficiency of the agents on the logarithmic scale, where
-  `0` indicates optimal metacognitive sensitivity, negative numbers
-  indicate metacognitive inefficiency, and positive numbers indicate
-  metacognitive hyper-efficiency.
+  metacognitive efficiency of the agents. If
+  `allow_negative_values==TRUE` (default), M-ratio is simulated on the
+  logarithmic scale, where `0` indicates optimal metacognitive
+  sensitivity, negative numbers indicate metacognitive inefficiency, and
+  positive numbers indicate metacognitive hyper-efficiency. Otherwise,
+  M-ratio is modeled on its natural scale to allow negative values.
 
-- mu_z_c2_0, mu_z_c2_1:
+- mean_z_c2_0, mean_z_c2_1:
 
   Mean distance between confidence thresholds for `"0"` and `"1"`
   responses on the log_scale, such that
@@ -93,15 +96,22 @@ sim_metad_participant_condition(
 - metac_absolute:
 
   Determines how to fix the type 1 threshold for modeling confidence
-  ratings. If metac_absolute=TRUE, `meta_c = c`. Otherwise,
+  ratings. If `metac_absolute=TRUE`, `meta_c = c`. Otherwise,
   `meta_c = M * c`.
+
+- allow_negative_values:
+
+  If `allow_negative_values=FALSE` (default), M-ratio is simulated using
+  a normal distribution on the logarithmic scale to prohibit negative
+  values. If `allow_negative_values=TRUE`, then M-ratio is simulated on
+  its natural scale, allowing negative values.
 
 - summarize:
 
-  Aggregate the data? If summarize=FALSE, returns a dataset with one row
-  per observation. If summarize=TRUE, returns an aggregated dataset
-  where `n` is the number of observations per response, accuracy, and
-  confidence level.
+  Aggregate the data? If `summarize=FALSE`, returns a dataset with one
+  row per observation. If `summarize=TRUE`, returns an aggregated
+  dataset where `n` is the number of observations per response,
+  accuracy, and confidence level.
 
 - lcdf:
 
@@ -142,19 +152,19 @@ columns:
 ``` r
 sim_metad_participant_condition(10, 10)
 #> # A tibble: 200 × 16
-#>    participant condition trial stimulus response correct confidence dprime
-#>          <int>     <int> <int>    <int>    <int>   <int>      <int>  <dbl>
-#>  1           1         1     1        0        0       1          1   1.29
-#>  2           1         1     2        0        0       1          2   1.29
-#>  3           1         1     3        0        0       1          2   1.29
-#>  4           1         1     4        0        1       0          1   1.29
-#>  5           1         1     5        0        1       0          4   1.29
-#>  6           1         1     1        1        1       1          1   1.29
-#>  7           1         1     2        1        1       1          1   1.29
-#>  8           1         1     3        1        1       1          2   1.29
-#>  9           1         1     4        1        1       1          2   1.29
-#> 10           1         1     5        1        1       1          3   1.29
+#>    participant condition trial stimulus response correct confidence dprime     c
+#>          <int>     <int> <int>    <int>    <int>   <int>      <int>  <dbl> <dbl>
+#>  1           1         1     1        0        0       1          4   1.06  1.57
+#>  2           1         1     2        0        0       1          4   1.06  1.57
+#>  3           1         1     3        0        0       1          4   1.06  1.57
+#>  4           1         1     4        0        0       1          4   1.06  1.57
+#>  5           1         1     5        0        0       1          4   1.06  1.57
+#>  6           1         1     1        1        0       0          1   1.06  1.57
+#>  7           1         1     2        1        0       0          2   1.06  1.57
+#>  8           1         1     3        1        0       0          4   1.06  1.57
+#>  9           1         1     4        1        0       0          4   1.06  1.57
+#> 10           1         1     5        1        1       1          1   1.06  1.57
 #> # ℹ 190 more rows
-#> # ℹ 8 more variables: c <dbl>, meta_dprime <dbl>, M <dbl>, meta_c2_0 <list>,
+#> # ℹ 7 more variables: meta_dprime <dbl>, M <dbl>, meta_c2_0 <list>,
 #> #   meta_c2_1 <list>, theta <dbl>, theta_1 <dbl>, theta_2 <dbl>
 ```

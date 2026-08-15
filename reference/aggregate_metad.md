@@ -14,7 +14,8 @@ aggregate_metad(
   .confidence = "confidence",
   .joint_response = "joint_response",
   .name = "N",
-  K = NULL
+  K = NULL,
+  pivot_longer = FALSE
 )
 ```
 
@@ -55,6 +56,11 @@ aggregate_metad(
   estimated from `data` using the maximum value of either the confidence
   column or joint response column.
 
+- pivot_longer:
+
+  If `FALSE` (default), return aggregated data as a single matrix
+  column. Otherwise, return aggregated data in a tidy long format.
+
 ## Value
 
 A tibble with one row per combination of the variables in `...`, and
@@ -64,7 +70,9 @@ matrix, such that the columns represent (for stimulus \\S\\, type 1
 response \\R\\, and type 2 response \\C\\): \$\$ \[N\_{S=0, R=0, C=K},
 \ldots, N\_{S=0, R=0, C=1}, \\ N\_{S=0, R=1, C=1}, \ldots, N\_{S=0, R=1,
 C=K}, \\ N\_{S=1, R=0, C=K}, \ldots, N\_{S=1, R=0, C=1}, \\ N\_{S=1,
-R=1, C=1}, \ldots, N\_{S=1, R=1, C=K}\] \\ \$\$
+R=1, C=1}, \ldots, N\_{S=1, R=1, C=K}\] \\ \$\$ If `pivot_longer=TRUE`,
+counts are stored in separate rows rather than as a single matrix
+column.
 
 ## Details
 

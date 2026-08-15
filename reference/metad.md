@@ -5,7 +5,13 @@
 ## Usage
 
 ``` r
-metad(K, distribution = "normal", metac_absolute = TRUE, categorical = FALSE)
+metad(
+  K,
+  distribution = "normal",
+  metac_absolute = TRUE,
+  categorical = FALSE,
+  allow_negative_values = FALSE
+)
 ```
 
 ## Arguments
@@ -29,6 +35,12 @@ metad(K, distribution = "normal", metac_absolute = TRUE, categorical = FALSE)
   If `FALSE` (default), use the multinomial likelihood over aggregated
   data. If `TRUE`, use the categorical likelihood over individual
   trials.
+
+- allow_negative_values:
+
+  If `FALSE` (default), M-ratio is modeled on the logarithmic scale to
+  prevent negative values. If `TRUE`, M-ratio is modeled on the identity
+  scale which allows for `M <= 0`.
 
 ## Value
 
