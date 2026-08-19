@@ -2,7 +2,7 @@
 % Please edit documentation in R/roc2_draws.R
 \name{roc2}
 \alias{roc2}
-\title{Calculate empirical type 2 receiver operating characteristic curves}
+\title{Calculate empirical type 2 receiver operating characteristic curve}
 \usage{
 roc2(
   data,

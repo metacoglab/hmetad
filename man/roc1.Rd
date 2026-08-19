@@ -56,7 +56,7 @@ Given a dataset \code{data}, determine the cumulative probability of each
 combination of type 1 and type 2 responses conditional on stimulus.
 }
 \examples{
-# calculate type 1 ROCs by stimulus
+# calculate type 1 ROCs
 roc1(example_data())
 
 # calculate type 1 ROCs by condition

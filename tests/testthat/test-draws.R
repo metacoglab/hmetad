@@ -495,3 +495,67 @@ test_that("type2_draws works", {
     tol = 0.05
   ) |> expect_all_true()
 })
+
+test_that("auroc1_draws works", {
+  draws <- auroc1_draws(m, newdata)
+
+  draws |>
+    pull(auroc1) |>
+    between(0, 1) |>
+    expect_all_true()
+
+  expect_equal(draws, add_auroc1_draws(newdata, m))
+
+  ## compare between _draws and _rvars
+  draws |>
+    median_qi(auroc1) |>
+    pull(auroc1) |>
+    near(
+      auroc1_rvars(m, newdata) |>
+        median_qi(auroc1) |>
+        pull(auroc1),
+      tol = .01
+    ) |>
+    expect_all_true()
+
+  ## compare model fit with empirical data
+  near(
+    draws |>
+      median_qi(auroc1) |>
+      pull(auroc1),
+    d |> auroc1() |> pull(auroc1),
+    tol = 0.05
+  ) |> expect_all_true()
+})
+
+test_that("auroc2_draws works", {
+  draws <- auroc2_draws(m, newdata)
+
+  draws |>
+    pull(auroc2) |>
+    between(0, 1) |>
+    expect_all_true()
+
+  expect_equal(draws, add_auroc2_draws(newdata, m))
+
+  ## compare between _draws and _rvars
+  draws |>
+    median_qi(auroc2) |>
+    pull(auroc2) |>
+    near(
+      auroc2_rvars(m, newdata) |>
+        median_qi(auroc2) |>
+        pull(auroc2),
+      tol = .01
+    ) |>
+    expect_all_true()
+
+  ## compare model fit with empirical data
+  near(
+    draws |>
+      median_qi(auroc2) |>
+      pull(auroc2),
+    d |> auroc2() |> pull(auroc2),
+    tol = 0.05
+  ) |> expect_all_true()
+})

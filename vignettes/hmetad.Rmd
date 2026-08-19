@@ -338,6 +338,14 @@ draws.roc1 |>
   theme_bw(18)
 ```
 
+As a measure of performance, one can similarly obtain the area under this curve:
+```{r auroc1}
+tibble(.row = 1) |>
+  add_auroc1_draws(m) |>
+  median_qi() |>
+  mutate(.true = auroc1(d)$auroc1)
+```
+
 ### Type 2 ROC
 Finally, to plot type 2 performance as a type 2 ROC, we can use `add_roc2_draws`:
 ```{r roc2}
@@ -371,6 +379,14 @@ draws.roc2 |>
   xlab("P(Type 2 False Alarm)") +
   ylab("P(Type 2 Hit)") +
   theme_bw(18)
+```
+
+Finally, one can obtain the area under these curves:
+```{r auroc2}
+tibble(.row = 1) |>
+  add_auroc2_draws(m) |>
+  median_qi() |>
+  mutate(.true = auroc2(d)$auroc2)
 ```
 
 
