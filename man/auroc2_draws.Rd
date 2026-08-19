@@ -14,7 +14,6 @@ auroc2_draws(
   ...,
   .response = "response",
   .confidence = "confidence",
-  bounds = FALSE,
   by_response = TRUE
 )
 
@@ -26,7 +25,6 @@ auroc2_rvars(
   ...,
   .response = "response",
   .confidence = "confidence",
-  bounds = FALSE,
   by_response = TRUE
 )
 
