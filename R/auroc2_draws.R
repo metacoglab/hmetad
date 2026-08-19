@@ -82,7 +82,7 @@ auroc2 <- function(
 #' @export
 auroc2_draws <- function(
   object, newdata, ..., .response = "response", .confidence = "confidence",
-  bounds = FALSE, by_response = TRUE
+  by_response = TRUE
 ) {
   ## grouping columns
   .stimulus <- get_stimulus(object, .default = list2(...)$.stimulus)
@@ -119,7 +119,7 @@ add_auroc2_draws <- function(newdata, object, ...) {
 #' @export
 auroc2_rvars <- function(
   object, newdata, ..., .response = "response", .confidence = "confidence",
-  bounds = FALSE, by_response = TRUE
+  by_response = TRUE
 ) {
   ## grouping columns
   .stimulus <- get_stimulus(object, .default = list2(...)$.stimulus)
