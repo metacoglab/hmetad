@@ -704,6 +704,22 @@ draws.roc1 |>
 
 ![](hmetad_files/figure-html/roc1-1.png)
 
+As a measure of performance, one can similarly obtain the area under
+this curve:
+
+``` r
+
+tibble(.row = 1) |>
+  add_auroc1_draws(m) |>
+  median_qi() |>
+  mutate(.true = auroc1(d)$auroc1)
+#> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`
+#> # A tibble: 1 × 8
+#>    .row auroc1 .lower .upper .width .point .interval .true
+#>   <int>  <dbl>  <dbl>  <dbl>  <dbl> <chr>  <chr>     <dbl>
+#> 1     1  0.648  0.616  0.680   0.95 median qi        0.649
+```
+
 ### Type 2 ROC
 
 Finally, to plot type 2 performance as a type 2 ROC, we can use
@@ -766,6 +782,22 @@ draws.roc2 |>
 ```
 
 ![](hmetad_files/figure-html/unnamed-chunk-15-1.png)
+
+Finally, one can obtain the area under these curves:
+
+``` r
+
+tibble(.row = 1) |>
+  add_auroc2_draws(m) |>
+  median_qi() |>
+  mutate(.true = auroc2(d)$auroc2)
+#> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`
+#> # A tibble: 2 × 9
+#>    .row response auroc2 .lower .upper .width .point .interval .true
+#>   <int>    <int>  <dbl>  <dbl>  <dbl>  <dbl> <chr>  <chr>     <dbl>
+#> 1     1        0  0.537  0.516  0.561   0.95 median qi        0.567
+#> 2     1        1  0.553  0.523  0.587   0.95 median qi        0.545
+```
 
 ## References
 

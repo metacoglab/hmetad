@@ -202,11 +202,13 @@ First, instead of fitting \textrm{meta-}d' directly, the `hmetad`
 package models the M-ratio M = \frac{\textrm{meta-}d'}{d'}. While this
 parameterization helps regularize against strong differences between
 \textrm{meta-}d' and d', the M-ratio is still typically bounded by zero.
-So, the `hmetad` package models the M-ratio on the logarithmic scale,
-i.e., \textrm{log }M = \textrm{log}\frac{\textrm{meta-}d'}{d'}. In this
-parameterization, one can compute \textrm{meta-}d' as \textrm{meta-}d' =
-e^{\textrm{log }M}d'. In principle, however, M-ratio may negative
-values. This might occur for two reasons:
+So, by default the `hmetad` package models the M-ratio on the
+logarithmic scale, i.e., \textrm{log }M =
+\textrm{log}\frac{\textrm{meta-}d'}{d'}. In this parameterization, one
+can compute \textrm{meta-}d' as \textrm{meta-}d' = e^{\textrm{log }M}d'.
+
+In principle, however, M-ratio may negative values. This might occur for
+two reasons:
 
 1.  A participant has below-chance task performance (i.e., a negative d’
     value) but above-chance metacognitive sensitivity (i.e., positive
@@ -217,7 +219,9 @@ values. This might occur for two reasons:
 To allow for negative values of M-ratio during model fitting, you can
 use the argument `allow_negative_values=TRUE`. This will model M-ratio
 on the unbounded identity scale instead of the logarithmic scale (which
-is lower bounded at zero).
+is lower bounded at zero). However, note that priors for the `Intercept`
+on this scale should be centered at `1` (not at `0` as on the
+logarithmic scale).
 
 Second, the confidence criteria \textrm{meta-}c\_{2,1:K}^0 and
 \textrm{meta-}c\_{2,1:K}^1 each have two constraints. Namely,

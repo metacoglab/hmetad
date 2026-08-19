@@ -109,16 +109,16 @@ roc2_draws(example_model(), newdata)
 #> # Groups:   .row, response, confidence [6]
 #>     .row response confidence .chain .iteration .draw p_hit2  p_fa2
 #>    <int>    <int>      <int>  <int>      <int> <int>  <dbl>  <dbl>
-#>  1     1        0          3     NA         NA     1  0.219 0.0617
-#>  2     1        0          3     NA         NA     2  0.188 0.0394
-#>  3     1        0          3     NA         NA     3  0.177 0.0423
-#>  4     1        0          3     NA         NA     4  0.190 0.0447
-#>  5     1        0          3     NA         NA     5  0.190 0.0496
-#>  6     1        0          3     NA         NA     6  0.224 0.0520
-#>  7     1        0          3     NA         NA     7  0.207 0.0518
-#>  8     1        0          3     NA         NA     8  0.217 0.0612
-#>  9     1        0          3     NA         NA     9  0.182 0.0459
-#> 10     1        0          3     NA         NA    10  0.238 0.0543
+#>  1     1        0          3     NA         NA     1  0.180 0.0459
+#>  2     1        0          3     NA         NA     2  0.210 0.0706
+#>  3     1        0          3     NA         NA     3  0.190 0.0517
+#>  4     1        0          3     NA         NA     4  0.202 0.0380
+#>  5     1        0          3     NA         NA     5  0.194 0.0515
+#>  6     1        0          3     NA         NA     6  0.215 0.0612
+#>  7     1        0          3     NA         NA     7  0.197 0.0462
+#>  8     1        0          3     NA         NA     8  0.187 0.0498
+#>  9     1        0          3     NA         NA     9  0.222 0.0494
+#> 10     1        0          3     NA         NA    10  0.193 0.0563
 #> # ℹ 5,990 more rows
 
 # use posterior::rvar for additional efficiency
@@ -129,11 +129,11 @@ roc2_rvars(example_model(), newdata)
 #>    .row response confidence        p_hit2          p_fa2
 #>   <int>    <int>      <int>    <rvar[1d]>     <rvar[1d]>
 #> 1     1        0          1  0.75 ± 0.020  0.526 ± 0.032
-#> 2     1        0          2  0.47 ± 0.024  0.215 ± 0.026
-#> 3     1        0          3  0.21 ± 0.020  0.053 ± 0.011
-#> 4     1        1          1  0.74 ± 0.019  0.516 ± 0.030
-#> 5     1        1          2  0.45 ± 0.023  0.197 ± 0.024
-#> 6     1        1          3  0.22 ± 0.020  0.059 ± 0.012
+#> 2     1        0          2  0.47 ± 0.024  0.216 ± 0.024
+#> 3     1        0          3  0.21 ± 0.021  0.053 ± 0.011
+#> 4     1        1          1  0.74 ± 0.019  0.515 ± 0.030
+#> 5     1        1          2  0.45 ± 0.024  0.197 ± 0.023
+#> 6     1        1          3  0.22 ± 0.021  0.058 ± 0.011
 
 # include the ROC bounds
 # equivalent to `roc2_draws(newdata, example_model(), bounds = TRUE)`
@@ -142,16 +142,16 @@ roc2_draws(example_model(), newdata, bounds = TRUE)
 #> # Groups:   .row, response, confidence [10]
 #>     .row response confidence .chain .iteration .draw p_hit2  p_fa2
 #>    <int>    <int>      <int>  <int>      <int> <int>  <dbl>  <dbl>
-#>  1     1        0          3     NA         NA     1  0.219 0.0617
-#>  2     1        0          3     NA         NA     2  0.188 0.0394
-#>  3     1        0          3     NA         NA     3  0.177 0.0423
-#>  4     1        0          3     NA         NA     4  0.190 0.0447
-#>  5     1        0          3     NA         NA     5  0.190 0.0496
-#>  6     1        0          3     NA         NA     6  0.224 0.0520
-#>  7     1        0          3     NA         NA     7  0.207 0.0518
-#>  8     1        0          3     NA         NA     8  0.217 0.0612
-#>  9     1        0          3     NA         NA     9  0.182 0.0459
-#> 10     1        0          3     NA         NA    10  0.238 0.0543
+#>  1     1        0          3     NA         NA     1  0.180 0.0459
+#>  2     1        0          3     NA         NA     2  0.210 0.0706
+#>  3     1        0          3     NA         NA     3  0.190 0.0517
+#>  4     1        0          3     NA         NA     4  0.202 0.0380
+#>  5     1        0          3     NA         NA     5  0.194 0.0515
+#>  6     1        0          3     NA         NA     6  0.215 0.0612
+#>  7     1        0          3     NA         NA     7  0.197 0.0462
+#>  8     1        0          3     NA         NA     8  0.187 0.0498
+#>  9     1        0          3     NA         NA     9  0.222 0.0494
+#> 10     1        0          3     NA         NA    10  0.193 0.0563
 #> # ℹ 9,990 more rows
 # }
 ```

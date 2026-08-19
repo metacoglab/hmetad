@@ -13,7 +13,7 @@ metacognitive_bias_draws and add_metacognitive_bias_draws, parameters
 are returned in a tidy tibble with one row per posterior draw and per
 response. For metacognitive_bias_rvars and
 add_metacognitive_bias_rvars, parameters are returned as
-posterior::rvars, with one row per row in newdata and per response."><meta property="og:image" content="https://metacoglab.github.io/hmetad/logo.svg"><meta name="google-site-verification" content="iiir4yUeAhnMJ1Li5Q7z796I_3JkBmSfwAaipMRMSOo"></head><body>
+posterior::rvars, with one row per row in newdata and per response."><meta name="google-site-verification" content="iiir4yUeAhnMJ1Li5Q7z796I_3JkBmSfwAaipMRMSOo"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -60,7 +60,8 @@ posterior::rvars, with one row per row in newdata and per response."><meta prope
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.svg" class="logo" alt=""><h1>Obtain posterior draws of an index of metacognitive bias</h1>
+
+      <h1>Obtain posterior draws of an index of metacognitive bias</h1>
       <small class="dont-index">Source: <a href="https://github.com/metacoglab/hmetad/blob/main/R/metacognitive_bias_draws.R" class="external-link"><code>R/metacognitive_bias_draws.R</code></a></small>
       <div class="d-none name"><code>bias_draws.Rd</code></div>
     </div>
@@ -147,135 +148,20 @@ the confidence criteria <code>meta_c2_{response}</code>.</p></li>
 <span class="r-in"><span><span class="co"># compute metacognitive bias</span></span></span>
 <span class="r-in"><span><span class="co"># equivalent to `add_metacognitive_bias_draws(newdata, example_model())`</span></span></span>
 <span class="r-in"><span><span class="fu">metacognitive_bias_draws</span><span class="op">(</span><span class="fu"><a href="example_model.html">example_model</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">newdata</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=&lt;K&gt;`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Compiling Stan program...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Start sampling</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Rejecting initial value:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:   Error evaluating the log probability at the initial value.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Exception: Exception: multinomial_logit_lpmf: log-probabilities parameter[8] is -inf, but must be finite! (in 'anon_model', line 43, column 2 to line 46, column 66) (in 'anon_model', line 81, column 6 to column 185)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Rejecting initial value:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:   Error evaluating the log probability at the initial value.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Exception: Exception: multinomial_logit_lpmf: log-probabilities parameter[8] is -inf, but must be finite! (in 'anon_model', line 43, column 2 to line 46, column 66) (in 'anon_model', line 81, column 6 to column 185)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Gradient evaluation took 2.5e-05 seconds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.25 seconds.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Adjust your expectations accordingly!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration:   1 / 500 [  0%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration:  50 / 500 [ 10%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 100 / 500 [ 20%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 150 / 500 [ 30%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 200 / 500 [ 40%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 250 / 500 [ 50%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 251 / 500 [ 50%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 300 / 500 [ 60%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 350 / 500 [ 70%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 400 / 500 [ 80%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 450 / 500 [ 90%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: Iteration: 500 / 500 [100%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:  Elapsed Time: 0.027 seconds (Warm-up)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:                0.018 seconds (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1:                0.045 seconds (Total)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 1: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 2: Rejecting initial value:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 2:   Error evaluating the log probability at the initial value.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 2: Exception: Exception: multinomial_logit_lpmf: log-probabilities parameter[7] is -inf, but must be finite! (in 'anon_model', line 43, column 2 to line 46, column 66) (in 'anon_model', line 81, column 6 to column 185)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 2: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 2: Gradient evaluation took 1.3e-05 seconds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.13 seconds.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 2: Adjust your expectations accordingly!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 2: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 2: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 2: Iteration:   1 / 500 [  0%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 2: Iteration:  50 / 500 [ 10%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 2: Iteration: 100 / 500 [ 20%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 2: Iteration: 150 / 500 [ 30%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 2: Iteration: 200 / 500 [ 40%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 2: Iteration: 250 / 500 [ 50%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 2: Iteration: 251 / 500 [ 50%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 2: Iteration: 300 / 500 [ 60%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 2: Iteration: 350 / 500 [ 70%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 2: Iteration: 400 / 500 [ 80%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 2: Iteration: 450 / 500 [ 90%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 2: Iteration: 500 / 500 [100%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 2: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 2:  Elapsed Time: 0.029 seconds (Warm-up)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 2:                0.024 seconds (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 2:                0.053 seconds (Total)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 2: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3: Rejecting initial value:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3:   Error evaluating the log probability at the initial value.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3: Exception: Exception: multinomial_logit_lpmf: log-probabilities parameter[6] is -inf, but must be finite! (in 'anon_model', line 43, column 2 to line 46, column 66) (in 'anon_model', line 81, column 6 to column 185)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3: Gradient evaluation took 1.3e-05 seconds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.13 seconds.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3: Adjust your expectations accordingly!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3: Iteration:   1 / 500 [  0%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3: Iteration:  50 / 500 [ 10%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3: Iteration: 100 / 500 [ 20%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3: Iteration: 150 / 500 [ 30%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3: Iteration: 200 / 500 [ 40%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3: Iteration: 250 / 500 [ 50%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3: Iteration: 251 / 500 [ 50%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3: Iteration: 300 / 500 [ 60%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3: Iteration: 350 / 500 [ 70%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3: Iteration: 400 / 500 [ 80%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3: Iteration: 450 / 500 [ 90%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3: Iteration: 500 / 500 [100%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3:  Elapsed Time: 0.028 seconds (Warm-up)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3:                0.022 seconds (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3:                0.05 seconds (Total)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 3: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 4: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 4: Gradient evaluation took 1.2e-05 seconds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.12 seconds.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 4: Adjust your expectations accordingly!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 4: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 4: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 4: Iteration:   1 / 500 [  0%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 4: Iteration:  50 / 500 [ 10%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 4: Iteration: 100 / 500 [ 20%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 4: Iteration: 150 / 500 [ 30%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 4: Iteration: 200 / 500 [ 40%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 4: Iteration: 250 / 500 [ 50%]  (Warmup)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 4: Iteration: 251 / 500 [ 50%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 4: Iteration: 300 / 500 [ 60%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 4: Iteration: 350 / 500 [ 70%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 4: Iteration: 400 / 500 [ 80%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 4: Iteration: 450 / 500 [ 90%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 4: Iteration: 500 / 500 [100%]  (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 4: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 4:  Elapsed Time: 0.027 seconds (Warm-up)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 4:                0.022 seconds (Sampling)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 4:                0.049 seconds (Total)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chain 4: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2,000 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   .row, response [2]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     .row response .chain .iteration .draw metacognitive_bias</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     1        0     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1              0.957</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>     1        0     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     2              1.11 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>     1        0     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     3              1.10 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>     1        0     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     4              1.07 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>     1        0     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     5              1.07 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>     1        0     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     6              0.990</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>     1        0     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     7              1.04 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>     1        0     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     8              1.00 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>     1        0     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     9              1.05 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>     1        0     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>    10              1.02 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     1        0     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1              1.09 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>     1        0     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     2              0.983</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>     1        0     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     3              1.05 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>     1        0     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     4              1.05 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>     1        0     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     5              1.04 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>     1        0     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     6              1.03 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>     1        0     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     7              1.02 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>     1        0     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     8              1.05 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>     1        0     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     9              1.06 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>     1        0     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>    10              1.07 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1,990 more rows</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># use `posterior::rvar` for increased efficiency</span></span></span>
@@ -285,8 +171,8 @@ the confidence criteria <code>meta_c2_{response}</code>.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   .row, response [2]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    .row response metacognitive_bias</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;rvar[1d]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1        0          1 <span style="color: #949494;">± 0.045</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     1        1          1 <span style="color: #949494;">± 0.044</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1        0          1 <span style="color: #949494;">± 0.044</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     1        1          1 <span style="color: #949494;">± 0.043</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># average over the two type 1 responses</span></span></span>
 <span class="r-in"><span><span class="fu">metacognitive_bias_rvars</span><span class="op">(</span><span class="fu"><a href="example_model.html">example_model</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">newdata</span>, by_response <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
@@ -294,7 +180,7 @@ the confidence criteria <code>meta_c2_{response}</code>.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   .row [1]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    .row metacognitive_bias</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;rvar[1d]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1           1 <span style="color: #949494;">± 0.03</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1          1 <span style="color: #949494;">± 0.028</span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

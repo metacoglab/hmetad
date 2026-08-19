@@ -111,16 +111,16 @@ type1_draws(example_model(), newdata)
 #> # Groups:   .row, stimulus, response [4]
 #>     .row stimulus response .draw .epred
 #>    <int>    <int>    <int> <int>  <dbl>
-#>  1     1        0        0     1  0.747
-#>  2     1        0        0     2  0.671
-#>  3     1        0        0     3  0.673
-#>  4     1        0        0     4  0.679
-#>  5     1        0        0     5  0.699
-#>  6     1        0        0     6  0.683
-#>  7     1        0        0     7  0.696
-#>  8     1        0        0     8  0.707
-#>  9     1        0        0     9  0.682
-#> 10     1        0        0    10  0.691
+#>  1     1        0        0     1  0.714
+#>  2     1        0        0     2  0.691
+#>  3     1        0        0     3  0.708
+#>  4     1        0        0     4  0.693
+#>  5     1        0        0     5  0.677
+#>  6     1        0        0     6  0.711
+#>  7     1        0        0     7  0.683
+#>  8     1        0        0     8  0.702
+#>  9     1        0        0     9  0.723
+#> 10     1        0        0    10  0.722
 #> # ℹ 3,990 more rows
 
 # obtain model predictions (`posterior::rvar`)
@@ -130,7 +130,7 @@ type1_rvars(example_model(), newdata, by_stimulus = FALSE)
 #> # Groups:   .row, response [2]
 #>    .row response        .epred
 #>   <int>    <int>    <rvar[1d]>
-#> 1     1        0  0.51 ± 0.014
-#> 2     1        1  0.49 ± 0.014
+#> 1     1        0  0.51 ± 0.015
+#> 2     1        1  0.49 ± 0.015
 # }
 ```

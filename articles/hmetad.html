@@ -80,7 +80,8 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.svg" class="logo" alt=""><h1>Fitting the meta-d' model</h1>
+
+      <h1>Fitting the meta-d' model</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/metacoglab/hmetad/blob/main/vignettes/hmetad.Rmd" class="external-link"><code>vignettes/hmetad.Rmd</code></a></small>
@@ -709,13 +710,25 @@ probability of a <code>"1"</code> response with
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="fl">18</span><span class="op">)</span></span>
 <span><span class="co">#&gt; `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=&lt;K&gt;`</span></span></code></pre></div>
 <p><img src="hmetad_files/figure-html/roc1-1.png" class="r-plt" alt="" width="75%" style="display: block; margin: auto;"></p>
+<p>As a measure of performance, one can similarly obtain the area under
+this curve:</p>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/auroc1_draws.html">add_auroc1_draws</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://mjskay.github.io/ggdist/reference/point_interval.html" class="external-link">median_qi</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>.true <span class="op">=</span> <span class="fu"><a href="../reference/auroc1.html">auroc1</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span><span class="op">$</span><span class="va">auroc1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=&lt;K&gt;`</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 8</span></span></span>
+<span><span class="co">#&gt;    .row auroc1 .lower .upper .width .point .interval .true</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1  0.648  0.616  0.680   0.95 median qi        0.649</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="type-2-roc">Type 2 ROC<a class="anchor" aria-label="anchor" href="#type-2-roc"></a>
 </h3>
 <p>Finally, to plot type 2 performance as a type 2 ROC, we can use
 <code>add_roc2_draws</code>:</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">draws.roc2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/roc2_draws.html">add_roc2_draws</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 24,000 × 8</span></span></span>
@@ -742,7 +755,7 @@ with <code>confidence &gt;= c</code> given <code>response</code>). Note
 that this is the response-specific type 2 ROC, so there are two separate
 curves for the two type 1 responses.</p>
 <p>We can also plot the type 2 ROC similarly:</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">draws.roc2</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://mjskay.github.io/ggdist/reference/point_interval.html" class="external-link">median_qi</a></span><span class="op">(</span><span class="va">p_hit2</span>, <span class="va">p_fa2</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>response <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">response</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -764,6 +777,18 @@ curves for the two type 1 responses.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="fl">18</span><span class="op">)</span></span>
 <span><span class="co">#&gt; `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=&lt;K&gt;`</span></span></code></pre></div>
 <p><img src="hmetad_files/figure-html/unnamed-chunk-15-1.png" class="r-plt" alt="" width="75%" style="display: block; margin: auto;"></p>
+<p>Finally, one can obtain the area under these curves:</p>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>.row <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/auroc2_draws.html">add_auroc2_draws</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://mjskay.github.io/ggdist/reference/point_interval.html" class="external-link">median_qi</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>.true <span class="op">=</span> <span class="fu"><a href="../reference/auroc2.html">auroc2</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span><span class="op">$</span><span class="va">auroc2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=&lt;K&gt;`</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 9</span></span></span>
+<span><span class="co">#&gt;    .row response auroc2 .lower .upper .width .point .interval .true</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1        0  0.537  0.516  0.561   0.95 median qi        0.567</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1        1  0.553  0.523  0.587   0.95 median qi        0.545</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2 unnumbered">

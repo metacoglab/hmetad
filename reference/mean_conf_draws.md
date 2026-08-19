@@ -128,16 +128,16 @@ mean_confidence_draws(example_model(), newdata)
 #> # Groups:   .row, stimulus, response [4]
 #>     .row .chain .iteration .draw stimulus response .epred
 #>    <int>  <int>      <int> <int>    <int>    <int>  <dbl>
-#>  1     1     NA         NA     1        0        0   2.55
-#>  2     1     NA         NA     1        0        1   1.75
-#>  3     1     NA         NA     1        1        0   1.94
-#>  4     1     NA         NA     1        1        1   2.36
-#>  5     1     NA         NA     2        0        0   2.34
-#>  6     1     NA         NA     2        0        1   1.78
-#>  7     1     NA         NA     2        1        0   1.66
-#>  8     1     NA         NA     2        1        1   2.47
-#>  9     1     NA         NA     3        0        0   2.34
-#> 10     1     NA         NA     3        0        1   1.77
+#>  1     1     NA         NA     1        0        0   2.38
+#>  2     1     NA         NA     1        0        1   1.77
+#>  3     1     NA         NA     1        1        0   1.78
+#>  4     1     NA         NA     1        1        1   2.37
+#>  5     1     NA         NA     2        0        0   2.40
+#>  6     1     NA         NA     2        0        1   1.79
+#>  7     1     NA         NA     2        1        0   1.86
+#>  8     1     NA         NA     2        1        1   2.32
+#>  9     1     NA         NA     3        0        0   2.41
+#> 10     1     NA         NA     3        0        1   1.76
 #> # ℹ 3,990 more rows
 
 # compute mean confidence by stimulus
@@ -147,15 +147,15 @@ mean_confidence_draws(example_model(), newdata, by_response = FALSE)
 #> # Groups:   .row, stimulus [2]
 #>     .row .chain .iteration .draw stimulus .epred
 #>    <int>  <int>      <int> <int>    <int>  <dbl>
-#>  1     1     NA         NA     1        0   2.35
-#>  2     1     NA         NA     1        1   2.24
-#>  3     1     NA         NA     2        0   2.16
-#>  4     1     NA         NA     2        1   2.21
-#>  5     1     NA         NA     3        0   2.15
-#>  6     1     NA         NA     3        1   2.15
-#>  7     1     NA         NA     4        0   2.19
-#>  8     1     NA         NA     4        1   2.14
-#>  9     1     NA         NA     5        0   2.18
+#>  1     1     NA         NA     1        0   2.20
+#>  2     1     NA         NA     1        1   2.17
+#>  3     1     NA         NA     2        0   2.21
+#>  4     1     NA         NA     2        1   2.18
+#>  5     1     NA         NA     3        0   2.22
+#>  6     1     NA         NA     3        1   2.17
+#>  7     1     NA         NA     4        0   2.25
+#>  8     1     NA         NA     4        1   2.26
+#>  9     1     NA         NA     5        0   2.19
 #> 10     1     NA         NA     5        1   2.19
 #> # ℹ 1,990 more rows
 
@@ -166,16 +166,16 @@ mean_confidence_draws(example_model(), newdata, by_stimulus = FALSE)
 #> # Groups:   .row, response [2]
 #>     .row .chain .iteration .draw response .epred
 #>    <int>  <int>      <int> <int>    <int>  <dbl>
-#>  1     1     NA         NA     1        0   2.38
-#>  2     1     NA         NA     1        1   2.20
-#>  3     1     NA         NA     2        0   2.12
-#>  4     1     NA         NA     2        1   2.25
-#>  5     1     NA         NA     3        0   2.13
-#>  6     1     NA         NA     3        1   2.18
-#>  7     1     NA         NA     4        0   2.19
-#>  8     1     NA         NA     4        1   2.15
-#>  9     1     NA         NA     5        0   2.17
-#> 10     1     NA         NA     5        1   2.19
+#>  1     1     NA         NA     1        0   2.18
+#>  2     1     NA         NA     1        1   2.19
+#>  3     1     NA         NA     2        0   2.24
+#>  4     1     NA         NA     2        1   2.16
+#>  5     1     NA         NA     3        0   2.22
+#>  6     1     NA         NA     3        1   2.17
+#>  7     1     NA         NA     4        0   2.25
+#>  8     1     NA         NA     4        1   2.26
+#>  9     1     NA         NA     5        0   2.20
+#> 10     1     NA         NA     5        1   2.18
 #> # ℹ 1,990 more rows
 
 # compute mean confidence by accuracy
@@ -185,16 +185,16 @@ mean_confidence_draws(example_model(), newdata, by_correct = TRUE)
 #> # Groups:   .row, correct [2]
 #>     .row .chain .iteration .draw correct .epred
 #>    <int>  <int>      <int> <int>   <int>  <dbl>
-#>  1     1     NA         NA     1       0   1.86
-#>  2     1     NA         NA     1       1   2.46
-#>  3     1     NA         NA     2       0   1.72
-#>  4     1     NA         NA     2       1   2.40
-#>  5     1     NA         NA     3       0   1.75
-#>  6     1     NA         NA     3       1   2.36
+#>  1     1     NA         NA     1       0   1.77
+#>  2     1     NA         NA     1       1   2.37
+#>  3     1     NA         NA     2       0   1.82
+#>  4     1     NA         NA     2       1   2.36
+#>  5     1     NA         NA     3       0   1.79
+#>  6     1     NA         NA     3       1   2.38
 #>  7     1     NA         NA     4       0   1.75
-#>  8     1     NA         NA     4       1   2.38
-#>  9     1     NA         NA     5       0   1.76
-#> 10     1     NA         NA     5       1   2.37
+#>  8     1     NA         NA     4       1   2.48
+#>  9     1     NA         NA     5       0   1.78
+#> 10     1     NA         NA     5       1   2.39
 #> # ℹ 1,990 more rows
 
 # compute mean confidence averaging over stimuli and responses
@@ -204,16 +204,16 @@ mean_confidence_draws(example_model(), newdata, by_stimulus = FALSE, by_response
 #> # Groups:   .row [1]
 #>     .row .chain .iteration .draw .epred
 #>    <int>  <int>      <int> <int>  <dbl>
-#>  1     1     NA         NA     1   2.30
-#>  2     1     NA         NA     2   2.18
-#>  3     1     NA         NA     3   2.15
-#>  4     1     NA         NA     4   2.17
-#>  5     1     NA         NA     5   2.18
-#>  6     1     NA         NA     6   2.25
-#>  7     1     NA         NA     7   2.18
-#>  8     1     NA         NA     8   2.21
-#>  9     1     NA         NA     9   2.20
-#> 10     1     NA         NA    10   2.25
+#>  1     1     NA         NA     1   2.18
+#>  2     1     NA         NA     2   2.20
+#>  3     1     NA         NA     3   2.19
+#>  4     1     NA         NA     4   2.25
+#>  5     1     NA         NA     5   2.19
+#>  6     1     NA         NA     6   2.19
+#>  7     1     NA         NA     7   2.25
+#>  8     1     NA         NA     8   2.19
+#>  9     1     NA         NA     9   2.26
+#> 10     1     NA         NA    10   2.20
 #> # ℹ 990 more rows
 
 # use `posterior::rvar` for increased efficiency
@@ -224,8 +224,8 @@ mean_confidence_rvars(example_model(), newdata)
 #>    .row stimulus response       .epred
 #>   <int>    <int>    <int>   <rvar[1d]>
 #> 1     1        0        0  2.4 ± 0.053
-#> 2     1        0        1  1.8 ± 0.059
-#> 3     1        1        0  1.8 ± 0.063
-#> 4     1        1        1  2.4 ± 0.052
+#> 2     1        0        1  1.8 ± 0.056
+#> 3     1        1        0  1.8 ± 0.059
+#> 4     1        1        1  2.4 ± 0.053
 # }
 ```

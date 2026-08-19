@@ -55,7 +55,15 @@ Transform data between common formats used in metacognition research
   curves
 
 - [`roc2()`](https://metacoglab.github.io/hmetad/reference/roc2.md) :
-  Calculate empirical type 2 receiver operating characteristic curves
+  Calculate empirical type 2 receiver operating characteristic curve
+
+- [`auroc1()`](https://metacoglab.github.io/hmetad/reference/auroc1.md)
+  : Calculate area under the empirical pseudo-type 1 receiver operating
+  characteristic curve
+
+- [`auroc2()`](https://metacoglab.github.io/hmetad/reference/auroc2.md)
+  : Calculate the area under empirical type 2 receiver operating
+  characteristic curves
 
 - [`mean_confidence()`](https://metacoglab.github.io/hmetad/reference/mean_confidence.md)
   : Calculate empirical mean confidence
@@ -112,6 +120,18 @@ from fitted models.
   [`add_roc2_rvars()`](https://metacoglab.github.io/hmetad/reference/roc2_draws.md)
   : Obtain posterior draws of the response-specific type 2 receiver
   operating characteristic (ROC) curves.
+- [`auroc1_draws()`](https://metacoglab.github.io/hmetad/reference/auroc1_draws.md)
+  [`add_auroc1_draws()`](https://metacoglab.github.io/hmetad/reference/auroc1_draws.md)
+  [`auroc1_rvars()`](https://metacoglab.github.io/hmetad/reference/auroc1_draws.md)
+  [`add_auroc1_rvars()`](https://metacoglab.github.io/hmetad/reference/auroc1_draws.md)
+  : Obtain posterior draws of the area under the pseudo type 1 receiver
+  operating characteristic (ROC) curve.
+- [`auroc2_draws()`](https://metacoglab.github.io/hmetad/reference/auroc2_draws.md)
+  [`add_auroc2_draws()`](https://metacoglab.github.io/hmetad/reference/auroc2_draws.md)
+  [`auroc2_rvars()`](https://metacoglab.github.io/hmetad/reference/auroc2_draws.md)
+  [`add_auroc2_rvars()`](https://metacoglab.github.io/hmetad/reference/auroc2_draws.md)
+  : Obtain posterior draws of the area under the type 2 receiver
+  operating characteristic (ROC) curve.
 
 ## Simulating from the meta-d’ model
 

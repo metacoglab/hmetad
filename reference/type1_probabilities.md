@@ -100,8 +100,8 @@ type1_probabilities(sim_metad_condition(), condition, by_stimulus = FALSE)
 #> # Groups:   condition [2]
 #>   condition response     n     p
 #>       <int>    <int> <int> <dbl>
-#> 1         1        0    45  0.45
-#> 2         1        1    55  0.55
-#> 3         2        0    55  0.55
-#> 4         2        1    45  0.45
+#> 1         1        0    51  0.51
+#> 2         1        1    49  0.49
+#> 3         2        0    52  0.52
+#> 4         2        1    48  0.48
 ```

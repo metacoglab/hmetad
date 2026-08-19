@@ -3,7 +3,7 @@
 model includes one constant set of parameters, with no multilevel
 structure."><meta property="og:description" content="A model fit to the simulated data example_data. This
 model includes one constant set of parameters, with no multilevel
-structure."><meta property="og:image" content="https://metacoglab.github.io/hmetad/logo.svg"><meta name="google-site-verification" content="iiir4yUeAhnMJ1Li5Q7z796I_3JkBmSfwAaipMRMSOo"></head><body>
+structure."><meta name="google-site-verification" content="iiir4yUeAhnMJ1Li5Q7z796I_3JkBmSfwAaipMRMSOo"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -50,7 +50,8 @@ structure."><meta property="og:image" content="https://metacoglab.github.io/hmet
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.svg" class="logo" alt=""><h1>Example meta-d' model for model post-processing</h1>
+
+      <h1>Example meta-d' model for model post-processing</h1>
       <small class="dont-index">Source: <a href="https://github.com/metacoglab/hmetad/blob/main/R/data.R" class="external-link"><code>R/data.R</code></a></small>
       <div class="d-none name"><code>example_model.Rd</code></div>
     </div>
@@ -89,18 +90,18 @@ structure.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Regression Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Intercept     0.08      0.15    -0.20     0.35 1.00      839      761</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Intercept     0.08      0.14    -0.17     0.34 1.01      740      760</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Further Distributional Parameters:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> dprime              1.02      0.08     0.85     1.20 1.00     1032      828</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> c                   0.03      0.04    -0.05     0.10 1.00      842      795</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2zero1diff     0.48      0.04     0.41     0.55 1.00     1116      677</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2zero2diff     0.52      0.04     0.44     0.59 1.00     1116      849</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2zero3diff     0.63      0.05     0.53     0.75 1.00     1318      732</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2one1diff      0.48      0.03     0.42     0.54 1.00      895      844</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2one2diff      0.54      0.04     0.47     0.62 1.01      883      736</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> metac2one3diff      0.54      0.05     0.45     0.64 1.00     1207      806</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> dprime              1.03      0.08     0.86     1.20 1.01      788      692</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> c                   0.03      0.04    -0.06     0.11 1.00      892      740</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> metac2zero1diff     0.48      0.04     0.41     0.55 1.01      754      701</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> metac2zero2diff     0.51      0.04     0.44     0.60 1.01     1172      872</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> metac2zero3diff     0.63      0.06     0.53     0.75 1.00      974      511</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> metac2one1diff      0.48      0.03     0.42     0.55 1.00     1191      794</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> metac2one2diff      0.54      0.04     0.46     0.62 1.00      872      607</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> metac2one3diff      0.54      0.05     0.45     0.64 1.00      882      554</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> and Tail_ESS are effective sample size measures, and Rhat is the potential</span>
@@ -112,16 +113,16 @@ structure.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   .row, stimulus, joint_response, response, confidence [16]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     .row stimulus joint_response response confidence .epred .chain .iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     1        0              1        0          4  0.164     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>     1        0              1        0          4  0.126     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>     1        0              1        0          4  0.119     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>     1        0              1        0          4  0.129     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>     1        0              1        0          4  0.133     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     1        0              1        0          4  0.129     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>     1        0              1        0          4  0.145     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>     1        0              1        0          4  0.134     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>     1        0              1        0          4  0.140     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>     1        0              1        0          4  0.131     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>     1        0              1        0          4  0.153     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>     1        0              1        0          4  0.144     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>     1        0              1        0          4  0.153     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>     1        0              1        0          4  0.124     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>     1        0              1        0          4  0.165     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>     1        0              1        0          4  0.135     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>     1        0              1        0          4  0.132     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>     1        0              1        0          4  0.160     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>     1        0              1        0          4  0.140     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 15,990 more rows</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: .draw &lt;int&gt;</span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>

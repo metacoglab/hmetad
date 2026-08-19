@@ -96,7 +96,9 @@ fit_metad(
 
   If `FALSE` (default), M-ratio is modeled on the logarithmic scale to
   prevent negative values. If `TRUE`, M-ratio is modeled on the identity
-  scale which allows for `M <= 0`.
+  scale which allows for `M <= 0`. Note that if
+  `allow_negative_values=TRUE`, priors for the `Intercept` should be
+  centered at `1` (not at `0` as on the logarithmic scale).
 
 - stanvars:
 
@@ -160,8 +162,8 @@ fit_metad(N ~ 1, sim_metad())
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
 #> Chain 1: 
-#> Chain 1: Gradient evaluation took 1.9e-05 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.19 seconds.
+#> Chain 1: Gradient evaluation took 2.1e-05 seconds
+#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.21 seconds.
 #> Chain 1: Adjust your expectations accordingly!
 #> Chain 1: 
 #> Chain 1: 
@@ -178,12 +180,15 @@ fit_metad(N ~ 1, sim_metad())
 #> Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.119 seconds (Warm-up)
-#> Chain 1:                0.113 seconds (Sampling)
-#> Chain 1:                0.232 seconds (Total)
+#> Chain 1:  Elapsed Time: 0.102 seconds (Warm-up)
+#> Chain 1:                0.199 seconds (Sampling)
+#> Chain 1:                0.301 seconds (Total)
 #> Chain 1: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
+#> Chain 2: Rejecting initial value:
+#> Chain 2:   Error evaluating the log probability at the initial value.
+#> Chain 2: Exception: Exception: multinomial_logit_lpmf: log-probabilities parameter[8] is -inf, but must be finite! (in 'anon_model', line 43, column 2 to line 46, column 66) (in 'anon_model', line 81, column 6 to column 185)
 #> Chain 2: 
 #> Chain 2: Gradient evaluation took 1.3e-05 seconds
 #> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.13 seconds.
@@ -203,9 +208,9 @@ fit_metad(N ~ 1, sim_metad())
 #> Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 2: 
-#> Chain 2:  Elapsed Time: 0.113 seconds (Warm-up)
+#> Chain 2:  Elapsed Time: 0.225 seconds (Warm-up)
 #> Chain 2:                0.113 seconds (Sampling)
-#> Chain 2:                0.226 seconds (Total)
+#> Chain 2:                0.338 seconds (Total)
 #> Chain 2: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
@@ -228,15 +233,15 @@ fit_metad(N ~ 1, sim_metad())
 #> Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 3: 
-#> Chain 3:  Elapsed Time: 0.116 seconds (Warm-up)
-#> Chain 3:                0.103 seconds (Sampling)
-#> Chain 3:                0.219 seconds (Total)
+#> Chain 3:  Elapsed Time: 0.139 seconds (Warm-up)
+#> Chain 3:                0.186 seconds (Sampling)
+#> Chain 3:                0.325 seconds (Total)
 #> Chain 3: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
 #> Chain 4: 
-#> Chain 4: Gradient evaluation took 1.3e-05 seconds
-#> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.13 seconds.
+#> Chain 4: Gradient evaluation took 1.8e-05 seconds
+#> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.18 seconds.
 #> Chain 4: Adjust your expectations accordingly!
 #> Chain 4: 
 #> Chain 4: 
@@ -253,9 +258,9 @@ fit_metad(N ~ 1, sim_metad())
 #> Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 4: 
-#> Chain 4:  Elapsed Time: 0.111 seconds (Warm-up)
-#> Chain 4:                0.12 seconds (Sampling)
-#> Chain 4:                0.231 seconds (Total)
+#> Chain 4:  Elapsed Time: 0.12 seconds (Warm-up)
+#> Chain 4:                0.104 seconds (Sampling)
+#> Chain 4:                0.224 seconds (Total)
 #> Chain 4: 
 #>  Family: metad__4__normal__absolute__multinomial 
 #>   Links: mu = log 
@@ -266,18 +271,18 @@ fit_metad(N ~ 1, sim_metad())
 #> 
 #> Regression Coefficients:
 #>           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-#> Intercept     0.18      0.31    -0.51     0.74 1.00     2847     2447
+#> Intercept    -0.56      0.94    -3.07     0.48 1.00     1385      606
 #> 
 #> Further Distributional Parameters:
 #>                 Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-#> dprime              1.56      0.28     1.03     2.13 1.00     4120     2983
-#> c                  -0.09      0.13    -0.34     0.18 1.00     3952     3008
-#> metac2zero1diff     0.64      0.14     0.39     0.94 1.00     3894     3223
-#> metac2zero2diff     0.50      0.13     0.28     0.78 1.00     4591     3109
-#> metac2zero3diff     0.58      0.16     0.30     0.93 1.00     4640     2960
-#> metac2one1diff      0.52      0.13     0.30     0.80 1.00     4131     2640
-#> metac2one2diff      0.80      0.17     0.49     1.17 1.00     4292     3013
-#> metac2one3diff      0.69      0.18     0.36     1.07 1.00     4352     2527
+#> dprime              1.36      0.27     0.82     1.90 1.00     3771     2746
+#> c                   0.05      0.14    -0.22     0.32 1.00     3291     2896
+#> metac2zero1diff     0.67      0.14     0.42     0.96 1.00     3053     2562
+#> metac2zero2diff     0.36      0.11     0.18     0.59 1.00     3223     2297
+#> metac2zero3diff     0.45      0.13     0.22     0.74 1.00     4001     2614
+#> metac2one1diff      0.38      0.10     0.21     0.59 1.00     3001     2750
+#> metac2one2diff      0.52      0.12     0.31     0.78 1.00     3601     2187
+#> metac2one3diff      0.56      0.14     0.31     0.86 1.00     3526     2477
 #> 
 #> Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
 #> and Tail_ESS are effective sample size measures, and Rhat is the potential
@@ -297,9 +302,12 @@ fit_metad(
 #> Start sampling
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
+#> Chain 1: Rejecting initial value:
+#> Chain 1:   Error evaluating the log probability at the initial value.
+#> Chain 1: Exception: Exception: multinomial_logit_lpmf: log-probabilities parameter[6] is -inf, but must be finite! (in 'anon_model', line 43, column 2 to line 46, column 66) (in 'anon_model', line 159, column 6 to column 200)
 #> Chain 1: 
-#> Chain 1: Gradient evaluation took 4e-05 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.4 seconds.
+#> Chain 1: Gradient evaluation took 4.5e-05 seconds
+#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.45 seconds.
 #> Chain 1: Adjust your expectations accordingly!
 #> Chain 1: 
 #> Chain 1: 
@@ -316,24 +324,18 @@ fit_metad(
 #> Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 1.031 seconds (Warm-up)
-#> Chain 1:                2.047 seconds (Sampling)
-#> Chain 1:                3.078 seconds (Total)
+#> Chain 1:  Elapsed Time: 0.403 seconds (Warm-up)
+#> Chain 1:                0.609 seconds (Sampling)
+#> Chain 1:                1.012 seconds (Total)
 #> Chain 1: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
 #> Chain 2: Rejecting initial value:
 #> Chain 2:   Error evaluating the log probability at the initial value.
-#> Chain 2: Exception: Exception: multinomial_logit_lpmf: log-probabilities parameter[8] is -inf, but must be finite! (in 'anon_model', line 43, column 2 to line 46, column 66) (in 'anon_model', line 159, column 6 to column 200)
-#> Chain 2: Rejecting initial value:
-#> Chain 2:   Error evaluating the log probability at the initial value.
-#> Chain 2: Exception: Exception: multinomial_logit_lpmf: log-probabilities parameter[8] is -inf, but must be finite! (in 'anon_model', line 43, column 2 to line 46, column 66) (in 'anon_model', line 159, column 6 to column 200)
-#> Chain 2: Rejecting initial value:
-#> Chain 2:   Error evaluating the log probability at the initial value.
-#> Chain 2: Exception: Exception: multinomial_logit_lpmf: log-probabilities parameter[8] is -inf, but must be finite! (in 'anon_model', line 43, column 2 to line 46, column 66) (in 'anon_model', line 159, column 6 to column 200)
+#> Chain 2: Exception: Exception: multinomial_logit_lpmf: log-probabilities parameter[5] is -inf, but must be finite! (in 'anon_model', line 43, column 2 to line 46, column 66) (in 'anon_model', line 159, column 6 to column 200)
 #> Chain 2: 
-#> Chain 2: Gradient evaluation took 2.6e-05 seconds
-#> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.26 seconds.
+#> Chain 2: Gradient evaluation took 2.5e-05 seconds
+#> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.25 seconds.
 #> Chain 2: Adjust your expectations accordingly!
 #> Chain 2: 
 #> Chain 2: 
@@ -350,9 +352,9 @@ fit_metad(
 #> Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 2: 
-#> Chain 2:  Elapsed Time: 0.916 seconds (Warm-up)
-#> Chain 2:                2.061 seconds (Sampling)
-#> Chain 2:                2.977 seconds (Total)
+#> Chain 2:  Elapsed Time: 0.354 seconds (Warm-up)
+#> Chain 2:                0.689 seconds (Sampling)
+#> Chain 2:                1.043 seconds (Total)
 #> Chain 2: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
@@ -375,15 +377,15 @@ fit_metad(
 #> Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 3: 
-#> Chain 3:  Elapsed Time: 1.903 seconds (Warm-up)
-#> Chain 3:                2.067 seconds (Sampling)
-#> Chain 3:                3.97 seconds (Total)
+#> Chain 3:  Elapsed Time: 0.579 seconds (Warm-up)
+#> Chain 3:                0.97 seconds (Sampling)
+#> Chain 3:                1.549 seconds (Total)
 #> Chain 3: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
 #> Chain 4: 
-#> Chain 4: Gradient evaluation took 2.8e-05 seconds
-#> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.28 seconds.
+#> Chain 4: Gradient evaluation took 2.7e-05 seconds
+#> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.27 seconds.
 #> Chain 4: Adjust your expectations accordingly!
 #> Chain 4: 
 #> Chain 4: 
@@ -400,15 +402,10 @@ fit_metad(
 #> Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 4: 
-#> Chain 4:  Elapsed Time: 3.767 seconds (Warm-up)
-#> Chain 4:                1.988 seconds (Sampling)
-#> Chain 4:                5.755 seconds (Total)
+#> Chain 4:  Elapsed Time: 0.452 seconds (Warm-up)
+#> Chain 4:                1.779 seconds (Sampling)
+#> Chain 4:                2.231 seconds (Total)
 #> Chain 4: 
-#> Warning: There were 1 divergent transitions after warmup. See
-#> https://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
-#> to find out why this is a problem and how to eliminate them.
-#> Warning: Examine the pairs() plot to diagnose sampling problems
-#> Warning: There were 1 divergent transitions after warmup. Increasing adapt_delta above 0.8 may help. See http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
 #>  Family: metad__4__normal__absolute__multinomial 
 #>   Links: mu = log; dprime = identity; c = identity; metac2zero1diff = log; metac2zero2diff = log; metac2one1diff = log 
 #> Formula: N ~ condition 
@@ -423,37 +420,37 @@ fit_metad(
 #> 
 #> Regression Coefficients:
 #>                           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
-#> Intercept                    -6.34     15.29   -44.66    14.95 1.01      854
-#> dprime_Intercept              1.48      0.60     0.32     2.63 1.00     3526
-#> c_Intercept                  -0.45      0.28    -1.00     0.10 1.00     2545
-#> metac2zero1diff_Intercept    -1.39      0.53    -2.48    -0.40 1.00     2559
-#> metac2zero2diff_Intercept    -0.94      0.62    -2.22     0.21 1.00     3016
-#> metac2one1diff_Intercept     -0.89      0.49    -1.88     0.06 1.00     2882
-#> condition                     1.26      9.59   -17.51    20.53 1.01      677
-#> dprime_condition             -0.36      0.37    -1.07     0.35 1.00     3608
-#> c_condition                   0.26      0.18    -0.09     0.61 1.00     2571
-#> metac2zero1diff_condition     0.46      0.31    -0.15     1.07 1.00     2572
-#> metac2zero2diff_condition     0.01      0.40    -0.76     0.79 1.00     3018
-#> metac2one1diff_condition      0.12      0.31    -0.49     0.73 1.00     2829
+#> Intercept                    -1.60      6.69   -20.66     7.74 1.01      528
+#> dprime_Intercept              1.17      0.59     0.05     2.32 1.00     4018
+#> c_Intercept                   0.09      0.29    -0.45     0.65 1.00     2812
+#> metac2zero1diff_Intercept    -1.22      0.55    -2.36    -0.17 1.00     2525
+#> metac2zero2diff_Intercept    -0.27      0.52    -1.30     0.72 1.00     3507
+#> metac2one1diff_Intercept     -1.26      0.56    -2.42    -0.23 1.00     2721
+#> condition                     0.30      4.03    -8.18     9.96 1.01      519
+#> dprime_condition             -0.06      0.37    -0.77     0.67 1.00     3893
+#> c_condition                  -0.02      0.18    -0.37     0.33 1.00     2721
+#> metac2zero1diff_condition     0.30      0.34    -0.36     0.97 1.00     2511
+#> metac2zero2diff_condition    -0.32      0.36    -1.03     0.36 1.00     2839
+#> metac2one1diff_condition      0.37      0.34    -0.27     1.06 1.00     2480
 #>                           Tail_ESS
-#> Intercept                      527
-#> dprime_Intercept              2688
-#> c_Intercept                   2566
-#> metac2zero1diff_Intercept     2254
-#> metac2zero2diff_Intercept     2271
-#> metac2one1diff_Intercept      2518
-#> condition                      459
-#> dprime_condition              2790
-#> c_condition                   2391
-#> metac2zero1diff_condition     2580
-#> metac2zero2diff_condition     2509
-#> metac2one1diff_condition      2354
+#> Intercept                      477
+#> dprime_Intercept              3011
+#> c_Intercept                   2801
+#> metac2zero1diff_Intercept     2534
+#> metac2zero2diff_Intercept     3038
+#> metac2one1diff_Intercept      2581
+#> condition                      508
+#> dprime_condition              3014
+#> c_condition                   2669
+#> metac2zero1diff_condition     2526
+#> metac2zero2diff_condition     2596
+#> metac2one1diff_condition      2518
 #> 
 #> Further Distributional Parameters:
 #>                 Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-#> metac2zero3diff     0.57      0.12     0.37     0.81 1.00     3394     2385
-#> metac2one2diff      0.41      0.07     0.28     0.57 1.00     3261     2507
-#> metac2one3diff      0.55      0.11     0.36     0.77 1.00     3332     2584
+#> metac2zero3diff     0.55      0.11     0.35     0.78 1.00     3441     2707
+#> metac2one2diff      0.55      0.09     0.38     0.74 1.00     3321     2727
+#> metac2one3diff      0.71      0.14     0.46     1.01 1.00     3257     2379
 #> 
 #> Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
 #> and Tail_ESS are effective sample size measures, and Rhat is the potential

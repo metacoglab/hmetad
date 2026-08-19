@@ -6,13 +6,15 @@
 
 - Added `allow_negative_values` argument to `fit_metad`, which models
   M-ratio on the identity (rather than the logarithmic) scale to allow
-  negative values of M-ratio.
+  negative values of M-ratio
 - Added ability to simulate with negative M-ratios. **Note that the
   `log_M` arguments to simulation functions are renamed to reflect
-  this.**
+  this**
 - Added functions for empirical quantities (i.e., `type1_probabilities`,
   `type2_probabilities`, `joint_probabilities`, `roc1`, `roc2`, and
   `mean_confidence`), allowing for easy comparison with model estimates
+- Added functions for area under type 1 and type 2 ROCs (i.e., `auroc1`,
+  `auroc2`, `auroc1_draws`, and `auroc2_draws`)
 - Added a `by_response` argument to `roc2_draws` and related functions,
   allowing for type 2 ROCs collapsed across type 1 responses
 

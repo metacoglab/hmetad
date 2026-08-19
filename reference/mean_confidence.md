@@ -119,8 +119,8 @@ mean_confidence(sim_metad_condition(), condition, by_response = FALSE)
 #> # Groups:   condition [2]
 #>   condition stimulus mean_confidence
 #>       <int>    <int>           <dbl>
-#> 1         1        0            2.24
-#> 2         1        1            2   
-#> 3         2        0            2.26
-#> 4         2        1            2.22
+#> 1         1        0            2.14
+#> 2         1        1            2.06
+#> 3         2        0            2.06
+#> 4         2        1            2.32
 ```

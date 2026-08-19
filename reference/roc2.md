@@ -1,4 +1,4 @@
-# Calculate empirical type 2 receiver operating characteristic curves
+# Calculate empirical type 2 receiver operating characteristic curve
 
 Given a dataset `data`, determine the cumulative probability of each
 type 2 responses conditional on accuracy, optionally conditional on type
@@ -120,10 +120,10 @@ roc2(sim_metad_condition(), condition, by_response = FALSE)
 #> # Groups:   condition [2]
 #>   condition confidence   n_0   n_1   p_0   p_1  p_fa2 p_hit2
 #>       <int>      <int> <int> <int> <dbl> <dbl>  <dbl>  <dbl>
-#> 1         1          1    14    21  0.14  0.21 0.469   0.715
-#> 2         1          2    10    20  0.1   0.2  0.0625  0.443
-#> 3         1          3     2    18  0.02  0.18 0       0.207
-#> 4         2          1    17    12  0.17  0.12 0.461   0.821
-#> 5         2          2     9    17  0.09  0.17 0.147   0.571
-#> 6         2          3     4    19  0.04  0.19 0.0263  0.297
+#> 1         1          1    14    19  0.14  0.19 0.555   0.726
+#> 2         1          2     7    13  0.07  0.13 0.309   0.534
+#> 3         1          3     6    17  0.06  0.17 0.121   0.290
+#> 4         2          1    11    18  0.11  0.18 0.599   0.754
+#> 5         2          2    10    20  0.1   0.2  0.202   0.479
+#> 6         2          3     5    20  0.05  0.2  0.0312  0.206
 ```
