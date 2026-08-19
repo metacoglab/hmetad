@@ -12,6 +12,7 @@
 #' @importFrom brms rmulti_normal
 #' @importFrom brms stanvar
 #' @importFrom glue glue
+#' @importFrom posterior as_rvar
 #' @importFrom posterior rvar_ifelse
 #' @importFrom posterior rvar_mean
 #' @importFrom posterior rvar_sum

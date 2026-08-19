@@ -1,4 +1,4 @@
-#' Calculate empirical type 2 receiver operating characteristic curves
+#' Calculate empirical type 2 receiver operating characteristic curve
 #'
 #' Given a dataset `data`, determine the cumulative probability of each type 2
 #' responses conditional on accuracy, optionally conditional on type 1 response.
@@ -158,7 +158,7 @@ roc2_draws <- function(
   draws <- epred_draws_metad(object, newdata, ..., .response = .response, .confidence = .confidence)
 
   ## grouping columns
-  .stimulus <- get_stimulus(object)
+  .stimulus <- get_stimulus(object, .default = list2(...)$.stimulus)
   .cols <- names(newdata)
   .cols <- .cols[!(.cols %in% c(
     ".row", .stimulus, "joint_response",
@@ -242,7 +242,7 @@ roc2_rvars <- function(
   )
 
   ## grouping columns
-  .stimulus <- get_stimulus(object)
+  .stimulus <- get_stimulus(object, .default = list2(...)$.stimulus)
   .cols <- names(newdata)
   .cols <- .cols[!(.cols %in% c(
     ".row", .stimulus, "joint_response",

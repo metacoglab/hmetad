@@ -247,7 +247,11 @@ get_ll <- function(model) {
 #' @returns A character vector.
 #' @keywords internal
 #' @noRd
-get_stimulus <- function(model, .default = "stimulus") {
+get_stimulus <- function(model, .default = NULL) {
+  if (is.null(.default)) {
+    .default <- "stimulus"
+  }
+
   if (get_ll(model) == "categorical") {
     if (is.null(brmsterms(model$formula)$adforms$vint)) {
       stop("Error: couldn't find a 'stimulus' variable for categorical model")

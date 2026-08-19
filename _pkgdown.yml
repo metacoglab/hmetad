@@ -43,6 +43,8 @@ reference:
     - joint_probabilities
     - roc1
     - roc2
+    - auroc1
+    - auroc2
     - mean_confidence
 
   - title: Extracting model estimates
@@ -86,6 +88,14 @@ reference:
     - add_roc2_draws
     - roc2_rvars
     - add_roc2_rvars
+    - auroc1_draws
+    - add_auroc1_draws
+    - auroc1_rvars
+    - add_auroc1_rvars
+    - auroc2_draws
+    - add_auroc2_draws
+    - auroc2_rvars
+    - add_auroc2_rvars
 
   - title: Simulating from the meta-d' model
     desc: >

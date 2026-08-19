@@ -526,8 +526,10 @@ aggregate_metad <- function(
 #'   type 1 criterion. Otherwise, equate the criteria relatively such that
 #'   metac/metadprime = c/dprime.
 #' @param allow_negative_values If `FALSE` (default), M-ratio is modeled on the
-#'   logarithmic scale to prevent negative values. If `TRUE`, M-ratio is modeled on the
-#'   identity scale which allows for `M <= 0`.
+#'   logarithmic scale to prevent negative values. If `TRUE`, M-ratio is modeled
+#'   on the identity scale which allows for `M <= 0`. Note that if
+#'   `allow_negative_values=TRUE`, priors for the `Intercept` should be centered
+#'   at `1` (not at `0` as on the logarithmic scale).
 #' @param stanvars Additional `stanvars` to pass to the model code, for example
 #'   to define an alternative distribution or a custom model prior (see
 #'   [brms::stanvar()]).

@@ -28,7 +28,7 @@
 #'  * `p_hit`: where `stimulus=1`, the proportion of rows in `data` with joint response greater than `.joint_response`
 #' @seealso [roc1_draws()], [roc1_rvars()]
 #' @examples
-#' # calculate type 1 ROCs by stimulus
+#' # calculate type 1 ROCs
 #' roc1(example_data())
 #'
 #' # calculate type 1 ROCs by condition
@@ -151,7 +151,7 @@ roc1_draws <- function(
   )
 
   ## grouping columns
-  .stimulus <- get_stimulus(object)
+  .stimulus <- get_stimulus(object, .default = list2(...)$.stimulus)
   .cols <- names(newdata)
   .cols <- .cols[!(.cols %in% c(
     ".row", .stimulus, .joint_response,
@@ -217,7 +217,7 @@ roc1_rvars <- function(
   )
 
   ## grouping columns
-  .stimulus <- get_stimulus(object)
+  .stimulus <- get_stimulus(object, .default = list2(...)$.stimulus)
   .cols <- names(newdata)
   .cols <- .cols[!(.cols %in% c(
     ".row", .stimulus, .joint_response,

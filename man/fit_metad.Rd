@@ -64,8 +64,10 @@ type 1 criterion. Otherwise, equate the criteria relatively such that
 metac/metadprime = c/dprime.}
 
 \item{allow_negative_values}{If \code{FALSE} (default), M-ratio is modeled on the
-logarithmic scale to prevent negative values. If \code{TRUE}, M-ratio is modeled on the
-identity scale which allows for \code{M <= 0}.}
+logarithmic scale to prevent negative values. If \code{TRUE}, M-ratio is modeled
+on the identity scale which allows for \code{M <= 0}. Note that if
+\code{allow_negative_values=TRUE}, priors for the \code{Intercept} should be centered
+at \code{1} (not at \code{0} as on the logarithmic scale).}
 
 \item{stanvars}{Additional \code{stanvars} to pass to the model code, for example
 to define an alternative distribution or a custom model prior (see
