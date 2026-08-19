@@ -1,4 +1,4 @@
-# hmetad [![hmetad website](reference/figures/logo.svg)](https://metacoglab.github.io/hmetad/)
+# hmetad
 
 The `hmetad` package is designed to fit the meta-d’ model for confidence
 ratings ([Maniscalco & Lau, 2012](#ref-maniscalco2012),
