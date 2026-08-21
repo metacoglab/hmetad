@@ -2,6 +2,8 @@
 
 ## hmetad 0.2.0
 
+CRAN release: 2026-08-21
+
 ### New features
 
 - Added `allow_negative_values` argument to `fit_metad`, which models

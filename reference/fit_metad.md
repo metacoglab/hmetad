@@ -162,8 +162,8 @@ fit_metad(N ~ 1, sim_metad())
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
 #> Chain 1: 
-#> Chain 1: Gradient evaluation took 1.9e-05 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.19 seconds.
+#> Chain 1: Gradient evaluation took 1.8e-05 seconds
+#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.18 seconds.
 #> Chain 1: Adjust your expectations accordingly!
 #> Chain 1: 
 #> Chain 1: 
@@ -208,9 +208,9 @@ fit_metad(N ~ 1, sim_metad())
 #> Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 2: 
-#> Chain 2:  Elapsed Time: 0.233 seconds (Warm-up)
+#> Chain 2:  Elapsed Time: 0.234 seconds (Warm-up)
 #> Chain 2:                0.117 seconds (Sampling)
-#> Chain 2:                0.35 seconds (Total)
+#> Chain 2:                0.351 seconds (Total)
 #> Chain 2: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
@@ -233,9 +233,9 @@ fit_metad(N ~ 1, sim_metad())
 #> Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 3: 
-#> Chain 3:  Elapsed Time: 0.143 seconds (Warm-up)
+#> Chain 3:  Elapsed Time: 0.144 seconds (Warm-up)
 #> Chain 3:                0.195 seconds (Sampling)
-#> Chain 3:                0.338 seconds (Total)
+#> Chain 3:                0.339 seconds (Total)
 #> Chain 3: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
@@ -324,9 +324,9 @@ fit_metad(
 #> Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.427 seconds (Warm-up)
-#> Chain 1:                0.64 seconds (Sampling)
-#> Chain 1:                1.067 seconds (Total)
+#> Chain 1:  Elapsed Time: 0.433 seconds (Warm-up)
+#> Chain 1:                0.658 seconds (Sampling)
+#> Chain 1:                1.091 seconds (Total)
 #> Chain 1: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
@@ -352,15 +352,15 @@ fit_metad(
 #> Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 2: 
-#> Chain 2:  Elapsed Time: 0.372 seconds (Warm-up)
-#> Chain 2:                0.733 seconds (Sampling)
-#> Chain 2:                1.105 seconds (Total)
+#> Chain 2:  Elapsed Time: 0.377 seconds (Warm-up)
+#> Chain 2:                0.744 seconds (Sampling)
+#> Chain 2:                1.121 seconds (Total)
 #> Chain 2: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
 #> Chain 3: 
-#> Chain 3: Gradient evaluation took 2.6e-05 seconds
-#> Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.26 seconds.
+#> Chain 3: Gradient evaluation took 2.5e-05 seconds
+#> Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.25 seconds.
 #> Chain 3: Adjust your expectations accordingly!
 #> Chain 3: 
 #> Chain 3: 
@@ -377,15 +377,15 @@ fit_metad(
 #> Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 3: 
-#> Chain 3:  Elapsed Time: 0.614 seconds (Warm-up)
-#> Chain 3:                1.036 seconds (Sampling)
-#> Chain 3:                1.65 seconds (Total)
+#> Chain 3:  Elapsed Time: 0.634 seconds (Warm-up)
+#> Chain 3:                1.044 seconds (Sampling)
+#> Chain 3:                1.678 seconds (Total)
 #> Chain 3: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
 #> Chain 4: 
-#> Chain 4: Gradient evaluation took 2.6e-05 seconds
-#> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.26 seconds.
+#> Chain 4: Gradient evaluation took 2.5e-05 seconds
+#> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.25 seconds.
 #> Chain 4: Adjust your expectations accordingly!
 #> Chain 4: 
 #> Chain 4: 
@@ -402,9 +402,9 @@ fit_metad(
 #> Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 4: 
-#> Chain 4:  Elapsed Time: 0.478 seconds (Warm-up)
-#> Chain 4:                1.856 seconds (Sampling)
-#> Chain 4:                2.334 seconds (Total)
+#> Chain 4:  Elapsed Time: 0.488 seconds (Warm-up)
+#> Chain 4:                1.873 seconds (Sampling)
+#> Chain 4:                2.361 seconds (Total)
 #> Chain 4: 
 #>  Family: metad__4__normal__absolute__multinomial 
 #>   Links: mu = log; dprime = identity; c = identity; metac2zero1diff = log; metac2zero2diff = log; metac2one1diff = log 

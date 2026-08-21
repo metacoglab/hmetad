@@ -113,9 +113,9 @@ add_auroc1_draws(newdata, example_model())
 #> Chain 1: Iteration: 450 / 500 [ 90%]  (Sampling)
 #> Chain 1: Iteration: 500 / 500 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.03 seconds (Warm-up)
-#> Chain 1:                0.025 seconds (Sampling)
-#> Chain 1:                0.055 seconds (Total)
+#> Chain 1:  Elapsed Time: 0.029 seconds (Warm-up)
+#> Chain 1:                0.024 seconds (Sampling)
+#> Chain 1:                0.053 seconds (Total)
 #> Chain 1: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
@@ -170,8 +170,8 @@ add_auroc1_draws(newdata, example_model())
 #> Chain 3: Iteration: 500 / 500 [100%]  (Sampling)
 #> Chain 3: 
 #> Chain 3:  Elapsed Time: 0.026 seconds (Warm-up)
-#> Chain 3:                0.02 seconds (Sampling)
-#> Chain 3:                0.046 seconds (Total)
+#> Chain 3:                0.019 seconds (Sampling)
+#> Chain 3:                0.045 seconds (Total)
 #> Chain 3: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
@@ -197,9 +197,9 @@ add_auroc1_draws(newdata, example_model())
 #> Chain 4: Iteration: 450 / 500 [ 90%]  (Sampling)
 #> Chain 4: Iteration: 500 / 500 [100%]  (Sampling)
 #> Chain 4: 
-#> Chain 4:  Elapsed Time: 0.031 seconds (Warm-up)
+#> Chain 4:  Elapsed Time: 0.03 seconds (Warm-up)
 #> Chain 4:                0.022 seconds (Sampling)
-#> Chain 4:                0.053 seconds (Total)
+#> Chain 4:                0.052 seconds (Total)
 #> Chain 4: 
 #> # A tibble: 1,000 × 3
 #> # Groups:   .row [1]
