@@ -13,7 +13,8 @@ type2_probabilities(
   .joint_response = "joint_response",
   K = NULL,
   by_stimulus = TRUE,
-  by_response = TRUE
+  by_response = TRUE,
+  by_correct = FALSE
 )
 }
 \arguments{
@@ -39,6 +40,10 @@ probabilities conditional on stimulus.}
 
 \item{by_response}{If \code{TRUE} (default), calculate type 2 response
 probabilities conditional on type 1 response.}
+
+\item{by_correct}{If \code{FALSE} (default), calculate type 2 response
+probabilities conditional on stimulus and/or type 1 response. If \code{TRUE},
+instead calculate probabilities conditional on accuracy.}
 }
 \value{
 A tibble with columns:
@@ -46,9 +51,10 @@ A tibble with columns:
 \item \code{...}: the grouping columns in \code{data}
 \item \code{{.stimulus}} (if \code{by_stimulus=TRUE}): the stimulus
 \item \code{{.response}} (if \code{by_response=TRUE}): the type 1 response
+\item \code{correct}: the accuracy (if \code{by_correct=TRUE})
 \item \code{{.confidence}}: the type 2 response
 \item \code{{.joint_response}} (if \code{by_response=TRUE}): the joint type 1/type 2 response
-\item \code{n}: the number of rows in \code{data} with the corresponding \code{stimulus} (if \code{by_stimulus=TRUE}), \code{response} (if \code{by_response=TRUE}), and \code{confidence}
+\item \code{n}: the number of rows in \code{data} with the corresponding \code{stimulus} (if \code{by_stimulus=TRUE}), \code{response} (if \code{by_response=TRUE}), \code{correct} (if \code{by_correct=TRUE}) and \code{confidence}
 \item \code{p}: the proportion of rows in \code{data} with the corresponding \code{response} (per \code{stimulus} if \code{by_stimulus=TRUE} and per \code{response} if \code{by_response=TRUE})
 }
 }

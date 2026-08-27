@@ -42,27 +42,13 @@ mean_confidence <- function(
   .confidence = "confidence", .joint_response = "joint_response",
   K = NULL, by_stimulus = TRUE, by_response = TRUE, by_correct = FALSE
 ) {
-  data <- .aggregate_metad(
+  type2_probabilities(
     data, ...,
     .stimulus = .stimulus, .response = .response,
-    .confidence = .confidence, .joint_response = .joint_response, K = K
+    .confidence = .confidence, .joint_response = .joint_response,
+    K = K,
+    by_stimulus = by_stimulus, by_response = by_response, by_correct = by_correct
   ) |>
-    group_by(...)
-
-  if (by_correct) {
-    data <- data |>
-      mutate(correct = as.integer(!!sym(.stimulus) == !!sym(.response))) |>
-      group_by(.data$correct, .add = TRUE)
-  } else {
-    if (by_stimulus) {
-      data <- data |> group_by(!!sym(.stimulus), .add = TRUE)
-    }
-    if (by_response) {
-      data <- data |> group_by(!!sym(.response), .add = TRUE)
-    }
-  }
-
-  data |>
     mutate(p = .data$n / sum(.data$n)) |>
     summarize(mean_confidence = sum(!!sym(.confidence) * .data$p))
 }
@@ -137,62 +123,19 @@ mean_confidence <- function(
 #' mean_confidence_rvars(example_model(), newdata)
 #' }
 #' @export
-mean_confidence_draws <- function(object, newdata, ...,
-                                  .stimulus = "stimulus", .response = "response",
-                                  by_stimulus = TRUE, by_response = TRUE,
-                                  by_correct = FALSE) {
-  ## grouping columns
-  .stimulus <- get_stimulus(object, .stimulus)
-  .cols <- names(newdata)
-  .cols <- .cols[!(.cols %in% c(".row", .stimulus, ".draw"))]
-
-  draws <- epred_draws_metad(object, newdata, ..., .stimulus = .stimulus, .response = .response) |>
-    group_by(.data$.row, !!!syms(.cols), .data$.chain, .data$.iteration, .data$.draw)
-
-  if (by_correct) {
-    draws |>
-      mutate(correct = as.integer(!!sym(.stimulus) == !!sym(.response))) |>
-      group_by(.data$correct, .add = TRUE) |>
-      mutate(.epred = .data$.epred / sum(.data$.epred)) |> ## normalize within correct
-      summarize(.epred = sum(.data$.epred * .data$confidence), .groups = "keep") |>
-      group_by(.data$.row, !!!syms(.cols), .data$correct)
-  } else {
-    if (by_stimulus) {
-      if (by_response) {
-        draws |>
-          group_by(!!sym(.stimulus), !!sym(.response), .add = TRUE) |>
-          mutate(.epred = .data$.epred / sum(.data$.epred)) |> ## normalize within responses
-          summarize(.epred = sum(.data$.epred * .data$confidence), .groups = "keep") |>
-          group_by(.data$.row, !!!syms(.cols), !!sym(.stimulus), !!sym(.response))
-      } else {
-        draws |>
-          group_by(!!sym(.stimulus), .add = TRUE) |>
-          summarize(.epred = sum(.data$.epred * .data$confidence), .groups = "keep") |>
-          group_by(.data$.row, !!!syms(.cols), !!sym(.stimulus))
-      }
-    } else {
-      if (by_response) {
-        draws |>
-          group_by(!!sym(.response), .add = TRUE) |>
-          mutate(.epred = .data$.epred / sum(.data$.epred)) |>
-          group_by(
-            .data$.row, !!!syms(.cols), .data$.chain, .data$.iteration, .data$.draw,
-            !!sym(.response), .data$confidence
-          ) |>
-          mutate(.epred = .data$confidence * sum(.data$.epred)) |>
-          group_by(
-            .data$.row, !!!syms(.cols),
-            .data$.chain, .data$.iteration, .data$.draw, !!sym(.response)
-          ) |>
-          summarize(.epred = sum(.data$.epred) / 2) |>
-          group_by(.data$.row, !!!syms(.cols), !!sym(.response))
-      } else {
-        draws |>
-          summarize(.epred = sum(.data$.epred * .data$confidence) / 2, .groups = "keep") |>
-          group_by(.data$.row, !!!syms(.cols))
-      }
-    }
-  }
+mean_confidence_draws <- function(
+  object, newdata, ...,
+  .stimulus = "stimulus", .response = "response",
+  by_stimulus = TRUE, by_response = TRUE, by_correct = FALSE
+) {
+  type2_draws(
+    object, newdata, ...,
+    .stimulus = .stimulus, .response = .response,
+    by_stimulus = by_stimulus, by_response = by_response, by_correct = by_correct
+  ) |>
+    ungroup("confidence") |>
+    group_by(.data$.draw, .add = TRUE) |>
+    summarize(.epred = sum(.data$confidence * .data$.epred), .groups = "drop_last")
 }
 
 #' @rdname mean_conf_draws
@@ -203,52 +146,18 @@ add_mean_confidence_draws <- function(newdata, object, ...) {
 
 #' @rdname mean_conf_draws
 #' @export
-mean_confidence_rvars <- function(object, newdata, ...,
-                                  .stimulus = "stimulus", .response = "response",
-                                  by_stimulus = TRUE, by_response = TRUE,
-                                  by_correct = FALSE) {
-  ## grouping columns
-  .stimulus <- get_stimulus(object, .default = .stimulus)
-  .cols <- names(newdata)
-  .cols <- .cols[!(.cols %in% c(".row", .stimulus, ".draw"))]
-
-  draws <- epred_rvars_metad(object, newdata, ..., .stimulus = .stimulus, .response = .response) |>
-    group_by(.data$.row, !!!syms(.cols))
-
-  if (by_correct) {
-    draws |>
-      mutate(correct = as.integer(!!sym(.stimulus) == !!sym(.response))) |>
-      group_by(.data$correct, .add = TRUE) |>
-      mutate(.epred = .data$.epred / posterior::rvar_sum(.data$.epred)) |> ## normalize within responses
-      summarize(.epred = rvar_sum(.data$.epred * .data$confidence), .groups = "keep") |>
-      group_by(.data$.row, !!!syms(.cols), .data$correct)
-  } else {
-    if (by_stimulus) {
-      if (by_response) {
-        draws |>
-          group_by(!!sym(.stimulus), !!sym(.response), .add = TRUE) |>
-          mutate(.epred = .data$.epred / posterior::rvar_sum(.data$.epred)) |> ## normalize within responses
-          summarize(.epred = rvar_sum(.data$.epred * .data$confidence), .groups = "keep")
-      } else {
-        draws |>
-          group_by(!!sym(.stimulus), .add = TRUE) |>
-          summarize(.epred = rvar_sum(.data$.epred * .data$confidence), .groups = "keep")
-      }
-    } else {
-      if (by_response) {
-        draws |>
-          group_by(!!sym(.response), .add = TRUE) |>
-          mutate(.epred = .data$.epred / rvar_sum(.data$.epred)) |>
-          group_by(.data$.row, !!!syms(.cols), !!sym(.response), .data$confidence) |>
-          mutate(.epred = .data$confidence * rvar_sum(.data$.epred)) |>
-          group_by(.data$.row, !!!syms(.cols), !!sym(.response)) |>
-          summarize(.epred = rvar_sum(.data$.epred) / 2, .groups = "keep")
-      } else {
-        draws |>
-          summarize(.epred = rvar_sum(.data$.epred * .data$confidence) / 2, .groups = "keep")
-      }
-    }
-  }
+mean_confidence_rvars <- function(
+  object, newdata, ...,
+  .stimulus = "stimulus", .response = "response",
+  by_stimulus = TRUE, by_response = TRUE, by_correct = FALSE
+) {
+  type2_rvars(
+    object, newdata, ...,
+    .stimulus = .stimulus, .response = .response,
+    by_stimulus = by_stimulus, by_response = by_response, by_correct = by_correct
+  ) |>
+    ungroup("confidence") |>
+    summarize(.epred = rvar_sum(.data$confidence * .data$.epred), .groups = "keep")
 }
 
 #' @rdname mean_conf_draws
