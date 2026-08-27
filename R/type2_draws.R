@@ -153,7 +153,7 @@ type2_draws <- function(
   ))]
 
   draws <- epred_draws_metad(
-    object, newdata,
+    object, newdata, ...,
     .stimulus = .stimulus,
     .response = .response, .confidence = .confidence
   ) |>
@@ -201,7 +201,7 @@ type2_rvars <- function(
   ))]
 
   draws <- epred_rvars_metad(
-    object, newdata,
+    object, newdata, ...,
     .stimulus = .stimulus,
     .response = .response, .confidence = .confidence
   ) |>
