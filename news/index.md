@@ -1,5 +1,17 @@
 # Changelog
 
+## hmetad 0.2.1
+
+### Bug fixes
+
+- Additional arguments in `type2_draws` functions are now forwarded
+  properly
+
+### Minor improvements and fixed
+
+- Re-factored `mean_confidence` functions to call
+  `type2_draws`/`type2_probabilities` functions for consistency
+
 ## hmetad 0.2.0
 
 CRAN release: 2026-08-21
@@ -59,8 +71,6 @@ CRAN release: 2026-05-15
 - [`aggregate_metad()`](https://metacoglab.github.io/hmetad/reference/aggregate_metad.md)
   has increased efficiency
 
-------------------------------------------------------------------------
-
 ## hmetad 0.1.1
 
 CRAN release: 2026-04-20
@@ -92,8 +102,6 @@ CRAN release: 2026-04-20
   now have more helpful errors/messages for invalid data arguments
 
 - Minor updates to package documentation
-
-------------------------------------------------------------------------
 
 ## hmetad 0.1.0
 

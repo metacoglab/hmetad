@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">hmetad</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,9 +47,20 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/metacoglab/hmetad/blob/v0.2.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/metacoglab/hmetad/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.1" id="hmetad-021">hmetad 0.2.1<a class="anchor" aria-label="anchor" href="#hmetad-021"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-0-2-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-2-1"></a></h3>
+<ul><li>Additional arguments in <code>type2_draws</code> functions are now forwarded properly</li>
+</ul></div>
+<div class="section level3">
+<h3 id="minor-improvements-and-fixed-0-2-1">Minor improvements and fixed<a class="anchor" aria-label="anchor" href="#minor-improvements-and-fixed-0-2-1"></a></h3>
+<ul><li>Re-factored <code>mean_confidence</code> functions to call <code>type2_draws</code>/<code>type2_probabilities</code> functions for consistency</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="hmetad-020">hmetad 0.2.0<a class="anchor" aria-label="anchor" href="#hmetad-020"></a></h2><p class="text-muted">CRAN release: 2026-08-21</p>
 <div class="section level3">
@@ -90,7 +101,7 @@
 </li>
 <li>
 <code><a href="../reference/aggregate_metad.html">aggregate_metad()</a></code> has increased efficiency</li>
-</ul><hr></div>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.1" id="hmetad-011">hmetad 0.1.1<a class="anchor" aria-label="anchor" href="#hmetad-011"></a></h2><p class="text-muted">CRAN release: 2026-04-20</p>
@@ -109,7 +120,7 @@
 <li><p><code><a href="../reference/aggregate_metad.html">aggregate_metad()</a></code> and <code><a href="../reference/fit_metad.html">fit_metad()</a></code> now infer <code>K</code> using the maximum confidence level (instead of the number of unique levels)</p></li>
 <li><p><code><a href="../reference/aggregate_metad.html">aggregate_metad()</a></code> and <code><a href="../reference/fit_metad.html">fit_metad()</a></code> now have more helpful errors/messages for invalid data arguments</p></li>
 <li><p>Minor updates to package documentation</p></li>
-</ul><hr></div>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="hmetad-010">hmetad 0.1.0<a class="anchor" aria-label="anchor" href="#hmetad-010"></a></h2><p class="text-muted">CRAN release: 2026-03-16</p>

@@ -21,7 +21,8 @@ type2_draws(
   .response = "response",
   .confidence = "confidence",
   by_stimulus = TRUE,
-  by_response = TRUE
+  by_response = TRUE,
+  by_correct = FALSE
 )
 
 add_type2_draws(newdata, object, ...)
@@ -34,7 +35,8 @@ type2_rvars(
   .response = "response",
   .confidence = "confidence",
   by_stimulus = TRUE,
-  by_response = TRUE
+  by_response = TRUE,
+  by_correct = FALSE
 )
 
 add_type2_rvars(newdata, object, ...)
@@ -82,6 +84,12 @@ add_type2_rvars(newdata, object, ...)
   2 response probabilities as an unweighted average over type 1
   responses.
 
+- by_correct:
+
+  If `FALSE` (default), calculate type 2 response probabilities
+  conditional on stimulus and/or type 1 response. If `TRUE`, instead
+  calculate probabilities conditional on accuracy.
+
 ## Value
 
 a tibble containing posterior draws of model parameters with the
@@ -113,18 +121,18 @@ newdata <- tidyr::tibble(.row = 1)
 type2_draws(example_model(), newdata)
 #> # A tibble: 16,000 × 6
 #> # Groups:   .row, stimulus, response, confidence [16]
-#>     .row stimulus response confidence .draw .epred
-#>    <int>    <int>    <int>      <int> <int>  <dbl>
-#>  1     1        0        0          1     1  0.259
-#>  2     1        0        0          1     2  0.265
-#>  3     1        0        0          1     3  0.250
-#>  4     1        0        0          1     4  0.211
-#>  5     1        0        0          1     5  0.244
-#>  6     1        0        0          1     6  0.272
-#>  7     1        0        0          1     7  0.226
-#>  8     1        0        0          1     8  0.257
-#>  9     1        0        0          1     9  0.260
-#> 10     1        0        0          1    10  0.278
+#>     .row stimulus response .draw confidence .epred
+#>    <int>    <int>    <int> <int>      <int>  <dbl>
+#>  1     1        0        0     1          1  0.259
+#>  2     1        0        0     1          2  0.288
+#>  3     1        0        0     1          3  0.273
+#>  4     1        0        0     1          4  0.180
+#>  5     1        0        0     2          1  0.265
+#>  6     1        0        0     2          2  0.276
+#>  7     1        0        0     2          3  0.249
+#>  8     1        0        0     2          4  0.210
+#>  9     1        0        0     3          1  0.250
+#> 10     1        0        0     3          2  0.282
 #> # ℹ 15,990 more rows
 
 # obtain model predictions (`posterior::rvar`)
@@ -134,13 +142,13 @@ type2_rvars(example_model(), newdata, by_stimulus = FALSE)
 #> # Groups:   .row, response [2]
 #>    .row response confidence        .epred
 #>   <int>    <int>      <int>    <rvar[1d]>
-#> 1     1        0          1  0.36 ± 0.023
+#> 1     1        0          1  0.32 ± 0.021
 #> 2     1        0          2  0.29 ± 0.021
-#> 3     1        0          3  0.21 ± 0.018
-#> 4     1        0          4  0.13 ± 0.014
-#> 5     1        1          1  0.37 ± 0.021
-#> 6     1        1          2  0.31 ± 0.021
-#> 7     1        1          3  0.18 ± 0.017
-#> 8     1        1          4  0.14 ± 0.014
+#> 3     1        0          3  0.24 ± 0.019
+#> 4     1        0          4  0.16 ± 0.016
+#> 5     1        1          1  0.33 ± 0.020
+#> 6     1        1          2  0.30 ± 0.020
+#> 7     1        1          3  0.20 ± 0.018
+#> 8     1        1          4  0.17 ± 0.016
 # }
 ```

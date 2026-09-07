@@ -9,7 +9,7 @@ optionally conditional on stimulus and/or type 1 response."><meta property="og:i
 
     <a class="navbar-brand me-2" href="../index.html">hmetad</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,7 +49,7 @@ optionally conditional on stimulus and/or type 1 response."><meta property="og:i
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Calculate empirical type 2 response probabilities</h1>
-      <small class="dont-index">Source: <a href="https://github.com/metacoglab/hmetad/blob/v0.2.0/R/type2_draws.R" class="external-link"><code>R/type2_draws.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/metacoglab/hmetad/blob/main/R/type2_draws.R" class="external-link"><code>R/type2_draws.R</code></a></small>
       <div class="d-none name"><code>type2_probabilities.Rd</code></div>
     </div>
 
@@ -69,7 +69,8 @@ optionally conditional on stimulus and/or type 1 response.</p>
 <span>  .joint_response <span class="op">=</span> <span class="st">"joint_response"</span>,</span>
 <span>  K <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  by_stimulus <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  by_response <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  by_response <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  by_correct <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -117,15 +118,22 @@ probabilities conditional on stimulus.</p></dd>
 <dd><p>If <code>TRUE</code> (default), calculate type 2 response
 probabilities conditional on type 1 response.</p></dd>
 
+
+<dt id="arg-by-correct">by_correct<a class="anchor" aria-label="anchor" href="#arg-by-correct"></a></dt>
+<dd><p>If <code>FALSE</code> (default), calculate type 2 response
+probabilities conditional on stimulus and/or type 1 response. If <code>TRUE</code>,
+instead calculate probabilities conditional on accuracy.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A tibble with columns:</p><ul><li><p><code>...</code>: the grouping columns in <code>data</code></p></li>
 <li><p><code>{.stimulus}</code> (if <code>by_stimulus=TRUE</code>): the stimulus</p></li>
 <li><p><code>{.response}</code> (if <code>by_response=TRUE</code>): the type 1 response</p></li>
+<li><p><code>correct</code>: the accuracy (if <code>by_correct=TRUE</code>)</p></li>
 <li><p><code>{.confidence}</code>: the type 2 response</p></li>
 <li><p><code>{.joint_response}</code> (if <code>by_response=TRUE</code>): the joint type 1/type 2 response</p></li>
-<li><p><code>n</code>: the number of rows in <code>data</code> with the corresponding <code>stimulus</code> (if <code>by_stimulus=TRUE</code>), <code>response</code> (if <code>by_response=TRUE</code>), and <code>confidence</code></p></li>
+<li><p><code>n</code>: the number of rows in <code>data</code> with the corresponding <code>stimulus</code> (if <code>by_stimulus=TRUE</code>), <code>response</code> (if <code>by_response=TRUE</code>), <code>correct</code> (if <code>by_correct=TRUE</code>) and <code>confidence</code></p></li>
 <li><p><code>p</code>: the proportion of rows in <code>data</code> with the corresponding <code>response</code> (per <code>stimulus</code> if <code>by_stimulus=TRUE</code> and per <code>response</code> if <code>by_response=TRUE</code>)</p></li>
 </ul></div>
     <div class="section level2">
@@ -139,7 +147,7 @@ probabilities conditional on type 1 response.</p></dd>
 <span class="r-in"><span><span class="fu">type2_probabilities</span><span class="op">(</span><span class="fu"><a href="example_data.html">example_data</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=&lt;K&gt;`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 16 × 6</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   stimulus [2]</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   stimulus, response [4]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    stimulus response confidence joint_response     n      p</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>        0        0          1              4    86 0.244 </span>
@@ -163,24 +171,24 @@ probabilities conditional on type 1 response.</p></dd>
 <span class="r-in"><span><span class="fu">type2_probabilities</span><span class="op">(</span><span class="fu"><a href="sim_metad_condition.html">sim_metad_condition</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">condition</span>, by_stimulus <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=&lt;K&gt;`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 16 × 6</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   condition [2]</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   condition, response [4]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    condition response confidence joint_response     n     p</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>         1        0          1              4    15 0.288</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>         2        0          1              4    15 0.349</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>         1        0          2              3    17 0.327</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>         2        0          2              3    15 0.349</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>         1        0          3              2     8 0.154</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>         2        0          3              2     6 0.140</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>         1        0          4              1    12 0.231</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>         2        0          4              1     7 0.163</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>         1        1          1              5    18 0.375</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>         2        1          1              5    19 0.333</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span>         1        1          2              6    12 0.25 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span>         2        1          2              6    11 0.193</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span>         1        1          3              7     6 0.125</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span>         2        1          3              7    15 0.263</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span>         1        1          4              8    12 0.25 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>         1        0          2              3    17 0.327</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>         1        0          3              2     8 0.154</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>         1        0          4              1    12 0.231</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>         1        1          1              5    18 0.375</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>         1        1          2              6    12 0.25 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>         1        1          3              7     6 0.125</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>         1        1          4              8    12 0.25 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>         2        0          1              4    15 0.349</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>         2        0          2              3    15 0.349</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span>         2        0          3              2     6 0.140</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span>         2        0          4              1     7 0.163</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span>         2        1          1              5    19 0.333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span>         2        1          2              6    11 0.193</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span>         2        1          3              7    15 0.263</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span>         2        1          4              8    12 0.211</span>
 </code></pre></div>
     </div>

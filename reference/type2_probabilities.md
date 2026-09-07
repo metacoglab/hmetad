@@ -15,7 +15,8 @@ type2_probabilities(
   .joint_response = "joint_response",
   K = NULL,
   by_stimulus = TRUE,
-  by_response = TRUE
+  by_response = TRUE,
+  by_correct = FALSE
 )
 ```
 
@@ -62,6 +63,12 @@ type2_probabilities(
   If `TRUE` (default), calculate type 2 response probabilities
   conditional on type 1 response.
 
+- by_correct:
+
+  If `FALSE` (default), calculate type 2 response probabilities
+  conditional on stimulus and/or type 1 response. If `TRUE`, instead
+  calculate probabilities conditional on accuracy.
+
 ## Value
 
 A tibble with columns:
@@ -72,14 +79,16 @@ A tibble with columns:
 
 - `{.response}` (if `by_response=TRUE`): the type 1 response
 
+- `correct`: the accuracy (if `by_correct=TRUE`)
+
 - `{.confidence}`: the type 2 response
 
 - `{.joint_response}` (if `by_response=TRUE`): the joint type 1/type 2
   response
 
 - `n`: the number of rows in `data` with the corresponding `stimulus`
-  (if `by_stimulus=TRUE`), `response` (if `by_response=TRUE`), and
-  `confidence`
+  (if `by_stimulus=TRUE`), `response` (if `by_response=TRUE`), `correct`
+  (if `by_correct=TRUE`) and `confidence`
 
 - `p`: the proportion of rows in `data` with the corresponding
   `response` (per `stimulus` if `by_stimulus=TRUE` and per `response` if
@@ -96,7 +105,7 @@ A tibble with columns:
 type2_probabilities(example_data())
 #> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`
 #> # A tibble: 16 × 6
-#> # Groups:   stimulus [2]
+#> # Groups:   stimulus, response [4]
 #>    stimulus response confidence joint_response     n      p
 #>       <int>    <int>      <int>          <int> <int>  <dbl>
 #>  1        0        0          1              4    86 0.244 
@@ -120,23 +129,23 @@ type2_probabilities(example_data())
 type2_probabilities(sim_metad_condition(), condition, by_stimulus = FALSE)
 #> `hmetad` has inferred that there are K=4 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=<K>`
 #> # A tibble: 16 × 6
-#> # Groups:   condition [2]
+#> # Groups:   condition, response [4]
 #>    condition response confidence joint_response     n     p
 #>        <int>    <int>      <int>          <int> <int> <dbl>
 #>  1         1        0          1              4    15 0.288
-#>  2         2        0          1              4    15 0.349
-#>  3         1        0          2              3    17 0.327
-#>  4         2        0          2              3    15 0.349
-#>  5         1        0          3              2     8 0.154
-#>  6         2        0          3              2     6 0.140
-#>  7         1        0          4              1    12 0.231
-#>  8         2        0          4              1     7 0.163
-#>  9         1        1          1              5    18 0.375
-#> 10         2        1          1              5    19 0.333
-#> 11         1        1          2              6    12 0.25 
-#> 12         2        1          2              6    11 0.193
-#> 13         1        1          3              7     6 0.125
-#> 14         2        1          3              7    15 0.263
-#> 15         1        1          4              8    12 0.25 
+#>  2         1        0          2              3    17 0.327
+#>  3         1        0          3              2     8 0.154
+#>  4         1        0          4              1    12 0.231
+#>  5         1        1          1              5    18 0.375
+#>  6         1        1          2              6    12 0.25 
+#>  7         1        1          3              7     6 0.125
+#>  8         1        1          4              8    12 0.25 
+#>  9         2        0          1              4    15 0.349
+#> 10         2        0          2              3    15 0.349
+#> 11         2        0          3              2     6 0.140
+#> 12         2        0          4              1     7 0.163
+#> 13         2        1          1              5    19 0.333
+#> 14         2        1          2              6    11 0.193
+#> 15         2        1          3              7    15 0.263
 #> 16         2        1          4              8    12 0.211
 ```

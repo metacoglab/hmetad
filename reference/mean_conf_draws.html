@@ -29,7 +29,7 @@ argument order swapped."><meta property="og:image" content="https://metacoglab.g
 
     <a class="navbar-brand me-2" href="../index.html">hmetad</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,7 +69,7 @@ argument order swapped."><meta property="og:image" content="https://metacoglab.g
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Obtain posterior draws of mean confidence</h1>
-      <small class="dont-index">Source: <a href="https://github.com/metacoglab/hmetad/blob/v0.2.0/R/mean_confidence_draws.R" class="external-link"><code>R/mean_confidence_draws.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/metacoglab/hmetad/blob/main/R/mean_confidence_draws.R" class="external-link"><code>R/mean_confidence_draws.R</code></a></small>
       <div class="d-none name"><code>mean_conf_draws.Rd</code></div>
     </div>
 
@@ -182,96 +182,96 @@ following columns:</p><ul><li><p><code>.row</code>: the row of <code>newdata</co
 <span class="r-in"><span><span class="co"># compute mean confidence by stimulus and response</span></span></span>
 <span class="r-in"><span><span class="co"># equivalent to `add_mean_confidence_draws(newdata, example_model())`</span></span></span>
 <span class="r-in"><span><span class="fu">mean_confidence_draws</span><span class="op">(</span><span class="fu"><a href="example_model.html">example_model</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">newdata</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4,000 × 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4,000 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   .row, stimulus, response [4]</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     .row .chain .iteration .draw stimulus response .epred</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1        0        0   2.38</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1        0        1   1.77</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1        1        0   1.78</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1        1        1   2.37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     2        0        0   2.40</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     2        0        1   1.79</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     2        1        0   1.86</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     2        1        1   2.32</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     3        0        0   2.41</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     3        0        1   1.76</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     .row stimulus response .draw .epred</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     1        0        0     1   2.38</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>     1        0        0     2   2.40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>     1        0        0     3   2.41</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>     1        0        0     4   2.47</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>     1        0        0     5   2.40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>     1        0        0     6   2.41</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>     1        0        0     7   2.45</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>     1        0        0     8   2.39</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>     1        0        0     9   2.46</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>     1        0        0    10   2.37</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 3,990 more rows</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># compute mean confidence by stimulus</span></span></span>
 <span class="r-in"><span><span class="co"># equivalent to `add_mean_confidence_draws(newdata, example_model(), by_response = FALSE)`</span></span></span>
 <span class="r-in"><span><span class="fu">mean_confidence_draws</span><span class="op">(</span><span class="fu"><a href="example_model.html">example_model</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">newdata</span>, by_response <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2,000 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2,000 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   .row, stimulus [2]</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     .row .chain .iteration .draw stimulus .epred</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1        0   2.20</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1        1   2.17</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     2        0   2.21</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     2        1   2.18</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     3        0   2.22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     3        1   2.17</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     4        0   2.25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     4        1   2.26</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     5        0   2.19</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     5        1   2.19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     .row stimulus .draw .epred</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     1        0     1   2.20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>     1        0     2   2.21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>     1        0     3   2.22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>     1        0     4   2.25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>     1        0     5   2.19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>     1        0     6   2.21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>     1        0     7   2.25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>     1        0     8   2.20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>     1        0     9   2.27</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>     1        0    10   2.22</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1,990 more rows</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># compute mean confidence by response</span></span></span>
 <span class="r-in"><span><span class="co"># equivalent to `add_mean_confidence_draws(newdata, example_model(), by_stimulus = FALSE)`</span></span></span>
 <span class="r-in"><span><span class="fu">mean_confidence_draws</span><span class="op">(</span><span class="fu"><a href="example_model.html">example_model</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">newdata</span>, by_stimulus <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2,000 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2,000 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   .row, response [2]</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     .row .chain .iteration .draw response .epred</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1        0   2.18</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1        1   2.19</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     2        0   2.24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     2        1   2.16</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     3        0   2.22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     3        1   2.17</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     4        0   2.25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     4        1   2.26</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     5        0   2.20</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     5        1   2.18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     .row response .draw .epred</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     1        0     1   2.18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>     1        0     2   2.24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>     1        0     3   2.22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>     1        0     4   2.25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>     1        0     5   2.20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>     1        0     6   2.22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>     1        0     7   2.25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>     1        0     8   2.21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>     1        0     9   2.24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>     1        0    10   2.19</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1,990 more rows</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># compute mean confidence by accuracy</span></span></span>
 <span class="r-in"><span><span class="co"># equivalent to `add_mean_confidence_draws(newdata, example_model(), by_correct = TRUE)`</span></span></span>
 <span class="r-in"><span><span class="fu">mean_confidence_draws</span><span class="op">(</span><span class="fu"><a href="example_model.html">example_model</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">newdata</span>, by_correct <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2,000 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2,000 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   .row, correct [2]</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     .row .chain .iteration .draw correct .epred</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1       0   1.77</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1       1   2.37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     2       0   1.82</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     2       1   2.36</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     3       0   1.79</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     3       1   2.38</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     4       0   1.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     4       1   2.48</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     5       0   1.78</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     5       1   2.39</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     .row correct .draw .epred</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     1       0     1   1.77</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>     1       0     2   1.82</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>     1       0     3   1.79</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>     1       0     4   1.75</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>     1       0     5   1.78</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>     1       0     6   1.76</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>     1       0     7   1.81</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>     1       0     8   1.77</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>     1       0     9   1.76</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>     1       0    10   1.81</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1,990 more rows</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># compute mean confidence averaging over stimuli and responses</span></span></span>
 <span class="r-in"><span><span class="co"># equivalent to `add_mean_confidence_draws(newdata, example_model(), ...)`</span></span></span>
 <span class="r-in"><span><span class="fu">mean_confidence_draws</span><span class="op">(</span><span class="fu"><a href="example_model.html">example_model</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">newdata</span>, by_stimulus <span class="op">=</span> <span class="cn">FALSE</span>, by_response <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1,000 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1,000 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   .row [1]</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     .row .chain .iteration .draw .epred</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     1   2.18</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     2   2.20</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     3   2.19</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     4   2.25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     5   2.19</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     6   2.19</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     7   2.25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     8   2.19</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     9   2.26</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>     1     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>    10   2.20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     .row .draw .epred</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     1     1   2.18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>     1     2   2.20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>     1     3   2.19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>     1     4   2.25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>     1     5   2.19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>     1     6   2.19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>     1     7   2.25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>     1     8   2.19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>     1     9   2.26</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>     1    10   2.20</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 990 more rows</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># use `posterior::rvar` for increased efficiency</span></span></span>

@@ -11,16 +11,16 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/metacoglab/hmetad/blob/v0.2.0/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/metacoglab/hmetad/blob/main/DESCRIPTION)
 
 O'Neill K, Fleming S (2026). *hmetad: Fit the Meta-D' Model of
-Confidence Ratings Using 'brms'*. R package version 0.2.0,
+Confidence Ratings Using 'brms'*. R package version 0.2.1,
 <https://metacoglab.github.io/hmetad/>.
 
     @Manual{,
       title = {hmetad: Fit the Meta-D' Model of Confidence Ratings Using 'brms'},
       author = {Kevin O'Neill and Stephen Fleming},
       year = {2026},
-      note = {R package version 0.2.0},
+      note = {R package version 0.2.1},
       url = {https://metacoglab.github.io/hmetad/},
     }
