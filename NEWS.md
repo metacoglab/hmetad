@@ -1,3 +1,12 @@
+# hmetad 0.2.1
+
+## Bug fixes
+  - Additional arguments in `type2_draws` functions are now forwarded properly
+
+## Minor improvements and fixed
+  - Re-factored `mean_confidence` functions to call `type2_draws`/`type2_probabilities` functions for consistency
+
+
 # hmetad 0.2.0
 
 ## New features
@@ -10,6 +19,8 @@
 ## Minor improvements and fixes
   - Added `.stimulus`, `.response`, `.confidence`, and `.joint_response` arguments to all draws functions, allowing users to specify the names of the corresponding columns
   - Confidence levels now match across the two type 1 responses in `roc2_draws`
+
+
 
 
 # hmetad 0.1.2
@@ -25,8 +36,6 @@
 ## Minor improvements and fixes
   - `aggregate_metad()` and `fit_metad()` now perform more thorough checks on the number of confidence levels, `K`
   - `aggregate_metad()` has increased efficiency
-
----
 
 
 # hmetad 0.1.1
@@ -45,8 +54,6 @@
   - Minor updates to package documentation
   
   
----
-
 
 # hmetad 0.1.0
 

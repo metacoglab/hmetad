@@ -17,13 +17,17 @@
 #'   probabilities conditional on stimulus.
 #' @param by_response If `TRUE` (default), calculate type 2 response
 #'   probabilities conditional on type 1 response.
+#' @param by_correct If `FALSE` (default), calculate type 2 response
+#'   probabilities conditional on stimulus and/or type 1 response. If `TRUE`,
+#'   instead calculate probabilities conditional on accuracy.
 #' @returns A tibble with columns:
 #'  * `...`: the grouping columns in `data`
 #'  * `{.stimulus}` (if `by_stimulus=TRUE`): the stimulus
 #'  * `{.response}` (if `by_response=TRUE`): the type 1 response
+#'  * `correct`: the accuracy (if `by_correct=TRUE`)
 #'  * `{.confidence}`: the type 2 response
 #'  * `{.joint_response}` (if `by_response=TRUE`): the joint type 1/type 2 response
-#'  * `n`: the number of rows in `data` with the corresponding `stimulus` (if `by_stimulus=TRUE`), `response` (if `by_response=TRUE`), and `confidence`
+#'  * `n`: the number of rows in `data` with the corresponding `stimulus` (if `by_stimulus=TRUE`), `response` (if `by_response=TRUE`), `correct` (if `by_correct=TRUE`) and `confidence`
 #'  * `p`: the proportion of rows in `data` with the corresponding `response` (per `stimulus` if `by_stimulus=TRUE` and per `response` if `by_response=TRUE`)
 #' @examples
 #' # calculate type 2 response probabilities by stimulus
@@ -36,7 +40,7 @@
 type2_probabilities <- function(
   data, ..., .stimulus = "stimulus", .response = "response",
   .confidence = "confidence", .joint_response = "joint_response",
-  K = NULL, by_stimulus = TRUE, by_response = TRUE
+  K = NULL, by_stimulus = TRUE, by_response = TRUE, by_correct = FALSE
 ) {
   # infer number of confidence levels
   if (is.null(K)) {
@@ -56,33 +60,31 @@ type2_probabilities <- function(
     group_by(...)
 
   ## add grouping columns
-  if (by_stimulus) {
+  if (by_correct) {
     data <- data |>
-      group_by(!!sym(.stimulus), .add = TRUE)
-  }
-  if (by_response) {
-    data <- data |>
-      group_by(!!sym(.response), .add = TRUE)
+      mutate(correct = as.integer(!!sym(.stimulus) == !!sym(.response))) |>
+      group_by(.data$correct, .add = TRUE)
+  } else {
+    if (by_stimulus) {
+      data <- data |>
+        group_by(!!sym(.stimulus), .add = TRUE)
+    }
+    if (by_response) {
+      data <- data |>
+        group_by(!!sym(.response), .add = TRUE)
+    }
   }
 
   ## calculate type 2 response probabilities
   data <- data |>
     group_by(!!sym(.confidence), .add = TRUE) |>
     summarize(n = sum(.data$n), .groups = "drop_last") |>
-    mutate(p = .data$n / sum(.data$n)) |>
-    group_by(...)
+    mutate(p = .data$n / sum(.data$n))
 
-  if (by_response) {
+  if (by_response & !by_correct) {
     data <- data |>
       mutate("{.joint_response}" := joint_response(!!sym(.response), !!sym(.confidence), K)) |>
-      relocate(!!sym(.joint_response), .before = "n") |>
-      arrange(!!sym(.response), !!sym(.confidence))
-  }
-
-  if (by_stimulus) {
-    data <- data |>
-      arrange(..., !!sym(.stimulus)) |>
-      group_by(!!sym(.stimulus), .add = TRUE)
+      relocate(.data$n, .data$p, .after = !!sym(.joint_response))
   }
 
   data
@@ -114,6 +116,9 @@ type2_probabilities <- function(
 #'   probabilities separately by type 1 response. Otherwise, calculate
 #'   unconditional type 2 response probabilities as an unweighted average over
 #'   type 1 responses.
+#' @param by_correct If `FALSE` (default), calculate type 2 response
+#'   probabilities conditional on stimulus and/or type 1 response. If `TRUE`,
+#'   instead calculate probabilities conditional on accuracy.
 #' @returns a tibble containing posterior draws of model parameters with the
 #'   following columns:
 #'  * `.row`: the row of `newdata`
@@ -137,7 +142,8 @@ type2_probabilities <- function(
 #' @export
 type2_draws <- function(
   object, newdata, ..., .stimulus = "stimulus", .response = "response",
-  .confidence = "confidence", by_stimulus = TRUE, by_response = TRUE
+  .confidence = "confidence", by_stimulus = TRUE, by_response = TRUE,
+  by_correct = FALSE
 ) {
   ## grouping columns
   .stimulus <- get_stimulus(object, .default = .stimulus)
@@ -146,21 +152,32 @@ type2_draws <- function(
     ".row", .stimulus, .response, .confidence
   ))]
 
-  draws <- epred_draws_metad(object, newdata) |>
-    group_by(.data$.row, !!!syms(.cols), !!sym(.stimulus), !!sym(.response), .data$.draw) |>
-    mutate(.epred = .data$.epred / sum(.data$.epred)) |>
+  draws <- epred_draws_metad(
+    object, newdata, ...,
+    .stimulus = .stimulus,
+    .response = .response, .confidence = .confidence
+  ) |>
     group_by(.data$.row, !!!syms(.cols))
 
-  if (by_stimulus) {
-    draws <- draws |> group_by(!!sym(.stimulus), .add = TRUE)
-  }
-  if (by_response) {
-    draws <- draws |> group_by(!!sym(.response), .add = TRUE)
+  if (by_correct) {
+    draws <- draws |>
+      mutate(correct = as.integer(!!sym(.stimulus) == !!sym(.response))) |>
+      group_by(.data$correct, .add = TRUE)
+  } else {
+    if (by_stimulus) {
+      draws <- draws |> group_by(!!sym(.stimulus), .add = TRUE)
+    }
+    if (by_response) {
+      draws <- draws |> group_by(!!sym(.response), .add = TRUE)
+    }
   }
 
   draws |>
-    group_by(!!sym(.confidence), .data$.draw, .add = TRUE) |>
-    summarize(.epred = mean(.data$.epred))
+    group_by(.data$.draw, .add = TRUE) |>
+    mutate(.epred = .data$.epred / sum(.data$.epred)) |>
+    group_by(!!sym(.confidence), .add = TRUE) |>
+    summarize(.epred = sum(.data$.epred), .groups = "keep") |>
+    ungroup(".draw")
 }
 
 #' @rdname type2_draws
@@ -173,7 +190,8 @@ add_type2_draws <- function(newdata, object, ...) {
 #' @export
 type2_rvars <- function(
   object, newdata, ..., .stimulus = "stimulus", .response = "response",
-  .confidence = "confidence", by_stimulus = TRUE, by_response = TRUE
+  .confidence = "confidence", by_stimulus = TRUE, by_response = TRUE,
+  by_correct = FALSE
 ) {
   ## grouping columns
   .stimulus <- get_stimulus(object, .default = .stimulus)
@@ -182,21 +200,30 @@ type2_rvars <- function(
     ".row", .stimulus, .response, .confidence
   ))]
 
-  draws <- epred_rvars_metad(object, newdata) |>
-    group_by(.data$.row, !!!syms(.cols), !!sym(.stimulus), !!sym(.response)) |>
-    mutate(.epred = .data$.epred / rvar_sum(.data$.epred)) |>
+  draws <- epred_rvars_metad(
+    object, newdata, ...,
+    .stimulus = .stimulus,
+    .response = .response, .confidence = .confidence
+  ) |>
     group_by(.data$.row, !!!syms(.cols))
 
-  if (by_stimulus) {
-    draws <- draws |> group_by(!!sym(.stimulus), .add = TRUE)
-  }
-  if (by_response) {
-    draws <- draws |> group_by(!!sym(.response), .add = TRUE)
+  if (by_correct) {
+    draws <- draws |>
+      mutate(correct = as.integer(!!sym(.stimulus) == !!sym(.response))) |>
+      group_by(.data$correct, .add = TRUE)
+  } else {
+    if (by_stimulus) {
+      draws <- draws |> group_by(!!sym(.stimulus), .add = TRUE)
+    }
+    if (by_response) {
+      draws <- draws |> group_by(!!sym(.response), .add = TRUE)
+    }
   }
 
   draws |>
+    mutate(.epred = .data$.epred / rvar_sum(.data$.epred)) |>
     group_by(!!sym(.confidence), .add = TRUE) |>
-    summarize(.epred = rvar_mean(.data$.epred))
+    summarize(.epred = rvar_sum(.data$.epred))
 }
 
 #' @rdname type2_draws

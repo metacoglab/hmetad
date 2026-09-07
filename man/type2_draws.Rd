@@ -15,7 +15,8 @@ type2_draws(
   .response = "response",
   .confidence = "confidence",
   by_stimulus = TRUE,
-  by_response = TRUE
+  by_response = TRUE,
+  by_correct = FALSE
 )
 
 add_type2_draws(newdata, object, ...)
@@ -28,7 +29,8 @@ type2_rvars(
   .response = "response",
   .confidence = "confidence",
   by_stimulus = TRUE,
-  by_response = TRUE
+  by_response = TRUE,
+  by_correct = FALSE
 )
 
 add_type2_rvars(newdata, object, ...)
@@ -55,6 +57,10 @@ type 2 response probabilities as an unweighted average over stimuli.}
 probabilities separately by type 1 response. Otherwise, calculate
 unconditional type 2 response probabilities as an unweighted average over
 type 1 responses.}
+
+\item{by_correct}{If \code{FALSE} (default), calculate type 2 response
+probabilities conditional on stimulus and/or type 1 response. If \code{TRUE},
+instead calculate probabilities conditional on accuracy.}
 }
 \value{
 a tibble containing posterior draws of model parameters with the
