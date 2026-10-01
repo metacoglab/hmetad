@@ -1,0 +1,27 @@
+name: check-cran-status
+
+on:
+  push:
+    branches: [main, master]
+  schedule:
+    - cron: "0 3 * * 2,5" 
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check
+        uses: dieghernan/cran-status-check@v2
+        with:
+          package: "hmetad"
+          statuses: "NOTE,WARN,ERROR"
+          fail-on-error: true
+          create-issue: true
+          issue-assignees: "kevingoneill"
