@@ -84,7 +84,7 @@ type2_probabilities <- function(
   if (by_response & !by_correct) {
     data <- data |>
       mutate("{.joint_response}" := joint_response(!!sym(.response), !!sym(.confidence), K)) |>
-      relocate(.data$n, .data$p, .after = !!sym(.joint_response))
+      relocate("n", "p", .after = !!sym(.joint_response))
   }
 
   data
