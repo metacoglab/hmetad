@@ -162,8 +162,8 @@ fit_metad(N ~ 1, sim_metad())
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
 #> Chain 1: 
-#> Chain 1: Gradient evaluation took 2.3e-05 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.23 seconds.
+#> Chain 1: Gradient evaluation took 2e-05 seconds
+#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.2 seconds.
 #> Chain 1: Adjust your expectations accordingly!
 #> Chain 1: 
 #> Chain 1: 
@@ -180,9 +180,9 @@ fit_metad(N ~ 1, sim_metad())
 #> Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.105 seconds (Warm-up)
-#> Chain 1:                0.204 seconds (Sampling)
-#> Chain 1:                0.309 seconds (Total)
+#> Chain 1:  Elapsed Time: 0.107 seconds (Warm-up)
+#> Chain 1:                0.212 seconds (Sampling)
+#> Chain 1:                0.319 seconds (Total)
 #> Chain 1: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
@@ -190,8 +190,8 @@ fit_metad(N ~ 1, sim_metad())
 #> Chain 2:   Error evaluating the log probability at the initial value.
 #> Chain 2: Exception: Exception: multinomial_logit_lpmf: log-probabilities parameter[8] is -inf, but must be finite! (in 'anon_model', line 43, column 2 to line 46, column 66) (in 'anon_model', line 81, column 6 to column 185)
 #> Chain 2: 
-#> Chain 2: Gradient evaluation took 1.6e-05 seconds
-#> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.16 seconds.
+#> Chain 2: Gradient evaluation took 1.5e-05 seconds
+#> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.15 seconds.
 #> Chain 2: Adjust your expectations accordingly!
 #> Chain 2: 
 #> Chain 2: 
@@ -208,9 +208,9 @@ fit_metad(N ~ 1, sim_metad())
 #> Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 2: 
-#> Chain 2:  Elapsed Time: 0.231 seconds (Warm-up)
-#> Chain 2:                0.116 seconds (Sampling)
-#> Chain 2:                0.347 seconds (Total)
+#> Chain 2:  Elapsed Time: 0.239 seconds (Warm-up)
+#> Chain 2:                0.12 seconds (Sampling)
+#> Chain 2:                0.359 seconds (Total)
 #> Chain 2: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
@@ -233,15 +233,15 @@ fit_metad(N ~ 1, sim_metad())
 #> Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 3: 
-#> Chain 3:  Elapsed Time: 0.144 seconds (Warm-up)
-#> Chain 3:                0.193 seconds (Sampling)
-#> Chain 3:                0.337 seconds (Total)
+#> Chain 3:  Elapsed Time: 0.147 seconds (Warm-up)
+#> Chain 3:                0.199 seconds (Sampling)
+#> Chain 3:                0.346 seconds (Total)
 #> Chain 3: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
 #> Chain 4: 
-#> Chain 4: Gradient evaluation took 1.7e-05 seconds
-#> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.17 seconds.
+#> Chain 4: Gradient evaluation took 1.6e-05 seconds
+#> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.16 seconds.
 #> Chain 4: Adjust your expectations accordingly!
 #> Chain 4: 
 #> Chain 4: 
@@ -258,9 +258,9 @@ fit_metad(N ~ 1, sim_metad())
 #> Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 4: 
-#> Chain 4:  Elapsed Time: 0.124 seconds (Warm-up)
-#> Chain 4:                0.107 seconds (Sampling)
-#> Chain 4:                0.231 seconds (Total)
+#> Chain 4:  Elapsed Time: 0.127 seconds (Warm-up)
+#> Chain 4:                0.111 seconds (Sampling)
+#> Chain 4:                0.238 seconds (Total)
 #> Chain 4: 
 #>  Family: metad__4__normal__absolute__multinomial 
 #>   Links: mu = log 
@@ -306,8 +306,8 @@ fit_metad(
 #> Chain 1:   Error evaluating the log probability at the initial value.
 #> Chain 1: Exception: Exception: multinomial_logit_lpmf: log-probabilities parameter[6] is -inf, but must be finite! (in 'anon_model', line 43, column 2 to line 46, column 66) (in 'anon_model', line 159, column 6 to column 200)
 #> Chain 1: 
-#> Chain 1: Gradient evaluation took 5.2e-05 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.52 seconds.
+#> Chain 1: Gradient evaluation took 4.8e-05 seconds
+#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.48 seconds.
 #> Chain 1: Adjust your expectations accordingly!
 #> Chain 1: 
 #> Chain 1: 
@@ -324,9 +324,9 @@ fit_metad(
 #> Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.425 seconds (Warm-up)
-#> Chain 1:                0.638 seconds (Sampling)
-#> Chain 1:                1.063 seconds (Total)
+#> Chain 1:  Elapsed Time: 0.436 seconds (Warm-up)
+#> Chain 1:                0.662 seconds (Sampling)
+#> Chain 1:                1.098 seconds (Total)
 #> Chain 1: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
@@ -334,8 +334,8 @@ fit_metad(
 #> Chain 2:   Error evaluating the log probability at the initial value.
 #> Chain 2: Exception: Exception: multinomial_logit_lpmf: log-probabilities parameter[5] is -inf, but must be finite! (in 'anon_model', line 43, column 2 to line 46, column 66) (in 'anon_model', line 159, column 6 to column 200)
 #> Chain 2: 
-#> Chain 2: Gradient evaluation took 3e-05 seconds
-#> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.3 seconds.
+#> Chain 2: Gradient evaluation took 2.7e-05 seconds
+#> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.27 seconds.
 #> Chain 2: Adjust your expectations accordingly!
 #> Chain 2: 
 #> Chain 2: 
@@ -352,15 +352,15 @@ fit_metad(
 #> Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 2: 
-#> Chain 2:  Elapsed Time: 0.372 seconds (Warm-up)
-#> Chain 2:                0.724 seconds (Sampling)
-#> Chain 2:                1.096 seconds (Total)
+#> Chain 2:  Elapsed Time: 0.385 seconds (Warm-up)
+#> Chain 2:                0.743 seconds (Sampling)
+#> Chain 2:                1.128 seconds (Total)
 #> Chain 2: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
 #> Chain 3: 
-#> Chain 3: Gradient evaluation took 3.1e-05 seconds
-#> Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.31 seconds.
+#> Chain 3: Gradient evaluation took 2.9e-05 seconds
+#> Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.29 seconds.
 #> Chain 3: Adjust your expectations accordingly!
 #> Chain 3: 
 #> Chain 3: 
@@ -377,15 +377,15 @@ fit_metad(
 #> Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 3: 
-#> Chain 3:  Elapsed Time: 0.608 seconds (Warm-up)
-#> Chain 3:                1.024 seconds (Sampling)
-#> Chain 3:                1.632 seconds (Total)
+#> Chain 3:  Elapsed Time: 0.627 seconds (Warm-up)
+#> Chain 3:                1.05 seconds (Sampling)
+#> Chain 3:                1.677 seconds (Total)
 #> Chain 3: 
 #> 
 #> SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
 #> Chain 4: 
-#> Chain 4: Gradient evaluation took 3e-05 seconds
-#> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.3 seconds.
+#> Chain 4: Gradient evaluation took 2.7e-05 seconds
+#> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.27 seconds.
 #> Chain 4: Adjust your expectations accordingly!
 #> Chain 4: 
 #> Chain 4: 
@@ -402,9 +402,9 @@ fit_metad(
 #> Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 4: 
-#> Chain 4:  Elapsed Time: 0.476 seconds (Warm-up)
-#> Chain 4:                1.824 seconds (Sampling)
-#> Chain 4:                2.3 seconds (Total)
+#> Chain 4:  Elapsed Time: 0.493 seconds (Warm-up)
+#> Chain 4:                1.895 seconds (Sampling)
+#> Chain 4:                2.388 seconds (Total)
 #> Chain 4: 
 #>  Family: metad__4__normal__absolute__multinomial 
 #>   Links: mu = log; dprime = identity; c = identity; metac2zero1diff = log; metac2zero2diff = log; metac2one1diff = log 
