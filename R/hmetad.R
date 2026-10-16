@@ -128,10 +128,15 @@ infer_confidence_levels <- function(
       stop(paste0('Data must have a column called "', .stimulus, '".'))
     }
     if (!all(as.integer(as.character(unique(pull(data, .stimulus)))) %in% c(0, 1))) {
-      stop(
-        'Stimulus column "', .stimulus, '" should only have values 0 or 1, but has values: ',
-        setdiff(as.integer(as.character(unique(pull(data, .stimulus)))), c(0, 1))
-      )
+      invalid_values <- data |>
+        pull(.stimulus) |>
+        unique() |>
+        setdiff(c(0L, 1L))
+
+      stop(paste0(
+        'Stimulus column "', .stimulus, '" should only have values 0 or 1, but also has values: ',
+        paste0(invalid_values, collapse = ", ")
+      ))
     }
   }
 
@@ -168,14 +173,26 @@ infer_confidence_levels <- function(
 
     ## validate .confidence and .response columns
     if (!all(as.integer(as.character(unique(pull(data, .response)))) %in% c(0, 1))) {
-      stop(
-        "Response column `", .response, "` should only have values 0 or 1, but has values: ",
-        as.integer(as.character(unique(pull(data, .response))))
-      )
+      invalid_values <- data |>
+        pull(.response) |>
+        unique() |>
+        setdiff(c(0L, 1L))
+
+      stop(paste0(
+        "Response column `", .response,
+        "` should only have values 0 or 1, but also has values: ",
+        paste0(invalid_values, collapse = ", ")
+      ))
     } else if (!all(as.integer(unique(pull(data, .confidence))) %in% seq_len(K))) {
+      invalid_values <- data |>
+        pull(.confidence) |>
+        unique() |>
+        setdiff(seq_len(K))
+
       stop(
-        "Confidence column `", .confidence, "` should only have values 1:", K, ", but has values: ",
-        as.integer(as.character(unique(pull(data, .confidence))))
+        "Confidence column `", .confidence,
+        "` should only have values 1:", K, ", but also has values: ",
+        paste0(invalid_values, collapse = ", ")
       )
     }
   } else if (.joint_response %in% names(data)) {
@@ -188,10 +205,14 @@ infer_confidence_levels <- function(
         "` must have an even number of levels, but has ", K, " levels"
       ))
     } else if (!all(as.integer(unique(pull(data, .joint_response))) %in% seq_len(K))) {
+      invalid_values <- data |>
+        pull(.joint_response) |>
+        unique() |>
+        setdiff(seq_len(K))
       stop(
         "Joint response column `", .joint_response,
         "` should only have values 1:", K, ", but has values: ",
-        as.integer(as.character(unique(pull(data, .joint_response))))
+        paste0(invalid_values, collapse = ", ")
       )
     }
 
