@@ -144,7 +144,7 @@ articles:
 
 external-articles:
 - name: workshop
-  title: Quantifying metacognitive performance with the `hmetad` package in `R`
+  title: Quantifying metacognition with the hmetad package in R
   description: Materials for an interactive workshop introducing the meta-d' model and Bayesian estimation
   href: https://metacoglab.github.io/hmetad_workshop/
 
