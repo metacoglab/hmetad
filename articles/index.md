@@ -16,8 +16,8 @@
 
 ### Further resources
 
-- [Quantifying metacognitive performance with the \`hmetad\` package in
-  \`R\`](https://metacoglab.github.io/hmetad_workshop/):
+- [Quantifying metacognition with the hmetad package in
+  R](https://metacoglab.github.io/hmetad_workshop/):
 
   Materials for an interactive workshop introducing the meta-d’ model
   and Bayesian estimation
