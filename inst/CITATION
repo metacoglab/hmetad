@@ -1,0 +1,8 @@
+bibentry(
+  bibtype = "Article",
+  title = "Quantifying metacognition with the hmetad package in R",
+  author = "Kevin O'Neill, Stephen M Fleming",
+  journal = "PsyArXiv",
+  year = "2026",
+  doi = "https://doi.org/10.31234/osf.io/e3qhz_v1"
+)
