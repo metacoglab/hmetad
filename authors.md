@@ -11,16 +11,16 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/metacoglab/hmetad/blob/main/DESCRIPTION)
+[`inst/CITATION`](https://github.com/metacoglab/hmetad/blob/main/inst/CITATION)
 
-O'Neill K, Fleming S (2026). *hmetad: Fit the Meta-D' Model of
-Confidence Ratings Using 'brms'*. R package version 0.2.1,
-<https://metacoglab.github.io/hmetad/>.
+O'Neill K, Fleming SM (2026). “Quantifying metacognition with the hmetad
+package in R.” *PsyArXiv*.
+[doi:10.31234/osf.io/e3qhz_v1](https://doi.org/10.31234/osf.io/e3qhz_v1).
 
-    @Manual{,
-      title = {hmetad: Fit the Meta-D' Model of Confidence Ratings Using 'brms'},
-      author = {Kevin O'Neill and Stephen Fleming},
+    @Article{,
+      title = {Quantifying metacognition with the hmetad package in R},
+      author = {Kevin O'Neill and Stephen M Fleming},
+      journal = {PsyArXiv},
       year = {2026},
-      note = {R package version 0.2.1},
-      url = {https://metacoglab.github.io/hmetad/},
+      doi = {https://doi.org/10.31234/osf.io/e3qhz_v1},
     }
