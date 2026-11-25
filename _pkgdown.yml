@@ -115,6 +115,7 @@ reference:
     - normal_lcdf
     - normal_lccdf
     - metad_pmf
+    - rsmetad_pmf
     - cov_matrix
     - cor_matrix
     - rmatrixnorm
@@ -136,6 +137,7 @@ articles:
     navbar: Additional features
     contents:
     - categorical
+    - response_specific
     - alternative_distributions
   - title: Further resources
     navbar: Further resources

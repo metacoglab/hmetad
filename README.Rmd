@@ -33,7 +33,7 @@ This provides major benefits:
     distributional models, multivariate models)
   - Interfaces to other packages surrounding `brms` (e.g., `tidybayes`, `ggdist`, `bayesplot`, `loo`, `posterior`, `bridgesampling`, `bayestestR`)
   - Computation of model-implied quantities (e.g., mean confidence, type 1 and type 2 receiver operating characteristic curves)
-  - Derivation of novel metacognitive bias metrics, and well as established metrics of metacognitive efficiency
+  - Derivation of novel metacognitive bias metrics [@oneill2026], and well as established metrics of metacognitive efficiency
   - Increased sampling efficiency and better convergence diagnostics
 
 

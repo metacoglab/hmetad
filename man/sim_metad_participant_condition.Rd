@@ -31,7 +31,14 @@ sim_metad_participant_condition(
   allow_negative_values = FALSE,
   summarize = FALSE,
   lcdf = normal_lcdf,
-  lccdf = normal_lccdf
+  lccdf = normal_lccdf,
+  mean_M_0 = rep(0, 2),
+  sd_M_0 = rep(0.5, 2),
+  r_M_0 = diag(2),
+  mean_M_1 = rep(0, 2),
+  sd_M_1 = rep(0.5, 2),
+  r_M_1 = diag(2),
+  response_specific = FALSE
 )
 }
 \arguments{
@@ -92,6 +99,14 @@ distribution. By default, uses a \verb{normal(+/- dprime/2, 1)} distribution.}
 
 \item{lccdf}{The log complement cumulative distribution function of the
 underlying signal distribution. By default, uses a \verb{normal(+/- dprime/2, 1)} distribution.}
+
+\item{mean_M_0, mean_M_1, sd_M_0, sd_M_1, r_M_0, r_M_1}{Response-specific values of
+the mean, standard deviation, and correlation across conditions of metacognitive
+efficiency. Ignored if \code{response_specific=FALSE} (default).}
+
+\item{response_specific}{if \code{FALSE} (default), uses the same metacognitive
+efficiency for both Type I responses. If \code{TRUE}, uses response-specific
+metacognitive efficiencies for \code{"0"} and \code{"1"} responses.}
 }
 \value{
 A simulated dataset of type 1 responses and confidence ratings, with

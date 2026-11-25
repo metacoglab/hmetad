@@ -39,8 +39,8 @@ to_unsigned <- function(x) as.numeric(x > 0)
 #'
 #' @description Confidence ratings and decisions are collected in one of two
 #' ways.
-#'  * For separate ratings, there will be a type 1 response (\eqn{R \in \{0, 1\}}) and a
-#' type 2 response (\eqn{C \in [1, K]}).
+#'  * For separate ratings, there will be a type 1 response
+#' (\eqn{R \in \{0, 1\}}) and a type 2 response (\eqn{C \in [1, K]}).
 #'  * For joint ratings, there is instead a combined type 1/type 2 response
 #' (\eqn{J \in [1, 2K]}), with values in \eqn{[1, K]} indicating a type 1
 #' response of \eqn{0} and values in \eqn{[K+1, 2K]} indicating a type 1
@@ -128,10 +128,16 @@ infer_confidence_levels <- function(
       stop(paste0('Data must have a column called "', .stimulus, '".'))
     }
     if (!all(as.integer(as.character(unique(pull(data, .stimulus)))) %in% c(0, 1))) {
-      stop(
-        'Stimulus column "', .stimulus, '" should only have values 0 or 1, but has values: ',
-        setdiff(as.integer(as.character(unique(pull(data, .stimulus)))), c(0, 1))
-      )
+      invalid_values <- data |>
+        pull(.stimulus) |>
+        unique() |>
+        setdiff(c(0L, 1L))
+
+      stop(paste0(
+        'Stimulus column "', .stimulus,
+        '" should only have values 0 or 1, but also has values: ', 
+        paste0(invalid_values, collapse = ", ")
+      ))
     }
   }
 
@@ -168,14 +174,26 @@ infer_confidence_levels <- function(
 
     ## validate .confidence and .response columns
     if (!all(as.integer(as.character(unique(pull(data, .response)))) %in% c(0, 1))) {
-      stop(
-        "Response column `", .response, "` should only have values 0 or 1, but has values: ",
-        as.integer(as.character(unique(pull(data, .response))))
-      )
+      invalid_values <- data |>
+        pull(.response) |>
+        unique() |>
+        setdiff(c(0L, 1L))
+
+      stop(paste0(
+        "Response column `", .response,
+        "` should only have values 0 or 1, but also has values: ",
+        paste0(invalid_values, collapse = ", ")
+      ))
     } else if (!all(as.integer(unique(pull(data, .confidence))) %in% seq_len(K))) {
+      invalid_values <- data |>
+        pull(.confidence) |>
+        unique() |>
+        setdiff(seq_len(K))
+
       stop(
-        "Confidence column `", .confidence, "` should only have values 1:", K, ", but has values: ",
-        as.integer(as.character(unique(pull(data, .confidence))))
+        "Confidence column `", .confidence,
+        "` should only have values 1:", K, ", but also has values: ",
+        paste0(invalid_values, collapse = ", ")
       )
     }
   } else if (.joint_response %in% names(data)) {
@@ -188,10 +206,14 @@ infer_confidence_levels <- function(
         "` must have an even number of levels, but has ", K, " levels"
       ))
     } else if (!all(as.integer(unique(pull(data, .joint_response))) %in% seq_len(K))) {
+      invalid_values <- data |>
+        pull(.joint_response) |>
+        unique() |>
+        setdiff(seq_len(K))
       stop(
         "Joint response column `", .joint_response,
         "` should only have values 1:", K, ", but has values: ",
-        as.integer(as.character(unique(pull(data, .joint_response))))
+        paste0(invalid_values, collapse = ", ")
       )
     }
 
@@ -226,13 +248,17 @@ drop_na_message <- function(data, .col) {
   if (.col %in% names(data) && any(is.na(data[, .col]))) {
     data_old <- data
     data <- tidyr::drop_na(data, .col)
-    message(paste0("Dropping ", nrow(data_old) - nrow(data), ' rows with missing values of column "', .col, '".\n'))
+    message(paste0(
+      "Dropping ", nrow(data_old) - nrow(data),
+      ' rows with missing values of column "', .col, '".\n'
+    ))
   }
 
   data
 }
 
-#' Helper function to aggregate data by response, confidence, and grouping columns
+#' Helper function to aggregate data by
+#' response, confidence, and grouping columns
 #' @description
 #' Same as `aggregate_metad`, except returns counts in long format
 #'
@@ -256,9 +282,16 @@ drop_na_message <- function(data, .col) {
       stop("Number of confidence levels (`K`) must be greater than 1.")
     }
 
-    data <- tidyr::expand_grid(..., "{.stimulus}" := 0:1, "{.response}" := 0:1, "{.confidence}" := 1:K) |>
+    data <- tidyr::expand_grid(
+      ..., "{.stimulus}" := 0:1,
+      "{.response}" := 0:1,
+      "{.confidence}" := 1:K
+    ) |>
       mutate(
-        "{.joint_response}" := joint_response(!!sym(.response), !!sym(.confidence), K),
+        "{.joint_response}" := joint_response(
+          !!sym(.response),
+          !!sym(.confidence), K
+        ),
         n = 0
       ) |>
       select(-!!sym(.response), -!!sym(.confidence)) |>
@@ -286,7 +319,9 @@ drop_na_message <- function(data, .col) {
       }
 
       data <- data |>
-        mutate("{.joint_response}" := joint_response(!!sym(.response), !!sym(.confidence), K))
+        mutate("{.joint_response}" := joint_response(
+          !!sym(.response), !!sym(.confidence), K
+        ))
     }
 
     if (!all(names(enquos(..., .named = TRUE)) %in% names(data))) {
@@ -542,6 +577,9 @@ aggregate_metad <- function(
 #'   probabilities. In most cases, the logit parameterization should provide
 #'   more stable numerical computations, but the standard parameterization might
 #'   be preferable in some settings.
+#' @param response_specific If `FALSE` (default), use a shared M-ratio for both
+#'   type 1 responses. If `TRUE`, the main parameter is the M-ratio for `"1"`
+#'   responses, and an additional parameter `Mzero` is used for the `"0"` responses.
 #' @returns A `brmsfit` object containing the fitted model
 #' @details `fit_metad(formula, data, ...)` is approximately the same as
 #'   `brm(formula, data=aggregate_metad(data, ...), family=metad(...),
@@ -569,12 +607,14 @@ aggregate_metad <- function(
 #' )
 #' }
 #' @export
-fit_metad <- function(formula, data, ..., aggregate = TRUE,
-                      .stimulus = "stimulus", .response = "response",
-                      .confidence = "confidence", .joint_response = "joint_response",
-                      K = NULL, distribution = "normal", metac_absolute = TRUE,
-                      allow_negative_values = FALSE, stanvars = NULL,
-                      categorical = FALSE, logit = TRUE) {
+fit_metad <- function(
+  formula, data, ..., aggregate = TRUE,
+  .stimulus = "stimulus", .response = "response",
+  .confidence = "confidence", .joint_response = "joint_response",
+  K = NULL, distribution = "normal", metac_absolute = TRUE,
+  allow_negative_values = FALSE, stanvars = NULL,
+  categorical = FALSE, logit = TRUE, response_specific = FALSE
+) {
   data.aggregated <- data
 
   # ensure formula is a brmsformula
@@ -655,7 +695,8 @@ fit_metad <- function(formula, data, ..., aggregate = TRUE,
       distribution = distribution,
       metac_absolute = metac_absolute,
       categorical = categorical,
-      allow_negative_values = allow_negative_values
+      allow_negative_values = allow_negative_values,
+      response_specific = response_specific
     )
   )
 
@@ -677,7 +718,8 @@ fit_metad <- function(formula, data, ..., aggregate = TRUE,
     distribution = distribution,
     metac_absolute = metac_absolute,
     categorical = categorical,
-    logit = logit
+    logit = logit,
+    response_specific = response_specific
   )
   if (!is.null(stanvars)) {
     sv <- sv + stanvars

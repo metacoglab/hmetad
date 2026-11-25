@@ -15,7 +15,8 @@ normal_lccdf(x, mu)
 \item{mu}{The mean of the normal distribution}
 }
 \value{
-\eqn{log(P(X < x))} (for \code{normal_lcdf}) or \eqn{log(P(X > x))} (for \code{normal_lccdf}) where \eqn{X} is sampled from a normal distribution
+\eqn{log(P(X < x))} (for \code{normal_lcdf}) or \eqn{log(P(X > x))}
+(for \code{normal_lccdf}) where \eqn{X} is sampled from a normal distribution
 with mean \code{mu} and standard deviation of \eqn{1}
 }
 \description{

@@ -14,7 +14,10 @@ sim_metad(
   metac_absolute = TRUE,
   summarize = FALSE,
   lcdf = normal_lcdf,
-  lccdf = normal_lccdf
+  lccdf = normal_lccdf,
+  M_0 = 1,
+  M_1 = 1,
+  response_specific = FALSE
 )
 }
 \arguments{
@@ -28,7 +31,10 @@ have \code{stimulus=0} and half will have \code{stimulus=1}.}
 \item{M}{The metacognitive efficiency of the agent, where negative values
 indicate below chance metacognitive sensitivity, \code{0} indicates an absence
 of metacognitive sensitivity, values between \code{0} and \code{1} indicate
-metacognitive inefficiency, 1\verb{indicates optimal metacognitive sensitivity, and values greater than}1` indicate metacognitive hyper-efficiency.}
+metacognitive inefficiency, 1\verb{indicates optimal metacognitive sensitivity, and values greater than}1` indicate metacognitive hyper-efficiency.
+
+If \code{response_specific=FALSE}, this argument is ignored in favor of
+\code{M_0} and \code{M_1} for \code{"0"} and \code{"1"} responses, respectively.}
 
 \item{c2_0_diff, c2_1_diff}{Distances between confidence thresholds for \code{"0"}
 and \code{"1"} responses, such that \code{meta_c2_0 = meta_c - cumsum(c2_0_diff)} and
@@ -48,6 +54,14 @@ confidence level.
 
 \item{lcdf, lccdf}{The log (complement) cumulative distribution function of
 the underlying signal distribution. By default, uses a \verb{normal(+/-dprime/2, 1)} distribution.}
+
+\item{M_0, M_1}{response-specific values of metacognitive efficiency.
+Ignored if \code{response_specific=FALSE} (default).}
+
+\item{response_specific}{if \code{FALSE} (default), uses the same metacognitive
+efficiency (\code{M}) for both Type I responses. If \code{TRUE}, uses \code{M_0} and \code{M_1}
+as response-specific metacognitive efficiencies for
+\code{"0"} and \code{"1"} responses, respectively.}
 }
 \value{
 A simulated dataset of type 1 responses and confidence ratings, with
