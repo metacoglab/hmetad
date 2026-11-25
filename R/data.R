@@ -52,7 +52,7 @@ example_data <- function() {
 #' @export
 example_model <- function() {
   if (is.null(the$example_model)) {
-    the$example_model <- fit_metad(N ~ 1, example_data(), iter = 500)
+    the$example_model <- fit_metad(N ~ 1, example_data(), iter = 500, backend="stanli")
   }
 
   the$example_model

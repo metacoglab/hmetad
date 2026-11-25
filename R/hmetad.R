@@ -590,12 +590,14 @@ aggregate_metad <- function(
 #' )
 #' }
 #' @export
-fit_metad <- function(formula, data, ..., aggregate = TRUE,
-                      .stimulus = "stimulus", .response = "response",
-                      .confidence = "confidence", .joint_response = "joint_response",
-                      K = NULL, distribution = "normal", metac_absolute = TRUE,
-                      allow_negative_values = FALSE, stanvars = NULL,
-                      categorical = FALSE, logit = TRUE) {
+fit_metad <- function(
+  formula, data, ..., aggregate = TRUE,
+  .stimulus = "stimulus", .response = "response",
+  .confidence = "confidence", .joint_response = "joint_response",
+  K = NULL, distribution = "normal", metac_absolute = TRUE,
+  allow_negative_values = FALSE, stanvars = NULL,
+  categorical = FALSE, logit = TRUE, response_specific = FALSE
+) {
   data.aggregated <- data
 
   # ensure formula is a brmsformula
@@ -676,7 +678,8 @@ fit_metad <- function(formula, data, ..., aggregate = TRUE,
       distribution = distribution,
       metac_absolute = metac_absolute,
       categorical = categorical,
-      allow_negative_values = allow_negative_values
+      allow_negative_values = allow_negative_values,
+      response_specific = response_specific
     )
   )
 
@@ -698,7 +701,8 @@ fit_metad <- function(formula, data, ..., aggregate = TRUE,
     distribution = distribution,
     metac_absolute = metac_absolute,
     categorical = categorical,
-    logit = logit
+    logit = logit,
+    response_specific = response_specific
   )
   if (!is.null(stanvars)) {
     sv <- sv + stanvars
