@@ -9,7 +9,8 @@ metad(
   distribution = "normal",
   metac_absolute = TRUE,
   categorical = FALSE,
-  allow_negative_values = FALSE
+  allow_negative_values = FALSE,
+  response_specific = FALSE
 )
 }
 \arguments{
@@ -27,8 +28,14 @@ aggregated data. If \code{TRUE}, use the categorical likelihood over individual
 trials.}
 
 \item{allow_negative_values}{If \code{FALSE} (default), M-ratio is modeled on the
-logarithmic scale to prevent negative values. If \code{TRUE}, M-ratio is modeled on the
+logarithmic scale to prevent negative values.
+If \code{TRUE}, M-ratio is modeled on the
 identity scale which allows for \code{M <= 0}.}
+
+\item{response_specific}{If \code{FALSE} (default), use a shared M-ratio for both
+type 1 responses. If \code{TRUE}, the main parameter is the M-ratio for \code{"1"}
+responses, and an additional parameter \code{Mzero}
+is used for the \code{"0"} responses.}
 }
 \value{
 A \code{brms} family for the metad' model with \eqn{K} confidence levels

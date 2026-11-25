@@ -18,7 +18,10 @@
 #'  * `.row`: the row of `newdata`
 #'  * `.chain`, `.iteration`, `.draw`: for `linpred_draws_metad`, identifiers for the posterior sample
 #'  * `.variable`, `.value`: if `pivot_longer=TRUE`, `.variable` identifies different meta-d' model parameters and `.value` stores posterior samples
-#'  * `M`, `dprime`, `c`, `meta_dprime`, `meta_c`, `meta_c2_0_<k>`, `meta_c2_1_<k>`: if `pivot_longer=FALSE`, posterior samples of all meta-d' model parameters
+#'  * `M`, `dprime`, `c`, `meta_dprime`, `meta_c`, `meta_c2_0_<k>`, `meta_c2_1_<k>`:
+#'   if `pivot_longer=FALSE`, posterior samples of all meta-d' model parameters. 
+#'   If `response_specific=TRUE`, uses `M_0`, `M_1`, `meta_dprime_0`, `meta_dprime_1`, `meta_c_0`, `meta_c_1`
+#'   instead of `M`, `meta_dprime`, and `meta_c`.
 #' @examples
 #' \donttest{
 #' newdata <- tidyr::tibble(.row = 1)
@@ -43,8 +46,7 @@
 #' @seealso [tidybayes::linpred_draws()], [tidybayes::linpred_rvars()]
 #' @export
 linpred_draws_metad <- function(object, newdata, ..., pivot_longer = FALSE) {
-  if (object$family$family != "custom" ||
-    !stringr::str_starts(object$family$name, "metad")) {
+  if (!is_metad(object)) {
     stop("Model must use the `metad` family.")
   }
 
@@ -63,15 +65,40 @@ linpred_draws_metad <- function(object, newdata, ..., pivot_longer = FALSE) {
 
   draws <- object |>
     tidybayes::linpred_draws(newdata, ..., value = "M", dpar = TRUE, transform = TRUE) |>
-    select(-"mu") |>
-    mutate(meta_dprime = .data$M * .data$dprime)
+    select(-"mu")
 
-  if (get_metac(object) == "absolute") {
+  if (is_rs(object)) {
     draws <- draws |>
-      mutate(meta_c = .data$c)
+      rename(M_0=.data$Mzero, M_1=.data$M) |>
+      mutate(
+        meta_dprime_0 = .data$M_0 * .data$dprime,
+        meta_dprime_1 = .data$M_1 * .data$dprime
+      )
+
+    if (get_metac(object) == "absolute") {
+      draws <- draws |>
+        mutate(
+          meta_c_0 = .data$c,
+          meta_c_1 = .data$c
+        )
+    } else {
+      draws <- draws |>
+        mutate(
+          meta_c_0 = .data$M_0 * .data$c,
+          meta_c_1 = .data$M_1 * .data$c
+        )
+    }
   } else {
     draws <- draws |>
-      mutate(meta_c = .data$M * .data$c)
+      mutate(meta_dprime = .data$M * .data$dprime)
+
+    if (get_metac(object) == "absolute") {
+      draws <- draws |>
+	mutate(meta_c = .data$c)
+    } else {
+      draws <- draws |>
+	mutate(meta_c = .data$M * .data$c)
+    }
   }
 
   draws <- draws |>
@@ -84,10 +111,25 @@ linpred_draws_metad <- function(object, newdata, ..., pivot_longer = FALSE) {
     group_by(
       .data$.row, !!!syms(.cols),
       .data$.chain, .data$.iteration, .data$.draw, .data$response
-    ) |>
-    mutate(c2 = ifelse(.data$response, .data$meta_c + cumsum(.data$diff),
-      .data$meta_c - cumsum(.data$diff)
-    )) |>
+    )
+
+  if (is_rs(object)) {
+    draws <- draws |>
+      mutate(c2 = ifelse(
+        .data$response,
+        .data$meta_c_1 + cumsum(.data$diff), 
+	.data$meta_c_0 - cumsum(.data$diff)
+      ))
+  } else {
+    draws <- draws |>
+      mutate(c2 = ifelse(
+        .data$response,
+        .data$meta_c + cumsum(.data$diff), 
+	.data$meta_c - cumsum(.data$diff)
+      ))
+  }
+  
+  draws <- draws |>
     ungroup() |>
     select(-"diff") |>
     tidyr::pivot_wider(
@@ -104,8 +146,8 @@ linpred_draws_metad <- function(object, newdata, ..., pivot_longer = FALSE) {
     draws |>
       tidyr::pivot_longer(
         c(
-          "M", "dprime", "c", "meta_dprime",
-          "meta_c", starts_with("meta_c2")
+          starts_with("M"), "dprime", "c", starts_with("meta_dprime"), 
+	  starts_with("meta_c"), starts_with("meta_c2")
         ),
         names_to = ".variable", values_to = ".value"
       ) |>
@@ -125,8 +167,7 @@ add_linpred_draws_metad <- function(newdata, object, ..., pivot_longer = FALSE) 
 #' @rdname linpred_draws_metad
 #' @export
 linpred_rvars_metad <- function(object, newdata, ..., pivot_longer = FALSE) {
-  if (object$family$family != "custom" ||
-    !stringr::str_starts(object$family$name, "metad")) {
+  if (!is_metad(object)) {
     stop("Model must use the `metad` family.")
   }
 
@@ -152,15 +193,40 @@ linpred_rvars_metad <- function(object, newdata, ..., pivot_longer = FALSE) {
 
   draws <- object |>
     tidybayes::linpred_rvars(newdata, ..., value = "M", dpar = TRUE, transform = TRUE) |>
-    select(-"mu") |>
-    mutate(meta_dprime = .data$M * .data$dprime)
-
-  if (get_metac(object) == "absolute") {
+    select(-"mu")
+  
+  if (is_rs(object)) {
     draws <- draws |>
-      mutate(meta_c = .data$c)
+      rename(M_0=.data$Mzero, M_1=.data$M) |>
+      mutate(
+        meta_dprime_0 = .data$M_0 * .data$dprime,
+        meta_dprime_1 = .data$M_1 * .data$dprime
+      )
+
+    if (get_metac(object) == "absolute") {
+      draws <- draws |>
+        mutate(
+          meta_c_0 = .data$c,
+          meta_c_1 = .data$c
+        )
+    } else {
+      draws <- draws |>
+        mutate(
+          meta_c_0 = .data$M_0 * .data$c,
+          meta_c_1 = .data$M_1 * .data$c
+        )
+    }
   } else {
     draws <- draws |>
-      mutate(meta_c = .data$M * .data$c)
+      mutate(meta_dprime = .data$M * .data$dprime)
+
+    if (get_metac(object) == "absolute") {
+      draws <- draws |>
+	mutate(meta_c = .data$c)
+    } else {
+      draws <- draws |>
+	mutate(meta_c = .data$M * .data$c)
+    }
   }
 
   draws <- draws |>
@@ -173,19 +239,37 @@ linpred_rvars_metad <- function(object, newdata, ..., pivot_longer = FALSE) {
     group_by(!!!syms(.cols), .data$response)
 
   if (max(draws$k) == 1) {
-    draws <- draws |>
-      mutate(c2 = posterior::rvar_ifelse(
-        .data$response == 1,
-        .data$meta_c + .data$diff,
-        .data$meta_c - .data$diff
-      ))
+    if (is_rs(object)) {
+      draws <- draws |>
+        mutate(c2 = posterior::rvar_ifelse(
+          .data$response == 1,
+          .data$meta_c_1 + .data$diff,
+          .data$meta_c_0 - .data$diff
+        ))
+    } else {
+      draws <- draws |>
+        mutate(c2 = posterior::rvar_ifelse(
+          .data$response == 1,
+          .data$meta_c + .data$diff,
+          .data$meta_c - .data$diff
+        ))
+    }
   } else {
-    draws <- draws |>
-      mutate(c2 = posterior::rvar_ifelse(
-        .data$response == 1,
-        .data$meta_c + cumsum(.data$diff),
-        .data$meta_c - cumsum(.data$diff)
-      ))
+    if (is_rs(object)) {
+      draws <- draws |>
+        mutate(c2 = posterior::rvar_ifelse(
+          .data$response == 1,
+          .data$meta_c_1 + cumsum(.data$diff),
+          .data$meta_c_0 - cumsum(.data$diff)
+        ))
+    } else {
+      draws <- draws |>
+        mutate(c2 = posterior::rvar_ifelse(
+          .data$response == 1,
+          .data$meta_c + cumsum(.data$diff),
+          .data$meta_c - cumsum(.data$diff)
+        ))
+    }
   }
 
   draws <- draws |>
@@ -205,8 +289,8 @@ linpred_rvars_metad <- function(object, newdata, ..., pivot_longer = FALSE) {
     draws |>
       tidyr::pivot_longer(
         c(
-          "M", "dprime", "c", "meta_dprime",
-          "meta_c", starts_with("meta_c2")
+          starts_with("M"), "dprime", "c", starts_with("meta_dprime"), 
+          starts_with("meta_c"), starts_with("meta_c2")
         ),
         names_to = ".variable", values_to = ".value"
       ) |>

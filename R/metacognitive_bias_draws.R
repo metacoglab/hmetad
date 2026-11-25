@@ -58,8 +58,7 @@ metacognitive_bias <- function(..., rvar = FALSE) {
 #' }
 #' @export
 metacognitive_bias_draws <- function(object, newdata, ..., .response = "response", by_response = TRUE) {
-  if (object$family$family != "custom" ||
-    !stringr::str_starts(object$family$name, "metad")) {
+  if (!is_metad(object)) {
     stop("Model must use the `metad` family.")
   }
 
@@ -126,8 +125,7 @@ add_metacognitive_bias_draws <- function(newdata, object, ...) {
 #' @rdname bias_draws
 #' @export
 metacognitive_bias_rvars <- function(object, newdata, ..., .response = "response", by_response = TRUE) {
-  if (object$family$family != "custom" ||
-    !stringr::str_starts(object$family$name, "metad")) {
+  if (!is_metad(object)) {
     stop("Model must use the `metad` family.")
   }
 

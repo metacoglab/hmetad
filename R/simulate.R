@@ -317,7 +317,7 @@ sim_metad_condition <- function(
         .data$c2_0_diff, .data$c2_1_diff
       ),
       function(d, c , m0, m1, c2_0, c2_1) sim_metad(
-        N = N_trials, dprime = d, c = c,
+        N_trials = N_trials, dprime = d, c = c,
         M_0 = m0, M_1 = m1,
         c2_0_diff = c2_0, c2_1_diff = c2_1,
         metac_absolute = metac_absolute, summarize = summarize,
@@ -374,7 +374,7 @@ sim_metad_condition <- function(
 #' @param lccdf The log complement cumulative distribution function of the
 #'   underlying signal distribution. By default, uses a `normal(+/-dprime/2, 1)`
 #'   distribution.
-#' @param mean_M_0,sd_M_0,sd_M_1 Response-specific values of
+#' @param mean_M_0,mean_M_1,sd_M_0,sd_M_1 Response-specific values of
 #'   the mean and standard deviation of metacognitive efficiency.
 #'   Ignored if `response_specific=FALSE` (default).
 #' @param response_specific if `FALSE` (default), uses the same metacognitive
@@ -425,7 +425,7 @@ sim_metad_participant <- function(
       M_1 = ifelse(
         rep(response_specific, n()),
         rnorm(n(), mean_M_1, sd_M_1),
-        M_0
+        .data$M_0
       ),
       c2_0_diff = purrr::map(
         .data$participant,
@@ -455,7 +455,7 @@ sim_metad_participant <- function(
         .data$c2_0_diff, .data$c2_1_diff
       ),
       function(d, c , m0, m1, c2_0, c2_1) sim_metad(
-        N = N_trials, dprime = d, c = c,
+        N_trials = N_trials, dprime = d, c = c,
         M_0 = m0, M_1 = m1,
         c2_0_diff = c2_0, c2_1_diff = c2_1,
         metac_absolute = metac_absolute, summarize = summarize,
@@ -596,7 +596,7 @@ sim_metad_participant_condition <- function(
       M_1 = ifelse(
         rep(response_specific, n()),
         mapmv(.data$condition, rmulti_normal(1, mean_M_1, sigma_M_1)),
-        M_0
+        .data$M_0
       ),
       c2_0_diff = mapmv(
         .data$condition,
@@ -631,7 +631,7 @@ sim_metad_participant_condition <- function(
         .data$c2_0_diff, .data$c2_1_diff
       ),
       function(d, c , m0, m1, c2_0, c2_1) sim_metad(
-        N = N_trials, dprime = d, c = c,
+        N_trials = N_trials, dprime = d, c = c,
         M_0 = m0, M_1 = m1,
         c2_0_diff = c2_0, c2_1_diff = c2_1,
         metac_absolute = metac_absolute, summarize = summarize,

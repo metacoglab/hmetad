@@ -80,7 +80,7 @@ distribution. By default, uses a \verb{normal(+/-dprime/2, 1)} distribution.}
 underlying signal distribution. By default, uses a \verb{normal(+/-dprime/2, 1)}
 distribution.}
 
-\item{mean_M_0, sd_M_0, sd_M_1}{Response-specific values of
+\item{mean_M_0, mean_M_1, sd_M_0, sd_M_1}{Response-specific values of
 the mean and standard deviation of metacognitive efficiency.
 Ignored if \code{response_specific=FALSE} (default).}
 

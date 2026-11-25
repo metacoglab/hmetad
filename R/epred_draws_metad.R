@@ -102,8 +102,7 @@ epred_draws_metad <- function(
   object, newdata, ..., .stimulus = "stimulus", .response = "response",
   .confidence = "confidence", .joint_response = "joint_response"
 ) {
-  if (object$family$family != "custom" ||
-    !stringr::str_starts(object$family$name, "metad")) {
+  if (!is_metad(object)) {          
     stop("Model must use the `metad` family.")
   }
 
@@ -179,8 +178,7 @@ epred_rvars_metad <- function(
   object, newdata, ..., .stimulus = "stimulus", .response = "response",
   .confidence = "confidence", .joint_response = "joint_response"
 ) {
-  if (object$family$family != "custom" ||
-    !stringr::str_starts(object$family$name, "metad")) {
+  if (!is_metad(object)) {
     stop("Model must use the `metad` family.")
   }
 

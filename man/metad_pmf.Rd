@@ -34,10 +34,12 @@ increasing confidence levels}
 \item{meta_c2_1}{the type 2 response criteria for \code{"1"} responses, indexed by
 increasing confidence levels}
 
-\item{lcdf}{The log cumulative distribution function for the underlying distribution in the metad' model.
+\item{lcdf}{The log cumulative distribution function
+for the underlying distribution in the metad' model.
 By default, uses the normal distribution with a standard deviation of \code{1}.}
 
-\item{lccdf}{The log complement cumulative distribution function for the underlying distribution in the metad' model.
+\item{lccdf}{The log complement cumulative distribution function
+for the underlying distribution in the metad' model.
 By default, uses the normal distribution with a standard deviation of \code{1}.}
 
 \item{log}{if TRUE, return log probabilities instead of probabilities}

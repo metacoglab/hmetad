@@ -36,7 +36,10 @@ following columns:
 \item \code{.row}: the row of \code{newdata}
 \item \code{.chain}, \code{.iteration}, \code{.draw}: for \code{linpred_draws_metad}, identifiers for the posterior sample
 \item \code{.variable}, \code{.value}: if \code{pivot_longer=TRUE}, \code{.variable} identifies different meta-d' model parameters and \code{.value} stores posterior samples
-\item \code{M}, \code{dprime}, \code{c}, \code{meta_dprime}, \code{meta_c}, \verb{meta_c2_0_<k>}, \verb{meta_c2_1_<k>}: if \code{pivot_longer=FALSE}, posterior samples of all meta-d' model parameters
+\item \code{M}, \code{dprime}, \code{c}, \code{meta_dprime}, \code{meta_c}, \verb{meta_c2_0_<k>}, \verb{meta_c2_1_<k>}:
+if \code{pivot_longer=FALSE}, posterior samples of all meta-d' model parameters.
+If \code{response_specific=TRUE}, uses \code{M_0}, \code{M_1}, \code{meta_dprime_0}, \code{meta_dprime_1}, \code{meta_c_0}, \code{meta_c_1}
+instead of \code{M}, \code{meta_dprime}, and \code{meta_c}.
 }
 }
 \description{

@@ -9,7 +9,8 @@ stanvars_metad(
   distribution = "normal",
   metac_absolute = TRUE,
   categorical = FALSE,
-  logit = TRUE
+  logit = TRUE,
+  response_specific = FALSE
 )
 }
 \arguments{
@@ -36,6 +37,11 @@ standard parameterization of the likelihood over the actual joint response
 probabilities. In most cases, the logit parameterization should provide
 more stable numerical computations, but the standard parameterization might
 be preferable in some settings.}
+
+\item{response_specific}{If \code{FALSE} (default), use a shared M-ratio for both
+type 1 responses. If \code{TRUE}, the main parameter is the M-ratio for \code{"1"}
+responses, and an additional parameter \code{Mzero} is used
+for the \code{"0"} responses.}
 }
 \value{
 A \link[brms:stanvar]{brms::stanvar} object containing Stan code defining the
